@@ -1,0 +1,35 @@
+#root {
+    /* max-width: 1280px; */
+    margin: 0 auto;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    /* text-align: center; */
+}
+
+textarea {
+    width: 85%;
+}
+
+.actorItem-holder :hover {
+    background-color: pink;
+}
+
+.sample-scoreboard {
+    border: 1px solid #000;
+    max-width: 1280px;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+#topNav {
+    background-color: rgb(0, 102, 255);
+    margin-bottom: 1rem;
+}
+
+#topNavLogo {
+    border: rgb(134, 231, 24) 3px solid;
+    padding: 3px;
+}
