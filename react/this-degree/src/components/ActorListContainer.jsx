@@ -3,7 +3,6 @@ import { useActorContext } from '../contexts/ActorStartContext';
 
 import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
-// import { Link } 
 import getAllActors from '../data/actors';
 // import { useActorStart } from '../contexts/ActorStartContext';
 /**

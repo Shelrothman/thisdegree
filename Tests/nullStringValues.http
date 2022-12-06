@@ -3,7 +3,7 @@
 # e.g. including null in what the rule is lookiong for; like(), in(), contains(), containsLike(), all the string functions(length, trim, trimLeft, trimRight, lowercase, uppercase),
             # do the same with an empty string ""
             # dont need to pass in undefined as that would never technically be "in" the data
-
+# ! just doing string functions here... where else do we need to test null values?
 ###
 
 @baseURL = http://localhost:8080/v1
