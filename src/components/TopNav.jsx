@@ -2,6 +2,8 @@ import Container from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar';
 import { GrTree } from 'react-icons/gr';
 import { GiLightningTree } from 'react-icons/gi';
+import ThemeToggler from '../utils/ThemeToggler';
+
 
 function TopNav() {
     return (
@@ -20,6 +22,7 @@ function TopNav() {
                         Signed in as: <a href="#login">Bruce Banner</a>
                     </Navbar.Text>
                 </Navbar.Collapse>
+                <ThemeToggler />
             </Container>
         </Navbar>
     );

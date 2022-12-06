@@ -4,22 +4,25 @@ import Launcher from './components/Launcher.jsx';
 import Scoreboard from './components/Scoreboard';
 
 import { ActorStartProvider } from './contexts/ActorStartContext.jsx';
+import { ThemeContext } from './contexts/ThemeContext.jsx';
 
 function App() {
 
     return (
-        <ActorStartProvider>
-            <div className="App">
-                <TopNav />
-                <div className="sample-scoreboard">
-                    <h1>This Degrees</h1>
-                    <div>
-                        <Scoreboard />
+        <ThemeContext>
+            <ActorStartProvider>
+                <div className="App">
+                    <TopNav />
+                    <div className="sample-scoreboard">
+                        <h1>This Degrees</h1>
+                        <div>
+                            <Scoreboard />
+                        </div>
                     </div>
+                    <Launcher />
                 </div>
-                <Launcher />
-            </div>
-        </ActorStartProvider>
+            </ActorStartProvider>
+        </ThemeContext>
     )
 }
 

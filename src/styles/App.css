@@ -6,12 +6,41 @@
     /* text-align: center; */
 }
 
+.theme-dark {
+    --dark-text: #292929;
+    --light-text: #F9F8F8;
+    --dark-background: #2F4550;
+    --light-background: #485a64;
+    --accent: #B8DBD9;
+    --button-border: #B8DBD9;
+    --textarea-background: rgb(29, 29, 39);
+    --textarea-text: #fff;
+}
+
+
+.theme-light {
+    --dark-text: #5E4B56;
+    --light-text: #5E4B56;
+    --dark-background: #DBE7E4;
+    --light-background: #EDDCD2;
+    --accent: #dee3e2;
+    --button-border: #5E4B56;
+    --textarea-background: #fff;
+    --textarea-text: rgb(29, 29, 39);
+}
+
+html,
+#root {
+    background-color: var(--dark-background);
+    color: var(--light-text);
+}
+
 textarea {
     width: 85%;
 }
 
 .actorItem-holder :hover {
-    background-color: pink;
+    background-color: var(--accent);
 }
 
 .sample-scoreboard {
@@ -25,11 +54,12 @@ textarea {
 }
 
 #topNav {
-    background-color: rgb(0, 102, 255);
+    background-color: var(--accent) !important;
+    color: var(--dark-text);
     margin-bottom: 1rem;
 }
 
 #topNavLogo {
-    border: rgb(134, 231, 24) 3px solid;
+    border: var(--light-text) 3px solid;
     padding: 3px;
 }
