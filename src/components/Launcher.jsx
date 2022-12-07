@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import ActorListContainer from './ActorListContainer.jsx';
-import { useActorContext } from '../contexts/ActorStartContext';
+import { useActorContext, useGameContext } from '../contexts';
 
 
 
@@ -10,6 +10,7 @@ function Launcher() {
     const [show, setShow] = useState(false);
     // const canvasRef = useRef(null);
     const { actorA, actorB, handleActorSelection } = useActorContext();
+    const {  gameStarted, movieList, handleGameChange } = useGameContext();
 
     useEffect(() => {
         if (actorA && actorB) {
@@ -30,7 +31,10 @@ function Launcher() {
     }
 
     const handleReady = () => {
-        alert('ready');
+        handleGameChange();
+        console.log('on ready');
+        console.log('gameStarted: ', gameStarted);
+        console.log('movieList', movieList);
     }
 
 
@@ -41,7 +45,7 @@ function Launcher() {
             </Button>
             <Offcanvas show={show}
                 // ref={canvasRef}
-                onHide={handleClose} placement='end' backdrop="static">
+                onHide={handleClose} placement='end'>
                 <Offcanvas.Header closeButton>
                     <Offcanvas.Title>Select Two Actors</Offcanvas.Title>
                 </Offcanvas.Header>

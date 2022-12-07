@@ -2,7 +2,7 @@ import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
 
 import '../styles/toggle.css';
-import { useTheme } from '../contexts/ThemeContext';
+import { useThemeContext } from '../contexts/ThemeContext';
 
 
 /**
@@ -12,7 +12,7 @@ import { useTheme } from '../contexts/ThemeContext';
 
 
 export default function ThemeToggler() {
-    const { dark, toggleDark } = useTheme();
+    const { dark, toggleDark } = useThemeContext();
 
     const handleOnClick = () => {
         toggleDark();

@@ -1,13 +1,13 @@
-import React, { useState, useContext, useEffeect } from 'react';
-// import { useEffect } from 'react';
+import { useState, useContext, createContext } from 'react';
 
-const ActorStartContext = React.createContext();
 
+const ActorContext = createContext();
+//? would it be better to have these inside the provider?
 export function useActorContext() {
-    return useContext(ActorStartContext);
+    return useContext(ActorContext);
 }
 
-export function ActorStartProvider({ children }) {
+export function ActorContextProvider({ children }) {
     const [actorA, setActorA] = useState(null);
     const [actorB, setActorB] = useState(null);
 
@@ -27,8 +27,8 @@ export function ActorStartProvider({ children }) {
 
 
     return (
-        <ActorStartContext.Provider value={{ actorA, actorB, handleActorSelection }}>
+        <ActorContext.Provider value={{ actorA, actorB, handleActorSelection }}>
             {children}
-        </ActorStartContext.Provider>
+        </ActorContext.Provider>
     );
 }

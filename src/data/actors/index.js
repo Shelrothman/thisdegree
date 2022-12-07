@@ -1,5 +1,6 @@
 export default async function getAllActors() {
     return [
+        { id: 0, name: 'Jonah Hill', },
         { id: 1, name: 'Jack Nicholson', },
         { id: 2, name: 'Marlon Brando', },
         { id: 3, name: 'Robert De Niro', },
@@ -60,7 +61,6 @@ export default async function getAllActors() {
         { id: 58, name: 'Seth Rogen', },
         { id: 59, name: 'Will Forte', },
         { id: 60, name: 'Jason Segel', },
-        { id: 61, name: 'Jonah Hill', }
     ]
-
 }
+

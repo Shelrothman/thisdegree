@@ -1,14 +1,13 @@
-import { useEffect } from 'react';
-import { useState, useContext, createContext } from 'react';
+import { useState, useContext, createContext, useEffect } from 'react';
 
 const DarkThemeContext = createContext();
 
-export function useTheme() {
+export function useThemeContext() {
     return useContext(DarkThemeContext);
 }
 
-export function ThemeContext({ children }) {
-    const [dark, setDark] = useState(localStorage.getItem('theme') === 'theme-dark');
+export function ThemeContextProvider({ children }) {
+    const [dark, setDark] = useState(localStorage.getItem('theme') === 'theme-dark' || false);
     
     useEffect(() => {
         if (dark) {
