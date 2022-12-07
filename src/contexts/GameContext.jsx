@@ -25,7 +25,7 @@ export function GameContextProvider({ children }) {
     const [movieList, setMovieList] = useState([]);
 
 
-    const handleGameChange = () => {
+    const handleGameStateChange = () => {
         // use this to change the game on and off
         // dont use this for when a game wins
         setGameStarted((prev) => !prev);
@@ -37,24 +37,37 @@ export function GameContextProvider({ children }) {
     };
 
 
-    const handleNewGuess = (userMovieInput) => {
+    const handleNewMovieGuess = (userMovieInput) => {
         // add the movie guess to first element of array and then add the movie on ihn the setMovieList to that array
-        let localMovieList = [
-            { movieTitle: userMovieInput, actorGuess: GUESS_STATES.notGuessed, actorList: [] }
-        ];
-
+        let localMovieList = [];
+        if (localMovieList.length === 0) {
+            localMovieList = [
+                { movieTitle: userMovieInput, actorGuess: GUESS_STATES.notGuessed, actorList: [] }
+            ];
+        } else {
+            // make a copy of the movieList and then add the new movie guess to the front of the array
+            localMovieList = [...movieList];
+            localMovieList.unshift({ movieTitle: userMovieInput, actorGuess: GUESS_STATES.notGuessed, actorList: [] });
+        }
         setMovieList(localMovieList);
     }
 
-    // *PU when handle the next guess.. will first need to make copy of currrent movieList and then add to that copy the next Guess
+    //!!!!  PU HERE
+    const handleNewActorGuess = (userActorInput) => {
+        let localMovieObj = movieList[0];
+        localMovieObj.actorGuess = GUESS_STATES.guessed;
+        localMovieObj.actorList.push(userActorInput);
+        
+    }
+
 
 
     return (
         <GameContext.Provider value={{
             gameStarted,
             movieList,
-            handleGameChange,
-            handleNewGuess
+            handleGameStateChange,
+            handleNewGuess: handleNewMovieGuess
         }}>
             {children}
         </GameContext.Provider>

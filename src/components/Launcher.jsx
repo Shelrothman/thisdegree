@@ -17,7 +17,7 @@ function Launcher() {
     const {
         gameStarted,
         movieList,
-        handleGameChange,
+        handleGameStateChange,
         handleNewGuess
     } = useGameContext();
 
@@ -40,7 +40,7 @@ function Launcher() {
     }
 
     const handleReady = () => {
-        handleGameChange();
+        handleGameStateChange();
         console.log('on ready');
         console.log('gameStarted: ', gameStarted);
         console.log('movieList', movieList);

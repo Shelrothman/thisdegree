@@ -17,6 +17,7 @@ import { useActorContext, useGameContext } from '../contexts';
 import { useEffect } from 'react';
 
 
+
 const readyToBridge = false;
 //TODO put readyToBridge into game contxt
 
@@ -25,14 +26,17 @@ function PlayBoard() {
     const {
         gameStarted,
         movieList,
-        handleGameChange,
+        handleGameStateChange,
         handleNewGuess
     } = useGameContext();
 
     function handleOnClick() {
-        // handleNewGuess()
         const userMovieGuess = prompt('enter movie bridge: ');
-        handleNewGuess(userMovieGuess);
+        if (userMovieGuess) {
+            handleNewGuess(userMovieGuess);
+        } else {
+            throw new Error('yo pick somthing, you smarty pants!')
+        }
     }
 
     useEffect(() => {
@@ -43,9 +47,10 @@ function PlayBoard() {
 
     useEffect(() => {
         console.log('---------');
-        console.log('onRender-scoreboard');
-        console.log('movieList: ', movieList);
-    });
+        console.log('onChange-scoreboard');
+        console.log('movieList: ');
+        console.table(movieList);
+    }, [movieList]);
 
     return (
         <>
@@ -70,6 +75,14 @@ function PlayBoard() {
                             <button disabled={!readyToBridge}>
                                 {actorB}
                             </button>
+                        </div>
+                        <div>
+                            <pre style={{
+                                width: '15%',
+                                backgroundColor: 'blue'
+                            }}>
+
+                            </pre>
                         </div>
                     </>
                 )
