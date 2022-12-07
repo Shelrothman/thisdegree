@@ -11,6 +11,11 @@ import { useState, useContext, createContext } from 'react';
 
 const GameContext = createContext();
 
+const GUESS_STATES = {
+    guessed: 'guessed',
+    notGuessed: 'not guessed'
+};
+
 export function useGameContext() {
     return useContext(GameContext);
 }
@@ -31,20 +36,26 @@ export function GameContextProvider({ children }) {
         }
     };
 
-    // !!! PICK UP HERE
-    const handleNewGuess = (movie) => {
+
+    const handleNewGuess = (userMovieInput) => {
         // add the movie guess to first element of array and then add the movie on ihn the setMovieList to that array
-        // when handle the next guess.. then will first need to make copy of currrent movieList and then add to that copy the next Guess
         let localMovieList = [
-            { movieTitle: movie, actorGuess: '',  }
+            { movieTitle: userMovieInput, actorGuess: GUESS_STATES.notGuessed, actorList: [] }
         ];
 
+        setMovieList(localMovieList);
     }
 
+    // *PU when handle the next guess.. will first need to make copy of currrent movieList and then add to that copy the next Guess
 
 
     return (
-        <GameContext.Provider value={{ gameStarted, movieList, handleGameChange }}>
+        <GameContext.Provider value={{
+            gameStarted,
+            movieList,
+            handleGameChange,
+            handleNewGuess
+        }}>
             {children}
         </GameContext.Provider>
     );

@@ -12,7 +12,7 @@
     - get all the first round LOGIC first... then can sit back and look at it and decide a style/layout
     - lets also not do any data fetching and just hardcode sample data for now
     - literally yes dont do any fetching.. and make it work regardless of the structure of the data youll eventuall be using bc that is what curt saisd is so important like have the structure not matter for the code im writing so its more reusabel and flexible and effiicient
-    <!-- TODO: eventually make my own relational database of movies and actors SO THAT i can grab from there for logic -->
+    <!-- TODO: eventually make my own relational database of movies and actors SO THAT i can grab from there for logic ... YEAAA DUUUU dude like build an api... like db and data and shtuff... idk-->
     - yea bc really use the database... no third party apir... the database like how we do it in project falcon bc like that is fasssst and good or me to liearn
 
 

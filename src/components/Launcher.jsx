@@ -9,8 +9,17 @@ import { useActorContext, useGameContext } from '../contexts';
 function Launcher() {
     const [show, setShow] = useState(false);
     // const canvasRef = useRef(null);
-    const { actorA, actorB, handleActorSelection } = useActorContext();
-    const {  gameStarted, movieList, handleGameChange } = useGameContext();
+    const {
+        actorA,
+        actorB,
+        handleActorSelection
+    } = useActorContext();
+    const {
+        gameStarted,
+        movieList,
+        handleGameChange,
+        handleNewGuess
+    } = useGameContext();
 
     useEffect(() => {
         if (actorA && actorB) {

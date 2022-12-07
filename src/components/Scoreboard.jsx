@@ -4,7 +4,7 @@
  * and based on what they do in the game
  * GREAT time to practice context API
  * 
- * ! once game is started.. turn the actorS into cards..
+ * ! once game is started.. turn the actorS into btns..
  * ActorB is readOnly. (it turns to mutable once user selects they are ready to connect the bridge)
  * actorA is clickable => prompt user to enter a movie title
  * then prompt user to enter an actor name (that must be in the movie)
@@ -14,17 +14,38 @@
  * repeat until they get to the end
  */
 import { useActorContext, useGameContext } from '../contexts';
+import { useEffect } from 'react';
+
 
 const readyToBridge = false;
 //TODO put readyToBridge into game contxt
 
-function Scoreboard() {
+function PlayBoard() {
     const { actorA, actorB } = useActorContext();
-    const { gameStarted } = useGameContext();
+    const {
+        gameStarted,
+        movieList,
+        handleGameChange,
+        handleNewGuess
+    } = useGameContext();
 
     function handleOnClick() {
-        
+        // handleNewGuess()
+        const userMovieGuess = prompt('enter movie bridge: ');
+        handleNewGuess(userMovieGuess);
     }
+
+    useEffect(() => {
+        console.log('---------');
+        console.log('onMount-scoreboard');
+        console.log('movieList: ', movieList);
+    }, []);
+
+    useEffect(() => {
+        console.log('---------');
+        console.log('onRender-scoreboard');
+        console.log('movieList: ', movieList);
+    });
 
     return (
         <>
@@ -40,8 +61,8 @@ function Scoreboard() {
                             <h1>Game Started</h1>
                         </div>
                         <div>
-                            <button 
-                            onClick={handleOnClick}
+                            <button
+                                onClick={handleOnClick}
                             >
                                 {actorA}
                             </button>
@@ -58,4 +79,4 @@ function Scoreboard() {
     );
 }
 
-export default Scoreboard;
+export default PlayBoard;
