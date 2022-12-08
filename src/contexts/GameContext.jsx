@@ -26,7 +26,7 @@ export function useGameContext() {
 
 export function GameContextProvider({ children }) {
     const [gameStarted, setGameStarted] = useState(false);
-    const [movieList, setMovieList] = useState([]);
+    const [actorSelection, setActorSelection] = useState({});
 
 
     const handleGameStateChange = () => {
@@ -36,7 +36,7 @@ export function GameContextProvider({ children }) {
         if (!gameStarted) {
             // if the game is starting/restarting, then set the movie list to an empty array
             //* movieList locally (not the global list OBviously)
-            setMovieList([]);
+            setActorSelection([]);
         }
     };
 
@@ -44,28 +44,28 @@ export function GameContextProvider({ children }) {
 
     const handleNewMovieGuess = (userMovieInput) => {
         // add the movie guess to first element of array and then add the movie on ihn the setMovieList to that array
-        let localMovieList = movieList;
+        let localMovieList = actorSelection;
         if (localMovieList.length === 0) {
             // then its the first movie guess for this round
-            localMovieList.push({ movieTitle: userMovieInput, actorGuess: GUESS_STATES.notGuessed, actorList: [] })
+            localMovieList.push({ movieTitle: userMovieInput, actorGuess: GUESS_STATES.notGuessed, actorSelection: {} });
         } else {
             // make a copy of the movieList and then add the new movie guess to the front of the array
             // localMovieList = [...movieList];
-            localMovieList.unshift({ movieTitle: userMovieInput, actorGuess: GUESS_STATES.notGuessed, actorList: [] });
+            localMovieList.unshift({ movieTitle: userMovieInput, actorGuess: GUESS_STATES.notGuessed, actorSelection: {} });
         }
         // setMovieList((localMovieList) => {
         //     // return [...localMovieList]; //
         // });
-        setMovieList(localMovieList);
+        setActorSelection(localMovieList);
     }
 
     // TODO needs constraining
     const handleNewActorGuess = (userActorInput) => {
         // if not actorSelected/guessed yet
 
-        let localMovieList = movieList;
+        let localMovieList = actorSelection;
         localMovieList[0].actorGuess = GUESS_STATES.guessed;
-        localMovieList[0].actorList.push(userActorInput);
+        localMovieList[0].actorSelection = userActorInput;
 
 
         // console.log('localMovieObj', localMovieObj)
@@ -75,7 +75,7 @@ export function GameContextProvider({ children }) {
         // console.log('localMovieObj', localMovieObj)
         console.log('localMovieList', localMovieList)
         // setMovieList((prev) => {
-        setMovieList(localMovieList);
+        setActorSelection(localMovieList);
 
 
 
@@ -86,7 +86,7 @@ export function GameContextProvider({ children }) {
     return (
         <GameContext.Provider value={{
             gameStarted,
-            movieList,
+            movieList: actorSelection,
             handleGameStateChange,
             handleNewMovieGuess,
             handleNewActorGuess
