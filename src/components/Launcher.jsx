@@ -18,7 +18,7 @@ function Launcher() {
         gameStarted,
         movieList,
         handleGameStateChange,
-        handleNewGuess
+        handleNewMovieGuess
     } = useGameContext();
 
     useEffect(() => {

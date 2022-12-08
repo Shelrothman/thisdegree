@@ -1,4 +1,7 @@
 /**
+ *         setMovieList((prev) => {
+            return [...prev, localMovieObj];
+        });
  * in here we want to keep track of the current game
  * what states are we going to need?
  * gameStarted: boolean (true if the game has started, false if it hasn't || its over)
@@ -8,6 +11,7 @@
  */
 import { useState, useContext, createContext } from 'react';
 // import { useActorContext } from './ActorContext.jsx';
+//! not until readyToBridge is true is the actorB btn enabled and any "checking" is done
 
 const GameContext = createContext();
 
@@ -36,28 +40,45 @@ export function GameContextProvider({ children }) {
         }
     };
 
+    //* wait we want them to be able to recieve a list of the actors inthat particular movie... and then they get to select from that list to put it on the card
 
     const handleNewMovieGuess = (userMovieInput) => {
         // add the movie guess to first element of array and then add the movie on ihn the setMovieList to that array
-        let localMovieList = [];
+        let localMovieList = movieList;
         if (localMovieList.length === 0) {
-            localMovieList = [
-                { movieTitle: userMovieInput, actorGuess: GUESS_STATES.notGuessed, actorList: [] }
-            ];
+            // then its the first movie guess for this round
+            localMovieList.push({ movieTitle: userMovieInput, actorGuess: GUESS_STATES.notGuessed, actorList: [] })
         } else {
             // make a copy of the movieList and then add the new movie guess to the front of the array
-            localMovieList = [...movieList];
+            // localMovieList = [...movieList];
             localMovieList.unshift({ movieTitle: userMovieInput, actorGuess: GUESS_STATES.notGuessed, actorList: [] });
         }
+        // setMovieList((localMovieList) => {
+        //     // return [...localMovieList]; //
+        // });
         setMovieList(localMovieList);
     }
 
-    //!!!!  PU HERE
+    // TODO needs constraining
     const handleNewActorGuess = (userActorInput) => {
-        let localMovieObj = movieList[0];
-        localMovieObj.actorGuess = GUESS_STATES.guessed;
-        localMovieObj.actorList.push(userActorInput);
-        
+        // if not actorSelected/guessed yet
+
+        let localMovieList = movieList;
+        localMovieList[0].actorGuess = GUESS_STATES.guessed;
+        localMovieList[0].actorList.push(userActorInput);
+
+
+        // console.log('localMovieObj', localMovieObj)
+
+        // localMovieObj.actorGuess = GUESS_STATES.guessed;
+        // localMovieObj.actorList.push(userActorInput);
+        // console.log('localMovieObj', localMovieObj)
+        console.log('localMovieList', localMovieList)
+        // setMovieList((prev) => {
+        setMovieList(localMovieList);
+
+
+
     }
 
 
@@ -67,7 +88,8 @@ export function GameContextProvider({ children }) {
             gameStarted,
             movieList,
             handleGameStateChange,
-            handleNewGuess: handleNewMovieGuess
+            handleNewMovieGuess,
+            handleNewActorGuess
         }}>
             {children}
         </GameContext.Provider>

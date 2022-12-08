@@ -14,28 +14,49 @@
  * repeat until they get to the end
  */
 import { useActorContext, useGameContext } from '../contexts';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 
 
 const readyToBridge = false;
 //TODO put readyToBridge into game contxt
 
+//! not until readyToBridge is true is the actorB btn enabled and any "checking" is done
 function PlayBoard() {
     const { actorA, actorB } = useActorContext();
+    const [currentMovie, setCurrentMovie] = useState('');
     const {
         gameStarted,
         movieList,
-        handleGameStateChange,
-        handleNewGuess
+        handleGameStateChange, //TODO use this on the start over btn
+        handleNewMovieGuess,
+        handleNewActorGuess
     } = useGameContext();
 
     function handleOnClick() {
         const userMovieGuess = prompt('enter movie bridge: ');
         if (userMovieGuess) {
-            handleNewGuess(userMovieGuess);
+            handleNewMovieGuess(userMovieGuess);
+            //? check if its a valid movie aka the actor is in it
+
+            setCurrentMovie(userMovieGuess);
         } else {
-            throw new Error('yo pick somthing, you smarty pants!')
+            throw new Error('yo! pick somthing, you smarty pants!')
+        }
+
+    }
+
+    // check if an actor selection has been made and disable the movie button once it has
+
+
+    function handleMovieClick() {
+        // next prompt user to select an actor name from the list of actors in that movie
+        const actorSelection = prompt('select actor name from list[pretend theres a list]: ');
+
+        if (actorSelection) {
+            handleNewActorGuess(actorSelection);
+        } else {
+            throw new Error('yo! pick an actor, you smarty pants!')
         }
     }
 
@@ -43,6 +64,7 @@ function PlayBoard() {
         console.log('---------');
         console.log('onMount-scoreboard');
         console.log('movieList: ', movieList);
+        console.log('---------');
     }, []);
 
     useEffect(() => {
@@ -50,6 +72,7 @@ function PlayBoard() {
         console.log('onChange-scoreboard');
         console.log('movieList: ');
         console.table(movieList);
+        console.log('---------');
     }, [movieList]);
 
     return (
@@ -64,6 +87,15 @@ function PlayBoard() {
                     <>
                         <div>
                             <h1>Game Started</h1>
+                            <h5>Current Movie:
+                                {
+                                    currentMovie !== '' && (
+                                        <button onClick={handleMovieClick}>
+                                            {currentMovie}
+                                        </button>
+                                    )
+                                }
+                            </h5>
                         </div>
                         <div>
                             <button
