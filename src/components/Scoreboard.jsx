@@ -50,8 +50,17 @@ function PlayBoard() {
 
 
     function handleMovieClick() {
+        // !!! IF
+        // && movieList[0].actorGuess
+        console.log('!', movieList[0].actorGuessed)
+        if (movieList[0].actorGuess) {
+            alert('you already guessed an actor for this movie');
+            return;
+        }
         // next prompt user to select an actor name from the list of actors in that movie
         const actorSelection = prompt('select actor name from list[pretend theres a list]: ');
+
+
 
         if (actorSelection) {
             handleNewActorGuess(actorSelection);
@@ -63,7 +72,7 @@ function PlayBoard() {
     useEffect(() => {
         console.log('---------');
         console.log('onMount-scoreboard');
-        console.log('movieList: ', movieList);
+        console.table('movieList: ', movieList);
         console.log('---------');
     }, []);
 
@@ -89,7 +98,7 @@ function PlayBoard() {
                             <h1>Game Started</h1>
                             <h5>Current Movie:
                                 {
-                                    currentMovie !== '' && (
+                                    (currentMovie !== '') && (
                                         <button onClick={handleMovieClick}>
                                             {currentMovie}
                                         </button>
