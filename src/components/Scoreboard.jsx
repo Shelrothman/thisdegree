@@ -13,11 +13,17 @@
  * if correct.. then insert a bridge and then another card below with that new actors name
  * repeat until they get to the end
  */
-import { useActorContext, useGameContext } from '../contexts';
 import { useEffect, useState, useRef } from 'react';
+import Badge from 'react-bootstrap/Button';
+import Card from 'react-bootstrap/Card';
+import { useActorContext, useGameContext } from '../contexts';
 
 const readyToBridge = false;
 //TODO put readyToBridge into game contxt
+
+//TODO handle what happend when user selects a new actor up above...
+// * want it to clear out all the nodes below if so... OR not let them do that this time around.. just give them option to click 'startOver'
+// also need to account for all those other edge cases like if they start over or something
 
 //! not until readyToBridge is true is the actorB btn enabled and any "checking" is done
 
@@ -26,7 +32,6 @@ function PlayBoard() {
     const [currentMovie, setCurrentMovie] = useState('');
     // this state for the actor that is currently being used as bridge, aka the one that is selected from currentMovies list.
     const [currentActorBridge, setCurrentActorBridge] = useState('');
-    const [readyToInput, setReadyToInput] = useState(false);
     const [readyToInputFirst, setReadyToInputFirst] = useState(false);
 
 
@@ -38,6 +43,10 @@ function PlayBoard() {
         handleNewActorGuess
     } = useGameContext();
     const inputRef = useRef(null);
+
+    useEffect(() => {
+        console.table(movieList);
+    }, [movieList]);
 
     function handleOnClick(actor) {
         setCurrentActorBridge(actor);
@@ -51,7 +60,6 @@ function PlayBoard() {
             //TODO check if its a valid movie aka the actor is in it?
             //* dont let the movie get chosen IF its not a vlaid movie with the actor in i9t
             setCurrentMovie(userMovieGuess);
-            // setReadyToInput(true);
         } else {
             throw new Error('yo! pick somthing, you smarty pants!');
         }
@@ -72,14 +80,20 @@ function PlayBoard() {
                     <option value="2">Two</option>
                     <option value="3">Three</option>
                 </select>
-                <br />
                 {movie.actorGuessed && (
-                    <button onClick={handleOnClick}>
-                        {movie.movieTitle}'s Actor: {currentActorBridge}
-                    </button>
+                    <Card id="card-actor-container">
+                        <Card.Header as="h5" id="card-actor-header">
+                            {movie.movieTitle}'s Actor:
+                        </Card.Header>
+                        <Card.Body id="card-actor-body">
+                            <Card.Text>
+                                {movie.actorSelection}
+                            </Card.Text>
+                        </Card.Body>
+                    </Card>
                 )}
                 <br />
-                {(movie.actorSelection !== '') &&  (
+                {(movie.actorSelection !== '') && (
                     <>
                         <label htmlFor="movie-bridge">Movie with {movie.actorSelection} in it: </label>
                         <input ref={inputRef} />
@@ -92,11 +106,13 @@ function PlayBoard() {
 
 
     function handleActorSelection(userSelection) {
-        console.log('userSelection onChange: ', userSelection);
 
+        // * there is a little bug right now where if u choose the same value as the last one then it wont return until like a render BUT this wont matter once we use data bc it will be a diff value ALWAYS. bc we will use ids and shiz
+
+        console.log('userSelection onChange: ', userSelection);
         handleNewActorGuess(userSelection, currentMovie);
         setCurrentActorBridge(userSelection);
-        setReadyToInput(true);
+        return;
     }
 
 

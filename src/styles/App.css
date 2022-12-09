@@ -39,6 +39,25 @@
     width: max-content;
 }
 
+#card-actor-container {
+    background-color: var(--littleDarker-background);
+    /* color: var(--light-text); */
+    border: var(--button-border) 1px solid;
+    border-radius: 5px;
+    padding: 0.5rem;
+    margin: 0.5rem;
+    width: max-content;
+}
+
+#card-actor-header {
+    background-color: var(--dark-background);
+}
+
+#card-actor-body {
+    background-color: var(--accent);
+    color: var(--dark-text)
+}
+
 
 html,
 #root {
