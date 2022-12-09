@@ -121,15 +121,20 @@ function PlayBoard() {
                                 <option value="3">Three</option>
                             </select>
                             <br />
-                            {movieList[0].actorGuessed && (
+                            {movieList[0]?.actorGuessed && (
                                 <>
                                     <h5>
-                                        
+                                    Actor Bridge: {' '}
+                                    <button>
+                                        {currentActorBridge}
+                                    </button>
                                     </h5>
-                                    <button>{currentActorBridge}</button>
                                 </>
                             )}
                         </div>
+
+
+
 
 
                         <div>
