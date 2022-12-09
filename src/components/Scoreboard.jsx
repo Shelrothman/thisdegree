@@ -14,17 +14,21 @@
  * repeat until they get to the end
  */
 import { useActorContext, useGameContext } from '../contexts';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 
 const readyToBridge = false;
 //TODO put readyToBridge into game contxt
 
 //! not until readyToBridge is true is the actorB btn enabled and any "checking" is done
+
 function PlayBoard() {
     const { actorA, actorB } = useActorContext();
     const [currentMovie, setCurrentMovie] = useState('');
     // this state for the actor that is currently being used as bridge, aka the one that is selected from currentMovies list.
     const [currentActorBridge, setCurrentActorBridge] = useState('');
+    const [readyToInput, setReadyToInput] = useState(false);
+    const [readyToInputFirst, setReadyToInputFirst] = useState(false);
+
 
     const {
         gameStarted,
@@ -33,20 +37,27 @@ function PlayBoard() {
         handleNewMovieGuess,
         handleNewActorGuess
     } = useGameContext();
+    const inputRef = useRef(null);
 
-    function handleOnClick() {
-        const userMovieGuess = prompt('enter movie bridge: ');
+    function handleOnClick(actor) {
+        setCurrentActorBridge(actor);
+        setReadyToInputFirst(true);
+    }
+
+    function handleSubmit() {
+        const userMovieGuess = inputRef.current.value;
         if (userMovieGuess) {
             handleNewMovieGuess(userMovieGuess);
             //TODO check if its a valid movie aka the actor is in it?
             //* dont let the movie get chosen IF its not a vlaid movie with the actor in i9t
             setCurrentMovie(userMovieGuess);
+            // setReadyToInput(true);
         } else {
             throw new Error('yo! pick somthing, you smarty pants!');
         }
     }
 
-    // selecting an actor right now is just replacing the actorSelection in the first movie instead of adding it to the next movie.actorSelection in the list which is what we want
+
     const buildBridgeNodes = movieList?.map((movie, i) => {
         return (
             <div key={i}>
@@ -67,6 +78,14 @@ function PlayBoard() {
                         {movie.movieTitle}'s Actor: {currentActorBridge}
                     </button>
                 )}
+                <br />
+                {(movie.actorSelection !== '') &&  (
+                    <>
+                        <label htmlFor="movie-bridge">Movie with {movie.actorSelection} in it: </label>
+                        <input ref={inputRef} />
+                        <button onClick={handleSubmit}>Submit</button>
+                    </>
+                )}
             </div>
         )
     })
@@ -77,46 +96,15 @@ function PlayBoard() {
 
         handleNewActorGuess(userSelection, currentMovie);
         setCurrentActorBridge(userSelection);
+        setReadyToInput(true);
     }
 
 
-    function handleMovieClick() {
-        // ! maybe now i shoyld start to work on displaying this at least simply so that dont confuse myself and waste time
-        // console.log('!', movieList[0].actorGuessed) // debug
-        if (movieList[0].actorGuessed) {
-            alert('you already guessed an actor for this movie');
-            // return;
-        }
-        // next prompt user to select an actor name from the list of actors in that movie
-        const actorSelection = prompt('select actor name from list[pretend theres a list]: ');
-        if (actorSelection) {
-            handleNewActorGuess(actorSelection);
-        } else {
-            throw new Error('yo! pick an actor, you smarty pants!')
-        }
-    }
-
-    useEffect(() => {
-        console.log('---------');
-        console.log('onMount-scoreboard');
-        console.table('movieList: ', movieList);
-        console.log('---------');
-    }, []);
-
-    useEffect(() => {
-        console.log('---------');
-        console.log('onChange-scoreboard');
-        console.log('movieList: ');
-        console.table(movieList);
-        console.log('---------');
-    }, [movieList]);
 
     return (
         <>
             <div>
-                Actor A: {actorA}
-                <br />
-                Actor B: {actorB}
+                Actor A: {actorA}<br />Actor B: {actorB}
             </div>
             {
                 gameStarted && (
@@ -125,17 +113,21 @@ function PlayBoard() {
                             <h1>Game Started</h1>
                         </div>
                         <div>
-                            <button onClick={handleOnClick}>
+                            <button onClick={() => handleOnClick(actorA)}>
                                 {actorA}
-                            </button>
+                            </button> <br />
+                            {readyToInputFirst && (
+                                <>
+                                    <label htmlFor="movie-bridge">Movie with {actorA} in it: </label>
+                                    <input ref={inputRef} />
+                                    <button onClick={handleSubmit}>Submit</button>
+                                </>
+                            )}
                         </div>
-                        {/* TODO: obvs clean this the fuck up... return it cleaner in its own function and stuff but for now just do... this should dynamically work like infinitely */}
                         {buildBridgeNodes}
-
                         <div>
                             ...............
-                        </div>
-                        <div>
+                            <br />
                             .....................
                             <br />
                             .....................

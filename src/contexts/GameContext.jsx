@@ -46,7 +46,7 @@ export function GameContextProvider({ children }) {
         // add the movie guess to first element of array and then add the movie on ihn the setMovieList to that array
         let localMovieList = movieList || [];
 
-        localMovieList.push({ movieTitle: userMovieInput, actorGuessed: false, actorSelection: {} });
+        localMovieList.push({ movieTitle: userMovieInput, actorGuessed: false, actorSelection: '' });
         return setMovieList(localMovieList);
     }
 
