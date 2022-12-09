@@ -38,25 +38,47 @@ function PlayBoard() {
         const userMovieGuess = prompt('enter movie bridge: ');
         if (userMovieGuess) {
             handleNewMovieGuess(userMovieGuess);
-            //? check if its a valid movie aka the actor is in it?
-            //* do this here or not until they submit the full tree>
-            //* or just not even let the movie get chosen IF its not a vlaid movie with the actor in i9t
-            //...let actorIsInMovie = false;.... 
-
+            //TODO check if its a valid movie aka the actor is in it?
+            //* dont let the movie get chosen IF its not a vlaid movie with the actor in i9t
             setCurrentMovie(userMovieGuess);
         } else {
-            throw new Error('yo! pick somthing, you smarty pants!')
+            throw new Error('yo! pick somthing, you smarty pants!');
         }
     }
+
+    // selecting an actor right now is just replacing the actorSelection in the first movie instead of adding it to the next movie.actorSelection in the list which is what we want
+    const buildBridgeNodes = movieList?.map((movie, i) => {
+        return (
+            <div key={i}>
+                <h4>Movie Bridge: {movie.movieTitle}</h4>
+                <select
+                    aria-label="actor selection"
+                    id="select-actor"
+                    onChange={(e) => handleActorSelection(e.target.value)}
+                >
+                    <option value='select'>Select an actor from {movie.movieTitle}</option>
+                    <option value="1">One</option>
+                    <option value="2">Two</option>
+                    <option value="3">Three</option>
+                </select>
+                <br />
+                {movie.actorGuessed && (
+                    <button onClick={handleOnClick}>
+                        {movie.movieTitle}'s Actor: {currentActorBridge}
+                    </button>
+                )}
+            </div>
+        )
+    })
+
 
     function handleActorSelection(userSelection) {
         console.log('userSelection onChange: ', userSelection);
 
-        handleNewActorGuess(userSelection);
+        handleNewActorGuess(userSelection, currentMovie);
         setCurrentActorBridge(userSelection);
-
-
     }
+
 
     function handleMovieClick() {
         // ! maybe now i shoyld start to work on displaying this at least simply so that dont confuse myself and waste time
@@ -108,34 +130,7 @@ function PlayBoard() {
                             </button>
                         </div>
                         {/* TODO: obvs clean this the fuck up... return it cleaner in its own function and stuff but for now just do... this should dynamically work like infinitely */}
-                        <div>
-                            <h4>Movie Bridge: {currentMovie}</h4>
-                            <select
-                                aria-label="actor selection"
-                                id="select-actor"
-                                onChange={(e) => handleActorSelection(e.target.value)}
-                            >
-                                <option value='select'>Select an actor from {currentMovie}</option>
-                                <option value="1">One</option>
-                                <option value="2">Two</option>
-                                <option value="3">Three</option>
-                            </select>
-                            <br />
-                            {movieList[0]?.actorGuessed && (
-                                <>
-                                    <h5>
-                                    Actor Bridge: {' '}
-                                    <button>
-                                        {currentActorBridge}
-                                    </button>
-                                    </h5>
-                                </>
-                            )}
-                        </div>
-
-
-
-
+                        {buildBridgeNodes}
 
                         <div>
                             ...............
@@ -154,7 +149,6 @@ function PlayBoard() {
                     </>
                 )
             }
-
         </>
     );
 }

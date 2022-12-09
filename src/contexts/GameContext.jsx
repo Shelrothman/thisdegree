@@ -44,15 +44,15 @@ export function GameContextProvider({ children }) {
 
     const handleNewMovieGuess = (userMovieInput) => {
         // add the movie guess to first element of array and then add the movie on ihn the setMovieList to that array
-        let localMovieList = movieList;
-        if (localMovieList.length === 0) {
-            // then its the first movie guess for this round
-            localMovieList.push({ movieTitle: userMovieInput, actorGuessed: false, actorSelection: {} });
-        } else {
-            // make a copy of the movieList and then add the new movie guess to the front of the array
-            // localMovieList = [...movieList];
-            localMovieList.unshift({ movieTitle: userMovieInput, actorGuessed: false, actorSelection: {} });
-        }
+        let localMovieList = movieList || [];
+        // if (localMovieList.length === 0) {
+        // then its the first movie guess for this round
+        localMovieList.push({ movieTitle: userMovieInput, actorGuessed: false, actorSelection: {} });
+        // } else {
+        // make a copy of the movieList and then add the new movie guess to the front of the array
+        // localMovieList = [...movieList];
+        // localMovieList.unshift({ movieTitle: userMovieInput, actorGuessed: false, actorSelection: {} });
+        // }
         // setMovieList((localMovieList) => {
         //     // return [...localMovieList]; //
         // });
@@ -60,17 +60,23 @@ export function GameContextProvider({ children }) {
     }
 
     // TODO needs constraining
-    const handleNewActorGuess = (userActorInput) => {
-        //TODO if not actorSelected/guessed yet
-
+    const handleNewActorGuess = (userActorInput, movie) => {
+        //TODO if not actorSelected/guessed yet then do.. dont let them attempt if already selected?
+        // * or allow them to change seleection anytime since its dynamic
         let localMovieList = movieList;
-        localMovieList[0].actorGuessed = true;
-        localMovieList[0].actorSelection = userActorInput;
 
-            
+        // find the movie from localMovieList whose movieTitle matches the movie title passed in
+        // then set the actorGuessed to true and the actorSelection to the userActorInput on that movieObj
+        localMovieList.forEach((movieObj) => {
+            if (movieObj.movieTitle === movie) {
+                movieObj.actorGuessed = true;
+                movieObj.actorSelection = userActorInput;
+            }
+        });
+        console.log("localMovieList", localMovieList);
+        // localMovieList would loook like this: [{movieTitle: 'movie1', actorGuessed: true, actorSelection: 'actor1'}, {movieTitle: 'movie2', actorGuessed: false, actorSelection: {}}]
+
         return setMovieList(localMovieList);
-
-
 
     }
 
@@ -79,7 +85,7 @@ export function GameContextProvider({ children }) {
     return (
         <GameContext.Provider value={{
             gameStarted,
-            movieList: movieList,
+            movieList,
             handleGameStateChange,
             handleNewMovieGuess,
             handleNewActorGuess
