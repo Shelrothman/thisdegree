@@ -16,7 +16,6 @@
 import { useActorContext, useGameContext } from '../contexts';
 import { useEffect, useState } from 'react';
 
-
 const readyToBridge = false;
 //TODO put readyToBridge into game contxt
 
@@ -24,6 +23,9 @@ const readyToBridge = false;
 function PlayBoard() {
     const { actorA, actorB } = useActorContext();
     const [currentMovie, setCurrentMovie] = useState('');
+    // this state for the actor that is currently being used as bridge, aka the one that is selected from currentMovies list.
+    const [currentActorBridge, setCurrentActorBridge] = useState('');
+
     const {
         gameStarted,
         movieList,
@@ -36,32 +38,35 @@ function PlayBoard() {
         const userMovieGuess = prompt('enter movie bridge: ');
         if (userMovieGuess) {
             handleNewMovieGuess(userMovieGuess);
-            //? check if its a valid movie aka the actor is in it
+            //? check if its a valid movie aka the actor is in it?
+            //* do this here or not until they submit the full tree>
+            //* or just not even let the movie get chosen IF its not a vlaid movie with the actor in i9t
+            //...let actorIsInMovie = false;.... 
 
             setCurrentMovie(userMovieGuess);
         } else {
             throw new Error('yo! pick somthing, you smarty pants!')
         }
+    }
+
+    function handleActorSelection(userSelection) {
+        console.log('userSelection onChange: ', userSelection);
+
+        handleNewActorGuess(userSelection);
+        setCurrentActorBridge(userSelection);
+
 
     }
 
-    //!! PU HERE!
-    // check if an actor selection has been made and disable the movie button once it has
-
-
     function handleMovieClick() {
-        // !!! IF
-        // && movieList[0].actorGuess
-        console.log('!', movieList[0].actorGuessed)
-        if (movieList[0].actorGuess) {
+        // ! maybe now i shoyld start to work on displaying this at least simply so that dont confuse myself and waste time
+        // console.log('!', movieList[0].actorGuessed) // debug
+        if (movieList[0].actorGuessed) {
             alert('you already guessed an actor for this movie');
-            return;
+            // return;
         }
         // next prompt user to select an actor name from the list of actors in that movie
         const actorSelection = prompt('select actor name from list[pretend theres a list]: ');
-
-
-
         if (actorSelection) {
             handleNewActorGuess(actorSelection);
         } else {
@@ -96,34 +101,50 @@ function PlayBoard() {
                     <>
                         <div>
                             <h1>Game Started</h1>
-                            <h5>Current Movie:
-                                {
-                                    (currentMovie !== '') && (
-                                        <button onClick={handleMovieClick}>
-                                            {currentMovie}
-                                        </button>
-                                    )
-                                }
-                            </h5>
                         </div>
                         <div>
-                            <button
-                                onClick={handleOnClick}
-                            >
+                            <button onClick={handleOnClick}>
                                 {actorA}
                             </button>
-                            {'  '}
+                        </div>
+                        {/* TODO: obvs clean this the fuck up... return it cleaner in its own function and stuff but for now just do... this should dynamically work like infinitely */}
+                        <div>
+                            <h4>Movie Bridge: {currentMovie}</h4>
+                            <select
+                                aria-label="actor selection"
+                                id="select-actor"
+                                onChange={(e) => handleActorSelection(e.target.value)}
+                            >
+                                <option value='select'>Select an actor from {currentMovie}</option>
+                                <option value="1">One</option>
+                                <option value="2">Two</option>
+                                <option value="3">Three</option>
+                            </select>
+                            <br />
+                            {movieList[0].actorGuessed && (
+                                <>
+                                    <h5>
+                                        
+                                    </h5>
+                                    <button>{currentActorBridge}</button>
+                                </>
+                            )}
+                        </div>
+
+
+                        <div>
+                            ...............
+                        </div>
+                        <div>
+                            .....................
+                            <br />
+                            .....................
+                            <br />
+                            .....................
+                            <br />
                             <button disabled={!readyToBridge}>
                                 {actorB}
                             </button>
-                        </div>
-                        <div>
-                            <pre style={{
-                                width: '15%',
-                                backgroundColor: 'blue'
-                            }}>
-
-                            </pre>
                         </div>
                     </>
                 )

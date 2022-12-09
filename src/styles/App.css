@@ -17,7 +17,6 @@
     --textarea-text: #fff;
 }
 
-
 .theme-light {
     --dark-text: #5E4B56;
     --light-text: #5E4B56;
@@ -28,6 +27,18 @@
     --littleDarker-background: #b5bcbb;
     --textarea-text: rgb(29, 29, 39);
 }
+
+
+#select-actor {
+    background-color: var(--littleDarker-background);
+    color: var(--light-text);
+    border: var(--button-border) 1px solid;
+    border-radius: 5px;
+    padding: 0.5rem;
+    margin: 0.5rem;
+    width: max-content;
+}
+
 
 html,
 #root {
