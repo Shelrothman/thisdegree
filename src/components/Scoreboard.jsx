@@ -17,14 +17,6 @@ import { useEffect, useState, useRef } from 'react';
 import Card from 'react-bootstrap/Card';
 import { useActorContext, useGameContext } from '../contexts';
 
-const readyToBridge = false;
-//TODO put readyToBridge into game contxt
-
-//TODO handle what happend when user selects a new actor up above...
-// * want it to clear out all the nodes below if so... OR not let them do that this time around.. just give them option to click 'startOver'
-// also need to account for all those other edge cases like if they start over or something TODO: handle user selecting the "select"
-
-//! not until readyToBridge is true is the actorB btn enabled and any "checking" is done
 
 function PlayBoard() {
     const { actorA, actorB } = useActorContext();
@@ -33,11 +25,10 @@ function PlayBoard() {
     const [currentActorBridge, setCurrentActorBridge] = useState('');
     const [readyToInputFirst, setReadyToInputFirst] = useState(false);
 
-
     const {
         gameStarted,
         movieList,
-        // handleGameStateChange, //TODO use this on the start over btn
+        readyToBridge,
         handleNewMovieGuess,
         handleNewActorGuess
     } = useGameContext();
@@ -73,6 +64,7 @@ function PlayBoard() {
                     aria-label="actor selection"
                     id="select-actor"
                     onChange={(e) => handleActorSelection(e.target.value)}
+                    disabled={movie.actorGuessed}
                 >
                     <option value='select'>Select an actor from {movie.movieTitle}</option>
                     <option value="1">One</option>

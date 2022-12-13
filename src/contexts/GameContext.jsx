@@ -28,6 +28,7 @@ export function GameContextProvider({ children }) {
     const [gameStarted, setGameStarted] = useState(false);
     const [movieList, setMovieList] = useState([]);
 
+    const [readyToBridge, setReadyToBridge] = useState(false);
 
     const handleGameStateChange = () => {
         // use this to change the game on and off
@@ -39,7 +40,6 @@ export function GameContextProvider({ children }) {
             setMovieList([]);
         }
     };
-
 
 
     const handleNewMovieGuess = (userMovieInput) => {
@@ -76,7 +76,8 @@ export function GameContextProvider({ children }) {
             movieList,
             handleGameStateChange,
             handleNewMovieGuess,
-            handleNewActorGuess
+            handleNewActorGuess,
+            readyToBridge,
         }}>
             {children}
         </GameContext.Provider>
