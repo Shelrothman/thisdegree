@@ -14,7 +14,6 @@
  * repeat until they get to the end
  */
 import { useEffect, useState, useRef } from 'react';
-import Badge from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import { useActorContext, useGameContext } from '../contexts';
 
@@ -23,7 +22,7 @@ const readyToBridge = false;
 
 //TODO handle what happend when user selects a new actor up above...
 // * want it to clear out all the nodes below if so... OR not let them do that this time around.. just give them option to click 'startOver'
-// also need to account for all those other edge cases like if they start over or something
+// also need to account for all those other edge cases like if they start over or something TODO: handle user selecting the "select"
 
 //! not until readyToBridge is true is the actorB btn enabled and any "checking" is done
 
@@ -38,7 +37,7 @@ function PlayBoard() {
     const {
         gameStarted,
         movieList,
-        handleGameStateChange, //TODO use this on the start over btn
+        // handleGameStateChange, //TODO use this on the start over btn
         handleNewMovieGuess,
         handleNewActorGuess
     } = useGameContext();
@@ -65,7 +64,7 @@ function PlayBoard() {
         }
     }
 
-
+//TODO modulate and make more dynamic
     const buildBridgeNodes = movieList?.map((movie, i) => {
         return (
             <div key={i}>
@@ -106,9 +105,7 @@ function PlayBoard() {
 
 
     function handleActorSelection(userSelection) {
-
         // * there is a little bug right now where if u choose the same value as the last one then it wont return until like a render BUT this wont matter once we use data bc it will be a diff value ALWAYS. bc we will use ids and shiz
-
         console.log('userSelection onChange: ', userSelection);
         handleNewActorGuess(userSelection, currentMovie);
         setCurrentActorBridge(userSelection);
@@ -116,6 +113,7 @@ function PlayBoard() {
     }
 
 
+//TODO modulate and make more dynamic
 
     return (
         <>

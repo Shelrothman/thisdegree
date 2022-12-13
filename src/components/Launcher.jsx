@@ -17,8 +17,7 @@ function Launcher() {
     const {
         gameStarted,
         movieList,
-        handleGameStateChange,
-        handleNewMovieGuess
+        handleGameStateChange
     } = useGameContext();
 
     useEffect(() => {
@@ -29,14 +28,22 @@ function Launcher() {
     }, [actorA, actorB]);
 
     const handleClose = () => {
-        // canvasRef.current.style.display = 'none';
         return setShow(false);
     }
 
     // we also want handleShow to clear out the selected actors
-    const handleShow = () => {
-        handleActorSelection(null, null);
-        setShow(true);
+    const handleClick = (internalText) => {
+        if (internalText === 'Change Actors') {
+            let userConfirm = confirm('Are you sure you want to start over?');
+            if (userConfirm) {
+                handleGameStateChange();
+                handleActorSelection(null, null);
+                setShow(true);
+            } 
+        } else {
+            setShow(true);
+        }
+        return;
     }
 
     const handleReady = () => {
@@ -49,7 +56,7 @@ function Launcher() {
 
     return (
         <>
-            <Button variant="primary" onClick={handleShow}>
+            <Button variant="primary" onClick={(e) => handleClick(e.target.innerHTML)} id="game-button">
                 {actorA && actorB ? 'Change Actors' : 'Select Actors'}
             </Button>
             <Offcanvas show={show}
@@ -58,7 +65,6 @@ function Launcher() {
                 <Offcanvas.Header closeButton>
                     <Offcanvas.Title>Select Two Actors</Offcanvas.Title>
                 </Offcanvas.Header>
-
                 <Offcanvas.Body>
                     <ActorListContainer />
                 </Offcanvas.Body>
