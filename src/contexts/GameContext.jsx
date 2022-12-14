@@ -29,6 +29,7 @@ export function GameContextProvider({ children }) {
     const [movieList, setMovieList] = useState([]);
 
     const [readyToBridge, setReadyToBridge] = useState(false);
+    // TODO: will use setReadyToBridge to enable the actorB btn once the button is triggered by user
 
     const handleGameStateChange = () => {
         // use this to change the game on and off

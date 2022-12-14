@@ -1,111 +1,94 @@
 const actorsInMovie = [
+    // TODO: move releaseYear property to the movies array?
     {
         movie: 'Billy Madison',
-        id: 00, // this is the actorListID in the movies array
         properties: {
             title: 'Billy Madison',
+            movieID: 1, /**  this is the movie-[id] in the movies array */
             releaseYear: '1995',
+            actorListID: 00, /** this is the [actorListID] in the movies array */
             actors: [
-                { id: 1, name: 'Adam Sandler', },
-                { id: 2, name: 'Bradley Whitford', },
-                { id: 3, name: 'Steve Buscemi', },
-                { id: 4, name: 'Luis Guzman', },
-                { id: 5, name: 'Beverly D\'Angelo', },
-                { id: 6, name: 'Cheri Oteri', },
-                { id: 7, name: 'Jonathan Loughran', },
-                { id: 8, name: 'Michael McKean', },
-                { id: 9, name: 'David Spade', },
-                { id: 10, name: 'Chris Farley', },
-                { id: 11, name: 'Tim Meadows', },
+                /** actorID is their id in the actors array */
+                { actorID: 13, name: 'Adam Sandler', },
+                { actorID: 61, name: 'Bradley Whitford', },
+                { actorID: 64, name: 'Chris Farley', },
+                { actorID: 63, name: 'David Spade', },
+                { actorID: 62, name: 'Steve Buscemi', },
             ]
         }
     },
     {
         movie: 'Casino',
-        id: 01,
         properties: {
             title: 'Casino',
+            movieID: 2,
             releaseYear: '1995',
+            actorListID: 01,
             actors: [
-                { id: 1, name: 'Robert De Niro', },
-                { id: 2, name: 'Joe Pesci', },
-                { id: 3, name: 'Sharon Stone', },
-                { id: 4, name: 'James Woods', },
-                { id: 5, name: 'Don Rickles', },
-                { id: 6, name: 'Alan King', },
-                { id: 7, name: 'Kevin Pollak', },
-                { id: 8, name: 'Frank Vincent', },
-                { id: 9, name: 'L.Q. Jones', },
-                { id: 10, name: 'T. K. Carter', },
-                { id: 11, name: 'John Bloom', },
+                { actorID: 3, name: 'Robert De Niro', },
+                { actorID: 65, name: 'Joe Pesci', },
+                { actorID: 66, name: 'Sharon Stone', },
             ]
         }
     },
     {
         movie: 'Titanic',
-        id: 02, 
         properties: {
             title: 'Titanic',
+            movieID: 3,
             releaseYear: '1997',
+            actorListID: 02,
             actors: [
-                { id: 1, name: 'Leonardo DiCaprio', },
-                { id: 2, name: 'Kate Winslet', },
-                { id: 3, name: 'Billy Zane', },
-                { id: 4, name: 'Kathy Bates', },
-                { id: 5, name: 'Frances Fisher', },
-                { id: 6, name: 'Gloria Stuart', },
-                { id: 7, name: 'Bill Paxton', },
-                { id: 8, name: 'Bernard Hill', },
-                { id: 9, name: 'David Warner', },
-                { id: 10, name: 'Victor Garber', },
-                { id: 11, name: 'Suzy Amis', },
+                { actorID: 14, name: 'Leonardo DiCaprio', },
+                { actorID: 25, name: 'Kate Winslet', },
+                { actorID: 40, name: 'Billy Zane', },
+                { actorID: 9, name: 'Kathy Bates', },
             ]
         }
     },
     {
         movie: 'Forrest Gump',
-        id: 03, 
         properties: {
             title: 'Forrest Gump',
+            movieID: 0,
             releaseYear: '1994',
+            actorListID: 03,
             actors: [
-                { id: 1, name: 'Tom Hanks', },
-                { id: 2, name: 'Robin Wright', },
-                { id: 3, name: 'Gary Sinise', },
-                { id: 4, name: 'Sally Field', },
-                { id: 5, name: 'Mykelti Williamson', },
-                { id: 6, name: 'Michael Conner Humphreys', },
-                { id: 7, name: 'Harold G. Herthum', },
-                { id: 8, name: 'George Kelly', },
-                { id: 9, name: 'Bob Penny', },
-                { id: 10, name: 'John Randall', },
-                { id: 11, name: 'Paul Sanchez', },
+                { actorID: 6, name: 'Tom Hanks', },
+                { actorID: 2, name: 'Robin Wright', },
+                { actorID: 20, name: 'Sally Field', },
             ]
         }
     },
     {
         movie: 'Goodfellas',
-        id: 04,
         properties: {
             title: 'Goodfellas',
+            movieID: 4,
             releaseYear: '1990',
+            actorListID: 04,
             actors: [
-                { id: 1, name: 'Robert De Niro', },
-                { id: 2, name: 'Ray Liotta', },
-                { id: 3, name: 'Joe Pesci', },
-                { id: 4, name: 'Lorraine Bracco', },
-                { id: 5, name: 'Paul Sorvino', },
-                { id: 6, name: 'Frank Sivero', },
-                { id: 7, name: 'Tony Darrow', },
-                { id: 8, name: 'Chuck Low', },
-                { id: 9, name: 'Frank Vincent', },
-                { id: 10, name: 'Frank DiLeo', },
-                { id: 11, name: 'Kate Winslet', }, // i know she really wasnt but just 4 testing
+                { actorID: 3, name: 'Robert De Niro', },
+                { actorID: 65, name: 'Joe Pesci', },
+                { actorID: 25, name: 'Kate Winslet', }, // i know she really wasnt but just 4 testing SO it can relate to the actors array
             ]
         }
     },
 ];
 
-export default async function getActorsInMovieList() {
-    return actorsInMovie;
+
+/**
+ * @param {string} key - key to search for in the movies array
+ * @param {string} value - value of the key to search for in the movies array
+ * @returns {Object} - array of objects with actorID and name properties
+ */
+export default function getMovieObjectByKey(key, value) {
+    try {
+        const movieObj = actorsInMovie.find(movie => movie.properties[key] === value);
+        return movieObj;
+    } catch (error) {
+        console.error(error);
+    }
 }
+
+// export function getMovieObject()
