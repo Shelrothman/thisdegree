@@ -41,6 +41,7 @@ function Launcher() {
                 setShow(true);
             } 
         } else {
+            // just open the offcanvas, no need to change the game state
             setShow(true);
         }
         return;

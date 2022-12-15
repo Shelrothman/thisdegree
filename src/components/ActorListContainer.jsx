@@ -3,7 +3,7 @@ import { useActorContext } from '../contexts/ActorContext';
 
 import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
-import getAllActors from '../data/actors';
+import { getAllActors } from '../data/actors';
 // import { useActorStart } from '../contexts/ActorStartContext';
 /**
  * in here we need to fetch the actors from the db

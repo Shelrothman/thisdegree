@@ -39,10 +39,10 @@ export default class GameRound {
         try {
             //? const thisMovie = this;
             this.actorA_ID = GameRound.getActor(this.actorA).id;
-            const movieObject = GameRound.getMovie();
+            const movieObject = GameRound.getMovie(this.movieTitle);
             this.movieID = movieObject.id;
             this.actorListID = movieObject.actorListID;
-            this.actorList = GameRound.getActorList();
+            this.actorList = GameRound.getActorList(this.movieTitle);
             return this;
         } catch (error) {
             console.error(error);
@@ -97,8 +97,8 @@ export default class GameRound {
         }
     }
 
+    /** round completes when user inputs the next movie guess */
     async complete(nextMovieGuess) { 
-        // round completes when user inputs the next movie guess
         try {
             // make sure all the fields of this are defined
             if (Object.values(this).includes(undefined)) {
@@ -133,9 +133,11 @@ export default class GameRound {
         }
     }
 
-    static getMovie() { // may need to use this on the end side of round
+    static getMovie(movieTitle) { // may need to use this on the end side of round
         try {
-            let movieObject = getMovieByKey('title', this.movieTitle);
+            // console.log('this.movieTitle', this.movieTitle)
+            
+            let movieObject = getMovieByKey('title', movieTitle);
             if (movieObject === undefined) {
                 throw new Error(`movieTitle is not found in movies array`);
             } else {
@@ -146,9 +148,9 @@ export default class GameRound {
         }
     }
 
-    static getActorList() {
+    static getActorList(movieTitle) {
         try {
-            const movieObject = getMovieObjectByKey('title', this.movieTitle);
+            const movieObject = getMovieObjectByKey('title', movieTitle);
             if (movieObject === undefined) {
                 throw new Error(`movieTitle is not found in actorList array. something is off.`);
             } else {

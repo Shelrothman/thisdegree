@@ -11,32 +11,33 @@ const movies = [
     {
         id: 0,
         title: 'Forrest Gump',
-        actorListID: 03
+        actorListID: 0
     },
     {
         id: 1,
         title: 'Billy Madison',
-        actorListID: 00
+        actorListID: 1
     },
     {
         id: 2,
         title: 'Casino',
-        actorListID: 01
+        actorListID: 2
     },
     {
         id: 3,
         title: 'Titanic',
-        actorListID: 02
+        actorListID: 3
     },
     {
         id: 4,
         title: 'Goodfellas',
-        actorListID: 04
+        actorListID: 4
     }
 ];
 
 
 export function getMovieByKey(key, value) {
+    console.log('getMovieByKey() key: ', key, ' value: ', value);
     return movies.find(movie => movie[key] === value);
 }
 

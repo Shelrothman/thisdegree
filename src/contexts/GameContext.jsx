@@ -9,7 +9,10 @@
  *   - we want this for the display at the end the node tree thang
  * TODO: eventually use redux for this once it gets bigger
  */
-import { useState, useContext, createContext } from 'react';
+import { useState, useContext, createContext, useEffect } from 'react';
+import { useActorContext } from './ActorContext.jsx';
+import GameRound from '../models/GameRound.js';
+
 // import { useActorContext } from './ActorContext.jsx';
 //! not until readyToBridge is true is the actorB btn enabled and any "checking" is done
 
@@ -27,9 +30,19 @@ export function useGameContext() {
 export function GameContextProvider({ children }) {
     const [gameStarted, setGameStarted] = useState(false);
     const [movieList, setMovieList] = useState([]);
+    // const [newRound, setNewRound] = useState(false);
+    const { actorA } = useActorContext();
 
     const [readyToBridge, setReadyToBridge] = useState(false);
     // TODO: will use setReadyToBridge to enable the actorB btn once the button is triggered by user
+
+
+    // useEffect(() => {
+    //     if (gameStarted) {
+    //         const gameRound = new GameRound(actorA, );
+    //         // gameRound.startGame();
+    //     }
+    // }, [gameStarted]);
 
     const handleGameStateChange = () => {
         // use this to change the game on and off
@@ -44,11 +57,20 @@ export function GameContextProvider({ children }) {
 
 
     const handleNewMovieGuess = (userMovieInput) => {
-        // add the movie guess to first element of array and then add the movie on ihn the setMovieList to that array
+        // add the movie guess to the end of array and then add the movie on ihn the setMovieList to that array
+        // console.log("userMovieInput", userMovieInput)
         let localMovieList = movieList || [];
-
-        localMovieList.push({ movieTitle: userMovieInput, actorGuessed: false, actorSelection: '' });
-        return setMovieList(localMovieList);
+        // this is when the user is first guessing a movie... so this is when we want to new GameRound
+        localMovieList.push({
+            movieTitle: userMovieInput,
+            actorGuessed: false,
+            actorSelection: ''
+        });
+        setMovieList(localMovieList);
+        let gameRound = new GameRound(actorA, userMovieInput);
+        gameRound = gameRound.init();
+        console.log("gameRound", gameRound);
+        return;
     }
 
 

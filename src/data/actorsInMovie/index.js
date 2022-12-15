@@ -6,7 +6,7 @@ const actorsInMovie = [
             title: 'Billy Madison',
             movieID: 1, /**  this is the movie-[id] in the movies array */
             releaseYear: '1995',
-            actorListID: 00, /** this is the [actorListID] in the movies array */
+            actorListID: 1, /** this is the [actorListID] in the movies array */
             actors: [
                 /** actorID is their id in the actors array */
                 { actorID: 13, name: 'Adam Sandler', },
@@ -23,7 +23,7 @@ const actorsInMovie = [
             title: 'Casino',
             movieID: 2,
             releaseYear: '1995',
-            actorListID: 01,
+            actorListID: 2,
             actors: [
                 { actorID: 3, name: 'Robert De Niro', },
                 { actorID: 65, name: 'Joe Pesci', },
@@ -37,7 +37,7 @@ const actorsInMovie = [
             title: 'Titanic',
             movieID: 3,
             releaseYear: '1997',
-            actorListID: 02,
+            actorListID: 3,
             actors: [
                 { actorID: 14, name: 'Leonardo DiCaprio', },
                 { actorID: 25, name: 'Kate Winslet', },
@@ -52,7 +52,7 @@ const actorsInMovie = [
             title: 'Forrest Gump',
             movieID: 0,
             releaseYear: '1994',
-            actorListID: 03,
+            actorListID: 0,
             actors: [
                 { actorID: 6, name: 'Tom Hanks', },
                 { actorID: 2, name: 'Robin Wright', },
@@ -66,7 +66,7 @@ const actorsInMovie = [
             title: 'Goodfellas',
             movieID: 4,
             releaseYear: '1990',
-            actorListID: 04,
+            actorListID: 4,
             actors: [
                 { actorID: 3, name: 'Robert De Niro', },
                 { actorID: 65, name: 'Joe Pesci', },
@@ -83,6 +83,7 @@ const actorsInMovie = [
  * @returns {Object} - array of objects with actorID and name properties
  */
 export default function getMovieObjectByKey(key, value) {
+    console.log('getMovieObjectByKey() called', key, value);
     try {
         const movieObj = actorsInMovie.find(movie => movie.properties[key] === value);
         return movieObj;

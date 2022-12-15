@@ -72,7 +72,7 @@ const actors = [
 ];
 
 
-export function getAllActors() {
+export async function getAllActors() {
     return actors;
 }
 

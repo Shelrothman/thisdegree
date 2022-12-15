@@ -47,7 +47,7 @@ function PlayBoard() {
         const userMovieGuess = inputRef.current.value;
         if (userMovieGuess) {
             handleNewMovieGuess(userMovieGuess);
-            //TODO check if its a valid movie aka the actor is in it?
+            //TODO check if its a valid movie aka the actor is in it?... this should happen in GameRound
             //* dont let the movie get chosen IF its not a vlaid movie with the actor in i9t
             setCurrentMovie(userMovieGuess);
         } else {
