@@ -13,7 +13,7 @@ import { getActorByKey } from '../data/actors';
 import getMovieObjectByKey from '../data/actorsInMovie';
 
 export default class GameRound {
-    constructor(actorA, movieGuess) {
+    constructor(actorA, movieGuess, lastRound = {}) {
         this.actorA = actorA;
         this.movieTitle = movieGuess;
         this.actorA_ID = undefined; // actorID in actorList and id in actorArray
@@ -23,6 +23,7 @@ export default class GameRound {
         this.actorList = []; // the list of actors in the movieGuess
         this.actorListID = undefined; // the one associated with the movieGuess
         this.movieVerified = false;
+        this.lastRound = lastRound; // the last rounds GameRound instance, will be empty if its the first round
 
         this.init = this.init.bind(this);
         this.verifyMovie = this.verifyMovie.bind(this);
@@ -101,13 +102,17 @@ export default class GameRound {
         try {
             // make sure all the fields of this are defined
             if (Object.values(this).includes(undefined)) {
-                throw new Error(`all fields of this GameRound instance are not defined`);
+                throw new Error(`all fields of this GameRound instance are not defined, so something needs to be addressed, likely within GameRound class`);
             } else {
                 //? endRound(this)... this part needs work
+                // bc we want to have it all in a big object so that at the end of the game we can just look at the big object to assess the display...
+                // it wouldnt continue if the middles dont work
+                // use the big object at the end to build the final bridge/tree/node thing to present to the user when they win
                 //* what do we want to do on complete?
                 // set the future A stuff into the next round
-                //!!!! PU HERE>>> save the round to ... context? db? hmmmmm
-                const nextRound = new GameRound(this.actorB, nextMovieGuess);
+                //!!!! PU HERE>>> save the round to (this.lastRound) ... context? db? hmmmmm
+                const nextRound = new GameRound(this.actorB, nextMovieGuess, this);
+                // nextRound.lastRound = this; // set the last round of the new round to this round
                 return nextRound;
             }
         } catch (error) {
