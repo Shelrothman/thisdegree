@@ -43,11 +43,15 @@ function PlayBoard() {
         setReadyToInputFirst(true);
     }
 
-    function handleSubmit() {
+    async function handleSubmit() {
         const userMovieGuess = inputRef.current.value;
         if (userMovieGuess) {
-            handleNewMovieGuess(userMovieGuess);
-            //TODO check if its a valid movie aka the actor is in it?... this should happen in GameRound
+            const movieEvaluation = await handleNewMovieGuess(userMovieGuess);
+            console.log('!');
+            console.log(movieEvaluation);
+            if (!movieEvaluation) {
+                // handleInvalidMovieSelection();...       
+            }
             //* dont let the movie get chosen IF its not a vlaid movie with the actor in i9t
             setCurrentMovie(userMovieGuess);
         } else {
@@ -55,7 +59,7 @@ function PlayBoard() {
         }
     }
 
-//TODO modulate and make more dynamic
+    //TODO modulate and make more dynamic
     const buildBridgeNodes = movieList?.map((movie, i) => {
         return (
             <div key={i}>
@@ -105,7 +109,7 @@ function PlayBoard() {
     }
 
 
-//TODO modulate and make more dynamic
+    //TODO modulate and make more dynamic
 
     return (
         <>

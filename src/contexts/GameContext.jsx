@@ -9,7 +9,12 @@
  *   - we want this for the display at the end the node tree thang
  * TODO: eventually use redux for this once it gets bigger
  */
-import { useState, useContext, createContext, useEffect } from 'react';
+import {
+    useState,
+    useContext,
+    createContext,
+    // useEffect
+} from 'react';
 import { useActorContext } from './ActorContext.jsx';
 import GameRound from '../models/GameRound.js';
 
@@ -56,28 +61,33 @@ export function GameContextProvider({ children }) {
     };
 
 
-    const handleNewMovieGuess = (userMovieInput) => {
-        // add the movie guess to the end of array and then add the movie on ihn the setMovieList to that array
-        // console.log("userMovieInput", userMovieInput)
-        let localMovieList = movieList || [];
-        // this is when the user is first guessing a movie... so this is when we want to new GameRound
-        localMovieList.push({
-            movieTitle: userMovieInput,
-            actorGuessed: false,
-            actorSelection: ''
-        });
-        setMovieList(localMovieList);
-        let gameRound = new GameRound(actorA, userMovieInput);
-        gameRound = gameRound.init();
-        console.log("gameRound", gameRound);
-        return;
+    async function handleNewMovieGuess(userMovieInput) {
+        try {
+            let gameRound = new GameRound(actorA, userMovieInput);
+            gameRound = gameRound.init();
+            let valid = await gameRound.verifyMovie();
+            console.log('gameRound', gameRound);
+            if (!valid) { // get out of here, pick a new movie!
+                return false;
+            }
+            let localMovieList = movieList || [];
+            // add the movie guess to the end of array 
+            localMovieList.push({
+                movieTitle: userMovieInput,
+                actorGuessed: false,
+                actorSelection: ''
+            });
+            setMovieList(localMovieList);
+            return true;
+        } catch (error) {
+            console.error(error);
+        }
+
+
     }
 
 
-    //* wait we want them to be able to recieve a list of the actors inthat particular movie... and then they get to select from that list to put it on the card.. if they reselect thats okay it will jsut change the button dyanmically
-
-
-    // TODO needs constraining
+    // TODO needs more constraining
     const handleNewActorGuess = (userActorInput, movie) => {
         let localMovieList = movieList;
 

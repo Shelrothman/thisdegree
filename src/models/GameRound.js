@@ -1,6 +1,6 @@
 /**
  * @class GameRound
- * @description- one round = an actorA and a  movie guess (verifyMovie), 
+ * @description- one round = starts with an actorA and a movie guess (verifyMovie) => moviTitle, 
  * then an actorB as the selection and complete(). 
  * then the next round: the old actorB is the new actorA and the new actorB is the new selection and so on.
  * @actorA and @actorB are the two actors that are being compared in this particular Game instance (not the overall a and b actors). just the particular comparison in the current round
@@ -54,11 +54,12 @@ export default class GameRound {
     */
     async verifyMovie() {
         try {
-            const actorsInMovie = getMovieObjectByKey(this.actorListID);
+            const actorsInMovie = this.actorList;
             let found = false;
             for (let x = 0, max = actorsInMovie.length; x < max; x++) {
+                console.log(x)
                 let actor = actorsInMovie[x];
-                if (actor.actorID === this.actorA) {
+                if (actor.actorID === this.actorA_ID) {
                     found = true;
                     break;
                 }
