@@ -8,31 +8,17 @@
 
 
 const movies = [
-    {
-        id: 0,
-        title: 'Forrest Gump',
-        actorListID: 0
-    },
-    {
-        id: 1,
-        title: 'Billy Madison',
-        actorListID: 1
-    },
-    {
-        id: 2,
-        title: 'Casino',
-        actorListID: 2
-    },
-    {
-        id: 3,
-        title: 'Titanic',
-        actorListID: 3
-    },
-    {
-        id: 4,
-        title: 'Goodfellas',
-        actorListID: 4
-    }
+    { id: 0, title: 'Forrest Gump', actorListID: 0 },
+    { id: 1, title: 'Billy Madison', actorListID: 1 },
+    { id: 2, title: 'Casino', actorListID: 2 },
+    { id: 3, title: 'Titanic', actorListID: 3 },
+    { id: 4, title: 'Goodfellas', actorListID: 4 },
+    { id: 5, title: 'Home', actorListID: 5 },
+    { id: 6, title: 'E.T.', actorListID: 6 },
+    { id: 7, title: 'The Matrix', actorListID: 7 },
+    { id: 8, title: 'The Lion King', actorListID: 8 },
+    { id: 9, title: 'it', actorListID: 9 }, // use for testing
+
 ];
 
 

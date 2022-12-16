@@ -42,12 +42,6 @@ export function GameContextProvider({ children }) {
     // TODO: will use setReadyToBridge to enable the actorB btn once the button is triggered by user
 
 
-    // useEffect(() => {
-    //     if (gameStarted) {
-    //         const gameRound = new GameRound(actorA, );
-    //         // gameRound.startGame();
-    //     }
-    // }, [gameStarted]);
 
     const handleGameStateChange = () => {
         // use this to change the game on and off
@@ -61,14 +55,14 @@ export function GameContextProvider({ children }) {
     };
 
 
-    async function handleNewMovieGuess(userMovieInput) {
+    async function handleNewMovieGuess(userActor, userMovieInput) {
         try {
-            let gameRound = new GameRound(actorA, userMovieInput);
+            let gameRound = new GameRound(userActor, userMovieInput);
             gameRound = gameRound.init();
             let valid = await gameRound.verifyMovie();
             console.log('gameRound', gameRound);
             if (!valid) { // get out of here, pick a new movie!
-                return false;
+                return { verified: false };
             }
             let localMovieList = movieList || [];
             // add the movie guess to the end of array 
@@ -78,7 +72,10 @@ export function GameContextProvider({ children }) {
                 actorSelection: ''
             });
             setMovieList(localMovieList);
-            return true;
+            return {
+                verified: true,
+                actorList: gameRound.actorList
+            };
         } catch (error) {
             console.error(error);
         }

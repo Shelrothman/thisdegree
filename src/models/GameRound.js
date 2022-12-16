@@ -6,6 +6,7 @@
  * @actorA and @actorB are the two actors that are being compared in this particular Game instance (not the overall a and b actors). just the particular comparison in the current round
  * @param {string} actorA - the last actor that was selected from the list of actors in previous round; 
  * ! keep the fetching and the checking/verifying logic all in here and other classes SO THAT we can just import the classes into components and use them without having to worry about the logic, reuseability, etc.
+ * ! this is good bc IF the data structure (response) changes, we only have to change it in this one place and it will be reflected everywhere else
  */
 
 import { getMovieByKey } from '../data/movies';
@@ -18,7 +19,7 @@ export default class GameRound {
         this.movieTitle = movieGuess;
         this.actorA_ID = undefined; // actorID in actorList and id in actorArray
         this.actorB = undefined; //undefined until actor is selected from the list...
-        this.actorB_ID = undefined; 
+        this.actorB_ID = undefined;
         this.movieID = undefined;
         this.actorList = []; // the list of actors in the movieGuess
         this.actorListID = undefined; // the one associated with the movieGuess
@@ -99,7 +100,7 @@ export default class GameRound {
     }
 
     /** round completes when user inputs the next movie guess */
-    async complete(nextMovieGuess) { 
+    async complete(nextMovieGuess) {
         try {
             // make sure all the fields of this are defined
             if (Object.values(this).includes(undefined)) {
@@ -137,13 +138,13 @@ export default class GameRound {
     static getMovie(movieTitle) { // may need to use this on the end side of round
         try {
             // console.log('this.movieTitle', this.movieTitle)
-            
+
             let movieObject = getMovieByKey('title', movieTitle);
-            if (movieObject === undefined) {
-                throw new Error(`movieTitle is not found in movies array`);
-            } else {
-                return movieObject;
-            }
+            // if (movieObject === undefined) {
+                // throw new Error(`movieTitle is not found in movies array`);
+            // } else {
+                return movieObject || {};
+            // }
         } catch (error) {
             console.error(error);
         }
@@ -152,11 +153,11 @@ export default class GameRound {
     static getActorList(movieTitle) {
         try {
             const movieObject = getMovieObjectByKey('title', movieTitle);
-            if (movieObject === undefined) {
-                throw new Error(`movieTitle is not found in actorList array. something is off.`);
-            } else {
-                return movieObject.properties.actors;
-            }
+            // if (movieObject === undefined) {
+                // throw new Error(`movieTitle is not found in actorList array. something is off.`);
+            // } else {
+                return movieObject?.properties?.actors || [];
+            // }
         } catch (error) {
             console.error(error);
         }

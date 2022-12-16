@@ -22,8 +22,12 @@ function PlayBoard() {
     const { actorA, actorB } = useActorContext();
     const [currentMovie, setCurrentMovie] = useState('');
     // this state for the actor that is currently being used as bridge, aka the one that is selected from currentMovies list.
-    const [currentActorBridge, setCurrentActorBridge] = useState('');
+    const [currentActorBridge, setCurrentActorBridge] = useState(actorA);
     const [readyToInputFirst, setReadyToInputFirst] = useState(false);
+
+    const [currentActorOptions, setCurrentActorOptions] = useState([]);
+
+    // only want the input ref to be refed when it is in the current round.. once its above where we are we dont care about it anymore.. so therefore the LAST input should always be the inputRef.
 
     const {
         gameStarted,
@@ -46,18 +50,35 @@ function PlayBoard() {
     async function handleSubmit() {
         const userMovieGuess = inputRef.current.value;
         if (userMovieGuess) {
-            const movieEvaluation = await handleNewMovieGuess(userMovieGuess);
-            console.log('!');
-            console.log(movieEvaluation);
-            if (!movieEvaluation) {
-                // handleInvalidMovieSelection();...       
+            const movieEvaluation = await handleNewMovieGuess(currentActorBridge, userMovieGuess);
+            console.log('movieEvaluation', movieEvaluation)
+            if (!movieEvaluation.verified) {
+                handleInvalidMovieGuess();
             }
             //* dont let the movie get chosen IF its not a vlaid movie with the actor in i9t
             setCurrentMovie(userMovieGuess);
+            setCurrentActorOptions(movieEvaluation.actorList);
+            return;
         } else {
             throw new Error('yo! pick somthing, you smarty pants!');
         }
     }
+
+    function handleInvalidMovieGuess() {
+        console.log('invalid movie selection');
+        inputRef.current.value = `INVALID MOVIE`;
+        // TODO: tell the user its wrong in a different way then above.. this is just a hack for now
+        setTimeout(() => {
+            inputRef.current.value = '';
+        }, 1000);
+        return;
+    }
+
+    const actorOptions = currentActorOptions?.map((actor, i) => {
+        return (
+            <option key={actor.id} value={actor.name}>{actor.name}</option>
+        )
+    });
 
     //TODO modulate and make more dynamic
     const buildBridgeNodes = movieList?.map((movie, i) => {
@@ -71,9 +92,10 @@ function PlayBoard() {
                     disabled={movie.actorGuessed}
                 >
                     <option value='select'>Select an actor from {movie.movieTitle}</option>
-                    <option value="1">One</option>
+                    {/* <option value="1">One</option>
                     <option value="2">Two</option>
-                    <option value="3">Three</option>
+                    <option value="Joe Pesci">Three</option> */}
+                    {actorOptions}
                 </select>
                 {movie.actorGuessed && (
                     <Card id="card-actor-container">
@@ -91,7 +113,7 @@ function PlayBoard() {
                 {(movie.actorSelection !== '') && (
                     <>
                         <label htmlFor="movie-bridge">Movie with {movie.actorSelection} in it: </label>
-                        <input ref={inputRef} />
+                        <input ref={inputRef} id='movie-input-ref' />
                         <button onClick={handleSubmit}>Submit</button>
                     </>
                 )}
@@ -116,41 +138,39 @@ function PlayBoard() {
             <div>
                 Actor A: {actorA}<br />Actor B: {actorB}
             </div>
-            {
-                gameStarted && (
-                    <>
-                        <div>
-                            <h1>Game Started</h1>
-                        </div>
-                        <div>
-                            <button onClick={() => handleOnClick(actorA)}>
-                                {actorA}
-                            </button> <br />
-                            {readyToInputFirst && (
-                                <>
-                                    <label htmlFor="movie-bridge">Movie with {actorA} in it: </label>
-                                    <input ref={inputRef} />
-                                    <button onClick={handleSubmit}>Submit</button>
-                                </>
-                            )}
-                        </div>
-                        {buildBridgeNodes}
-                        <div>
-                            ...............
-                            <br />
-                            .....................
-                            <br />
-                            .....................
-                            <br />
-                            .....................
-                            <br />
-                            <button disabled={!readyToBridge}>
-                                {actorB}
-                            </button>
-                        </div>
-                    </>
-                )
-            }
+            {gameStarted && (
+                <>
+                    <div>
+                        <h1>Game Started</h1>
+                    </div>
+                    <div>
+                        <button onClick={() => handleOnClick(actorA)}>
+                            {actorA}
+                        </button> <br />
+                        {readyToInputFirst && (
+                            <>
+                                <label htmlFor="movie-bridge">Movie with {actorA} in it: </label>
+                                <input ref={inputRef} />
+                                <button onClick={handleSubmit}>Submit</button>
+                            </>
+                        )}
+                    </div>
+                    {buildBridgeNodes}
+                    <div>
+                        ...............
+                        <br />
+                        .....................
+                        <br />
+                        .....................
+                        <br />
+                        .....................
+                        <br />
+                        <button disabled={!readyToBridge}>
+                            {actorB}
+                        </button>
+                    </div>
+                </>
+            )}
         </>
     );
 }
