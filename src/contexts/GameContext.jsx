@@ -15,7 +15,7 @@ import {
     createContext,
     // useEffect
 } from 'react';
-import { useActorContext } from './ActorContext.jsx';
+// import { useActorContext } from './ActorContext.jsx';
 import GameRound from '../models/GameRound.js';
 
 // import { useActorContext } from './ActorContext.jsx';
@@ -36,7 +36,7 @@ export function GameContextProvider({ children }) {
     const [gameStarted, setGameStarted] = useState(false);
     const [movieList, setMovieList] = useState([]);
     // const [newRound, setNewRound] = useState(false);
-    const { actorA } = useActorContext();
+    // const { actorA } = useActorContext();
 
     const [readyToBridge, setReadyToBridge] = useState(false);
     // TODO: will use setReadyToBridge to enable the actorB btn once the button is triggered by user
@@ -54,7 +54,7 @@ export function GameContextProvider({ children }) {
         }
     };
 
-
+    // TODO: MODULARIZE THIS FUNCTION ,,,
     async function handleNewMovieGuess(userActor, userMovieInput) {
         try {
             let gameRound = new GameRound(userActor, userMovieInput);
@@ -69,7 +69,8 @@ export function GameContextProvider({ children }) {
             localMovieList.push({
                 movieTitle: userMovieInput,
                 actorGuessed: false,
-                actorSelection: ''
+                actorSelection: '',
+                currentRound: gameRound,
             });
             setMovieList(localMovieList);
             return {
@@ -84,17 +85,31 @@ export function GameContextProvider({ children }) {
     }
 
 
-    // TODO needs more constraining
-    const handleNewActorGuess = (userActorInput, movie) => {
+    //TODO MODULATE , errror handeling
+    const handleNewActorGuess = async (userActorInput, movie) => {
         let localMovieList = movieList;
+        // console.log('!!')
 
+
+        let gameRound = localMovieList[0].currentRound;
+        gameRound = await gameRound.selectActorFromMovie(userActorInput);
+
+        // so next we can run complete() bc we have the last piece
+        // TODO Add more conditionals here
+        let nextRound = await gameRound.complete();
+
+
+        // TODO THIS NEEDS HELP ALSO
         localMovieList.forEach((movieObj) => {
             if (movieObj.movieTitle === movie) {
                 movieObj.actorGuessed = true;
                 movieObj.actorSelection = userActorInput;
+                movieObj.currentRound = gameRound;
+                movieObj.nextRound = nextRound;
+                // !!!!!!!!!!!!!!!!! left off here .TEST THIS. .. I tested and it works!!!!  YO! OKay! clean it alkl up and then move on to the next thing
             }
         });
-        // console.log("localMovieList", localMovieList); // debug
+        console.log("localMovieList", localMovieList); // debug
         return setMovieList(localMovieList);
     }
 

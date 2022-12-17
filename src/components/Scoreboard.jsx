@@ -16,6 +16,7 @@
 import { useEffect, useState, useRef } from 'react';
 import Card from 'react-bootstrap/Card';
 import { useActorContext, useGameContext } from '../contexts';
+// import uuid from 'react-uuid';
 
 
 function PlayBoard() {
@@ -76,7 +77,7 @@ function PlayBoard() {
 
     const actorOptions = currentActorOptions?.map((actor, i) => {
         return (
-            <option key={actor.id} value={actor.name}>{actor.name}</option>
+            <option key={i} value={actor.name}>{actor.name}</option>
         )
     });
 

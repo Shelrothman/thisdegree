@@ -88,12 +88,17 @@ export default class GameRound {
     /**
      * @method - used to select the actorB from the list of actors in the movieGuess
      * @param {string} actorSelection - the actor name that was selected from the list of actors in the movieGuess
+     * 
+     * TODO make naming more clear
      */
     async selectActorFromMovie(actorSelection) {
         try {
-            // so we dont need to check if the selection is in the list bc we presented them the list in the first place.. no write ins...
+            //!! so we dont need to check if the selection is in the list bc we presented them the list in the first place.. no write ins...
             this.actorB = actorSelection;
-            this.actorB_ID = GameRound.getActor(actorSelection).id;
+
+        
+            this.actorB_ID = GameRound.getActor(actorSelection).id || undefined;
+            return this;
         } catch (error) {
             console.error(error);
         }
@@ -110,9 +115,6 @@ export default class GameRound {
                 // bc we want to have it all in a big object so that at the end of the game we can just look at the big object to assess the display...
                 // it wouldnt continue if the middles dont work
                 // use the big object at the end to build the final bridge/tree/node thing to present to the user when they win
-                //* what do we want to do on complete?
-                // set the future A stuff into the next round
-                //!!!! PU HERE>>> save the round to (this.lastRound) ... context? db? hmmmmm
                 const nextRound = new GameRound(this.actorB, nextMovieGuess, this);
                 // nextRound.lastRound = this; // set the last round of the new round to this round
                 return nextRound;
@@ -126,7 +128,8 @@ export default class GameRound {
         try {
             let actor = getActorByKey('name', actorName);
             if (actor === undefined) {
-                throw new Error(`actorA is not found in actors array`);
+                // throw new Error(`actorA is not found in actors array`);
+                return {};
             } else {
                 return actor;
             }
