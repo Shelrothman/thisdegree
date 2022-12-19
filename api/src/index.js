@@ -2,7 +2,7 @@
  * @fileoverview This file is the entry point for the GraphQL server
  */
 const { ApolloServer } = require('apollo-server');
-
+const { v4: uuidv4 } = require('uuid');
 const fs = require('fs');
 const path = require('path');
 
@@ -39,9 +39,9 @@ let movies = [
  * /
 
 /** helper functions */
-function getMovie(id) {
-    return movies.find(movie => movie.id === id);
-}
+// function getMovie(id) {
+//     return movies.find(movie => movie.id === id);
+// }
 async function getCast(movieTitle) {
     try {
         let castList = [];
@@ -61,14 +61,13 @@ const resolvers = {
     Query: {
         info: () => `This is the API of this-Degree`,
         movies: () => movies,
+        //? i think we wud put like our Gets here
     },
 
     Mutation: {
         addMovie: (parent, args) => {
-            let idCount = movies.length;
-
             const movie = {
-                id: `movie-${idCount++}`,
+                id: `${uuidv4()}`,
                 title: args.title,
                 // castList: args.castList,
                 castList: async () => await getCast(args.title),
@@ -76,6 +75,7 @@ const resolvers = {
             movies.push(movie);
             return movie;
         }
+        // addCast: (parent, args) => 
     },
 }
 // each level of nesting corresponds to one resolver execution level
