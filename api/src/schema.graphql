@@ -5,6 +5,10 @@ type Query {
 # add to generate the id automatically
 type Mutation {
     addMovie(title: String!): Movie!
+    addActor(name: String!): Actor!
+    # create an addCast that takes in a String of actors and their associated id and adds them to the castList
+    # addCast(castList: String!): [Actor]! # string version of array that we can parse within the resolver and do createMany
+    addMovieAndCast(title: String!): Movie! # add cast from the movie title
 }
 
 # need to generate the cast list AFTER the movie is created # so we need to create a new mutation for that

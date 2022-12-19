@@ -10,11 +10,16 @@ async function getCastFromWiki(movieTitle) {
         const resObject = await response.json();
         const content = resObject.query.pages[0].revisions[0].slots.main.content;
         let cast = await parseCastFromContent(content);
+        
+        if (cast?.length === 0) return [];
         return cast;
     } catch (error) {
         console.error(error);
     }
 }
+
+//TODO:: needs a lot more work certain titles will have more than one page... so need to add logic to give user an option to select the correct page
+// do this by if there is more than one, that list comes back and we can use that list in tthe front to present to the user
 
 async function parseCastFromContent(content) {
     let actorList = [];
@@ -28,7 +33,7 @@ async function parseCastFromContent(content) {
         var castMemberRegex = /\* *\[\[[^\[\]\*]+\]\] as/g;
         const matches = castSection?.match(castMemberRegex);
         // console.log(matches)
-        if (matches === null) {
+        if (matches === null || matches === undefined) {
             return [];
         }
         for (let i = 0, max = matches.length; i < max; i++) {

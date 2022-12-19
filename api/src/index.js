@@ -34,7 +34,7 @@ const prisma = new PrismaClient();
 //         ]
 //     }
 // ];
-
+//!GraphQL doesn't support passing the execution result of one field to a sibling field, so if any mutation depends on the result of another, they will have to be split into separate requests and the "piping" of the result to the next mutation would have to be handled by the client.
 
 /** helper functions */
 // function getMovie(id) {
@@ -49,13 +49,12 @@ async function getCast(movieTitle) {
             castList.push({ id: uuidv4(), name: actorList[i] });
         }
         console.log(castList)
+        if (castList.length === 0) return [];
         return castList;
     } catch (error) {
         console.error(error);
     }
 }
-
-
 
 
 // actual implementation of the schema
@@ -66,35 +65,56 @@ const resolvers = {
             return context.prisma.movie.findMany();
         },
     },
-
+    // TODO: add precheck to first see if its in the db already and if it is then get the castList from there
     Mutation: {
         addMovie: async (parent, args, context, info) => {
-            let list = JSON.stringify(await getCast(args.title));
-            const newMovie = context.prisma.movie.create({
-                // context is an entire Prism Client instance.. allows us access to our db through the Prism Client API
+            let rawList = await getCast(args.title);
+            let list = JSON.stringify(rawList);
+            // TODO: make it so that when a movie is added, it also adds all the ACTORS in castList to the db
+            const newMovie = await context.prisma.movie.create({
+                // context is an entire Prism Client instance.. allows us access to our db through the Prisma Client API
                 data: {
                     title: args.title,
                     castList: list,
                 },
             });
-            //? make the response more readable but keeping it as string for the db
-            // newMovie.castList = JSON.parse(newMovie.castList); 
             return newMovie;
-        }
-        // addCast: (parent, args) => 
+        },
+        // TODO: make it so the below resolver can add multiple actors at once and have them be the castList that was returned in the addMovie resolver
+        addActor: async (parent, args, context, info) => {
+            console.log('parent:', parent)
+            const newActor = await context.prisma.actor.create({
+                data: {
+                    name: args.name,
+                }
+            });
+            return newActor;
+        },
+        addMovieAndCast: async (parent, args, context, info) => {
+            let rawList = await getCast(args.title);
+            let list = JSON.stringify(rawList);
+            //! createMany() is not allowed in SQLite
+            rawList.forEach(async (actor) => {
+                await context.prisma.actor.create({
+                    data: {
+                        name: actor.name,
+                    }
+                });
+            });
+            const newMovie = await context.prisma.movie.create({
+                data: {
+                    title: args.title,
+                    castList: list,
+                },
+            });
+            // return { movie: newMovie, cast: rawList };
+            return newMovie;
+        },
     },
 }
 // each level of nesting corresponds to one resolver execution level
 // * i.e. Each field in a GraphQL schema is backed by a resolver.
-/* 
-? in its most basic form, a GraphQL server will have one resolver function per field in its schema. Each resolver knows how to fetch the data for its field. Since a GraphQL query at its essence is just a collection of fields, all a GraphQL server actually needs to do in order to gather the requested data is invoke all the resolver functions for the fields specified in the query. (This is also why GraphQL often is compared to RPC-style systems, as it essentially is a language for invoking remote functions.) */
 
-// Movie: {
-// all of the three Link resolvers, the incoming parent object is the element inside the links list.
-// id: (parent) => parent.id,
-// title: (parent) => parent.description,
-// castList: (parent) => parent.url,
-// }
 
 // schema + resolvers = GraphQL server
 const server = new ApolloServer({
