@@ -6,6 +6,7 @@ const { ApolloServer } = require('apollo-server');
 const fs = require('fs');
 const path = require('path');
 
+const { getCastFromWiki } = require('./helpers/wikiData');
 
 // dummy data
 let movies = [
@@ -33,11 +34,25 @@ let movies = [
 
 /**
  * *Effectively, all the GraphQL server has to do is invoke all resolver functions for the fields that are contained in the query and then package up the response according to the query’s shape. Query resolution thus merely becomes a process of orchestrating the invocation of resolver functions!
- */
+ * TODO: eventually better iding... like add the id from the data base if there is one there already kind of thing for a movie
+ * and then eventually for an actor as well
+ * /
 
 /** helper functions */
 function getMovie(id) {
     return movies.find(movie => movie.id === id);
+}
+async function getCast(movieTitle) {
+    try {
+        let castList = [];
+        let actorList = await getCastFromWiki(movieTitle);
+        for (let i = 0, max = actorList.length; i < max; i++) {
+            castList.push({ id: i, name: actorList[i] });
+        }
+        return castList;
+    } catch (error) {
+        console.error(error);
+    }
 }
 
 
@@ -56,6 +71,7 @@ const resolvers = {
                 id: `movie-${idCount++}`,
                 title: args.title,
                 // castList: args.castList,
+                castList: async () => await getCast(args.title),
             };
             movies.push(movie);
             return movie;
@@ -63,6 +79,10 @@ const resolvers = {
     },
 }
 // each level of nesting corresponds to one resolver execution level
+// * i.e. Each field in a GraphQL schema is backed by a resolver.
+/* 
+? in its most basic form, a GraphQL server will have one resolver function per field in its schema. Each resolver knows how to fetch the data for its field. Since a GraphQL query at its essence is just a collection of fields, all a GraphQL server actually needs to do in order to gather the requested data is invoke all the resolver functions for the fields specified in the query. (This is also why GraphQL often is compared to RPC-style systems, as it essentially is a language for invoking remote functions.) */
+
 // Movie: {
 // all of the three Link resolvers, the incoming parent object is the element inside the links list.
 // id: (parent) => parent.id,
