@@ -15,7 +15,8 @@ type Mutation {
 type Movie {
     id: ID!
     title: String!
-    castList: [Actor]
+    # castList: [Actor]
+    castList: String! # for now, just a string of actor objects bc sqlite doesn't support arrays :(
 }
 
 type Actor {

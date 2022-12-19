@@ -1,11 +1,12 @@
-let string = "\n{{div col}}\n*[[Ewan McGregor]] as Edward Bloom (young)\n*[[Albert Finney]] as Edward Bloom (senior)\n*[[Billy Crudup]] as Will Bloom\n*[[Jessica Lange]] as Sandra Bloom (senior)\n*[[Helena Bonham Carter]] as Jenny (young & senior) / The Witch\n*[[Alison Lohman]] as Sandra Bloom (young), née Templeton\n*[[Robert Guillaume]] as Dr. Bennett (senior)\n*[[Marion Cotillard]] as Joséphine\n*[[Missi Pyle]] as Mildred\n*[[Matthew McGrory]] as Karl the Giant\n*[[David Denman]] as Don Price (age 18–22)\n*[[Loudon Wainwright III]] as Beamen\n*Ada Tai and Arlene Tai as Ping and Jing\n*[[Steve Buscemi]] as Norther Winslow\n*[[Danny DeVito]] as Amos Calloway\n*[[Deep Roy]] as Mr. Soggybottom\n*Perry Walston as Edward Bloom (age 10)\n*Hailey Anne Nelson as Jenny (age 8)\n*Grayson Stone as Will Bloom (age 6–8)\n*R. Keith Harris as Ed's Father\n*Karla Droege as Ed's Mother\n*Zachary Gardner as Zacky Price (age 10)\n*John Lowell as Donald \"Don\" Price (age 12)\n*Darrell Vanterpool as Wilbur (age 10)\n*[[Miley Cyrus]]{{efn|She is credited as her birth name, Destiny Cyrus.}} as Ruthie (age 8)\n*Joseph Humphrey as Little Brave\n*[[Billy Redden]] as Banjo Man\n*[[Russell Hodgkinson]] as Some Farmer\n*[[Daniel Wallace (author)|Daniel Wallace]] as Econ. Professor\n*George McArthur as Colossus\n*Bevin Kaye as River Woman\n{{div col end}}\n\n";
+let list = [ { id: '1', name: 'John' }, { id: '2', name: 'Jane' } ];
 
-const powersString = "\n{{div col}}\n* [[Mike Myers]] as [[Austin Powers (character)|Austin Powers]] and [[Dr. Evil]]\n* [[Elizabeth Hurley]] as [[Vanessa Kensington]]\n* [[Robert Wagner]] as Number 2\n* [[Seth Green]] as Scott Evil\n* [[Mindy Sterling]] as [[Frau Farbissina]]\n* [[Michael York]] as [[Basil Exposition]]\n* [[Fabiana Udenio]] as [[Alotta Fagina]]\n* [[Will Ferrell]] as [[Mustafa (austin powers)|Mustafa]]\n* [[Mimi Rogers]] as [[Mrs. Kensington]]\n* [[Joe Son]] as [[Random Task]]\n* [[Paul Dillon]] as [[List of Austin Powers characters#Paddy O'Brien|Paddy O'Brien]]\n* [[Charles Napier (actor)|Charles Napier]] as [[List of Austin Powers characters#Commander Gilmour|Commander Gilmour]]\n* [[Elya Baskin]] as [[List of Austin Powers characters#General Borschevsky|General Borschevsky]]\n* [[Clint Howard]] as [[List of Austin Powers characters#Johnson Ritter|Johnson Ritter]]\n* [[Neil Mullarkey]] as Quartermaster Clerk\n* [[Tom Arnold (actor)|Tom Arnold]] as [[List of Austin Powers characters#The Texan|Texan]] (uncredited)\n* [[Carrie Fisher]] as Therapist (uncredited)\n* [[Larry Thomas (actor)|Larry Thomas]] as Casino Dealer\n* [[Burt Bacharach]] as Himself\n* [[Michael McDonald (comedian)|Michael McDonald]] as Henchman Steve\n* [[Cindy Margolis]] as Fembot\nDeleted scenes:\n* [[Lois Chiles]] as Steve's Step-wife\n* [[Christian Slater]] as Hypnotized Guard (UK Version only)\n* [[Rob Lowe]] as John's Friend (Bill) {{div col end}}\n\n"
-//The * after the first \ is a quantifier that indicates that the preceding character (the space) should be matched zero or more times.
+const newMovie = {
+    id: 2,
+    castList: JSON.stringify(list),
+}
 
-var castMemberRegex = /\* *\[\[[^\[\]\*]+\]\] as/g;
-const matchesP = powersString.match(castMemberRegex);
-console.log(matchesP);
+console.log(newMovie);
 
-const matchesS = string.match(castMemberRegex);
-console.log(matchesS);
+newMovie.castList = JSON.parse(newMovie.castList);
+
+console.log(newMovie);
