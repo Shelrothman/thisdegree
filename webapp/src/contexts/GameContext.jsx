@@ -68,6 +68,7 @@ export function GameContextProvider({ children }) {
             // add the movie guess to the end of array 
             localMovieList.push({
                 movieTitle: userMovieInput,
+                id: gameRound.movieUUID,
                 actorGuessed: false,
                 actorSelection: '',
                 currentRound: gameRound,
@@ -87,30 +88,40 @@ export function GameContextProvider({ children }) {
 
     //TODO MODULATE , errror handeling
     const handleNewActorGuess = async (userActorInput, movie) => {
-        let localMovieList = movieList;
-        // console.log('!!')
+
+        try {
+
+            let localMovieList = movieList;
+            console.log('!!')
+            console.log(movie);
+            console.log(userActorInput);
+
+            // this 
+            let gameRound = await localMovieList[0].currentRound.setActorFromSelection(userActorInput);
+            console.log('gameRound', gameRound);
+            // so next we can run complete() bc we have the last piece
+            // TODO Add more conditionals here
+            let nextRound = await gameRound.complete(); // this should return a new gameRound object
+            console.log('nextRound', nextRound);
 
 
-        let gameRound = localMovieList[0].currentRound;
-        gameRound = await gameRound.selectActorFromMovie(userActorInput);
+            // TODO THIS NEEDS HELP ALSO
+            localMovieList.forEach((movieObj) => { // i dont think this is working, i think its just adding a new movie obj
+                if (movieObj.movieTitle === movie.movieTitle) {
+                    console.log('is this even getting here');
+                    movieObj.actorGuessed = true;
+                    movieObj.actorSelection = userActorInput;
+                    movieObj.currentRound = gameRound;
+                    movieObj.nextRound = nextRound; // wtf do i want to do with this
+                }
+            });
+            console.log("localMovieList", localMovieList); // debug
+            setMovieList(localMovieList);
+            return;
+        } catch (error) {
+            console.error(error)
+        }
 
-        // so next we can run complete() bc we have the last piece
-        // TODO Add more conditionals here
-        let nextRound = await gameRound.complete();
-
-
-        // TODO THIS NEEDS HELP ALSO
-        localMovieList.forEach((movieObj) => {
-            if (movieObj.movieTitle === movie) {
-                movieObj.actorGuessed = true;
-                movieObj.actorSelection = userActorInput;
-                movieObj.currentRound = gameRound;
-                movieObj.nextRound = nextRound;
-                // !!!!!!!!!!!!!!!!! left off here .TEST THIS. .. I tested and it works!!!!  YO! OKay! clean it alkl up and then move on to the next thing
-            }
-        });
-        console.log("localMovieList", localMovieList); // debug
-        return setMovieList(localMovieList);
     }
 
 

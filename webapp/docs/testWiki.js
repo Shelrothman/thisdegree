@@ -30,9 +30,7 @@ async function parseCastFromContent() {
             if (actorString.includes('(') || actorString.includes('|')) {
                 let actorRegex = /([^\|\(\)]+)/g;
                 let actor = actorRegex.exec(actorString)[1];
-                if (actor !== null) {
-                    actorList.push(actor);
-                }
+                if (actor !== null) actorList.push(actor);
             } else {
                 actorList.push(actorString);
             }

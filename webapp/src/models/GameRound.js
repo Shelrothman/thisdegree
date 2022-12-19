@@ -12,6 +12,7 @@
 import { getMovieByKey } from '../data/movies';
 import { getActorByKey } from '../data/actors';
 import getMovieObjectByKey from '../data/actorsInMovie';
+import uuid from 'react-uuid';
 
 export default class GameRound {
     constructor(actorA, movieGuess, lastRound = {}) {
@@ -25,10 +26,13 @@ export default class GameRound {
         this.actorListID = undefined; // the one associated with the movieGuess
         this.movieVerified = false;
         this.lastRound = lastRound; // the last rounds GameRound instance, will be empty if its the first round
+        this.movieUUID = uuid();
 
         this.init = this.init.bind(this);
         this.verifyMovie = this.verifyMovie.bind(this);
         this.presentActorsInMovie = this.presentActorsInMovie.bind(this);
+        this.setActorFromSelection = this.setActorFromSelection.bind(this);
+        this.complete = this.complete.bind(this);
     }
 
     /** 
@@ -91,7 +95,7 @@ export default class GameRound {
      * 
      * TODO make naming more clear
      */
-    async selectActorFromMovie(actorSelection) {
+    async setActorFromSelection(actorSelection) {
         try {
             //!! so we dont need to check if the selection is in the list bc we presented them the list in the first place.. no write ins...
             this.actorB = actorSelection;
@@ -107,8 +111,14 @@ export default class GameRound {
     /** round completes when user inputs the next movie guess */
     async complete(nextMovieGuess) {
         try {
+            // const thisRound = this;
+            // console.log(this);
+            // Object.values(this).forEach((value) => {
+            //     console.log(value)
+            // })
             // make sure all the fields of this are defined
-            if (Object.values(this).includes(undefined)) {
+            if (this.actorB_ID === undefined) {
+
                 throw new Error(`all fields of this GameRound instance are not defined, so something needs to be addressed, likely within GameRound class`);
             } else {
                 //? endRound(this)... this part needs work

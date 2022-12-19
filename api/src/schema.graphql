@@ -1,0 +1,24 @@
+type Query {
+    info: String!
+    movies: [Movie]!
+}
+# add to generate the id automatically
+type Mutation {
+    addMovie(title: String!): Movie!
+}
+
+# need to generate the cast list AFTER the movie is created # so we need to create a new mutation for that
+# type Mutation {
+#     addMovie(title: String!, id: ID!): Movie!
+#     addCastList(movieId: ID!, castList: [String!]!): Movie!
+# }
+type Movie {
+    id: ID!
+    title: String!
+    castList: [Actor]
+}
+
+type Actor {
+    id: ID!
+    name: String!
+}

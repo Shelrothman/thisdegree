@@ -30,6 +30,13 @@ function PlayBoard() {
 
     // only want the input ref to be refed when it is in the current round.. once its above where we are we dont care about it anymore.. so therefore the LAST input should always be the inputRef.
 
+
+    // ! thie bug right now IS deff something in the ui and not the logic in the other files bc i stepped through and comfirmed that.
+    // TODO add better error handling in the c;ass and elsewheere so int wont take so much ime to track down next time
+    //! yea on save the return of the next select happens but not wuithpuot me asaving this file... SOOOO that means i am like not returning somewhere orn siomnething like that ************************************************************************************
+
+
+
     const {
         gameStarted,
         movieList,
@@ -38,6 +45,16 @@ function PlayBoard() {
         handleNewActorGuess
     } = useGameContext();
     const inputRef = useRef(null);
+    const selectItemsRef = useRef(null);
+
+    function getMap() {
+        if (!selectItemsRef.current) {
+            // Initialize the Map on first usage.
+            selectItemsRef.current = new Map();
+        }
+        console.log('selectItemsRef.current', selectItemsRef.current)
+        return selectItemsRef.current;
+    }
 
     useEffect(() => {
         console.table(movieList);
@@ -46,6 +63,7 @@ function PlayBoard() {
     function handleOnClick(actor) {
         setCurrentActorBridge(actor);
         setReadyToInputFirst(true);
+        return;
     }
 
     async function handleSubmit() {
@@ -88,9 +106,20 @@ function PlayBoard() {
                 <h4>Movie Bridge: {movie.movieTitle}</h4>
                 <select
                     aria-label="actor selection"
-                    id="select-actor"
-                    onChange={(e) => handleActorSelection(e.target.value)}
+                    id={`select-actor-${i}`}
+                    // ref={selectRef} 
+                    //// onChange={(e) => handleActorSelection(e.target.value)}
+                    onChange={handleActorSelection}
+                    //! something is off here.. like currentActorBridge is not being set to the value of the select.. so it wont render until the second time a change it.. or if i save this file.
                     disabled={movie.actorGuessed}
+                    ref={(node) => {
+                        const map = getMap();
+                        if (node) {
+                            map.set(movie.id, node); 
+                        } else {
+                            map.delete(movie.id);
+                        }
+                    }}
                 >
                     <option value='select'>Select an actor from {movie.movieTitle}</option>
                     {/* <option value="1">One</option>
@@ -123,14 +152,26 @@ function PlayBoard() {
     })
 
 
-    function handleActorSelection(userSelection) {
-        // * there is a little bug right now where if u choose the same value as the last one then it wont return until like a render BUT this wont matter once we use data bc it will be a diff value ALWAYS. bc we will use ids and shiz
-        console.log('userSelection onChange: ', userSelection);
-        handleNewActorGuess(userSelection, currentMovie);
-        setCurrentActorBridge(userSelection);
-        return;
-    }
+    async function handleActorSelection() {
+        const map = getMap();
+    // const node = map.get(currentMovie.id); ?????
+        // const node = map.get(currentMovie.id);
+        // we want to get the value of the select that is in the current movie.. the last element of the movieListArray is the current movie
+        // const userSelection = node.value;
+        let currentMovie = movieList[movieList.length - 1];
+        console.log('currentMovie: ', currentMovie)
+        
+        const node = map.get(currentMovie.id);
+        console.log('node: ', node.value);
 
+
+
+        const userSelection = node.value;
+        console.log('userSelection onChange: ', userSelection);
+        setCurrentActorBridge(userSelection);
+        let res = await handleNewActorGuess(userSelection, currentMovie);
+        return res;
+    }
 
     //TODO modulate and make more dynamic
 
