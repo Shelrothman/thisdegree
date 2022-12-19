@@ -1,0 +1,26 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// data source specifies the db connection
+datasource db {
+    provider = "sqlite"
+    url      = "file:./dev.db"
+}
+
+// generator indicates that we want to generate Prisma Client
+generator client {
+    provider = "prisma-client-js"
+}
+
+// data model defines the application models. each model will be mapped to a table in the underlying db
+model Movie {
+    id        String   @id @unique @default(uuid())
+    createdAt DateTime @default(now())
+    title     String
+    castList  String   @default("[]") // we will just wrap the json Array as a string for the db for now bc using SQLite
+}
+
+model Actor {
+    id   String @id @unique @default(uuid())
+    name String
+}

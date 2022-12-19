@@ -32,11 +32,6 @@ let movies = [
     }
 ];
 
-/**
- * *Effectively, all the GraphQL server has to do is invoke all resolver functions for the fields that are contained in the query and then package up the response according to the query’s shape. Query resolution thus merely becomes a process of orchestrating the invocation of resolver functions!
- * TODO: eventually better iding... like add the id from the data base if there is one there already kind of thing for a movie
- * and then eventually for an actor as well
- * /
 
 /** helper functions */
 // function getMovie(id) {
