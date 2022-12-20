@@ -1,5 +1,4 @@
 /** helpers for resolvers */
-
 const urlStart = 'https://en.wikipedia.org/w/api.php?action=query&prop=revisions&titles=';
 const urlEnd = '&rvslots=*&rvprop=content&formatversion=2&format=json';
 // !!!!!! PU !!!!
@@ -57,6 +56,22 @@ async function parseCastFromContent(content) {
     return actorList;
 }
 
+async function getCast(movieTitle) {
+    // TODO: add precheck to first see if its in the db already and if it is then get the castList from there
+    try {
+        let castList = [];
+        let actorList = await getCastFromWiki(movieTitle);
+        for (let i = 0, max = actorList.length; i < max; i++) {
+            castList.push({ id: uuidv4(), name: actorList[i] });
+        }
+        console.log(castList)
+        if (castList.length === 0) return [];
+        return castList;
+    } catch (error) {
+        console.error(error);
+    }
+}
+
 module.exports = {
-    getCastFromWiki
+    getCast
 }

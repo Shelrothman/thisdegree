@@ -17,10 +17,29 @@ model Movie {
     id        String   @id @unique @default(uuid())
     createdAt DateTime @default(now())
     title     String
-    castList  String   @default("[]") // we will just wrap the json Array as a string for the db for now bc using SQLite
+    castList  String   @default("[]") // we will just wrap the json Array as a string for the db for now bc using SQLite which doesn't allow arrays. which is okay anyways bc strings are less expensive to query and we can parse them into arrays when we need to use them in the client
 }
 
 model Actor {
     id   String @id @unique @default(uuid())
     name String
+}
+
+// only thing we want connected to a User is a Tree model that contains ids bc those are what they can CRUD on for sharing, reading, etc.
+
+model Tree {
+    id              String   @id @unique @default(uuid())
+    createdAt       DateTime @default(now())
+    // next a stringified list of ids that follow this pattern: [ firstActorId,movieID, connectedActorID, nextMovieID, nextActorID, ...end with an actor ]
+    treeDeclaration String   @default("[]")
+    postedBy        User?    @relation(fields: [postedById], references: [id])
+    postedById      String?
+}
+
+model User {
+    id       String @id @unique @default(uuid())
+    name     String
+    email    String @unique
+    password String
+    trees    Tree[] // ? are we able to use an array?..shud it be array of tree ID?
 }

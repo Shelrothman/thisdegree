@@ -1,23 +1,44 @@
 type Query {
     info: String!
-    movies: [Movie]! # gets all movies
-    movie(id: String!): Movie! # gets a movie by id that exists in db
-    getCastList(title: String!): [Actor]! # ? gets the cast list of a movie by title through the wiki api
+    getMovies: [Movie]! # gets all movies
+    getMovie(id: String!): Movie! # gets a movie by id that exists in db
+    getCastList(title: String!): [Actor]! # ? gets the cast list of a movie by title through the wiki api 
 }
 # // add to generate the id automatically
 type Mutation {
     addMovie(title: String!): Movie!
     addActor(name: String!): Actor!
-    # create an addCast that takes in a String of actors and their associated id and adds them to the castList
-    # addCast(castList: String!): [Actor]! # string version of array that we can parse within the resolver and do createMany
     addMovieAndCast(title: String!): Movie! # add cast from the movie title
+    
+    # add a tree to the db with the stringified array of the tree.
+    addTree(treeDeclaration: String!): Tree! 
+    
+    signup(email: String!, password: String!, name: String!): AuthPayload
+    login(email: String!, password: String!): AuthPayload
 }
 
 type Movie {
     id: ID!
     title: String!
-    # castList: [Actor]
-    castList: String! # for now, just a string of actor objects bc sqlite doesn't support arrays :(
+    castList: String! # for now, just a string of actor objects bc sqlite doesn't support arrays :(.. so even tho we cud do it here it still needs to match from the db so its simpler to just have it match here and ther
+}
+
+type Tree {
+    id: ID!
+    treeDeclaration: String! # stringified list of ids that follow pattern [{type: actor, id: actor-id}, {type: actor, id: actor-id},...]
+    postedBy: User
+}
+
+type AuthPayload {
+    token: String
+    user: User
+}
+
+type User {
+    id: ID!
+    name: String!
+    email: String!
+    trees: [Tree!]!
 }
 
 type Actor {
