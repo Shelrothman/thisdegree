@@ -3,17 +3,21 @@
  */
 const { ApolloServer } = require('apollo-server');
 const { PrismaClient } = require('@prisma/client');
-const { v4: uuidv4 } = require('uuid');
+// const { v4: uuidv4 } = require('uuid');
 const fs = require('fs');
 const path = require('path');
+// const { PubSub } = require('graphql-subscriptions');
+// const PubSub = require('apollo-server');
 
 const { getUserId } = require('./utils/auth');
-const { getCastFromWiki } = require('./helpers/wikiData');
+// const Subscription = require('./resolvers/Subscription');
 const Query = require('./resolvers/Query');
-const Mutation = require('./resolvers/Mutation')
-const User = require('./resolvers/User')
-const Tree = require('./resolvers/Tree')
+const Mutation = require('./resolvers/Mutation');
+const User = require('./resolvers/User');
+const Tree = require('./resolvers/Tree');
 
+
+// const pubsub = new PubSub();
 const prisma = new PrismaClient();
 
 
@@ -22,9 +26,10 @@ const prisma = new PrismaClient();
 const resolvers = {
     Query,
     Mutation,
+    // Subscription,
     User,
     Tree,
-}
+};
 // each level of nesting corresponds to one resolver execution level
 // * i.e. Each field in a GraphQL schema is backed by a resolver.
 
@@ -40,6 +45,7 @@ const server = new ApolloServer({
         return {
             ...req,
             prisma,
+            // pubsub, // access the subscription-implementation-models from inside our resolvers via context.pubsub
             userId:
                 req && req.headers.authorization
                     ? getUserId(req)

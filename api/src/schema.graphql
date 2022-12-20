@@ -17,6 +17,10 @@ type Mutation {
     login(email: String!, password: String!): AuthPayload
 }
 
+# type Subscription {
+#     newTree: Tree
+# }
+
 type Movie {
     id: ID!
     title: String!

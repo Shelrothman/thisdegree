@@ -75,6 +75,7 @@ async function addTree(parent, args, context, info) {
             postedBy: { connect: { id: userId } }
         }
     });
+    // context.pubsub.publish("NEW_TREE", newTree);
     return newTree;
 }
 
