@@ -5,8 +5,7 @@ const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
 // send queries to the database. 
-// write all your queries inside this function.
-const testList = [{id: '', name: 'Henry Thomas'}, {id: '', name: 'Drew Barrymore'}];
+// write all your queries inside this function.\
 async function main() {
     // const newMovie = await prisma.movie.create({
     //     data: {
@@ -21,12 +20,6 @@ async function main() {
     });
     // WE can do these like in our resolvers or something..
     //we can attach an instance of Prisma Client to the context when initializing the server and then access it from inside our resolvers via the context argument!
-    // const newActor = await prisma.actor.create({
-    //     data: {
-    //         name: 'Drew Barrymore',
-    //     },
-    // });
-
     const allMovies = await prisma.movie.findMany();
     console.log(allMovies);
     const allActors = await prisma.actor.findMany();

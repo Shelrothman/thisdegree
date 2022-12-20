@@ -34,12 +34,7 @@ const prisma = new PrismaClient();
 //         ]
 //     }
 // ];
-//!GraphQL doesn't support passing the execution result of one field to a sibling field, so if any mutation depends on the result of another, they will have to be split into separate requests and the "piping" of the result to the next mutation would have to be handled by the client.
 
-/** helper functions */
-// function getMovie(id) {
-//     return movies.find(movie => movie.id === id);
-// }
 async function getCast(movieTitle) {
     // TODO: add precheck to first see if its in the db already and if it is then get the castList from there
     try {
@@ -64,6 +59,17 @@ const resolvers = {
         movies: async (parent, args, context) => {
             return context.prisma.movie.findMany();
         },
+        movie: async (parent, args, context) => {
+            return context.prisma.movie.findUnique({
+                where: {
+                    id: args.id,
+                }
+            });
+        },
+        getCastList: async (parent, args, context) => {
+            let castList = await getCast(args.title);
+            return castList;
+        },
     },
     // TODO: add precheck to first see if its in the db already and if it is then get the castList from there
     Mutation: {
@@ -80,7 +86,6 @@ const resolvers = {
             });
             return newMovie;
         },
-        // TODO: make it so the below resolver can add multiple actors at once and have them be the castList that was returned in the addMovie resolver
         addActor: async (parent, args, context, info) => {
             console.log('parent:', parent)
             const newActor = await context.prisma.actor.create({
@@ -90,21 +95,28 @@ const resolvers = {
             });
             return newActor;
         },
+        
         addMovieAndCast: async (parent, args, context, info) => {
-            let rawList = await getCast(args.title);
-            let list = JSON.stringify(rawList);
+            let rawCastList = await getCast(args.title);
+            let castListString = JSON.stringify(rawCastList);
             //! createMany() is not allowed in SQLite
-            rawList.forEach(async (actor) => {
+            rawCastList.forEach(async (actor) => {
                 await context.prisma.actor.create({
                     data: {
                         name: actor.name,
                     }
                 });
             });
+            // let movieExists = await context.prisma.movie.findUnique({
+            //     where: {
+            //         title: args.title,
+            //     }
+            // });
+            // if (movieExists) return movieExists;
             const newMovie = await context.prisma.movie.create({
                 data: {
                     title: args.title,
-                    castList: list,
+                    castList: castListString,
                 },
             });
             // return { movie: newMovie, cast: rawList };

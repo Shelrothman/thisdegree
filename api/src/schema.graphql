@@ -1,8 +1,10 @@
 type Query {
     info: String!
-    movies: [Movie]!
+    movies: [Movie]! # gets all movies
+    movie(id: String!): Movie! # gets a movie by id that exists in db
+    getCastList(title: String!): [Actor]! # ? gets the cast list of a movie by title through the wiki api
 }
-# add to generate the id automatically
+# // add to generate the id automatically
 type Mutation {
     addMovie(title: String!): Movie!
     addActor(name: String!): Actor!
@@ -11,11 +13,6 @@ type Mutation {
     addMovieAndCast(title: String!): Movie! # add cast from the movie title
 }
 
-# need to generate the cast list AFTER the movie is created # so we need to create a new mutation for that
-# type Mutation {
-#     addMovie(title: String!, id: ID!): Movie!
-#     addCastList(movieId: ID!, castList: [String!]!): Movie!
-# }
 type Movie {
     id: ID!
     title: String!

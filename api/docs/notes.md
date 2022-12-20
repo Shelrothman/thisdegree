@@ -24,6 +24,6 @@ we need to have the castList setting include the id (the setting within the movi
     3. (Re-)generate Prisma Client
     4. Use Prisma Client in your application code to access your database.
         (`npx prisma studio`) => to see the data in the db/prisma studio 
-            <!--! [no need to turn this on just if you want to see a visual] -->
+            <!--! [no need to turn this on, just if you want to see a visual] -->
 
 <!-- ? in its most basic form, a GraphQL server will have one resolver function per field in its schema. Each resolver knows how to fetch the data for its field. Since a GraphQL query at its essence is just a collection of fields, all a GraphQL server actually needs to do in order to gather the requested data is invoke all the resolver functions for the fields specified in the query. (This is also why GraphQL often is compared to RPC-style systems, as it essentially is a language for invoking remote functions.) */ -->

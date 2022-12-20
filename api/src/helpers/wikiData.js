@@ -2,7 +2,9 @@
 
 const urlStart = 'https://en.wikipedia.org/w/api.php?action=query&prop=revisions&titles=';
 const urlEnd = '&rvslots=*&rvprop=content&formatversion=2&format=json';
-
+// !!!!!! PU !!!!
+//TODO:: needs a LOT more work certain titles will have more than one page... so need to add logic to give user an option to select the correct page
+// *need to add way more logic to find the cast properly and where to look if we cant find it in the first place !!!!!
 async function getCastFromWiki(movieTitle) {
     try {
         // console.log(movieTitle); // debug
@@ -18,7 +20,7 @@ async function getCastFromWiki(movieTitle) {
     }
 }
 
-//TODO:: needs a lot more work certain titles will have more than one page... so need to add logic to give user an option to select the correct page
+
 // do this by if there is more than one, that list comes back and we can use that list in tthe front to present to the user
 
 async function parseCastFromContent(content) {
