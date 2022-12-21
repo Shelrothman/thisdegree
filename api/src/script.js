@@ -23,8 +23,9 @@ async function main() {
     const allMovies = await prisma.movie.findMany();
     // console.log(allMovies);
     const allActors = await prisma.actor.findMany();
-    // console.log(allActors);
-
+    console.log(allActors);
+    console.log('-----------------');
+    
     const allTrees = await prisma.tree.findMany();
     console.log(allTrees);
 
