@@ -43,3 +43,10 @@ model User {
     password String
     trees    Tree[] 
 }
+
+// ?
+// model Cast {
+//     id      String @id @unique @default(uuid())
+//     mo String
+//     movieId String
+// }

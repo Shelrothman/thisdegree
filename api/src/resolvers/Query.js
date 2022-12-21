@@ -17,6 +17,10 @@ async function getMovie(parent, args, context) {
     });
 }
 
+async function getTrees(parent, args, context) {
+    return context.prisma.tree.findMany();
+}
+
 async function getCastList(parent, args, context) {
     let castList = await getCast(args.title);
     return castList;
@@ -28,5 +32,6 @@ module.exports = {
     info,
     getMovies,
     getMovie,
+    getTrees,
     getCastList,
 }

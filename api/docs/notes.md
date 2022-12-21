@@ -1,9 +1,10 @@
 <PRISMA = db | GQL = server>
 
-
+<!-- !!!!!!!!!!!!! -->
 we are good with db setup.... MOVE ON!!!
-
-
+Next is the Pagination filtering and sorting
+yes i did go to far with the array things... just get the basics down and then move on to the next thing
+went too far down the rabbi whole... chill out.. move on and cud always come back and edit but KEEP GOING!
 
 <!--  TODO: eventually better iding... like add the id from the data base if there is one there already kind of thing for a movie
  * and then eventually for an actor as well 

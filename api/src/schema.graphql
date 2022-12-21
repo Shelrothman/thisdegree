@@ -3,6 +3,7 @@ type Query {
     getMovies: [Movie]! # gets all movies
     getMovie(id: String!): Movie! # gets a movie by id that exists in db
     getCastList(title: String!): [Actor]! # ? gets the cast list of a movie by title through the wiki api 
+    getTrees: [Tree]! # gets all trees in db
 }
 # // add to generate the id automatically
 type Mutation {
@@ -10,9 +11,8 @@ type Mutation {
     addActor(name: String!): Actor!
     addMovieAndCast(title: String!): Movie! # add cast from the movie title
     
-    # add a tree to the db with the stringified array of the tree.
+    # add a tree to the db with the stringified array of the tree declaration=
     addTree(treeDeclaration: String!): Tree! 
-    
     signup(email: String!, password: String!, name: String!): AuthPayload
     login(email: String!, password: String!): AuthPayload
 }
@@ -27,9 +27,11 @@ type Movie {
     castList: String! # for now, just a string of actor objects bc sqlite doesn't support arrays :(.. so even tho we cud do it here it still needs to match from the db so its simpler to just have it match here and ther
 }
 
+# * there will be contraints/LOGIC in place elsewhere to only allow a user to add a tree to the db, IF it is valid, 
+# * i.e the game is a winning game
 type Tree {
     id: ID!
-    treeDeclaration: String! # stringified list of ids that follow pattern [{type: actor, id: actor-id}, {type: actor, id: actor-id},...]
+    treeDeclaration: String! # stringified list of ids that follow pattern [{type: actor, id: actor-id}, {type: movie, id: movie-id},...]
     postedBy: User
 }
 
