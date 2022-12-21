@@ -23,6 +23,7 @@ model Movie {
 model Actor {
     id   String @id @unique @default(uuid())
     name String
+    character String @default("")
 }
 
 // only thing we want connected to a User is a Tree model that contains ids bc those are what they can CRUD on for sharing, reading, etc.

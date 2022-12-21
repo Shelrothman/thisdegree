@@ -6,9 +6,9 @@ const config = require('../../config');
 
 //* so we gonna grab the first element in the array
 //! IF the user wants to challenge, we resend that request and present them with a list 
-// that list is the other elements in the array that gets returned from the query
-// if still not found we can go to the next page... but that is a stretch goal
-
+//* that list is the other elements in the array that gets returned from the query
+//! if still not found we can go to the next page... but that is a stretch goal
+//? essentially the challenge triggers us to send more requests to view the rest of the list one page one... they could keep going until no more pages left.. if they want
 // it will auto go for the most "popular" right now.. which makes sense
 
 const apiKey = config.TMDB_API_KEY.v3;
@@ -53,9 +53,11 @@ async function convertCastToActorList(cast) {
             let castMember = cast[x];
             let actor = {
                 name: castMember.name,
-                id: castMember.id,
+                id: uuidv4(),
                 character: castMember.character,
             };
+            //why do we "want" the character for every single actor thats returned
+            //? keep it in for now but if things slow down we can readdres its removal for efficiency
             actorList.push(actor);
         }
         return actorList;

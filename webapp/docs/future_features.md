@@ -4,7 +4,9 @@
 - maybe eventually liie its a speed game kinda with a time.. and not just actors but like any kind of connections like making other connections between stuff
 
 <the challenge button>
-
+the challenge can include an option to be liek what about this charcter...
+so we use the rest of the list return from the first getMovie to see if they meant one of those
+and also use the rest of the castlist to see if they meant one of the other actors in the movie, by shopwing them the caracters
 
 - for now they get to try again if enter an invalid movie. But in the future i want to have some kind of scoring system that would dock them down or somehting for entering an invalid movie..
 

@@ -106,6 +106,8 @@ async function addMovieAndCast(parent, args, context, info) {
             await context.prisma.actor.create({
                 data: {
                     name: actor.name,
+                    id: actor.id,
+                    character: actor.character,
                 }
             });
         });

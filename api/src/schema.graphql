@@ -1,6 +1,7 @@
 type Query {
     info: String!
-    getMovies: [Movie]! # gets all movies in the db
+    # gets all movies in the db
+    getMovies: [Movie]!
     
     # gets a movie by id that exists in db
     getMovie(id: String!): Movie! 
@@ -9,21 +10,24 @@ type Query {
     getCastList(title: String!): [Actor]! 
     
     # gets all trees in db
-    treeFeed(filter: String, skip: Int, take: Int, orderBy: LinkOrderByInput): Feed! 
+    treeFeed(filter: String, skip: Int, take: Int, orderBy: TreeOrderByInput): Feed! 
 }
-# // add to generate the id automatically
+
 type Mutation {
     addMovie(title: String!): Movie!
     addActor(name: String!): Actor!
-    addMovieAndCast(title: String!): Movie! # add cast from the movie title
+
+    # add cast from the movie title
+    addMovieAndCast(title: String!): Movie! 
     
     # add a tree to the db with the stringified array of the tree declaration=
     addTree(treeDeclaration: String!): Tree! 
+    
     signup(email: String!, password: String!, name: String!): AuthPayload
     login(email: String!, password: String!): AuthPayload
 }
 
-input LinkOrderByInput {
+input TreeOrderByInput {
     treeDeclaration: Sort
     # id: Sort
     createdAt: Sort
@@ -41,7 +45,8 @@ enum Sort {
 type Movie {
     id: ID!
     title: String!
-    castList: String! # for now, just a string of actor objects bc sqlite doesn't support arrays :(.. so even tho we cud do it here it still needs to match from the db so its simpler to just have it match here and ther
+    # just a string of actor objects
+    castList: String!
 }
 
 # * there will be contraints/LOGIC in place elsewhere to only allow a user to add a tree to the db, IF it is valid, 
@@ -72,4 +77,5 @@ type User {
 type Actor {
     id: ID!
     name: String!
+    character: String!
 }
