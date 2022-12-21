@@ -3,7 +3,7 @@ type Query {
     getMovies: [Movie]! # gets all movies
     getMovie(id: String!): Movie! # gets a movie by id that exists in db
     getCastList(title: String!): [Actor]! # ? gets the cast list of a movie by title through the wiki api 
-    getTrees: [Tree]! # gets all trees in db
+    getTrees(filter: String): [Tree]! # gets all trees in db
 }
 # // add to generate the id automatically
 type Mutation {
