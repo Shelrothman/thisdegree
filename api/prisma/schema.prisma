@@ -1,6 +1,6 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
-
+// TODO we could make more relational tables... mimick what eve done for user/tree relationship
 // data source specifies the db connection
 datasource db {
     provider = "sqlite"
@@ -30,7 +30,7 @@ model Actor {
 model Tree {
     id              String   @id @unique @default(uuid())
     createdAt       DateTime @default(now())
-    // next a stringified list of ids that follow this pattern: [ firstActorId,movieID, connectedActorID, nextMovieID, nextActorID, ...end with an actor ]
+    // next a stringified list of ids that follow this pattern: [ {type: actor, id: actorId},{type: movie, id: movieID}, {type: actor, id: actorId},{type: movie, id: movieID},... ] // the exact structure of this needs some thought
     treeDeclaration String   @default("[]")
     postedBy        User?    @relation(fields: [postedById], references: [id])
     postedById      String?
@@ -41,5 +41,5 @@ model User {
     name     String
     email    String @unique
     password String
-    trees    Tree[] // ? are we able to use an array?..shud it be array of tree ID?
+    trees    Tree[] 
 }

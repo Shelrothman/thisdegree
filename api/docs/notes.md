@@ -1,5 +1,10 @@
 <PRISMA = db | GQL = server>
 
+
+we are good with db setup.... MOVE ON!!!
+
+
+
 <!--  TODO: eventually better iding... like add the id from the data base if there is one there already kind of thing for a movie
  * and then eventually for an actor as well 
  ! yes so the db... will build as users play bc once they enter a movie, it will be fetched
@@ -31,7 +36,7 @@ we need to have the castList setting include the id (the setting within the movi
     `npx prisma migrate dev --name "title-of-migration"`
         (builds the historical record)
     THEN re-generate Prisma Client:
-        `npx prisma generate`
+        `npx prisma generate`  // this step may be redundant?
 ```
 
 

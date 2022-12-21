@@ -13,17 +13,20 @@ async function main() {
     //         castList: JSON.stringify(testList),
     //     },
     // });
-    const deleteMovie = await prisma.movie.delete({
-        where: {
-            id: '2193c0d2-de46-4abb-a249-cb0ade7ccff0',
-        },
-    });
+    // const deleteMovie = await prisma.movie.delete({
+    //     where: {
+    //         id: '2193c0d2-de46-4abb-a249-cb0ade7ccff0',
+    //     },
+    // });
     // WE can do these like in our resolvers or something..
     //we can attach an instance of Prisma Client to the context when initializing the server and then access it from inside our resolvers via the context argument!
     const allMovies = await prisma.movie.findMany();
-    console.log(allMovies);
+    // console.log(allMovies);
     const allActors = await prisma.actor.findMany();
-    console.log(allActors);
+    // console.log(allActors);
+
+    const allTrees = await prisma.tree.findMany();
+    console.log(allTrees);
 
 }
 

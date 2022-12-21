@@ -42,7 +42,7 @@ type User {
     id: ID!
     name: String!
     email: String!
-    trees: [Tree!]!
+    trees: [Tree]
 }
 
 type Actor {

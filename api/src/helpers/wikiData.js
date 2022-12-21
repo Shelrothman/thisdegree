@@ -1,4 +1,7 @@
 /** helpers for resolvers */
+
+const { v4: uuidv4 } = require('uuid');
+
 const urlStart = 'https://en.wikipedia.org/w/api.php?action=query&prop=revisions&titles=';
 const urlEnd = '&rvslots=*&rvprop=content&formatversion=2&format=json';
 // !!!!!! PU !!!!
@@ -13,7 +16,7 @@ async function getCastFromWiki(movieTitle) {
         let cast = await parseCastFromContent(content);
         
         if (cast?.length === 0) return [];
-        return cast;
+        return cast || [];
     } catch (error) {
         console.error(error);
     }
@@ -66,7 +69,7 @@ async function getCast(movieTitle) {
         }
         console.log(castList)
         if (castList.length === 0) return [];
-        return castList;
+        return castList || [];
     } catch (error) {
         console.error(error);
     }
