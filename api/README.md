@@ -11,6 +11,9 @@ The resolvers of this GraphQL server are implemented using `Prisma Client` which
 
 ## Scripts
 `npm run server` - starts the server in development mode
+
 `npm run prisma` - runs the prisma CLI
+
 `npx prisma migrate dev --name "[title-of-migration]"` - run after changing the data models schema
+
 `npx prisma generate` - run after migration to update db
