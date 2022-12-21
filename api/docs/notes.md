@@ -49,3 +49,11 @@ we need to have the castList setting include the id (the setting within the movi
     mocking a small set up by 
         Send realtime updates to subscribed clients when a new Tree element is created
         Send realtime updates to subscribed clients when an existing Tree element is upvoted
+
+
+## Pagination
+<limit-offset pagination>: 
+    - Request a specific chunk of the list by providing the indices of the items to be retrieved (in fact, you’re mostly providing the start index (offset) as well as a count of items to be retrieved (limit)).
+    - Limit and offset have different names in the Prisma API:
+        -The limit is called take, meaning you’re “taking” x elements after a provided start index.
+        - The start index is called skip, since you’re skipping that many elements in the list before collecting the items to be returned. If skip is not provided, it’s 0 by default. The pagination then always starts from the beginning of the list.

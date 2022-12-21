@@ -41,7 +41,7 @@ model User {
     name     String
     email    String @unique
     password String
-    trees    Tree[] 
+    trees    Tree[]
 }
 
 // ?

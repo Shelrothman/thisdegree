@@ -17,7 +17,7 @@ async function getMovie(parent, args, context) {
     });
 }
 
-async function getTrees(parent, args, context) {
+async function treeFeed(parent, args, context) {
     const where = args.filter
         ? {
             OR: [
@@ -27,22 +27,28 @@ async function getTrees(parent, args, context) {
             ],
         }
         : {};
-    
-        const trees = await context.prisma.tree.findMany({
-            where,
-            // skip: args.skip,
-            // take: args.take,
-            // orderBy: args.orderBy,
-        });
 
-    return trees;
-    
-    
+    const trees = await context.prisma.tree.findMany({
+        where,
+        skip: args.skip,
+        take: args.take,
+        orderBy: args.orderBy,
+    });
+
+    // the count of all trees that satisfy the where condition
+    const count = await context.prisma.tree.count({ where });
+
+    return {
+        trees,
+        count,
+    };
+
+
 }
 
 async function getCastList(parent, args, context) {
     try {
-        
+
     } catch (error) {
         console.error(error);
     }
@@ -56,6 +62,6 @@ module.exports = {
     info,
     getMovies,
     getMovie,
-    getTrees,
+    treeFeed,
     getCastList,
 }

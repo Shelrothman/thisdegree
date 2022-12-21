@@ -1,9 +1,12 @@
 type Query {
     info: String!
     getMovies: [Movie]! # gets all movies
-    getMovie(id: String!): Movie! # gets a movie by id that exists in db
-    getCastList(title: String!): [Actor]! # ? gets the cast list of a movie by title through the wiki api 
-    getTrees(filter: String): [Tree]! # gets all trees in db
+    # gets a movie by id that exists in db
+    getMovie(id: String!): Movie! 
+    # ? gets the cast list of a movie by title through the wiki api 
+    getCastList(title: String!): [Actor]! 
+    # gets all trees in db
+    treeFeed(filter: String, skip: Int, take: Int, orderBy: LinkOrderByInput): Feed! 
 }
 # // add to generate the id automatically
 type Mutation {
@@ -15,6 +18,17 @@ type Mutation {
     addTree(treeDeclaration: String!): Tree! 
     signup(email: String!, password: String!, name: String!): AuthPayload
     login(email: String!, password: String!): AuthPayload
+}
+
+input LinkOrderByInput {
+    treeDeclaration: Sort
+    # id: Sort
+    createdAt: Sort
+}
+# these represent the various ways that the list of Link elements can be sorted.
+enum Sort {
+    asc
+    desc
 }
 
 # type Subscription {
@@ -33,6 +47,11 @@ type Tree {
     id: ID!
     treeDeclaration: String! # stringified list of ids that follow pattern [{type: actor, id: actor-id}, {type: movie, id: movie-id},...]
     postedBy: User
+}
+
+type Feed {
+    trees: [Tree!]!
+    count: Int!
 }
 
 type AuthPayload {
