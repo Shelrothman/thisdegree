@@ -10,3 +10,9 @@
 
 - going to have a user-sytem bc like for the players... they can save their old games to view later (simple combo of ids and stuff).. have  a score.. share a tree they built with other users.. etc... certain trees have 'byPlayer: ' in them... (so good to have a user system in place for that eventual stuff)
 <!-- * section of app like.. `view my old Treees`.. or something -->
+
+
+
+
+
+<!--? the character names that are saved wuth the actors... once the final tree is made by the user AND it passes the checks.... present the tree to them WITH the names of the characters played by each actor... it will be NEAT -->

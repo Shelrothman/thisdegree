@@ -18,7 +18,12 @@ went too far down the rabbi whole... chill out.. move on and cud always come bac
  * *Effectively, all the GraphQL server has to do is invoke all resolver functions for the fields that are contained in the query and then package up the response according to the query’s shape. Query resolution thus merely becomes a process of orchestrating the invocation of resolver functions!
  * /
 
-
+```s 
+* so we gonna grab the first element in the array
+ IF the user wants to challenge, we resend that request and present them with a list 
+ that list is the other elements in the array that gets returned from the query
+ if still not found we can go to the next page... but that is a stretch goal
+```
 <!-- ? we are going to want the actors id to be set as either a new uuid if theyre not in the db, OR if their already in db then use that id. -->
 <!-- TODO: so we need to implement that functionality into the db/gql stuff
 we need to have the castList setting include the id (the setting within the movie setting) -->

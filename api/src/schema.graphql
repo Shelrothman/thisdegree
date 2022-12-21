@@ -1,10 +1,13 @@
 type Query {
     info: String!
-    getMovies: [Movie]! # gets all movies
+    getMovies: [Movie]! # gets all movies in the db
+    
     # gets a movie by id that exists in db
     getMovie(id: String!): Movie! 
+    
     # ? gets the cast list of a movie by title through the wiki api 
     getCastList(title: String!): [Actor]! 
+    
     # gets all trees in db
     treeFeed(filter: String, skip: Int, take: Int, orderBy: LinkOrderByInput): Feed! 
 }

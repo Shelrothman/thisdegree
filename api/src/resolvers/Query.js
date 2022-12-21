@@ -1,4 +1,4 @@
-const { getCast } = require('../helpers/wikiData');
+const { getCast } = require('../helpers/fetchData');
 
 
 function info() {

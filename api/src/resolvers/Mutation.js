@@ -1,7 +1,7 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { APP_SECRET, getUserId } = require('../utils/auth');
-const { getCast } = require('../helpers/wikiData');
+const { getCast } = require('../helpers/fetchData');
 
 async function signup(parent, args, context, info) {
     try {
