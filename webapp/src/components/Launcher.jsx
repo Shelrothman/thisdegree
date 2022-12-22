@@ -3,7 +3,7 @@ import Button from 'react-bootstrap/Button';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import ActorListContainer from './ActorListContainer.jsx';
 import { useActorContext, useGameContext } from '../contexts';
-
+import PlayBoard from './Scoreboard.jsx';
 
 
 function Launcher() {
@@ -39,7 +39,7 @@ function Launcher() {
                 handleGameStateChange();
                 handleActorSelection(null, null);
                 setShow(true);
-            } 
+            }
         } else {
             // just open the offcanvas, no need to change the game state
             setShow(true);
@@ -75,6 +75,13 @@ function Launcher() {
             >
                 Ready!
             </Button>
+
+            <div className="sample-scoreboard">
+                <h1>This Degrees</h1>
+                <div>
+                    <PlayBoard />
+                </div>
+            </div>
         </>
     );
 }
