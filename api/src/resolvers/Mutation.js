@@ -81,6 +81,12 @@ async function addTree(parent, args, context, info) {
     try {
         const { userId } = context;
 
+        // if we wanted the userId to be like optional we vould do something like this:
+        //  let postedBy = undefined
+        //   if (userId) {
+        // postedBy = { connect: { id: userId } }
+        //   } and just include postedBy in the data object below instead of the connect object
+
         const newTree = await context.prisma.tree.create({
             data: {
                 treeDeclaration: args.treeDeclaration,
