@@ -24,6 +24,7 @@ type Query {
 type MovieValidation {
     id: ID!
     isInMovie: Boolean!
+    character: String!
 }
 
 type Mutation {

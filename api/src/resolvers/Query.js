@@ -36,9 +36,7 @@ async function treeFeed(parent, args, context) {
                     { treeDeclaration: { contains: args.filter } },
                     // { postedBy[name]: { contains: args.filter } },
                 ],
-            }
-            : {};
-
+            } : {};
         const trees = await context.prisma.tree.findMany({
             where,
             skip: args.skip,
@@ -66,8 +64,12 @@ async function getCastList(parent, args, context) {
 async function validateMovieInput(parent, args, context) {
     try {
         const { title, actor } = args;
-        let isValid = await validateMovie(title, actor);
-        return { id: uuidv4(), isInMovie: isValid };
+        let movieValidation = await validateMovie(title, actor);
+        return {
+            id: uuidv4(),
+            isInMovie: movieValidation.found,
+            character: movieValidation.character,
+        };
     } catch (error) {
         console.error(error);
     }

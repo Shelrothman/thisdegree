@@ -17,24 +17,24 @@ const apiBase = `https://api.themoviedb.org/3`;
 const urlPrefix = `/search/movie?query=`;
 const urlSuffix = `&page=1&api_key=${apiKey}`;
 
-let movieID;
 
-async function validateMovie(movie, actor) {
+async function validateMovie(movie, actor) { //* used after user enters a movie (validate currentActor is in it)
     // console.log(actor); //{ title: 'Legally Blonde', actor: 'reese witherspoon' }
     try {
         let movieID = await getMovieByTitle(movie);
         let cast = await getMovieCast(movieID);
         // we dont need to loop through and build since we are just validating, and can save time
         let found = false;
-
+        let character = '';
         for (let x = 0, max = cast.length; x < max; x++) {
             let castMember = cast[x];
             if (castMember.name.toLowerCase() == actor.toLowerCase()) { //! doing a == instead of === 
                 found = true;
+                character = castMember.character;
                 break;
             }
         }
-        return found;
+        return { found, character };
     } catch (error) {
         console.error(error);
     }
@@ -46,7 +46,7 @@ async function getMovieByTitle(movieTitle) {
 
         const resObject = await response.json();
         // console.log("resObject", resObject)
-        movieID = resObject.results[0].id;
+        let movieID = resObject.results[0].id;
         return movieID;
     } catch (error) {
         console.error(error);
@@ -88,7 +88,7 @@ async function convertCastToActorList(cast) {
     }
 }
 
-async function getCast(input) {
+async function getCast(input) { //* used to get the cast TO display in select optioins
     try {
         const title = input.replace(/ /g, '%20');
         const movieID = await getMovieByTitle(title);
