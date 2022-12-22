@@ -5,12 +5,25 @@ type Query {
     
     # gets a movie by id that exists in db
     getMovie(id: String!): Movie! 
+
+    # toDo eventually a validateActor once we are in the next harder round of game development
+    # (dont need right now bc actors come from a list of actors that are already in the movie)
     
-    # ? gets the cast list of a movie by title through the wiki api 
+    # ? gets the cast list of a movie by title through the wiki api (builds the select options in ui)
     getCastList(title: String!): [Actor]! 
     
     # gets all trees in db
     treeFeed(filter: String, skip: Int, take: Int, orderBy: TreeOrderByInput): Feed! 
+
+    # validate the movie title entered by the user (validate that the currentActor is in the movie)
+    validateMovieInput(title: String!, actor: String!): MovieValidation!
+
+    # user challenges a rejection and we do more fetching for them to see if they are right (bc a rejection = no option for selection)
+}
+
+type MovieValidation {
+    id: ID!
+    isInMovie: Boolean!
 }
 
 type Mutation {
@@ -50,7 +63,7 @@ type Movie {
 }
 
 # * there will be contraints/LOGIC in place elsewhere to only allow a user to add a tree to the db, IF it is valid, 
-# * i.e the game is a winning game
+# * i.e the game is a winning game.. but validation happens as the game goes... so once the user has a tree, then  its a valid tree
 type Tree {
     id: ID!
     treeDeclaration: String! # stringified list of ids that follow pattern [{type: actor, id: actor-id}, {type: movie, id: movie-id},...]

@@ -1,6 +1,5 @@
 const { v4: uuidv4 } = require('uuid');
 
-
 const config = require('../../config');
 
 
@@ -15,10 +14,31 @@ const apiKey = config.TMDB_API_KEY.v3;
 
 const apiBase = `https://api.themoviedb.org/3`;
 
-const urlPrefix = `/search/movie?query=`
+const urlPrefix = `/search/movie?query=`;
 const urlSuffix = `&page=1&api_key=${apiKey}`;
 
 let movieID;
+
+async function validateMovie(movie, actor) {
+    // console.log(actor); //{ title: 'Legally Blonde', actor: 'reese witherspoon' }
+    try {
+        let movieID = await getMovieByTitle(movie);
+        let cast = await getMovieCast(movieID);
+        // we dont need to loop through and build since we are just validating, and can save time
+        let found = false;
+
+        for (let x = 0, max = cast.length; x < max; x++) {
+            let castMember = cast[x];
+            if (castMember.name.toLowerCase() == actor.toLowerCase()) { //! doing a == instead of === 
+                found = true;
+                break;
+            }
+        }
+        return found;
+    } catch (error) {
+        console.error(error);
+    }
+}
 
 async function getMovieByTitle(movieTitle) {
     try {
@@ -56,8 +76,10 @@ async function convertCastToActorList(cast) {
                 id: uuidv4(),
                 character: castMember.character,
             };
-            //why do we "want" the character for every single actor thats returned
-            //? keep it in for now but if things slow down we can readdres its removal for efficiency
+            //why do we "want" the character for every single actor thats returned.. for the tree to build at the end 
+            // AND for the user to challenge while in the game on a movie rejection (which happens in the game if actor is not found in movie entered)
+            //? keep it in for now but if things slow down we can readdress its removal for efficiency
+            //! bc we need to know the character for just the actor that the user selected... not all of them.. o but maybe we dispplay the character names next to the actor names in the selectLists! jah
             actorList.push(actor);
         }
         return actorList;
@@ -82,4 +104,5 @@ async function getCast(input) {
 
 module.exports = {
     getCast,
+    validateMovie,
 }

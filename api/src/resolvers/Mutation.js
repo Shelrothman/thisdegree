@@ -121,7 +121,6 @@ async function addMovieAndCast(parent, args, context, info) {
     } catch (error) {
         console.error(error);
     }
-
 }
 
 

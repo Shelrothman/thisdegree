@@ -45,6 +45,10 @@ model User {
     trees    Tree[]
 }
 
+// model TreeDeclaration {
+    //? use this instead of a stringified array of objects??
+// }
+
 // ?
 // model Cast {
 //     id      String @id @unique @default(uuid())

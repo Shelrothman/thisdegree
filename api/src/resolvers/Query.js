@@ -1,4 +1,6 @@
-const { getCast } = require('../helpers/fetchData');
+const { v4: uuidv4 } = require('uuid');
+const { getCast, validateMovie } = require('../helpers/fetchData');
+
 
 
 function info() {
@@ -58,8 +60,19 @@ async function getCastList(parent, args, context) {
     } catch (error) {
         console.error(error);
     }
-
 }
+
+
+async function validateMovieInput(parent, args, context) {
+    try {
+        const { title, actor } = args;
+        let isValid = await validateMovie(title, actor);
+        return { id: uuidv4(), isInMovie: isValid };
+    } catch (error) {
+        console.error(error);
+    }
+}
+
 
 
 
@@ -69,4 +82,5 @@ module.exports = {
     getMovie,
     treeFeed,
     getCastList,
+    validateMovieInput,
 }
