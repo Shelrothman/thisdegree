@@ -27,10 +27,10 @@ async function main() {
     console.log('-----------------');
     
     const allTrees = await prisma.tree.findMany();
-    // console.log(allTrees);
+    console.log(allTrees);
 
     const allUsers = await prisma.user.findMany();
-    console.log(allUsers);
+    // console.log(allUsers);
 
 }
 

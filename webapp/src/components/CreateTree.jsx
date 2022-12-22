@@ -3,25 +3,20 @@ import { useMutation, gql } from '@apollo/client';
 import { useNavigate } from 'react-router-dom';
 //* lets use a diff mutation for NOW that doesnt need auth since we dont have auth set up yet ui side
 //TODO come back and change this to addTree once auth is set up
-// const CREATE_TREE_MUTATION = gql`
-// mutation PostMutation(
-//     $treeDeclaration: String!
-// ) {
-//     addTree(treeDeclaration: $treeDeclaration) {
-//         id
-//         createdAt
-//         treeDeclaration
-//     }
-// }`;
 const CREATE_TREE_MUTATION = gql`
 mutation PostMutation(
-    $movieTitle: String!
+    $treeDeclaration: String!
 ) {
-    addMovieAndCast(title: $movieTitle) {
+    addTree(treeDeclaration: $treeDeclaration) {
         id
-        castList
+        postedBy {
+            id
+            name
+        }
+        treeDeclaration
     }
 }`;
+
 
 
 
@@ -30,19 +25,16 @@ const CreateTree = () => {
 
     // TODO: play with using a similar setup as this in my scoreboard inputs (state-wise)
     const [formState, setFormState] = useState({
-        // treeDeclaration: '',
-        // url: ''
-        movieTitle: '',
+        treeDeclaration: '',
     });
-    // pass the CREATE_LINK_MUTATION to the useMutation hook 
+    // pass the CREATE_TREE_MUTATION to the useMutation hook 
     // and pass in the data provided in the input fields as variables.
     // 'createTree' is the destructured function that can be used to call the mutation
     const [createTree] = useMutation(CREATE_TREE_MUTATION, {
         variables: {
-            // treeDeclaration: formState.description,
-            movieTitle: formState.movieTitle,
+            treeDeclaration: formState.treeDeclaration,
         },
-        // TODO: PU
+        // TODO: PU HERE AND add logic to handle errors and handle response from posting a tree
         onCompleted: () => {
             navigate('/treehome');
         },
@@ -59,30 +51,16 @@ const CreateTree = () => {
                 <div className="flex flex-column mt3">
                     <input
                         className="mb2"
-                        // value={formState.treeDeclaration}
-                        value={formState.movieTitle}
+                        value={formState.treeDeclaration}
                         onChange={(e) =>
                             setFormState({
                                 ...formState,
-                                // treeDeclaration: e.target.value
-                                movieTitle: e.target.value
+                                treeDeclaration: e.target.value,
                             })
                         }
                         type="text"
                         placeholder="A treeDeclaration for the tree"
                     />
-                    {/* <input
-                        className="mb2"
-                        value={formState.url}
-                        onChange={(e) =>
-                            setFormState({
-                                ...formState,
-                                url: e.target.value
-                            })
-                        }
-                        type="text"
-                        placeholder="The URL for the link"
-                    /> */}
                 </div>
                 <button type="submit">Submit</button>
             </form>
