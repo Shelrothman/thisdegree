@@ -37,7 +37,7 @@ function App() {
                             <Route path='/createTree' element={<CreateTree />} />
                             <Route path='/account' element={<h1>Account</h1>} />
                             <Route path='/logout' element={<h1>Click to log back in</h1>} />
-                            <Route path='*' element={<h1>404</h1>} /> 
+                            <Route path='*' element={<h1>404 - Not Found</h1>} /> 
                         </Routes>
                         {/* <p>a footer at the bttom would always be here</p> */}
                     </div>

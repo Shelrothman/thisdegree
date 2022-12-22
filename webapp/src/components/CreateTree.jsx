@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useMutation, gql } from '@apollo/client';
-
+import { useNavigate } from 'react-router-dom';
 //* lets use a diff mutation for NOW that doesnt need auth since we dont have auth set up yet ui side
 //TODO come back and change this to addTree once auth is set up
 // const CREATE_TREE_MUTATION = gql`
@@ -26,6 +26,8 @@ mutation PostMutation(
 
 
 const CreateTree = () => {
+    const navigate = useNavigate();
+
     // TODO: play with using a similar setup as this in my scoreboard inputs (state-wise)
     const [formState, setFormState] = useState({
         // treeDeclaration: '',
@@ -39,7 +41,11 @@ const CreateTree = () => {
         variables: {
             // treeDeclaration: formState.description,
             movieTitle: formState.movieTitle,
-        }
+        },
+        // TODO: PU
+        onCompleted: () => {
+            navigate('/treehome');
+        },
     });
 
     return (
