@@ -1,14 +1,24 @@
 import Container from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar';
+import { NavLink, useNavigate } from 'react-router-dom';
+
 import { GrTree } from 'react-icons/gr';
 import { GiLightningTree, GiNestBirds } from 'react-icons/gi';
-import { NavLink } from 'react-router-dom';
+
 import ThemeToggler from '../utils/ThemeToggler';
+import { AUTH_TOKEN } from '../utils/constants';
+
 
 // TODO make this navBar display prettier and collapsible shiz
 // add dropdowns for the links 
 
 function TopNav() {
+
+    const navigate = useNavigate();
+    // TODO: important! use something else than local storage for auth token... maybe my context?
+    const authToken = localStorage.getItem(AUTH_TOKEN);
+
+
     return (
         <Navbar id="topNav">
             <Container>
@@ -23,20 +33,49 @@ function TopNav() {
                     <h2>This Degrees</h2>
                 </NavLink>
                 <Navbar.Toggle />
-                <Navbar.Collapse className="justify-content-end">
-                    <NavLink to="/account">
-                        My Account 
-                    </NavLink>
-                    |{` `}
-                    <NavLink to='/treeHome'>
-                    {` `}Trees
-                    </NavLink>
-                    |
-                    <NavLink to='/logout'>
-                        Login/out
-                    </NavLink>
+                {/* collapse add back in here */}
+                <div className="justify-content-end">
 
-                </Navbar.Collapse>
+                    {authToken && (
+                        <div className="flex">
+                            <div className="ml-2">|</div>
+                            <NavLink
+                                to="/createTree"
+                                className="ml-2 no-underline black"
+                            >
+                                submit-tree
+                            </NavLink>
+                        </div>
+                    )}
+
+                    <NavLink to="/account">
+                        My Account
+                    </NavLink>
+                    {` `}
+                    <NavLink to='/treeHome'>
+                        Trees
+                    </NavLink>
+                    {` `}
+
+{/* TODO: PU and create better way than localStrorage to do that */}
+                    <div>
+                        {authToken ? (
+                            <div
+                                onClick={() => {
+                                    localStorage.removeItem(AUTH_TOKEN);
+                                    navigate(`/`);
+                                }}
+                            >
+                                Logout
+                            </div>
+                        ) : (
+                            <NavLink to="/login" className="ml-2">
+                                Login
+                            </NavLink>
+                        )}
+                    </div>
+
+                </div>
                 <ThemeToggler />
             </Container>
         </Navbar>

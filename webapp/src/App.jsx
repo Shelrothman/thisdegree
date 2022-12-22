@@ -9,18 +9,17 @@ import { ActorContextProvider, ThemeContextProvider, GameContextProvider } from 
 
 import CreateTree from './components/CreateTree';
 import TreeList from './components/TreeList';
+import Login from './components/Login';
+
 
 
 function App() {
 
     useEffect(() => {
-        console.log('---------');
-        console.log('***-App Render');
+        console.log(`---------\n***-App Render`);
     })
-
     useEffect(() => {
-        console.log('---------');
-        console.log('___-App mount.')
+        console.log(`---------\n___-App mount.`);
     }, []);
 
     // TODO: merge actor in to gameContext so that we can just use one
@@ -36,7 +35,7 @@ function App() {
                             <Route path='/treehome' element={<TreeList />} />
                             <Route path='/createTree' element={<CreateTree />} />
                             <Route path='/account' element={<h1>Account</h1>} />
-                            <Route path='/logout' element={<h1>Click to log back in</h1>} />
+                            <Route path='/login' element={<Login />} />
                             <Route path='*' element={<h1>404 - Not Found</h1>} /> 
                         </Routes>
                         {/* <p>a footer at the bttom would always be here</p> */}

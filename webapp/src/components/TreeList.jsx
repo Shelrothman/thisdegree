@@ -1,6 +1,6 @@
 import { useQuery, gql } from '@apollo/client';
 import Tree from './Tree';
-import Spinner from './Spinner';
+import Spinner from '../utils/Spinner';
 
 
 const TREE_QUERY = gql`
