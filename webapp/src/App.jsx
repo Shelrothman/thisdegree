@@ -6,9 +6,8 @@ import Launcher from './components/Launcher.jsx';
 import PlayBoard from './components/Scoreboard';
 
 import { ActorContextProvider, ThemeContextProvider, GameContextProvider } from './contexts';
-// from './contexts/ActorContext.jsx';
-// import { ThemeContextProvider } from './contexts/ThemeContext.jsx';
 
+import TreeList from './components/TreeList';
 
 
 function App() {
@@ -23,19 +22,22 @@ function App() {
         console.log('___-App mount.')
     }, []);
 
+    // TODO: merge actor in to gameContext so that we can just use one
+
     return (
         <ThemeContextProvider>
             <ActorContextProvider>
                 <GameContextProvider>
                     <div className="App">
                         <TopNav />
-                        <Launcher />
+                        {/* <Launcher />
                         <div className="sample-scoreboard">
                             <h1>This Degrees</h1>
                             <div>
                                 <PlayBoard />
                             </div>
-                        </div>
+                        </div> */}
+                        <TreeList />
                     </div>
                 </GameContextProvider>
             </ActorContextProvider>

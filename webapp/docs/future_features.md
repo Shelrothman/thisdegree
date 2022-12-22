@@ -14,7 +14,8 @@ and also use the rest of the castlist to see if they meant one of the other acto
 <!-- * section of app like.. `view my old Treees`.. or something -->
 
 
-
+- search for trees that contain a certain actor in their declaration or a certain movie
+- all the users trees that they post bc searchable by other users
 
 
 <!--? the character names that are saved wuth the actors... once the final tree is made by the user AND it passes the checks.... present the tree to them WITH the names of the characters played by each actor... it will be NEAT -->
