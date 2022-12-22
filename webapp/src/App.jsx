@@ -7,6 +7,7 @@ import PlayBoard from './components/Scoreboard';
 
 import { ActorContextProvider, ThemeContextProvider, GameContextProvider } from './contexts';
 
+import CreateTree from './components/CreateTree';
 import TreeList from './components/TreeList';
 
 
@@ -37,7 +38,7 @@ function App() {
                                 <PlayBoard />
                             </div>
                         </div> */}
-                        <TreeList />
+                        <CreateTree />
                     </div>
                 </GameContextProvider>
             </ActorContextProvider>

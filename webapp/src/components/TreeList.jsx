@@ -1,5 +1,7 @@
 import { useQuery, gql } from '@apollo/client';
 import Tree from './Tree';
+import Spinner from './Spinner';
+
 
 const TREE_QUERY = gql`
 {
@@ -20,10 +22,11 @@ treeFeed {
 
 function TreeList() {
 
-    const { data } = useQuery(TREE_QUERY);
+    const { loading, data, error } = useQuery(TREE_QUERY);
 
     return (
         <div>
+            {loading && <Spinner />}
             {data?.treeFeed.trees.map((tree) => (
                 <Tree key={tree.id} tree={tree} />
             ))}
