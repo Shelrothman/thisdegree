@@ -36,8 +36,8 @@ const CreateTree = () => {
     });
     // pass the CREATE_LINK_MUTATION to the useMutation hook 
     // and pass in the data provided in the input fields as variables.
+    // 'createTree' is the destructured function that can be used to call the mutation
     const [createTree] = useMutation(CREATE_TREE_MUTATION, {
-        // 'createTree' is the destructure out a function that can be used to call the mutation
         variables: {
             // treeDeclaration: formState.description,
             movieTitle: formState.movieTitle,

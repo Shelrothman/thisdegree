@@ -8,6 +8,7 @@ import { GiLightningTree, GiNestBirds } from 'react-icons/gi';
 import ThemeToggler from '../utils/ThemeToggler';
 import { AUTH_TOKEN } from '../utils/constants';
 
+//TODO: really need to add error-handling in the API side for incorrect passwords and shizzz
 
 // TODO make this navBar display prettier and collapsible shiz
 // add dropdowns for the links 
@@ -61,6 +62,7 @@ function TopNav() {
                     <div>
                         {authToken ? (
                             <div
+                                style={{ cursor: 'pointer' }}
                                 onClick={() => {
                                     localStorage.removeItem(AUTH_TOKEN);
                                     navigate(`/`);
