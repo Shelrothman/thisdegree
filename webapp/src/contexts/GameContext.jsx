@@ -21,6 +21,8 @@ import GameRound from '../models/GameRound.js';
 // import { useActorContext } from './ActorContext.jsx';
 //! not until readyToBridge is true is the actorB btn enabled and any "checking" is done
 
+// TODO eventually we send the final movieList array to the createTree backend route
+
 const GameContext = createContext();
 
 const GUESS_STATES = {
@@ -47,11 +49,11 @@ export function GameContextProvider({ children }) {
         // use this to change the game on and off
         // dont use this for when a game wins
         setGameStarted((prev) => !prev);
-        if (!gameStarted) {
-            // if the game is starting/restarting, then set the movie list to an empty array
-            //* movieList locally (not the global list OBviously)
-            setMovieList([]);
-        }
+        setMovieList([]);
+        // if (!gameStarted) {
+        //     // if the game is starting/restarting, then set the movie list to an empty array
+        //     setMovieList([]);
+        // }
     };
 
     // TODO: MODULARIZE THIS FUNCTION ,,,

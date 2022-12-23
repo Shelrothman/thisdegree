@@ -40,10 +40,7 @@ function Launcher() {
                 handleActorSelection(null, null);
                 setShow(true);
             }
-        } else {
-            // just open the offcanvas, no need to change the game state bc its hasnt started yet
-            setShow(true);
-        }
+        } else setShow(true);// just open the offcanvas, no need to change the game state bc its hasnt started yet
         return;
     }
 

@@ -54,6 +54,15 @@ function PlayBoard() {
         console.log('currentActorBridge', currentActorBridge);
     }, [movieList, currentMovie, currentActorBridge]);
 
+    useEffect(() => {
+        if (!gameStarted) {
+            setReadyToInputFirst(false);
+            setCurrentMovie('');
+            setCurrentActorBridge(actorA);
+        }
+    }, [gameStarted]);
+
+
     function handleOnClick(actor) {
         setCurrentActorBridge(actor);
         setReadyToInputFirst(true);
@@ -139,20 +148,15 @@ function PlayBoard() {
 
 
     async function handleActorSelection(userSelection) {
-
-        // const map = getMap();
-        console.log('userSelection onChange: ', userSelection);
-
-        // why does my actorCard not render until i change the select again??
-        // because 
-
-
-        setCurrentActorBridge(userSelection); // this line is not being called when the select is changed.. so the actorCard is not being rendered
-        // why isnt this line being called?? bc the select is not being changed.. its just being rendered.. so the useEffect is not being called
-        // to fix this i need to add the currentActorBridge to the dependency array of the useEffect
-
-        let res = await handleNewActorGuess(userSelection, currentMovie);
-        return res;
+        try {
+            // const map = getMap();
+            console.log('userSelection onChange: ', userSelection);
+            setCurrentActorBridge(userSelection);
+            let res = await handleNewActorGuess(userSelection, currentMovie);
+            return res;
+        } catch (error) {
+            console.error(error);
+        }
     }
 
     //TODO modulate and make more dynamic
@@ -176,7 +180,7 @@ function PlayBoard() {
                                 {' '}
                                 <input ref={inputRef} disabled={currentMovie !== ''} />
                                 <button onClick={handleSubmit} disabled={currentMovie !== ''}
-                                    >
+                                >
                                     Submit
                                 </button>
                             </div>
