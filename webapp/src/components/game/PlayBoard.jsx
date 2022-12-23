@@ -15,11 +15,14 @@
  */
 import { useEffect, useState, useRef } from 'react';
 import Card from 'react-bootstrap/Card';
+import Container from 'react-bootstrap/Container';
 import { useActorContext, useGameContext } from '../../contexts';
 import MovieBtn from '../buttons/MovieBtn';
 // import uuid from 'react-uuid';
-import ActorCard from './ActorCard';
 import End from './End';
+
+import CardContainer from './CardContainer';
+import MovieInput from './form/MovieInput';
 
 // TODO:  maybe we just need to modularize more and then return certain components
 
@@ -37,7 +40,6 @@ function PlayBoard() {
     const [currentActorBridge, setCurrentActorBridge] = useState(actorA);
     const [readyToInputFirst, setReadyToInputFirst] = useState(false);
     const [currentActorOptions, setCurrentActorOptions] = useState([]);
-
     const {
         gameStarted,
         movieList,
@@ -71,7 +73,6 @@ function PlayBoard() {
 
     async function handleSubmit() {
         const userMovieGuess = inputRef.current.value;
-
         if (userMovieGuess) {
             const movieEvaluation = await handleNewMovieGuess(currentActorBridge, userMovieGuess);
             console.log('movieEvaluation', movieEvaluation)
@@ -110,16 +111,11 @@ function PlayBoard() {
     const buildBridgeNodes = movieList?.map((movie, i) => {
         return (
             <div key={i}>
-                <h4 >
-                    <span className="movieBridge-title">
-                        Movie Bridge: {movie.movieTitle}
-                    </span>
-                </h4>
+                <CardContainer movie={movie} />
                 <select
                     aria-label="actor selection"
                     id={`select-actor-${i}`}
                     onChange={(e) => handleActorSelection(e.target.value)}
-                    // value={currentActorBridge}
                     disabled={movie.actorGuessed}
                 >
                     <option value='select'>Select an actor from {movie.movieTitle}</option>
@@ -127,17 +123,17 @@ function PlayBoard() {
                 </select>
                 <br />
                 {movie.actorGuessed && (
-                    <ActorCard movie={movie} />
+                    <CardContainer movie={movie} movieType={false} />
                 )}
-                {/* TODO make the display look more final once disabled */}
                 {(movie.actorSelection !== '') && (
                     <div ref={submitRef}>
-                        <label htmlFor="movie-bridge">
-                            Movie with {movie.actorSelection} in it:
-                        </label>{' '}
-                        <input ref={inputRef} id={`movie-input-${i}`} ></input>
+                        <MovieInput
+                            actor={movie.actorSelection}
+                            id={`movie-input-${i}`}
+                            ref={inputRef}
+                        />
                         {/* the input ref should always be the last one rendered? */}
-                        <button onClick={handleSubmit} >
+                        <button onClick={handleSubmit}>
                             Submit
                         </button>
                     </div>
@@ -160,7 +156,6 @@ function PlayBoard() {
     }
 
     //TODO modulate and make more dynamic
-
     return (
         <>
             <div>
@@ -168,19 +163,14 @@ function PlayBoard() {
             </div>
             {gameStarted && (
                 <>
-                    <div>
-                        <h1>Game Started</h1>
-                    </div>
+                    <div><h1>Game Started</h1></div>
                     <div>
                         <MovieBtn text={actorA} handler={handleOnClick} />
                         <br />
                         {readyToInputFirst && (
                             <div ref={submitRef}>
-                                <label htmlFor="movie-bridge">Movie with {actorA} in it: </label>
-                                {' '}
-                                <input ref={inputRef} disabled={currentMovie !== ''} />
-                                <button onClick={handleSubmit} disabled={currentMovie !== ''}
-                                >
+                                <MovieInput actor={actorA} ref={inputRef} id='movie-input-first' />
+                                <button onClick={handleSubmit} disabled={currentMovie !== ''}>
                                     Submit
                                 </button>
                             </div>

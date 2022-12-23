@@ -19,3 +19,6 @@ and also use the rest of the castlist to see if they meant one of the other acto
 
 
 <!--? the character names that are saved wuth the actors... once the final tree is made by the user AND it passes the checks.... present the tree to them WITH the names of the characters played by each actor... it will be NEAT -->
+
+
+evewntually we want the animation to jhappens oike once verifirwes it flies and lands in the tree and conitinuie.. wayyy in the future i would do this

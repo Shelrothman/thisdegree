@@ -17,7 +17,7 @@ function Launcher() {
     const {
         gameStarted,
         movieList,
-        handleGameStateChange
+        handleGameStateChange,
     } = useGameContext();
 
     useEffect(() => {
@@ -45,6 +45,7 @@ function Launcher() {
     }
 
     const handleReady = () => {
+        //TODO PU here and handle the setReadyToBridge stuff (in context)
         handleGameStateChange();
         console.log('on ready');
         console.log('gameStarted: ', gameStarted);
