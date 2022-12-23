@@ -16,12 +16,12 @@ import End from './End';
 import CardContainer from './CardContainer';
 import MovieInput from './form/MovieInput';
 import SelectActor from './form/SelectActor';
-
+import ActorHeader from './ActorHeader';
+import { handleInvalidMovieInput } from '../../helpers/handlers';
 
 function PlayBoard() {
     const { actorA, actorB } = useActorContext();
     const [currentMovie, setCurrentMovie] = useState('');
-    // this state for the actor that is currently being used as bridge, aka the one that is selected from currentMovies list.
     const [currentActorBridge, setCurrentActorBridge] = useState(actorA);
     const [readyToInputFirst, setReadyToInputFirst] = useState(false);
     const [currentActorOptions, setCurrentActorOptions] = useState([]);
@@ -56,6 +56,7 @@ function PlayBoard() {
         return;
     }
 
+    //TODO modulate the below function
     async function handleSubmit() {
         const userMovieGuess = inputRef.current.value;
         if (userMovieGuess) {
@@ -77,13 +78,7 @@ function PlayBoard() {
     }
 
     function handleInvalidMovieGuess() {
-        console.log('invalid movie selection');
-        inputRef.current.value = `INVALID MOVIE`;
-        // TODO: tell the user its wrong in a different way then above.. this is just a hack for now
-        setTimeout(() => {
-            inputRef.current.value = '';
-        }, 1000);
-        return;
+        handleInvalidMovieInput(inputRef);
     }
 
     const actorOptions = currentActorOptions?.map((actor, i) => {
@@ -92,18 +87,21 @@ function PlayBoard() {
         )
     });
 
+    async function handleActorSelection(userSelection) {
+        try {
+            setCurrentActorBridge(userSelection);
+            return await handleNewActorGuess(userSelection, currentMovie);
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
     //TODO modulate and make more dynamic
     const buildBridgeNodes = movieList?.map((movie, i) => {
         return (
             <div key={i}>
                 <CardContainer movie={movie} />
-                <SelectActor
-                    id={`select-actor-${i}`}
-                    handleChange={handleActorSelection}
-                    disableState={movie.actorGuessed}
-                    options={actorOptions}
-                    movieTitle={movie.movieTitle}
-                />
+                <SelectActor id={`select-actor-${i}`} handleChange={handleActorSelection} disableState={movie.actorGuessed} options={actorOptions} movieTitle={movie.movieTitle} />
                 <br />
                 {movie.actorGuessed && (
                     <CardContainer movie={movie} movieType={false} />
@@ -115,27 +113,12 @@ function PlayBoard() {
                 )}
             </div>
         )
-    })
+    });
 
 
-    async function handleActorSelection(userSelection) {
-        try {
-            // const map = getMap();
-            console.log('userSelection onChange: ', userSelection);
-            setCurrentActorBridge(userSelection);
-            let res = await handleNewActorGuess(userSelection, currentMovie);
-            return res;
-        } catch (error) {
-            console.error(error);
-        }
-    }
-
-    //TODO modulate and make more dynamic
     return (
         <>
-            <div>
-                Actor A: {actorA}<br />Actor B: {actorB}
-            </div>
+            <ActorHeader a={actorA} b={actorB} />
             {gameStarted && (
                 <>
                     <div><h1>Game Started</h1></div>
