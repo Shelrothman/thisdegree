@@ -1,14 +1,14 @@
 import { useState, useEffect } from 'react';
-import Button from 'react-bootstrap/Button';
 import Offcanvas from 'react-bootstrap/Offcanvas';
-import ActorListContainer from './ActorListContainer.jsx';
-import { useActorContext, useGameContext } from '../contexts';
-import PlayBoard from './Scoreboard.jsx';
 
+import ActorListContainer from '../ActorListContainer.jsx';
+import { useActorContext, useGameContext } from '../../contexts';
+import PlayBoard from './PlayBoard.jsx';
+import MovieBtn from '../buttons/MovieBtn.jsx';
+import PlayBtn from '../buttons/PlayBtn.jsx';
 
 function Launcher() {
     const [show, setShow] = useState(false);
-    // const canvasRef = useRef(null);
     const {
         actorA,
         actorB,
@@ -41,7 +41,7 @@ function Launcher() {
                 setShow(true);
             }
         } else {
-            // just open the offcanvas, no need to change the game state
+            // just open the offcanvas, no need to change the game state bc its hasnt started yet
             setShow(true);
         }
         return;
@@ -57,9 +57,10 @@ function Launcher() {
 
     return (
         <>
-            <Button variant="primary" onClick={(e) => handleClick(e.target.innerHTML)} id="game-button">
-                {actorA && actorB ? 'Change Actors' : 'Select Actors'}
-            </Button>
+            <MovieBtn
+                text={actorA && actorB ? 'Change Actors' : 'Select Actors'}
+                handler={handleClick}
+            /> <br />
             <Offcanvas show={show}
                 // ref={canvasRef}
                 onHide={handleClose} placement='end'>
@@ -70,11 +71,11 @@ function Launcher() {
                     <ActorListContainer />
                 </Offcanvas.Body>
             </Offcanvas>
-            <Button variant="success" onClick={handleReady}
+            <PlayBtn
+                text='Ready!'
+                handler={handleReady}
                 style={{ display: actorA && actorB ? 'block' : 'none' }}
-            >
-                Ready!
-            </Button>
+            />
 
             <div className="sample-scoreboard">
                 <h1>This Degrees</h1>

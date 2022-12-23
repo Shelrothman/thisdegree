@@ -3,7 +3,7 @@ import { Route, Routes } from 'react-router-dom';
 
 import './styles/App.css';
 import TopNav from './components/TopNav';
-import Launcher from './components/Launcher.jsx';
+import Launcher from './components/game/Launcher.jsx';
 
 import { ActorContextProvider, ThemeContextProvider, GameContextProvider } from './contexts';
 

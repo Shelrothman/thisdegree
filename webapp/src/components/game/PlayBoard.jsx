@@ -15,7 +15,7 @@
  */
 import { useEffect, useState, useRef } from 'react';
 import Card from 'react-bootstrap/Card';
-import { useActorContext, useGameContext } from '../contexts';
+import { useActorContext, useGameContext } from '../../contexts';
 // import uuid from 'react-uuid';
 
 

@@ -12,9 +12,10 @@
     --dark-background: #2F4550;
     --light-background: #485a64;
     --accent: #B8DBD9;
-    --button-border: #B8DBD9;
+    --button-border: #1ad2c8;
     --littleDarker-background: rgb(29, 29, 39);
     --textarea-text: #fff;
+    --indigo-color: #6b7abb;
 }
 
 .theme-light {
@@ -25,9 +26,21 @@
     --accent: #dee3e2;
     --button-border: #5E4B56;
     --littleDarker-background: #b5bcbb;
+    --indigo-color: #96dcee;
     --textarea-text: rgb(29, 29, 39);
 }
 
+.degreeBtn {
+    background-color: var(--accent);
+    color: var(--dark-text);
+    border: var(--button-border) 1px solid;
+}
+
+/* .playBtn {
+    background-color: var(--indigo-color);
+    color: var(--accent);
+    border: var(--dark-text) 1px solid;
+} */
 
 #select-actor {
     background-color: var(--littleDarker-background);
