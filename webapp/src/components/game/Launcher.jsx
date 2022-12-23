@@ -72,7 +72,7 @@ function Launcher() {
                 </Offcanvas.Body>
             </Offcanvas>
             <PlayBtn
-                text='Ready!'
+                text={gameStarted ? 'Ready to Bridge!' : 'Play!'}
                 handler={handleReady}
                 style={{ display: actorA && actorB ? 'block' : 'none' }}
             />

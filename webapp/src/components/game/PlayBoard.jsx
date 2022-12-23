@@ -21,12 +21,14 @@ import MovieBtn from '../buttons/MovieBtn';
 import ActorCard from './ActorCard';
 import End from './End';
 
-// TODO: disable the movieInput after selected an actor for it
+// TODO:  maybe we just need to modularize more and then return certain components
+
+// TODO[future]: add a button for the user to "edit" and able to go back and pick a different new movie
 // only want the input ref to be refed when it is in the current round.. once its above where we are we dont care about it anymore.. so therefore the LAST input should always be the inputRef.
 // TODO add better error handling in the class and elsewheere so int wont take so much ime to track down next time
 //************************************************************************************
 //! need to stop user from BEing able to enter the same movie twice (bc it first of all is stupid for the game and also would mess up our logic)
-
+//? if there are problems with the refs.. go back to beta docs and implement the Map() method
 
 function PlayBoard() {
     const { actorA, actorB } = useActorContext();
@@ -36,8 +38,6 @@ function PlayBoard() {
     const [readyToInputFirst, setReadyToInputFirst] = useState(false);
     const [currentActorOptions, setCurrentActorOptions] = useState([]);
 
-    // maybe we just need to modularize more and then return certain components
-
     const {
         gameStarted,
         movieList,
@@ -46,18 +46,7 @@ function PlayBoard() {
         handleNewActorGuess
     } = useGameContext();
     const inputRef = useRef(null);
-
-
-    // const selectItemsRef = useRef(null);
-
-    // function getMap() {
-    //     if (!selectItemsRef.current) {
-    //         // Initialize the Map on first usage.
-    //         selectItemsRef.current = new Map();
-    //     }
-    //     console.log('selectItemsRef.current', selectItemsRef.current)
-    //     return selectItemsRef.current;
-    // }
+    const submitRef = useRef(null);
 
     useEffect(() => {
         console.table(movieList);
@@ -73,13 +62,17 @@ function PlayBoard() {
 
     async function handleSubmit() {
         const userMovieGuess = inputRef.current.value;
+
         if (userMovieGuess) {
             const movieEvaluation = await handleNewMovieGuess(currentActorBridge, userMovieGuess);
             console.log('movieEvaluation', movieEvaluation)
+            //* dont let the movie get chosen IF its not a vlaid movie with the actor in i9t
             if (!movieEvaluation.verified) {
                 handleInvalidMovieGuess();
+                return;
             }
-            //* dont let the movie get chosen IF its not a vlaid movie with the actor in i9t
+            submitRef.current.style.display = 'none';
+            inputRef.current.disabled = true;
             setCurrentMovie(userMovieGuess);
             setCurrentActorOptions(movieEvaluation.actorList);
             return;
@@ -108,7 +101,11 @@ function PlayBoard() {
     const buildBridgeNodes = movieList?.map((movie, i) => {
         return (
             <div key={i}>
-                <h4>Movie Bridge: {movie.movieTitle}</h4>
+                <h4 >
+                    <span className="movieBridge-title">
+                        Movie Bridge: {movie.movieTitle}
+                    </span>
+                </h4>
                 <select
                     aria-label="actor selection"
                     id={`select-actor-${i}`}
@@ -123,13 +120,18 @@ function PlayBoard() {
                 {movie.actorGuessed && (
                     <ActorCard movie={movie} />
                 )}
+                {/* TODO make the display look more final once disabled */}
                 {(movie.actorSelection !== '') && (
-                    <>
-                        <label htmlFor="movie-bridge">Movie with {movie.actorSelection} in it: </label>
+                    <div ref={submitRef}>
+                        <label htmlFor="movie-bridge">
+                            Movie with {movie.actorSelection} in it:
+                        </label>{' '}
                         <input ref={inputRef} id={`movie-input-${i}`} ></input>
-                        {/* the input ref will always be the last one rendered? */}
-                        <button onClick={handleSubmit}>Submit</button>
-                    </>
+                        {/* the input ref should always be the last one rendered? */}
+                        <button onClick={handleSubmit} >
+                            Submit
+                        </button>
+                    </div>
                 )}
             </div>
         )
@@ -137,18 +139,8 @@ function PlayBoard() {
 
 
     async function handleActorSelection(userSelection) {
-        inputRef.current.disabled = true;
-        // const map = getMap();
-        // const node = map.get(currentMovie.id); ?????
-        // const node = map.get(currentMovie.id);
-        // we want to get the value of the select that is in the current movie.. the last element of the movieListArray is the current movie
-        // const userSelection = node.value;
-        // let currentMovie = movieList[movieList.length - 1];
-        // console.log('currentMovie: ', currentMovie)
 
-        // const node = map.get(currentMovie.id);
-        // console.log('node: ', node.value);
-        // const userSelection = node.value;
+        // const map = getMap();
         console.log('userSelection onChange: ', userSelection);
 
         // why does my actorCard not render until i change the select again??
@@ -179,11 +171,15 @@ function PlayBoard() {
                         <MovieBtn text={actorA} handler={handleOnClick} />
                         <br />
                         {readyToInputFirst && (
-                            <>
+                            <div ref={submitRef}>
                                 <label htmlFor="movie-bridge">Movie with {actorA} in it: </label>
+                                {' '}
                                 <input ref={inputRef} disabled={currentMovie !== ''} />
-                                <button onClick={handleSubmit}>Submit</button>
-                            </>
+                                <button onClick={handleSubmit} disabled={currentMovie !== ''}
+                                    >
+                                    Submit
+                                </button>
+                            </div>
                         )}
                     </div>
                     {buildBridgeNodes}

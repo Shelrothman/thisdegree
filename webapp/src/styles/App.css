@@ -24,7 +24,7 @@
     --dark-background: #DBE7E4;
     --light-background: #EDDCD2;
     --accent: #dee3e2;
-    --button-border: #5E4B56;
+    --button-border: #0c6950;
     --littleDarker-background: #b5bcbb;
     --indigo-color: #96dcee;
     --textarea-text: rgb(29, 29, 39);
@@ -34,6 +34,22 @@
     background-color: var(--accent);
     color: var(--dark-text);
     border: var(--button-border) 1px solid;
+}
+
+.movieTitle-card {
+    color: var(--button-border);
+    border: 1px solid var(--button-border);
+    border-radius: 4px;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+}
+
+.movieBridge-title {
+    color: var(--button-border);
+    border: 1px solid var(--button-border);
+    /* border-radius: 4px;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem; */
 }
 
 /* .playBtn {
