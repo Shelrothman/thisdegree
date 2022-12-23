@@ -50,10 +50,6 @@ export function GameContextProvider({ children }) {
         // dont use this for when a game wins
         setGameStarted((prev) => !prev);
         setMovieList([]);
-        // if (!gameStarted) {
-        //     // if the game is starting/restarting, then set the movie list to an empty array
-        //     setMovieList([]);
-        // }
     };
 
     // TODO: MODULARIZE THIS FUNCTION ,,,

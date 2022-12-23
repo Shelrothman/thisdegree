@@ -1,37 +1,22 @@
 /**
- * sample version of a running scoreboard that will be present on the screen through.. one page app.. 
+ * running scoreboard that will be present on the screen throughout "/" route
  * so it will dynamically change based on the user's selections
- * and based on what they do in the game
- * GREAT time to practice context API
- * 
- * ! once game is started.. turn the actorS into btns..
- * ActorB is readOnly. (it turns to mutable once user selects they are ready to connect the bridge)
- * actorA is clickable => prompt user to enter a movie title
- * then prompt user to enter an actor name (that must be in the movie)
- * !  NO DISPLAY just logic!!!
- * check if correct :: if not.. then start over
- * if correct.. then insert a bridge and then another card below with that new actors name
- * repeat until they get to the end
  */
-import { useEffect, useState, useRef } from 'react';
-import Card from 'react-bootstrap/Card';
-import Container from 'react-bootstrap/Container';
-import { useActorContext, useGameContext } from '../../contexts';
-import MovieBtn from '../buttons/MovieBtn';
-// import uuid from 'react-uuid';
-import End from './End';
-
-import CardContainer from './CardContainer';
-import MovieInput from './form/MovieInput';
-
 // TODO:  maybe we just need to modularize more and then return certain components
-
 // TODO[future]: add a button for the user to "edit" and able to go back and pick a different new movie
-// only want the input ref to be refed when it is in the current round.. once its above where we are we dont care about it anymore.. so therefore the LAST input should always be the inputRef.
 // TODO add better error handling in the class and elsewheere so int wont take so much ime to track down next time
-//************************************************************************************
 //! need to stop user from BEing able to enter the same movie twice (bc it first of all is stupid for the game and also would mess up our logic)
 //? if there are problems with the refs.. go back to beta docs and implement the Map() method
+import { useEffect, useState, useRef } from 'react';
+
+import { useActorContext, useGameContext } from '../../contexts';
+// import uuid from 'react-uuid';
+import MovieBtn from '../buttons/MovieBtn';
+import End from './End';
+import CardContainer from './CardContainer';
+import MovieInput from './form/MovieInput';
+import SelectActor from './form/SelectActor';
+
 
 function PlayBoard() {
     const { actorA, actorB } = useActorContext();
@@ -112,30 +97,20 @@ function PlayBoard() {
         return (
             <div key={i}>
                 <CardContainer movie={movie} />
-                <select
-                    aria-label="actor selection"
+                <SelectActor
                     id={`select-actor-${i}`}
-                    onChange={(e) => handleActorSelection(e.target.value)}
-                    disabled={movie.actorGuessed}
-                >
-                    <option value='select'>Select an actor from {movie.movieTitle}</option>
-                    {actorOptions}
-                </select>
+                    handleChange={handleActorSelection}
+                    disableState={movie.actorGuessed}
+                    options={actorOptions}
+                    movieTitle={movie.movieTitle}
+                />
                 <br />
                 {movie.actorGuessed && (
                     <CardContainer movie={movie} movieType={false} />
                 )}
                 {(movie.actorSelection !== '') && (
                     <div ref={submitRef}>
-                        <MovieInput
-                            actor={movie.actorSelection}
-                            id={`movie-input-${i}`}
-                            ref={inputRef}
-                        />
-                        {/* the input ref should always be the last one rendered? */}
-                        <button onClick={handleSubmit}>
-                            Submit
-                        </button>
+                        <MovieInput actor={movie.actorSelection} id={`movie-input-${i}`} ref={inputRef} btnHandler={handleSubmit} />
                     </div>
                 )}
             </div>
@@ -169,10 +144,7 @@ function PlayBoard() {
                         <br />
                         {readyToInputFirst && (
                             <div ref={submitRef}>
-                                <MovieInput actor={actorA} ref={inputRef} id='movie-input-first' />
-                                <button onClick={handleSubmit} disabled={currentMovie !== ''}>
-                                    Submit
-                                </button>
+                                <MovieInput actor={actorA} ref={inputRef} id='movie-input-first' btnHandler={handleSubmit} />
                             </div>
                         )}
                     </div>

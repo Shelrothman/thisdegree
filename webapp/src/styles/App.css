@@ -20,7 +20,7 @@
 
 .theme-light {
     --dark-text: #5E4B56;
-    --light-text: #5E4B56;
+    --light-text: #625e60;
     --dark-background: #DBE7E4;
     --light-background: #EDDCD2;
     --accent: #dee3e2;
@@ -34,6 +34,11 @@
     background-color: var(--accent);
     color: var(--dark-text);
     border: var(--button-border) 1px solid;
+}
+
+.degreeBtn:hover {
+    background-color: var(--button-border) ;
+    color: var(--accent);
 }
 
 .movieTitle-card, .actorTitle-card {
