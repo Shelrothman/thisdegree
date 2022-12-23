@@ -16,7 +16,16 @@
 import { useEffect, useState, useRef } from 'react';
 import Card from 'react-bootstrap/Card';
 import { useActorContext, useGameContext } from '../../contexts';
+import MovieBtn from '../buttons/MovieBtn';
 // import uuid from 'react-uuid';
+import ActorCard from './ActorCard';
+import End from './End';
+
+// TODO: disable the movieInput after selected an actor for it
+// only want the input ref to be refed when it is in the current round.. once its above where we are we dont care about it anymore.. so therefore the LAST input should always be the inputRef.
+// TODO add better error handling in the class and elsewheere so int wont take so much ime to track down next time
+//************************************************************************************
+//! need to stop user from BEing able to enter the same movie twice (bc it first of all is stupid for the game and also would mess up our logic)
 
 
 function PlayBoard() {
@@ -25,17 +34,9 @@ function PlayBoard() {
     // this state for the actor that is currently being used as bridge, aka the one that is selected from currentMovies list.
     const [currentActorBridge, setCurrentActorBridge] = useState(actorA);
     const [readyToInputFirst, setReadyToInputFirst] = useState(false);
-
     const [currentActorOptions, setCurrentActorOptions] = useState([]);
 
-    // only want the input ref to be refed when it is in the current round.. once its above where we are we dont care about it anymore.. so therefore the LAST input should always be the inputRef.
-
-
-    // ! thie bug right now IS deff something in the ui and not the logic in the other files bc i stepped through and comfirmed that.
-    // TODO add better error handling in the c;ass and elsewheere so int wont take so much ime to track down next time
-    //! yea on save the return of the next select happens but not wuithpuot me asaving this file... SOOOO that means i am like not returning somewhere orn siomnething like that ************************************************************************************
-
-
+    // maybe we just need to modularize more and then return certain components
 
     const {
         gameStarted,
@@ -45,20 +46,24 @@ function PlayBoard() {
         handleNewActorGuess
     } = useGameContext();
     const inputRef = useRef(null);
-    const selectItemsRef = useRef(null);
 
-    function getMap() {
-        if (!selectItemsRef.current) {
-            // Initialize the Map on first usage.
-            selectItemsRef.current = new Map();
-        }
-        console.log('selectItemsRef.current', selectItemsRef.current)
-        return selectItemsRef.current;
-    }
+
+    // const selectItemsRef = useRef(null);
+
+    // function getMap() {
+    //     if (!selectItemsRef.current) {
+    //         // Initialize the Map on first usage.
+    //         selectItemsRef.current = new Map();
+    //     }
+    //     console.log('selectItemsRef.current', selectItemsRef.current)
+    //     return selectItemsRef.current;
+    // }
 
     useEffect(() => {
         console.table(movieList);
-    }, [movieList]);
+        console.log('currentMovie', currentMovie);
+        console.log('currentActorBridge', currentActorBridge);
+    }, [movieList, currentMovie, currentActorBridge]);
 
     function handleOnClick(actor) {
         setCurrentActorBridge(actor);
@@ -107,43 +112,22 @@ function PlayBoard() {
                 <select
                     aria-label="actor selection"
                     id={`select-actor-${i}`}
-                    // ref={selectRef} 
-                    //// onChange={(e) => handleActorSelection(e.target.value)}
-                    onChange={handleActorSelection}
-                    //! something is off here.. like currentActorBridge is not being set to the value of the select.. so it wont render until the second time a change it.. or if i save this file.
+                    onChange={(e) => handleActorSelection(e.target.value)}
+                    // value={currentActorBridge}
                     disabled={movie.actorGuessed}
-                    ref={(node) => {
-                        const map = getMap();
-                        if (node) {
-                            map.set(movie.id, node); 
-                        } else {
-                            map.delete(movie.id);
-                        }
-                    }}
                 >
                     <option value='select'>Select an actor from {movie.movieTitle}</option>
-                    {/* <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="Joe Pesci">Three</option> */}
                     {actorOptions}
                 </select>
-                {movie.actorGuessed && (
-                    <Card id="card-actor-container">
-                        <Card.Header as="h5" id="card-actor-header">
-                            {movie.movieTitle}'s Actor:
-                        </Card.Header>
-                        <Card.Body id="card-actor-body">
-                            <Card.Text>
-                                {movie.actorSelection}
-                            </Card.Text>
-                        </Card.Body>
-                    </Card>
-                )}
                 <br />
+                {movie.actorGuessed && (
+                    <ActorCard movie={movie} />
+                )}
                 {(movie.actorSelection !== '') && (
                     <>
                         <label htmlFor="movie-bridge">Movie with {movie.actorSelection} in it: </label>
-                        <input ref={inputRef} id='movie-input-ref' />
+                        <input ref={inputRef} id={`movie-input-${i}`} ></input>
+                        {/* the input ref will always be the last one rendered? */}
                         <button onClick={handleSubmit}>Submit</button>
                     </>
                 )}
@@ -152,23 +136,29 @@ function PlayBoard() {
     })
 
 
-    async function handleActorSelection() {
-        const map = getMap();
-    // const node = map.get(currentMovie.id); ?????
+    async function handleActorSelection(userSelection) {
+        inputRef.current.disabled = true;
+        // const map = getMap();
+        // const node = map.get(currentMovie.id); ?????
         // const node = map.get(currentMovie.id);
         // we want to get the value of the select that is in the current movie.. the last element of the movieListArray is the current movie
         // const userSelection = node.value;
-        let currentMovie = movieList[movieList.length - 1];
-        console.log('currentMovie: ', currentMovie)
-        
-        const node = map.get(currentMovie.id);
-        console.log('node: ', node.value);
+        // let currentMovie = movieList[movieList.length - 1];
+        // console.log('currentMovie: ', currentMovie)
 
-
-
-        const userSelection = node.value;
+        // const node = map.get(currentMovie.id);
+        // console.log('node: ', node.value);
+        // const userSelection = node.value;
         console.log('userSelection onChange: ', userSelection);
-        setCurrentActorBridge(userSelection);
+
+        // why does my actorCard not render until i change the select again??
+        // because 
+
+
+        setCurrentActorBridge(userSelection); // this line is not being called when the select is changed.. so the actorCard is not being rendered
+        // why isnt this line being called?? bc the select is not being changed.. its just being rendered.. so the useEffect is not being called
+        // to fix this i need to add the currentActorBridge to the dependency array of the useEffect
+
         let res = await handleNewActorGuess(userSelection, currentMovie);
         return res;
     }
@@ -186,31 +176,18 @@ function PlayBoard() {
                         <h1>Game Started</h1>
                     </div>
                     <div>
-                        <button onClick={() => handleOnClick(actorA)}>
-                            {actorA}
-                        </button> <br />
+                        <MovieBtn text={actorA} handler={handleOnClick} />
+                        <br />
                         {readyToInputFirst && (
                             <>
                                 <label htmlFor="movie-bridge">Movie with {actorA} in it: </label>
-                                <input ref={inputRef} />
+                                <input ref={inputRef} disabled={currentMovie !== ''} />
                                 <button onClick={handleSubmit}>Submit</button>
                             </>
                         )}
                     </div>
                     {buildBridgeNodes}
-                    <div>
-                        ...............
-                        <br />
-                        .....................
-                        <br />
-                        .....................
-                        <br />
-                        .....................
-                        <br />
-                        <button disabled={!readyToBridge}>
-                            {actorB}
-                        </button>
-                    </div>
+                    <End actor={actorB} disabled={!readyToBridge} />
                 </>
             )}
         </>

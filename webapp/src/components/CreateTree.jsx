@@ -55,6 +55,7 @@ const CreateTree = () => {
                         onChange={(e) =>
                             setFormState({
                                 ...formState,
+                                // using the spread operator to keep the other values in the formState
                                 treeDeclaration: e.target.value,
                             })
                         }

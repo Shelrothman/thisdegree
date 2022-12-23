@@ -91,33 +91,27 @@ export function GameContextProvider({ children }) {
 
         try {
 
-            let localMovieList = movieList;
-            console.log('!!')
-            console.log(movie);
-            console.log(userActorInput);
+            // TODO use movieID instead of title to make this more reliable
+            let localMovieObj = movieList.find((movieObj) => movieObj.movieTitle == movie);
 
-            // this 
-            let gameRound = await localMovieList[0].currentRound.setActorFromSelection(userActorInput);
+            // remove the movie from movieList and then setMovieList to that new list SO THAT we can replace it at the end of this function
+            setMovieList(movieList.filter((movieObj) => movieObj.movieTitle !== movie));
+
+            let gameRound = await localMovieObj.currentRound.setActorFromSelection(userActorInput);
             console.log('gameRound', gameRound);
+
             // so next we can run complete() bc we have the last piece
             // TODO Add more conditionals here
             let nextRound = await gameRound.complete(); // this should return a new gameRound object
             console.log('nextRound', nextRound);
+            localMovieObj.actorGuessed = true;
+            localMovieObj.actorSelection = userActorInput;
+            localMovieObj.currentRound = gameRound;
+            localMovieObj.nextRound = nextRound;
 
-
-            // TODO THIS NEEDS HELP ALSO
-            localMovieList.forEach((movieObj) => { // i dont think this is working, i think its just adding a new movie obj
-                if (movieObj.movieTitle === movie.movieTitle) {
-                    console.log('is this even getting here');
-                    movieObj.actorGuessed = true;
-                    movieObj.actorSelection = userActorInput;
-                    movieObj.currentRound = gameRound;
-                    movieObj.nextRound = nextRound; // wtf do i want to do with this
-                }
+            setMovieList((prev) => {
+                return [...prev, localMovieObj];
             });
-            console.log("localMovieList", localMovieList); // debug
-            setMovieList(localMovieList);
-            return;
         } catch (error) {
             console.error(error)
         }

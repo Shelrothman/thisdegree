@@ -59,6 +59,7 @@ export default class GameRound {
     */
     async verifyMovie() {
         try {
+            // TODO add check in here if movies already been guessed, return false if it has
             const actorsInMovie = this.actorList;
             let found = false;
             for (let x = 0, max = actorsInMovie.length; x < max; x++) {
