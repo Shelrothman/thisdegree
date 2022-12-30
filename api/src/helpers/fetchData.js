@@ -21,7 +21,7 @@ const urlSuffix = `&page=1&api_key=${apiKey}`;
 async function validateMovie(movie, actor) { //* used after user enters a movie  to validate currentActor is in it
     try {
         let movieID = await getMovieByTitle(movie);
-        let cast = await getMovieCast(movieID);
+        let cast = await getMovieCast(movieID) || [];
         // we dont need to loop through and build since we are just validating, and can save time
         let found = false;
         let character = '';
@@ -45,7 +45,7 @@ async function getMovieByTitle(movieTitle) {
 
         const resObject = await response.json();
         // console.log("resObject", resObject)
-        let movieID = resObject.results[0].id;
+        let movieID = resObject.results[0]?.id || '';
         return movieID;
     } catch (error) {
         console.error(error);
@@ -54,11 +54,13 @@ async function getMovieByTitle(movieTitle) {
 
 async function getMovieCast(movieID) {
     try {
+        let cast = [];
         const response = await fetch(`${apiBase}/movie/${movieID}/credits?api_key=${apiKey}`);
 
         const resObject = await response.json();
         // console.log("resObject", resObject)
-        return resObject.cast;
+        cast = resObject.cast;
+        return cast;
     } catch (error) {
         console.error(error);
     }
@@ -89,10 +91,15 @@ async function convertCastToActorList(cast) {
 
 async function getCast(input) { //* used to get the cast TO display in select optioins
     try {
+        let actorList = [];
         const title = input.replace(/ /g, '%20');
         const movieID = await getMovieByTitle(title);
-        const movieCast = await getMovieCast(movieID);
-        const actorList = await convertCastToActorList(movieCast);
+        if (movieID !== '') {
+            const movieCast = await getMovieCast(movieID);
+            if (movieCast.length > 0) {
+                actorList = await convertCastToActorList(movieCast);
+            }
+        }
         // console.log("movieCast", movieCast)
         return actorList;
     } catch (error) {

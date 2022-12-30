@@ -16,16 +16,16 @@ type Query {
     treeFeed(filter: String, skip: Int, take: Int, orderBy: TreeOrderByInput): Feed! 
 
     # validate the movie title entered by the user (validate that the currentActor is in the movie)
-    validateMovieInput(title: String!, actor: String!): MovieValidation!
+    validateMovieInput(title: String!, actor: String!): MovieValidation
 
     # user challenges a rejection and we do more fetching for them to see if they are right (bc a rejection = no option for selection)
 }
 
 type MovieValidation {
-    id: ID!
-    isInMovie: Boolean!
-    character: String!
-    cast: [Actor]!
+    id: ID
+    isInMovie: Boolean
+    character: String
+    cast: [Actor]
 }
 
 type Mutation {
