@@ -4,9 +4,9 @@
  */
 // TODO:  maybe we just need to modularize more and then return certain components
 // TODO[future]: add a button for the user to "edit" and able to go back and pick a different new movie
-// TODO add better error handling in the class and elsewheere so int wont take so much ime to track down next time
+// TODO add better error handling in the class and elsewheere so it wont take so much ime to track down next time
 //! need to stop user from BEing able to enter the same movie twice (bc it first of all is stupid for the game and also would mess up our logic)
-//? if there are problems with the refs.. go back to beta docs and implement the Map() method
+//? if there are problems with the refs.. go back to beta docs and implement Map() 
 import { useEffect, useState, useRef } from 'react';
 
 import { useActorContext, useGameContext } from '../../contexts';
@@ -56,29 +56,30 @@ function PlayBoard() {
         return;
     }
 
-    //TODO modulate the below function
     async function handleSubmit() {
         const userMovieGuess = inputRef.current.value;
         if (userMovieGuess) {
             const movieEvaluation = await handleNewMovieGuess(currentActorBridge, userMovieGuess);
-            console.log('movieEvaluation', movieEvaluation)
+            console.log('movieEvaluation: ', movieEvaluation)
             //* dont let the movie get chosen IF its not a vlaid movie with the actor in i9t
-            if (!movieEvaluation.verified) {
-                handleInvalidMovieGuess();
-                return;
-            }
-            submitRef.current.style.display = 'none';
-            inputRef.current.disabled = true;
-            setCurrentMovie(userMovieGuess);
-            setCurrentActorOptions(movieEvaluation.actorList);
-            return;
+            if (!movieEvaluation.verified) handleInvalidMovieGuess();
+            else handleValidMovieGuess(userMovieGuess, movieEvaluation); // TODO may need more constraints here
         } else {
             throw new Error('yo! pick somthing, you smarty pants!');
         }
     }
 
+    function handleValidMovieGuess(userMovieGuess, movieEvaluation) {
+        submitRef.current.style.display = 'none';
+        inputRef.current.disabled = true;
+        setCurrentMovie(userMovieGuess);
+        setCurrentActorOptions(movieEvaluation.actorList);
+        return;
+    }
+
     function handleInvalidMovieGuess() {
         handleInvalidMovieInput(inputRef);
+        return;
     }
 
     const actorOptions = currentActorOptions?.map((actor, i) => {
