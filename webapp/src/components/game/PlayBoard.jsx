@@ -36,12 +36,15 @@ function PlayBoard() {
     } = useGameContext();
     const inputRef = useRef(null);
     const submitRef = useRef(null);
+    
+    const [castForm, setCastForm] = useState({
+        movieInput: '',
+    });
     const {
         loading: castLoading,
         data: castData,
         error: castError
-    } = useApolloGetCast(currentMovie);
-
+    } = useApolloGetCast(castForm.movieInput);
     const [validationForm, setValidationForm] = useState({
         movieInput: '',
         actorInput: '',
@@ -52,9 +55,6 @@ function PlayBoard() {
         error: validationError
     } = useApolloValidateMovie(validationForm.movieInput, validationForm.actorInput);
 
-    // useEffect(() => {
-
-    // }, [validationForm]);
 
     useEffect(() => {
         console.table(movieList);
@@ -79,6 +79,7 @@ function PlayBoard() {
     }
 
     // TODO add in handling selecting movie for user.. etc..
+    // TODO MODULARIZE this function
     async function handleSubmit() {
         const userMovieGuess = inputRef.current.value;
         if (userMovieGuess) {
@@ -87,6 +88,7 @@ function PlayBoard() {
                 movieInput: userMovieGuess,
                 actorInput: currentActorBridge
             });
+            setCastForm({ movieInput: userMovieGuess });
             let movieEvaluation = await validationData?.validateMovieInput || {};
 
             console.log('movieEvaluation: ', movieEvaluation);
@@ -102,12 +104,17 @@ function PlayBoard() {
         }
     }
 
-    function handleValidMovieGuess(userMovieGuess, movieEvaluation) {
+    async function handleValidMovieGuess(userMovieGuess, movieEvaluation) {
         submitRef.current.style.display = 'none';
         inputRef.current.disabled = true;
         setCurrentMovie(userMovieGuess);
+        let actorList = await castData?.getCastList; 
+        console.log('actorList: ', actorList);
+
+
         // setCurrentActorOptions(movieEvaluation.actorList);
-        setCurrentActorOptions([{ id: 1, name: 'test' }]);
+        // setCurrentActorOptions([{ id: 1, name: 'test' }]);
+        setCurrentActorOptions(actorList);
         return;
     }
 
@@ -116,9 +123,9 @@ function PlayBoard() {
         return;
     }
 
-    const actorOptions = currentActorOptions?.map((actor, i) => {
+    const actorOptions = currentActorOptions?.map((actor) => {
         return (
-            <option key={i} value={actor.name}>{actor.name}</option>
+            <option key={actor.id} value={actor.name}>{actor.name}</option>
         )
     });
 
