@@ -30,6 +30,7 @@ function TreeList() {
             {data?.treeFeed.trees.map((tree) => (
                 <Tree key={tree.id} tree={tree} />
             ))}
+            {error && <div>Error loading trees</div>}
         </div>
     );
 }

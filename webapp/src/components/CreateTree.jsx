@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { useMutation, gql } from '@apollo/client';
 import { useNavigate } from 'react-router-dom';
-//* lets use a diff mutation for NOW that doesnt need auth since we dont have auth set up yet ui side
-//TODO come back and change this to addTree once auth is set up
+
+// ! user must be authenticated to post a tree
+
 const CREATE_TREE_MUTATION = gql`
 mutation PostMutation(
     $treeDeclaration: String!

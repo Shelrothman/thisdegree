@@ -16,7 +16,7 @@ import {
     // useEffect
 } from 'react';
 // import { useActorContext } from './ActorContext.jsx';
-import GameRound from '../models/GameRound.js';
+import GameRound from '../models/GameRound';
 
 // import { useActorContext } from './ActorContext.jsx';
 //! not until readyToBridge is true is the actorB btn enabled and any "checking" is done
@@ -57,6 +57,8 @@ export function GameContextProvider({ children }) {
         try {
             let gameRound = new GameRound(userActor, userMovieInput);
             gameRound = gameRound.init();
+            // let resGQL = await gameRound.getFromGraphql();
+            
             let valid = await gameRound.verifyMovie();
             console.log('gameRound', gameRound);
             if (!valid) { // get out of here, pick a new movie!

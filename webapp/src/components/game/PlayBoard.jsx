@@ -18,6 +18,8 @@ import MovieInput from './form/MovieInput';
 import SelectActor from './form/SelectActor';
 import ActorHeader from './ActorHeader';
 import { handleInvalidMovieInput } from '../../helpers/handlers';
+import useApolloServer from '../../hooks/useApolloServer';
+
 
 function PlayBoard() {
     const { actorA, actorB } = useActorContext();
@@ -34,6 +36,7 @@ function PlayBoard() {
     } = useGameContext();
     const inputRef = useRef(null);
     const submitRef = useRef(null);
+    const { loading, data, error } = useApolloServer("The Matrix");
 
     useEffect(() => {
         console.table(movieList);
@@ -48,6 +51,15 @@ function PlayBoard() {
             setCurrentActorBridge(actorA);
         }
     }, [gameStarted]);
+
+    useEffect(() => {
+        // if (loading) return <p>Loading...</p>;
+        // if (error) return <p>Error :(</p>;
+        // if (data) {
+        //     console.log('data', data);
+        // }
+        console.log('data', data);
+    }, []);
 
 
     function handleOnClick(actor) {
@@ -97,7 +109,6 @@ function PlayBoard() {
         }
     }
 
-    //TODO modulate and make more dynamic
     const buildBridgeNodes = movieList?.map((movie, i) => {
         return (
             <div key={i}>
@@ -115,7 +126,6 @@ function PlayBoard() {
             </div>
         )
     });
-
 
     return (
         <>

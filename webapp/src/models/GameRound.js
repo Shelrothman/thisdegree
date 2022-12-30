@@ -7,12 +7,16 @@
  * @param {string} actorA - the last actor that was selected from the list of actors in previous round; 
  * ! keep the fetching and the checking/verifying logic all in here and other classes SO THAT we can just import the classes into components and use them without having to worry about the logic, reuseability, etc.
  * ! this is good bc IF the data structure (response) changes, we only have to change it in this one place and it will be reflected everywhere else
- */
+* ? no we cannot do that bc we need to be able to call to gql and cant use that hook in here, but maybe we could make a custom hook that we can use in here and in the components by passing in the query and the variables
+*/
+
 
 import { getMovieByKey } from '../data/movies';
 import { getActorByKey } from '../data/actors';
 import getMovieObjectByKey from '../data/actorsInMovie';
 import uuid from 'react-uuid';
+
+// import { useQuery, gql } from '@apollo/client';
 
 export default class GameRound {
     constructor(actorA, movieGuess, lastRound = {}) {
@@ -77,6 +81,26 @@ export default class GameRound {
         }
     }
 
+    // async getFromGraphql() {
+    //     try {
+    //         const { loading, error, data } = useQuery(gql`
+    //         query {
+    //             getCastList(title: ${this.movieTitle}) {
+    //                 id
+    //                 name
+    //                 character
+    //             }
+    //         }
+    //         `);
+    //         if (loading) return <p>Loading...</p>;
+    //         if (error) return <p>Error :(</p>;
+    //         console.log(data);
+    //         return data;
+    //     } catch (error) {
+    //         console.error(error);
+    //     }
+    // }
+
     /** 
     * @method - used to present the list of actors to choose from to the end user
     * @returns {Array.<Object>} - array of objects with actorID and name properties
@@ -101,7 +125,7 @@ export default class GameRound {
             //!! so we dont need to check if the selection is in the list bc we presented them the list in the first place.. no write ins...
             this.actorB = actorSelection;
 
-        
+
             this.actorB_ID = GameRound.getActor(actorSelection).id || undefined;
             return this;
         } catch (error) {
@@ -155,9 +179,9 @@ export default class GameRound {
 
             let movieObject = getMovieByKey('title', movieTitle);
             // if (movieObject === undefined) {
-                // throw new Error(`movieTitle is not found in movies array`);
+            // throw new Error(`movieTitle is not found in movies array`);
             // } else {
-                return movieObject || {};
+            return movieObject || {};
             // }
         } catch (error) {
             console.error(error);
@@ -168,9 +192,9 @@ export default class GameRound {
         try {
             const movieObject = getMovieObjectByKey('title', movieTitle);
             // if (movieObject === undefined) {
-                // throw new Error(`movieTitle is not found in actorList array. something is off.`);
+            // throw new Error(`movieTitle is not found in actorList array. something is off.`);
             // } else {
-                return movieObject?.properties?.actors || [];
+            return movieObject?.properties?.actors || [];
             // }
         } catch (error) {
             console.error(error);
