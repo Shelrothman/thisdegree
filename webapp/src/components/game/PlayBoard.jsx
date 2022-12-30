@@ -41,12 +41,20 @@ function PlayBoard() {
         data: castData,
         error: castError
     } = useApolloGetCast(currentMovie);
+
+    const [validationForm, setValidationForm] = useState({
+        movieInput: '',
+        actorInput: '',
+    });
     const {
         loading: validationLoading,
         data: validationData,
         error: validationError
-    } = useApolloValidateMovie(currentMovie, currentActorBridge);
+    } = useApolloValidateMovie(validationForm.movieInput, validationForm.actorInput);
 
+    // useEffect(() => {
+
+    // }, [validationForm]);
 
     useEffect(() => {
         console.table(movieList);
@@ -63,21 +71,32 @@ function PlayBoard() {
         }
     }, [gameStarted]);
 
-
+    // TODO this function could also be moved into the GameContext
     function handleOnClick(actor) {
         setCurrentActorBridge(actor);
         setReadyToInputFirst(true);
         return;
     }
 
+    // TODO add in handling selecting movie for user.. etc..
     async function handleSubmit() {
         const userMovieGuess = inputRef.current.value;
         if (userMovieGuess) {
-            const movieEvaluation = await handleNewMovieGuess(currentActorBridge, userMovieGuess);
-            console.log('movieEvaluation: ', movieEvaluation)
+            // const movieEvaluation = await handleNewMovieGuess(currentActorBridge, userMovieGuess);
+            setValidationForm({
+                movieInput: userMovieGuess,
+                actorInput: currentActorBridge
+            });
+            let movieEvaluation = await validationData?.validateMovieInput || {};
+
+            console.log('movieEvaluation: ', movieEvaluation);
             //* dont let the movie get chosen IF its not a vlaid movie with the actor in i9t
-            if (!movieEvaluation.verified) handleInvalidMovieGuess();
-            else handleValidMovieGuess(userMovieGuess, movieEvaluation); // TODO may need more constraints here
+            if (movieEvaluation.isInMovie === false) handleInvalidMovieGuess();
+            // TODO may need more constraints here
+            else {
+                await handleNewMovieGuess(currentActorBridge, userMovieGuess);
+                handleValidMovieGuess(userMovieGuess, movieEvaluation);
+            }
         } else {
             throw new Error('yo! pick somthing, you smarty pants!');
         }
@@ -87,7 +106,8 @@ function PlayBoard() {
         submitRef.current.style.display = 'none';
         inputRef.current.disabled = true;
         setCurrentMovie(userMovieGuess);
-        setCurrentActorOptions(movieEvaluation.actorList);
+        // setCurrentActorOptions(movieEvaluation.actorList);
+        setCurrentActorOptions([{ id: 1, name: 'test' }]);
         return;
     }
 

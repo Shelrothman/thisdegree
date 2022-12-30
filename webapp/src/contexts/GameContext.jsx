@@ -62,11 +62,11 @@ export function GameContextProvider({ children }) {
             // else then use the last element in movieList to create the new gameRound 
             // TODO: add logic here to include the last round in lastRound into the new gameRound if its not the first round
 
-            let valid = await gameRound.verifyMovie();
+            // let valid = await gameRound.verifyMovie();
             console.log('gameRound', gameRound);
-            if (!valid) { // get out of here, pick a new movie!
-                return { verified: false };
-            }
+            // if (!valid) { // get out of here, pick a new movie!
+            //     return { verified: false };
+            // } dont need this anymore because we are using the api to verify the movie noq
             let localMovieList = movieList || [];
             // add the movie guess to the end of array 
             localMovieList.push({
@@ -77,10 +77,10 @@ export function GameContextProvider({ children }) {
                 currentRound: gameRound,
             });
             setMovieList(localMovieList);
-            return {
-                verified: true,
-                actorList: gameRound.actorList
-            };
+            return; 
+            // {
+                // actorList: gameRound.actorList
+            // };
         } catch (error) {
             console.error(error);
         }
