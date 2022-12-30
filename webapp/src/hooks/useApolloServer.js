@@ -1,12 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useQuery, gql } from '@apollo/client';
 
-
-
-
-const useApolloServer = (movieInput) => {
-
-    const GET_CAST_QUERY = gql`
+const GET_CAST_QUERY = gql`
 query getCastList($movieInput: String!) 
 {
     getCastList(title: $movieInput) {
@@ -16,19 +11,38 @@ query getCastList($movieInput: String!)
     }
 }`;
 
+const VALIDATE_MOVIE_QUERY = gql`
+query validateMovieInput($movieInput: String!, $actorInput: String!) 
+{
+    validateMovieInput(title: $movieInput, actor: $actorInput) {
+        id
+        isInMovie
+        character
+    }
+}`;
+
+export const useApolloGetCast = (movieInput) => {
     const { loading, data, error } = useQuery(GET_CAST_QUERY, {
-        variables: { 
-            movieInput 
+        variables: {
+            movieInput
         },
     });
-
-    // useEffect(() => {
-    //     getCast();
-    // }, []); // this is the same as componentDidMount
-
+    //? getCastList is a function that can be called to refetch the data
     return { loading, data, error };
-
-
 }
 
-export default useApolloServer;
+export const useApolloValidateMovie = (movieInput, actorInput) => {
+
+    // const [formState, setFormState] = useState({
+    //     movieInput: '',
+    //     actorInput: ''
+    // });
+
+    const { loading, data, error } = useQuery(VALIDATE_MOVIE_QUERY, {
+        variables: {
+            movieInput,
+            actorInput
+        },
+    });
+    return { loading, data, error };
+}

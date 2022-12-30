@@ -18,6 +18,7 @@ import {
 // import { useActorContext } from './ActorContext.jsx';
 import GameRound from '../models/GameRound';
 
+
 // import { useActorContext } from './ActorContext.jsx';
 //! not until readyToBridge is true is the actorB btn enabled and any "checking" is done
 
@@ -55,10 +56,12 @@ export function GameContextProvider({ children }) {
     // TODO: MODULARIZE THIS FUNCTION ,,,
     async function handleNewMovieGuess(userActor, userMovieInput) {
         try {
+            // if movieList is === 0, then we are on the first round
             let gameRound = new GameRound(userActor, userMovieInput);
             gameRound = gameRound.init();
-            // let resGQL = await gameRound.getFromGraphql();
-            
+            // else then use the last element in movieList to create the new gameRound 
+            // TODO: add logic here to include the last round in lastRound into the new gameRound if its not the first round
+
             let valid = await gameRound.verifyMovie();
             console.log('gameRound', gameRound);
             if (!valid) { // get out of here, pick a new movie!

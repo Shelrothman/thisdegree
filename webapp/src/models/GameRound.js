@@ -7,7 +7,6 @@
  * @param {string} actorA - the last actor that was selected from the list of actors in previous round; 
  * ! keep the fetching and the checking/verifying logic all in here and other classes SO THAT we can just import the classes into components and use them without having to worry about the logic, reuseability, etc.
  * ! this is good bc IF the data structure (response) changes, we only have to change it in this one place and it will be reflected everywhere else
-* ? no we cannot do that bc we need to be able to call to gql and cant use that hook in here, but maybe we could make a custom hook that we can use in here and in the components by passing in the query and the variables
 */
 
 
@@ -15,6 +14,9 @@ import { getMovieByKey } from '../data/movies';
 import { getActorByKey } from '../data/actors';
 import getMovieObjectByKey from '../data/actorsInMovie';
 import uuid from 'react-uuid';
+// import { useApolloGetCast, useApolloValidateMovie } from '../hooks/useApolloServer';
+// const { validateMovie } = useApolloValidateMovie();
+// cannot use those here
 
 // import { useQuery, gql } from '@apollo/client';
 
@@ -66,6 +68,14 @@ export default class GameRound {
             // TODO add check in here if movies already been guessed, return false if it has
             const actorsInMovie = this.actorList;
             let found = false;
+            // const { validateMovie } = useApolloValidateMovie(this.movieTitle, this.actorA);
+            // const veryifyMovieInput = async () => {
+            //     const { data } = await validateMovie();
+            //     return data;
+            // }
+            // const verificationData = await veryifyMovieInput();
+            // console.log('YO!')
+            // console.log(verificationData);
             for (let x = 0, max = actorsInMovie.length; x < max; x++) {
                 console.log(x)
                 let actor = actorsInMovie[x];

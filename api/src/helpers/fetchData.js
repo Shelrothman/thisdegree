@@ -18,8 +18,7 @@ const urlPrefix = `/search/movie?query=`;
 const urlSuffix = `&page=1&api_key=${apiKey}`;
 
 
-async function validateMovie(movie, actor) { //* used after user enters a movie (validate currentActor is in it)
-    // console.log(actor); //{ title: 'Legally Blonde', actor: 'reese witherspoon' }
+async function validateMovie(movie, actor) { //* used after user enters a movie  to validate currentActor is in it
     try {
         let movieID = await getMovieByTitle(movie);
         let cast = await getMovieCast(movieID);
