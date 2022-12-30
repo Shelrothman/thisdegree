@@ -32,11 +32,11 @@ function PlayBoard() {
         movieList,
         readyToBridge,
         handleNewMovieGuess,
-        handleNewActorGuess
+        handleNewActorGuess,
     } = useGameContext();
     const inputRef = useRef(null);
     const submitRef = useRef(null);
-    
+        
     const [castForm, setCastForm] = useState({
         movieInput: '',
     });
@@ -97,23 +97,22 @@ function PlayBoard() {
             // TODO may need more constraints here
             else {
                 await handleNewMovieGuess(currentActorBridge, userMovieGuess);
-                handleValidMovieGuess(userMovieGuess, movieEvaluation);
+                handleValidMovieGuess(userMovieGuess);
             }
         } else {
             throw new Error('yo! pick somthing, you smarty pants!');
         }
     }
 
-    async function handleValidMovieGuess(userMovieGuess, movieEvaluation) {
+    async function handleValidMovieGuess(userMovieGuess) {
         submitRef.current.style.display = 'none';
+        // console.log('submitRef.current: ', submitRef.current)
         inputRef.current.disabled = true;
         setCurrentMovie(userMovieGuess);
-        let actorList = await castData?.getCastList; 
+        let actorList = await castData?.getCastList;
+        
+
         console.log('actorList: ', actorList);
-
-
-        // setCurrentActorOptions(movieEvaluation.actorList);
-        // setCurrentActorOptions([{ id: 1, name: 'test' }]);
         setCurrentActorOptions(actorList);
         return;
     }
@@ -147,9 +146,9 @@ function PlayBoard() {
                 {movie.actorGuessed && (
                     <CardContainer movie={movie} movieType={false} />
                 )}
-                {(movie.actorSelection !== '') && (
+                {(movie.actorSelection.name !== '') && (
                     <div ref={submitRef}>
-                        <MovieInput actor={movie.actorSelection} id={`movie-input-${i}`} ref={inputRef} btnHandler={handleSubmit} />
+                        <MovieInput actor={movie.actorSelection.name} id={`movie-input-${i}`} ref={inputRef} btnHandler={handleSubmit} />
                     </div>
                 )}
             </div>

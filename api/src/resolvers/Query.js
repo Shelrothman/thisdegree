@@ -69,6 +69,7 @@ async function validateMovieInput(parent, args, context) {
             id: uuidv4(),
             isInMovie: movieValidation.found,
             character: movieValidation.character,
+            cast: await getCast(title),
         };
     } catch (error) {
         console.error(error);

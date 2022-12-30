@@ -1,7 +1,4 @@
 /**
- *         setMovieList((prev) => {
-            return [...prev, localMovieObj];
-        });
  * in here we want to keep track of the current game
  * what states are we going to need?
  * gameStarted: boolean (true if the game has started, false if it hasn't || its over)
@@ -16,7 +13,8 @@ import {
     // useEffect
 } from 'react';
 // import { useActorContext } from './ActorContext.jsx';
-import GameRound from '../models/GameRound';
+// import GameRound from '../models/GameRound';
+import uuid from 'react-uuid';
 
 
 // import { useActorContext } from './ActorContext.jsx';
@@ -37,14 +35,13 @@ export function useGameContext() {
 
 export function GameContextProvider({ children }) {
     const [gameStarted, setGameStarted] = useState(false);
-    const [movieList, setMovieList] = useState([]);
+    // the movieList to hold the whole tree
+    const [movieList, setMovieList] = useState([]); // cant we just use this to keep track of the game? for the tree? wtf did i make a class?
     // const [newRound, setNewRound] = useState(false);
     // const { actorA } = useActorContext();
 
     const [readyToBridge, setReadyToBridge] = useState(false);
     // TODO: will use setReadyToBridge to enable the actorB btn once the button is triggered by user
-
-
 
     const handleGameStateChange = () => {
         // use this to change the game on and off
@@ -57,30 +54,32 @@ export function GameContextProvider({ children }) {
     async function handleNewMovieGuess(userActor, userMovieInput) {
         try {
             // if movieList is === 0, then we are on the first round
-            let gameRound = new GameRound(userActor, userMovieInput);
-            gameRound = gameRound.init();
+            // let gameRound = new GameRound(userActor, userMovieInput);
+            // gameRound = gameRound.init();
             // else then use the last element in movieList to create the new gameRound 
-            // TODO: add logic here to include the last round in lastRound into the new gameRound if its not the first round
+            // // TODO: add logic here to include the last round in lastRound into the new gameRound if its not the first round
+            // console.log('gameRound', gameRound);
 
-            // let valid = await gameRound.verifyMovie();
-            console.log('gameRound', gameRound);
-            // if (!valid) { // get out of here, pick a new movie!
-            //     return { verified: false };
-            // } dont need this anymore because we are using the api to verify the movie noq
+            // setting list into gamearound so we can hold on to it and differentiate
+            // let castList;
+
+
+
             let localMovieList = movieList || [];
             // add the movie guess to the end of array 
             localMovieList.push({
+                // TODO previousActor: userActor, this to hold the actor that was used in the previous round to create the userMovieInput
                 movieTitle: userMovieInput,
-                id: gameRound.movieUUID,
+                id: uuid(),
                 actorGuessed: false,
-                actorSelection: '',
-                currentRound: gameRound,
+                actorSelection: {
+                    name: '',
+                    id: '',
+                },
+                // currentRound: gameRound,
             });
             setMovieList(localMovieList);
             return; 
-            // {
-                // actorList: gameRound.actorList
-            // };
         } catch (error) {
             console.error(error);
         }
@@ -100,17 +99,18 @@ export function GameContextProvider({ children }) {
             // remove the movie from movieList and then setMovieList to that new list SO THAT we can replace it at the end of this function
             setMovieList(movieList.filter((movieObj) => movieObj.movieTitle !== movie));
 
-            let gameRound = await localMovieObj.currentRound.setActorFromSelection(userActorInput);
-            console.log('gameRound', gameRound);
+            // let gameRound = await localMovieObj.currentRound.setActorFromSelection(userActorInput);
+            // console.log('gameRound', gameRound);
 
             // so next we can run complete() bc we have the last piece
             // TODO Add more conditionals here
-            let nextRound = await gameRound.complete(); // this should return a new gameRound object
-            console.log('nextRound', nextRound);
+            // let nextRound = await gameRound.complete(); // this should return a new gameRound object
+            // console.log('nextRound', nextRound);
             localMovieObj.actorGuessed = true;
-            localMovieObj.actorSelection = userActorInput;
-            localMovieObj.currentRound = gameRound;
-            localMovieObj.nextRound = nextRound;
+            localMovieObj.actorSelection.name = userActorInput;
+            localMovieObj.actorSelection.id = uuid();
+            // localMovieObj.currentRound = gameRound;
+            // localMovieObj.nextRound = nextRound;
 
             setMovieList((prev) => {
                 return [...prev, localMovieObj];

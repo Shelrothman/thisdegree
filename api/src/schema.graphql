@@ -25,6 +25,7 @@ type MovieValidation {
     id: ID!
     isInMovie: Boolean!
     character: String!
+    cast: [Actor]!
 }
 
 type Mutation {

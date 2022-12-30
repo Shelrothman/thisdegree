@@ -11,11 +11,9 @@ function MovieCard({ movie }) {
                 </Card.Text>
             </Card.Body>
             <Card.Header as="h5" id="card-movie-header">
-                <h4>
                     <span className="movieTitle-card">
                         {movie.movieTitle}
                     </span>
-                </h4>
             </Card.Header>
         </Card>
     );

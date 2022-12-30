@@ -8,8 +8,8 @@
  * ! keep the fetching and the checking/verifying logic all in here and other classes SO THAT we can just import the classes into components and use them without having to worry about the logic, reuseability, etc.
  * ! this is good bc IF the data structure (response) changes, we only have to change it in this one place and it will be reflected everywhere else
 */
-
-
+// ! the global MovieList can just be the final TREEE u fucking idiot
+// * didnt even really need this but it did really nail down for  me uin my brain how to work with Classes and succeasffully implement the methiods and stuf so good job with that
 import { getMovieByKey } from '../data/movies';
 import { getActorByKey } from '../data/actors';
 import getMovieObjectByKey from '../data/actorsInMovie';
@@ -28,15 +28,13 @@ export default class GameRound {
         this.actorB = undefined; //undefined until actor is selected from the list...
         this.actorB_ID = undefined;
         this.movieID = undefined;
-        this.actorList = []; // the list of actors in the movieGuess
-        this.actorListID = undefined; // the one associated with the movieGuess
+
         this.movieVerified = false;
         this.lastRound = lastRound; // the last rounds GameRound instance, will be empty if its the first round
         this.movieUUID = uuid();
 
         this.init = this.init.bind(this);
         this.verifyMovie = this.verifyMovie.bind(this);
-        this.presentActorsInMovie = this.presentActorsInMovie.bind(this);
         this.setActorFromSelection = this.setActorFromSelection.bind(this);
         this.complete = this.complete.bind(this);
     }
@@ -52,8 +50,7 @@ export default class GameRound {
             this.actorA_ID = GameRound.getActor(this.actorA).id;
             const movieObject = GameRound.getMovie(this.movieTitle);
             this.movieID = movieObject.id;
-            this.actorListID = movieObject.actorListID;
-            this.actorList = GameRound.getActorList(this.movieTitle);
+            // this entire thingg is not even really needed bc we can just use the movieObject to get the actors in the movie in context
             return this;
         } catch (error) {
             console.error(error);
@@ -68,14 +65,6 @@ export default class GameRound {
             // TODO add check in here if movies already been guessed, return false if it has
             const actorsInMovie = this.actorList;
             let found = false;
-            // const { validateMovie } = useApolloValidateMovie(this.movieTitle, this.actorA);
-            // const veryifyMovieInput = async () => {
-            //     const { data } = await validateMovie();
-            //     return data;
-            // }
-            // const verificationData = await veryifyMovieInput();
-            // console.log('YO!')
-            // console.log(verificationData);
             for (let x = 0, max = actorsInMovie.length; x < max; x++) {
                 console.log(x)
                 let actor = actorsInMovie[x];
@@ -91,38 +80,6 @@ export default class GameRound {
         }
     }
 
-    // async getFromGraphql() {
-    //     try {
-    //         const { loading, error, data } = useQuery(gql`
-    //         query {
-    //             getCastList(title: ${this.movieTitle}) {
-    //                 id
-    //                 name
-    //                 character
-    //             }
-    //         }
-    //         `);
-    //         if (loading) return <p>Loading...</p>;
-    //         if (error) return <p>Error :(</p>;
-    //         console.log(data);
-    //         return data;
-    //     } catch (error) {
-    //         console.error(error);
-    //     }
-    // }
-
-    /** 
-    * @method - used to present the list of actors to choose from to the end user
-    * @returns {Array.<Object>} - array of objects with actorID and name properties
-    */
-    async presentActorsInMovie() {
-        try {
-            const actorsInMovie = this.actorList;
-            return actorsInMovie;
-        } catch (error) {
-            console.error(error)
-        }
-    }
 
     /**
      * @method - used to select the actorB from the list of actors in the movieGuess
@@ -192,19 +149,6 @@ export default class GameRound {
             // throw new Error(`movieTitle is not found in movies array`);
             // } else {
             return movieObject || {};
-            // }
-        } catch (error) {
-            console.error(error);
-        }
-    }
-
-    static getActorList(movieTitle) {
-        try {
-            const movieObject = getMovieObjectByKey('title', movieTitle);
-            // if (movieObject === undefined) {
-            // throw new Error(`movieTitle is not found in actorList array. something is off.`);
-            // } else {
-            return movieObject?.properties?.actors || [];
             // }
         } catch (error) {
             console.error(error);
