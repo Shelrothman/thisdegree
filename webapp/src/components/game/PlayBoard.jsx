@@ -59,8 +59,6 @@ function PlayBoard() {
         actorInput: '',
     });
 
-
-
     const { loading, data, error, refetch } = useQuery(VALIDATE_MOVIE_QUERY, {
         variables: {
             movieInput: formState.movieInput,
@@ -73,9 +71,6 @@ function PlayBoard() {
             console.log('error: ', error);
         }
     });
-
-
-
 
     // TODO this function could also be moved into the GameContext
     function handleOnClick(actor) {
