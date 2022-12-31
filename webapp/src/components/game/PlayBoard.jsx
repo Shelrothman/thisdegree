@@ -20,7 +20,6 @@ import MovieInput from './form/MovieInput';
 import SelectActor from './form/SelectActor';
 import ActorHeader from './ActorHeader';
 import { handleInvalidMovieInput } from '../../helpers/handlers';
-// import { useApolloGetCast, useApolloValidateMovie } from '../../hooks/useApolloServer';
 // import { useApolloValidate } from '../../hooks/useApolloServer';
 const VALIDATE_MOVIE_QUERY = gql`
 query validateMovieInput($movieInput: String!, $actorInput: String!) 
@@ -181,11 +180,11 @@ function PlayBoard() {
     const buildBridgeNodes = movieList?.map((movie, i) => {
         return (
             <div key={i}>
-                <CardContainer movieTitle={movie.movieTitle} />
+                <CardContainer />
                 <SelectActor id={`select-actor-${i}`} handleChange={handleActorSelection} disableState={movie.actorGuessed} options={actorOptions} movieTitle={movie.movieTitle} />
                 <br />
                 {movie.actorGuessed && (
-                    <CardContainer movieTitle={movie.movieTitle} movieType={false} actorName={currentActorBridge}/>
+                    <CardContainer movieType={false} actorName={currentActorBridge}/>
                 )}
                 {(movie.actorSelection.name !== '') && (
                     <div ref={submitRef}>

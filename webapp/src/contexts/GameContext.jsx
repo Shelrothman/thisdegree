@@ -77,13 +77,13 @@ export function GameContextProvider({ children }) {
     const handleNewActorGuess = async (userActorInput, movie) => {
 
         try {
-
             // TODO use movieID instead of title to make this more reliable.. or just use the last element of the array since that will be the current round
-            let localMovieObj = movieList.find((movieObj) => movieObj.movieTitle == movie);
+            // let localMovieObj = movieList.find((movieObj) => movieObj.movieTitle == movie);
+
+            let localMovieObj = movieList[movieList.length - 1];
 
             // remove the movie from movieList and then setMovieList to that new list SO THAT we can replace it at the end of this function
             setMovieList(movieList.filter((movieObj) => movieObj.movieTitle !== movie));
-
             localMovieObj.actorGuessed = true;
             localMovieObj.actorSelection.name = userActorInput;
             localMovieObj.actorSelection.id = uuid();
