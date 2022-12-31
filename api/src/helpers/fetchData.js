@@ -17,10 +17,10 @@ const apiBase = `https://api.themoviedb.org/3`;
 const urlPrefix = `/search/movie?query=`;
 const urlSuffix = `&page=1&api_key=${apiKey}`;
 
-
-async function validateMovie(movie, actor) { //* used after user enters a movie  to validate currentActor is in it
+//* used after user enters a movie  to validate currentActor is in it
+async function validateMovie(movie, actor) { 
     try {
-        let movieID = await getMovieByTitle(movie);
+        let movieID = await getMovieByTitle(movie) || '';
         let cast = await getMovieCast(movieID) || [];
         // we dont need to loop through and build since we are just validating, and can save time
         let found = false;
@@ -45,7 +45,7 @@ async function getMovieByTitle(movieTitle) {
 
         const resObject = await response.json();
         // console.log("resObject", resObject)
-        let movieID = resObject.results[0]?.id || '';
+        let movieID = resObject.results?.[0]?.id || '';
         return movieID;
     } catch (error) {
         console.error(error);

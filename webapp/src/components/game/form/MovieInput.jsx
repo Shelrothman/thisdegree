@@ -2,7 +2,7 @@ import { forwardRef } from "react";
 import SubmitBtn from "../../buttons/SubmitBtn";
 
 const MovieInput = forwardRef(function MovieInput(props, ref) {
-    const { actor, id, btnHandler } = props;
+    const { actor, id, btnHandler, value } = props;
     //* the input ref should always be the last one rendered? 
     return (
         <>

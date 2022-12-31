@@ -51,7 +51,7 @@ export function GameContextProvider({ children }) {
     };
 
     // TODO: MODULARIZE THIS FUNCTION ,,,
-    async function handleNewMovieGuess(userActor, userMovieInput) {
+    async function handleNewMovieGuess(userMovieInput) {
         try {
             // if movieList is === 0, then we are on the first round
             // let gameRound = new GameRound(userActor, userMovieInput);

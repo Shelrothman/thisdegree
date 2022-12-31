@@ -18,8 +18,25 @@ import MovieInput from './form/MovieInput';
 import SelectActor from './form/SelectActor';
 import ActorHeader from './ActorHeader';
 import { handleInvalidMovieInput } from '../../helpers/handlers';
-import { useApolloGetCast, useApolloValidateMovie } from '../../hooks/useApolloServer';
 
+import { useQuery, gql } from '@apollo/client';
+// import { useApolloGetCast, useApolloValidateMovie } from '../../hooks/useApolloServer';
+// import { useApolloValidate } from '../../hooks/useApolloServer';
+const VALIDATE_MOVIE_QUERY = gql`
+query validateMovieInput($movieInput: String!, $actorInput: String!) 
+{
+    validateMovieInput(title: $movieInput, actor: $actorInput) {
+        id
+        isInMovie
+        character
+        cast {
+            character
+            id
+            name
+        }
+    }
+}`;
+// TODO: put this query in its own file
 
 function PlayBoard() {
     const { actorA, actorB } = useActorContext();
@@ -36,24 +53,30 @@ function PlayBoard() {
     } = useGameContext();
     const inputRef = useRef(null);
     const submitRef = useRef(null);
-        
-    const [castForm, setCastForm] = useState({
-        movieInput: '',
-    });
-    const {
-        loading: castLoading,
-        data: castData,
-        error: castError
-    } = useApolloGetCast(castForm.movieInput);
-    const [validationForm, setValidationForm] = useState({
+
+    const [formState, setFormState] = useState({
         movieInput: '',
         actorInput: '',
     });
-    const {
-        loading: validationLoading,
-        data: validationData,
-        error: validationError
-    } = useApolloValidateMovie(validationForm.movieInput, validationForm.actorInput);
+
+    const [movieData, setMovieData] = useState({});
+
+
+    const { loading, data, error, refetch } = useQuery(VALIDATE_MOVIE_QUERY, {
+        variables: {
+            movieInput: formState.movieInput,
+            actorInput: formState.actorInput
+        },
+        onCompleted: (data) => {
+            console.log('data onCompleted: ', data);
+            setMovieData(data.validateMovieInput);
+            // return;
+            // setCurrentActorOptions(data.validateMovieInput.cast);
+        },
+        onError: (error) => {
+            console.log('error: ', error);
+        }
+    });
 
 
     useEffect(() => {
@@ -81,40 +104,63 @@ function PlayBoard() {
     // TODO add in handling selecting movie for user.. etc..
     // TODO MODULARIZE this function
     async function handleSubmit() {
-        const userMovieGuess = inputRef.current.value;
-        if (userMovieGuess) {
-            // const movieEvaluation = await handleNewMovieGuess(currentActorBridge, userMovieGuess);
-            setValidationForm({
-                movieInput: userMovieGuess,
-                actorInput: currentActorBridge
-            });
-            setCastForm({ movieInput: userMovieGuess });
-            let movieEvaluation = await validationData?.validateMovieInput || {};
+        try {
+            const userMovieGuess = inputRef.current.value;
+            if (userMovieGuess) {
+                setFormState({
+                    movieInput: userMovieGuess,
+                    actorInput: currentActorBridge
+                });
 
-            console.log('movieEvaluation: ', movieEvaluation);
-            //* dont let the movie get chosen IF its not a vlaid movie with the actor in i9t
-            if (movieEvaluation.isInMovie === false) handleInvalidMovieGuess();
-            // TODO may need more constraints here
-            else {
-                await handleNewMovieGuess(currentActorBridge, userMovieGuess);
-                handleValidMovieGuess(userMovieGuess);
+                // PUUUUU here and set uo the qyery to go ahead
+                //! it says its an empty array on the first click
+                // why is that happening? this happened before.. what was the fix
+                let movieEvaluationObject = await refetch({
+                    movieInput: userMovieGuess,
+                    actorInput: currentActorBridge
+                });
+
+                console.log('movieEvaluation: ', movieEvaluationObject);
+                let evaluationResult = movieEvaluationObject?.data?.validateMovieInput?.isInMovie;
+
+                //* dont let the movie get chosen IF its not a vlaid movie with the actor in i9t
+                if (evaluationResult === false) {
+                    handleInvalidMovieGuess();
+                    // TODO may need more constraints here
+                } else if (evaluationResult === true) {
+                    // add it to the global list
+                    await handleNewMovieGuess(userMovieGuess);
+                    handleValidMovieGuess(userMovieGuess, movieEvaluationObject);
+                } else {
+                    throw new Error('something went wrong in the handleSubmit() function');
+                }
+            } else {
+                throw new Error('yo! pick somthing, you smarty pants!');
             }
-        } else {
-            throw new Error('yo! pick somthing, you smarty pants!');
+        } catch (error) {
+            console.error(error);
         }
+
+
     }
 
-    async function handleValidMovieGuess(userMovieGuess) {
-        submitRef.current.style.display = 'none';
-        // console.log('submitRef.current: ', submitRef.current)
-        inputRef.current.disabled = true;
-        setCurrentMovie(userMovieGuess);
-        let actorList = await castData?.getCastList;
-        
+    async function handleValidMovieGuess(userMovieGuess, movieEvaluationObject) {
 
-        console.log('actorList: ', actorList);
-        setCurrentActorOptions(actorList);
-        return;
+        try {
+            submitRef.current.style.display = 'none';
+            // console.log('submitRef.current: ', submitRef.current)
+            inputRef.current.disabled = true;
+            setCurrentMovie(userMovieGuess);
+            let actorList = movieEvaluationObject.data.validateMovieInput?.cast || [];
+
+
+            console.log('actorList: ', actorList);
+            setCurrentActorOptions(actorList);
+            return;
+        } catch (error) {
+            console.error(error);
+        }
+
     }
 
     function handleInvalidMovieGuess() {
