@@ -8,7 +8,9 @@
 //! need to stop user from BEing able to enter the same movie twice (bc it first of all is stupid for the game and also would mess up our logic)
 //? if there are problems with the refs.. go back to beta docs and implement Map() 
 import { useEffect, useState, useRef } from 'react';
+import { useQuery, gql } from '@apollo/client';
 
+import Spinner from '../../utils/Spinner';
 import { useActorContext, useGameContext } from '../../contexts';
 // import uuid from 'react-uuid';
 import MovieBtn from '../buttons/MovieBtn';
@@ -18,8 +20,6 @@ import MovieInput from './form/MovieInput';
 import SelectActor from './form/SelectActor';
 import ActorHeader from './ActorHeader';
 import { handleInvalidMovieInput } from '../../helpers/handlers';
-
-import { useQuery, gql } from '@apollo/client';
 // import { useApolloGetCast, useApolloValidateMovie } from '../../hooks/useApolloServer';
 // import { useApolloValidate } from '../../hooks/useApolloServer';
 const VALIDATE_MOVIE_QUERY = gql`
@@ -212,6 +212,7 @@ function PlayBoard() {
                         )}
                     </div>
                     {buildBridgeNodes}
+                    {loading && <Spinner />}
                     <End actor={actorB} disabled={!readyToBridge} />
                 </>
             )}
