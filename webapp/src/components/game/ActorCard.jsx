@@ -1,4 +1,7 @@
 import Card from 'react-bootstrap/Card';
+import { useGameContext } from '../../contexts';
+
+
 
 function ActorCard({ movie, actorName }) {
     return (

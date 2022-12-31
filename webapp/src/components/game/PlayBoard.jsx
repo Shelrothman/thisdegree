@@ -40,7 +40,7 @@ query validateMovieInput($movieInput: String!, $actorInput: String!)
 function PlayBoard() {
     const { actorA, actorB } = useActorContext();
     const [currentMovie, setCurrentMovie] = useState('');
-    const [currentActorBridge, setCurrentActorBridge] = useState(actorA);
+    // const [currentActorBridge, setCurrentActorBridge] = useState(actorA);
     const [readyToInputFirst, setReadyToInputFirst] = useState(false);
     const [currentActorOptions, setCurrentActorOptions] = useState([]);
     const {
@@ -49,6 +49,8 @@ function PlayBoard() {
         readyToBridge,
         handleNewMovieGuess,
         handleNewActorGuess,
+        currentActorBridge,
+        setCurrentActorBridge
     } = useGameContext();
     const inputRef = useRef(null);
     const submitRef = useRef(null);

@@ -12,14 +12,13 @@ import {
     createContext,
     // useEffect
 } from 'react';
-// import { useActorContext } from './ActorContext.jsx';
+import { useActorContext } from './ActorContext.jsx';
 // import GameRound from '../models/GameRound';
 import uuid from 'react-uuid';
 
-
+// TODO eventually merge in ActorContext and just hold actorA and B in here, all in one context
 // import { useActorContext } from './ActorContext.jsx';
 //! not until readyToBridge is true is the actorB btn enabled and any "checking" is done
-
 // TODO eventually we send the final movieList array to the createTree backend route
 
 const GameContext = createContext();
@@ -35,6 +34,9 @@ export function useGameContext() {
 
 export function GameContextProvider({ children }) {
     const [gameStarted, setGameStarted] = useState(false);
+    const { actorA, actorB } = useActorContext();
+    const [currentActorBridge, setCurrentActorBridge] = useState(actorA); 
+
     // the movieList to hold the whole tree
     const [movieList, setMovieList] = useState([]); // cant we just use this to keep track of the game
 
@@ -68,20 +70,15 @@ export function GameContextProvider({ children }) {
         } catch (error) {
             console.error(error);
         }
-
-
     }
 
 
     //TODO MODULATE , errror handeling
     const handleNewActorGuess = async (userActorInput, movie) => {
-
         try {
             // TODO use movieID instead of title to make this more reliable.. or just use the last element of the array since that will be the current round
             // let localMovieObj = movieList.find((movieObj) => movieObj.movieTitle == movie);
-
             let localMovieObj = movieList[movieList.length - 1];
-
             // remove the movie from movieList and then setMovieList to that new list SO THAT we can replace it at the end of this function
             setMovieList(movieList.filter((movieObj) => movieObj.movieTitle !== movie));
             localMovieObj.actorGuessed = true;
@@ -108,6 +105,8 @@ export function GameContextProvider({ children }) {
             handleNewMovieGuess,
             handleNewActorGuess,
             readyToBridge,
+            currentActorBridge,
+            setCurrentActorBridge,
         }}>
             {children}
         </GameContext.Provider>

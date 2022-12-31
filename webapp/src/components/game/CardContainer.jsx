@@ -8,7 +8,7 @@ import { useGameContext } from '../../contexts';
 
 function CardContainer({ movieType = true, actorName = '' }) {
     const { movieList } = useGameContext();
-    const [movieTitle, setMovieTitle ]  = useState(movieList[movieList.length - 1].movieTitle)
+    const [movieTitle, setMovieTitle ]  = useState(movieList[movieList.length - 1].movieTitle) // TODO - this is a hack, need to fix this
 
 
     const justifyContent = movieType ? 'end' : 'start';
