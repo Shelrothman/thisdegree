@@ -3,9 +3,8 @@ import MovieCard from './MovieCard';
 import ActorCard from './ActorCard';
 
 
-function CardContainer({ movie, movieType = true }) {
+function CardContainer({ movieTitle, movieType = true, actorName = '' }) {
     const justifyContent = movieType ? 'end' : 'start';
-    
     return (
         <Container style={{
             display: 'flex',
@@ -13,8 +12,8 @@ function CardContainer({ movie, movieType = true }) {
         }}>
             {
                 movieType ?
-                    <MovieCard movie={movie} />
-                    : <ActorCard movie={movie} />
+                    <MovieCard movie={movieTitle} />
+                    : <ActorCard movie={movieTitle} actorName={actorName} />
             }
         </Container>
     );

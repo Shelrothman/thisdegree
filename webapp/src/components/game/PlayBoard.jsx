@@ -112,9 +112,6 @@ function PlayBoard() {
                     actorInput: currentActorBridge
                 });
 
-                // PUUUUU here and set uo the qyery to go ahead
-                //! it says its an empty array on the first click
-                // why is that happening? this happened before.. what was the fix
                 let movieEvaluationObject = await refetch({
                     movieInput: userMovieGuess,
                     actorInput: currentActorBridge
@@ -122,7 +119,6 @@ function PlayBoard() {
 
                 console.log('movieEvaluation: ', movieEvaluationObject);
                 let evaluationResult = movieEvaluationObject?.data?.validateMovieInput?.isInMovie;
-
                 //* dont let the movie get chosen IF its not a vlaid movie with the actor in i9t
                 if (evaluationResult === false) {
                     handleInvalidMovieGuess();
@@ -140,8 +136,6 @@ function PlayBoard() {
         } catch (error) {
             console.error(error);
         }
-
-
     }
 
     async function handleValidMovieGuess(userMovieGuess, movieEvaluationObject) {
@@ -177,7 +171,8 @@ function PlayBoard() {
     async function handleActorSelection(userSelection) {
         try {
             setCurrentActorBridge(userSelection);
-            return await handleNewActorGuess(userSelection, currentMovie);
+            await handleNewActorGuess(userSelection, currentMovie);
+            return;
         } catch (error) {
             console.error(error);
         }
@@ -186,11 +181,11 @@ function PlayBoard() {
     const buildBridgeNodes = movieList?.map((movie, i) => {
         return (
             <div key={i}>
-                <CardContainer movie={movie} />
+                <CardContainer movieTitle={movie.movieTitle} />
                 <SelectActor id={`select-actor-${i}`} handleChange={handleActorSelection} disableState={movie.actorGuessed} options={actorOptions} movieTitle={movie.movieTitle} />
                 <br />
                 {movie.actorGuessed && (
-                    <CardContainer movie={movie} movieType={false} />
+                    <CardContainer movieTitle={movie.movieTitle} movieType={false} actorName={currentActorBridge}/>
                 )}
                 {(movie.actorSelection.name !== '') && (
                     <div ref={submitRef}>

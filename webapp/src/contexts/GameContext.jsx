@@ -53,16 +53,8 @@ export function GameContextProvider({ children }) {
     // TODO: MODULARIZE THIS FUNCTION ,,,
     async function handleNewMovieGuess(userMovieInput) {
         try {
-            // if movieList is === 0, then we are on the first round
-            // let gameRound = new GameRound(userActor, userMovieInput);
-            // gameRound = gameRound.init();
+            //TODO if movieList is === 0, then we are on the first round
             // else then use the last element in movieList to create the new gameRound 
-            // // TODO: add logic here to include the last round in lastRound into the new gameRound if its not the first round
-            // console.log('gameRound', gameRound);
-
-            // setting list into gamearound so we can hold on to it and differentiate
-            // let castList;
-
 
 
             let localMovieList = movieList || [];
@@ -93,7 +85,7 @@ export function GameContextProvider({ children }) {
 
         try {
 
-            // TODO use movieID instead of title to make this more reliable
+            // TODO use movieID instead of title to make this more reliable.. or just use the last element of the array since that will be the current round
             let localMovieObj = movieList.find((movieObj) => movieObj.movieTitle == movie);
 
             // remove the movie from movieList and then setMovieList to that new list SO THAT we can replace it at the end of this function

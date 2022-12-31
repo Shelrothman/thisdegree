@@ -7,12 +7,11 @@ function MovieCard({ movie }) {
             <Card.Body id="card-movie-body">
                 <Card.Text>
                     Movie Bridge:
-
                 </Card.Text>
             </Card.Body>
             <Card.Header as="h5" id="card-movie-header">
                     <span className="movieTitle-card">
-                        {movie.movieTitle}
+                        {movie}
                     </span>
             </Card.Header>
         </Card>
