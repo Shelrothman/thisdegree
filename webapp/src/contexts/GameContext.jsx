@@ -52,6 +52,12 @@ export function GameContextProvider({ children }) {
         setMovieList([]);
     };
 
+    function handleFirstClick(actor) {
+        setCurrentActorBridge(actor);
+        setReadyToInputFirst(true);
+        return;
+    }
+
     useEffect(() => { // TODO move into context
         console.table(movieList);
         console.log('currentMovieTitle', currentMovieTitle);
@@ -129,6 +135,7 @@ export function GameContextProvider({ children }) {
             setCurrentMovieTitle,
             readyToInputFirst,
             setReadyToInputFirst,
+            handleFirstClick,
         }}>
             {children}
         </GameContext.Provider>

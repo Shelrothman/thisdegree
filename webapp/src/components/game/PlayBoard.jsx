@@ -50,6 +50,7 @@ function PlayBoard() {
         setCurrentMovieTitle,
         readyToInputFirst,
         setReadyToInputFirst,
+        handleFirstClick
     } = useGameContext();
     const inputRef = useRef(null);
     const submitRef = useRef(null);
@@ -71,13 +72,6 @@ function PlayBoard() {
             console.log('error: ', error);
         }
     });
-
-    // TODO this function could also be moved into the GameContext
-    function handleOnClick(actor) {
-        setCurrentActorBridge(actor);
-        setReadyToInputFirst(true);
-        return;
-    }
 
     // TODO add in handling selecting movie for user.. etc..
     // TODO MODULARIZE this function
@@ -181,7 +175,7 @@ function PlayBoard() {
                 <>
                     <div><h1>Game Started</h1></div>
                     <div>
-                        <MovieBtn text={actorA} handler={handleOnClick} />
+                        <MovieBtn text={actorA} handler={handleFirstClick} />
                         <br />
                         {readyToInputFirst && (
                             <div ref={submitRef}>
