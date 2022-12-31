@@ -37,7 +37,6 @@ query validateMovieInput($movieInput: String!, $actorInput: String!)
 
 function PlayBoard() {
     const { actorA, actorB } = useActorContext();
-    // const [readyToInputFirst, setReadyToInputFirst] = useState(false);
     const [currentActorOptions, setCurrentActorOptions] = useState([]);
     const {
         gameStarted,
@@ -60,7 +59,6 @@ function PlayBoard() {
         actorInput: '',
     });
 
-    const [movieData, setMovieData] = useState({});
 
 
     const { loading, data, error, refetch } = useQuery(VALIDATE_MOVIE_QUERY, {
@@ -70,9 +68,6 @@ function PlayBoard() {
         },
         onCompleted: (data) => {
             console.log('data onCompleted: ', data);
-            setMovieData(data.validateMovieInput);
-            // return;
-            // setCurrentActorOptions(data.validateMovieInput.cast);
         },
         onError: (error) => {
             console.log('error: ', error);
@@ -81,15 +76,6 @@ function PlayBoard() {
 
 
 
-
-    useEffect(() => {
-        // TODO: move this whole effect into the GameContext, then just bring in this file to conditionally render
-        if (!gameStarted) {
-            setReadyToInputFirst(false);
-            setCurrentMovieTitle('');
-            setCurrentActorBridge(actorA);
-        }
-    }, [gameStarted]);
 
     // TODO this function could also be moved into the GameContext
     function handleOnClick(actor) {

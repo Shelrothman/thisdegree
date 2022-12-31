@@ -58,6 +58,15 @@ export function GameContextProvider({ children }) {
         console.log('currentActorBridge', currentActorBridge);
     }, [movieList, currentMovieTitle, currentActorBridge]);
 
+    useEffect(() => {
+        // TODO: move this whole effect into the GameContext, then just bring in this file to conditionally render
+        if (!gameStarted) {
+            setReadyToInputFirst(false);
+            setCurrentMovieTitle('');
+            setCurrentActorBridge(actorA);
+        }
+    }, [gameStarted]);
+
     // TODO: MODULARIZE THIS FUNCTION ,,,
     async function handleNewMovieGuess(userMovieInput) {
         try {
