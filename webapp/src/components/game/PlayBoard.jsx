@@ -39,7 +39,7 @@ query validateMovieInput($movieInput: String!, $actorInput: String!)
 
 function PlayBoard() {
     const { actorA, actorB } = useActorContext();
-    const [currentMovie, setCurrentMovie] = useState('');
+    // const [currentMovie, setCurrentMovie] = useState('');
     // const [currentActorBridge, setCurrentActorBridge] = useState(actorA);
     const [readyToInputFirst, setReadyToInputFirst] = useState(false);
     const [currentActorOptions, setCurrentActorOptions] = useState([]);
@@ -50,7 +50,9 @@ function PlayBoard() {
         handleNewMovieGuess,
         handleNewActorGuess,
         currentActorBridge,
-        setCurrentActorBridge
+        setCurrentActorBridge,
+        currentMovieTitle,
+        setCurrentMovieTitle,
     } = useGameContext();
     const inputRef = useRef(null);
     const submitRef = useRef(null);
@@ -80,17 +82,17 @@ function PlayBoard() {
     });
 
 
-    useEffect(() => {
+    useEffect(() => { // TODO move into context
         console.table(movieList);
-        console.log('currentMovie', currentMovie);
+        console.log('currentMovieTitle', currentMovieTitle);
         console.log('currentActorBridge', currentActorBridge);
-    }, [movieList, currentMovie, currentActorBridge]);
+    }, [movieList, currentMovieTitle, currentActorBridge]);
 
     useEffect(() => {
         // TODO: move this whole effect into the GameContext, then just bring in this file to conditionally render
         if (!gameStarted) {
             setReadyToInputFirst(false);
-            setCurrentMovie('');
+            setCurrentMovieTitle('');
             setCurrentActorBridge(actorA);
         }
     }, [gameStarted]);
@@ -145,7 +147,7 @@ function PlayBoard() {
             submitRef.current.style.display = 'none';
             // console.log('submitRef.current: ', submitRef.current)
             inputRef.current.disabled = true;
-            setCurrentMovie(userMovieGuess);
+            setCurrentMovieTitle(userMovieGuess);
             let actorList = movieEvaluationObject.data.validateMovieInput?.cast || [];
 
 
@@ -172,7 +174,7 @@ function PlayBoard() {
     async function handleActorSelection(userSelection) {
         try {
             setCurrentActorBridge(userSelection);
-            await handleNewActorGuess(userSelection, currentMovie);
+            await handleNewActorGuess(userSelection, currentMovieTitle);
             return;
         } catch (error) {
             console.error(error);
@@ -186,7 +188,7 @@ function PlayBoard() {
                 <SelectActor id={`select-actor-${i}`} handleChange={handleActorSelection} disableState={movie.actorGuessed} options={actorOptions} movieTitle={movie.movieTitle} />
                 <br />
                 {movie.actorGuessed && (
-                    <CardContainer movieType={false} actorName={currentActorBridge}/>
+                    <CardContainer movieType={false} actorName={movie.actorSelection.name}/>
                 )}
                 {(movie.actorSelection.name !== '') && (
                     <div ref={submitRef}>

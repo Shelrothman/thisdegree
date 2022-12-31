@@ -36,7 +36,7 @@ export function GameContextProvider({ children }) {
     const [gameStarted, setGameStarted] = useState(false);
     const { actorA, actorB } = useActorContext();
     const [currentActorBridge, setCurrentActorBridge] = useState(actorA); 
-
+    const [currentMovieTitle, setCurrentMovieTitle] = useState(''); // this is the movie title of current movie
     // the movieList to hold the whole tree
     const [movieList, setMovieList] = useState([]); // cant we just use this to keep track of the game
 
@@ -107,6 +107,8 @@ export function GameContextProvider({ children }) {
             readyToBridge,
             currentActorBridge,
             setCurrentActorBridge,
+            currentMovieTitle,
+            setCurrentMovieTitle,
         }}>
             {children}
         </GameContext.Provider>
