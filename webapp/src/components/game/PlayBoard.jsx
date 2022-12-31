@@ -12,7 +12,6 @@ import { useQuery, gql } from '@apollo/client';
 
 import Spinner from '../../utils/Spinner';
 import { useActorContext, useGameContext } from '../../contexts';
-// import uuid from 'react-uuid';
 import MovieBtn from '../buttons/MovieBtn';
 import End from './End';
 import CardContainer from './CardContainer';
@@ -20,7 +19,6 @@ import MovieInput from './form/MovieInput';
 import SelectActor from './form/SelectActor';
 import ActorHeader from './ActorHeader';
 import { handleInvalidMovieInput } from '../../helpers/handlers';
-// import { useApolloValidate } from '../../hooks/useApolloServer';
 const VALIDATE_MOVIE_QUERY = gql`
 query validateMovieInput($movieInput: String!, $actorInput: String!) 
 {
@@ -39,9 +37,7 @@ query validateMovieInput($movieInput: String!, $actorInput: String!)
 
 function PlayBoard() {
     const { actorA, actorB } = useActorContext();
-    // const [currentMovie, setCurrentMovie] = useState('');
-    // const [currentActorBridge, setCurrentActorBridge] = useState(actorA);
-    const [readyToInputFirst, setReadyToInputFirst] = useState(false);
+    // const [readyToInputFirst, setReadyToInputFirst] = useState(false);
     const [currentActorOptions, setCurrentActorOptions] = useState([]);
     const {
         gameStarted,
@@ -53,6 +49,8 @@ function PlayBoard() {
         setCurrentActorBridge,
         currentMovieTitle,
         setCurrentMovieTitle,
+        readyToInputFirst,
+        setReadyToInputFirst,
     } = useGameContext();
     const inputRef = useRef(null);
     const submitRef = useRef(null);
@@ -82,11 +80,7 @@ function PlayBoard() {
     });
 
 
-    useEffect(() => { // TODO move into context
-        console.table(movieList);
-        console.log('currentMovieTitle', currentMovieTitle);
-        console.log('currentActorBridge', currentActorBridge);
-    }, [movieList, currentMovieTitle, currentActorBridge]);
+
 
     useEffect(() => {
         // TODO: move this whole effect into the GameContext, then just bring in this file to conditionally render

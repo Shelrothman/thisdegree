@@ -10,7 +10,7 @@ import {
     useState,
     useContext,
     createContext,
-    // useEffect
+    useEffect
 } from 'react';
 import { useActorContext } from './ActorContext.jsx';
 // import GameRound from '../models/GameRound';
@@ -35,6 +35,9 @@ export function useGameContext() {
 export function GameContextProvider({ children }) {
     const [gameStarted, setGameStarted] = useState(false);
     const { actorA, actorB } = useActorContext();
+    
+    const [readyToInputFirst, setReadyToInputFirst] = useState(false);
+    
     const [currentActorBridge, setCurrentActorBridge] = useState(actorA); 
     const [currentMovieTitle, setCurrentMovieTitle] = useState(''); // this is the movie title of current movie
     // the movieList to hold the whole tree
@@ -48,6 +51,12 @@ export function GameContextProvider({ children }) {
         setGameStarted((prev) => !prev);
         setMovieList([]);
     };
+
+    useEffect(() => { // TODO move into context
+        console.table(movieList);
+        console.log('currentMovieTitle', currentMovieTitle);
+        console.log('currentActorBridge', currentActorBridge);
+    }, [movieList, currentMovieTitle, currentActorBridge]);
 
     // TODO: MODULARIZE THIS FUNCTION ,,,
     async function handleNewMovieGuess(userMovieInput) {
@@ -109,6 +118,8 @@ export function GameContextProvider({ children }) {
             setCurrentActorBridge,
             currentMovieTitle,
             setCurrentMovieTitle,
+            readyToInputFirst,
+            setReadyToInputFirst,
         }}>
             {children}
         </GameContext.Provider>
