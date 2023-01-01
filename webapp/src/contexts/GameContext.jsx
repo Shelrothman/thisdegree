@@ -16,6 +16,9 @@ import { useActorContext } from './ActorContext.jsx';
 // import GameRound from '../models/GameRound';
 import uuid from 'react-uuid';
 
+    // TODO remove from options, the currentActorBridge
+
+
 // TODO eventually merge in ActorContext and just hold actorA and B in here, all in one context
 // import { useActorContext } from './ActorContext.jsx';
 //! not until readyToBridge is true is the actorB btn enabled and any "checking" is done
@@ -35,15 +38,16 @@ export function useGameContext() {
 export function GameContextProvider({ children }) {
     const [gameStarted, setGameStarted] = useState(false);
     const { actorA, actorB } = useActorContext();
-    
     const [readyToInputFirst, setReadyToInputFirst] = useState(false);
-    
-    const [currentActorBridge, setCurrentActorBridge] = useState(actorA); 
+    const [currentActorBridge, setCurrentActorBridge] = useState(actorA);
     const [currentMovieTitle, setCurrentMovieTitle] = useState(''); // this is the movie title of current movie
     // the movieList to hold the whole tree
     const [movieList, setMovieList] = useState([]); // cant we just use this to keep track of the game
-
     const [readyToBridge, setReadyToBridge] = useState(false);
+
+    const [currentActorOptions, setCurrentActorOptions] = useState([]);
+
+
     // TODO: will use setReadyToBridge to enable the actorB btn once the button is triggered by user
     const handleGameStateChange = () => {
         // use this to change the game on and off
@@ -51,21 +55,19 @@ export function GameContextProvider({ children }) {
         setGameStarted((prev) => !prev);
         setMovieList([]);
     };
-
     function handleFirstClick(actor) {
         setCurrentActorBridge(actor);
         setReadyToInputFirst(true);
         return;
     }
 
-    useEffect(() => { // TODO move into context
+    useEffect(() => {
         console.table(movieList);
         console.log('currentMovieTitle', currentMovieTitle);
         console.log('currentActorBridge', currentActorBridge);
     }, [movieList, currentMovieTitle, currentActorBridge]);
 
     useEffect(() => {
-        // TODO: move this whole effect into the GameContext, then just bring in this file to conditionally render
         if (!gameStarted) {
             setReadyToInputFirst(false);
             setCurrentMovieTitle('');
@@ -90,11 +92,28 @@ export function GameContextProvider({ children }) {
                 },
             });
             setMovieList(localMovieList);
-            return; 
+            return;
         } catch (error) {
             console.error(error);
         }
     }
+
+
+    async function handleValidMovieGuess(userMovieGuess, movieEvaluationObject) {
+        try {
+            // submitRef.current.style.display = 'none';
+            // console.log('submitRef.current: ', submitRef.current)
+            // inputRef.current.disabled = true;
+            setCurrentMovieTitle(userMovieGuess);
+            let actorList = movieEvaluationObject.data.validateMovieInput?.cast || [];
+            console.log('actorList: ', actorList);
+            setCurrentActorOptions(actorList);
+            return;
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
 
 
     //TODO MODULATE , errror handeling
@@ -109,14 +128,22 @@ export function GameContextProvider({ children }) {
             localMovieObj.actorSelection.name = userActorInput;
             localMovieObj.actorSelection.id = uuid();
 
-
             setMovieList((prev) => {
                 return [...prev, localMovieObj];
             });
         } catch (error) {
             console.error(error)
         }
+    }
 
+    async function handleActorSelection(userSelection) {
+        try {
+            setCurrentActorBridge(userSelection);
+            await handleNewActorGuess(userSelection, currentMovieTitle);
+            return;
+        } catch (error) {
+            console.error(error);
+        }
     }
 
 
@@ -136,6 +163,10 @@ export function GameContextProvider({ children }) {
             readyToInputFirst,
             setReadyToInputFirst,
             handleFirstClick,
+            currentActorOptions,
+            setCurrentActorOptions,
+            handleActorSelection,
+            handleValidMovieGuess,
         }}>
             {children}
         </GameContext.Provider>

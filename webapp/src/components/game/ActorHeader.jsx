@@ -1,9 +1,15 @@
-function ActorHeader({ a, b }) {
+import { useActorContext } from "../../contexts";
+
+
+function ActorHeader() {
+
+    const { actorA, actorB } = useActorContext();
+
     return (
         <div>
-            Actor A: {a}
+            Actor A: {actorA}
             <br />
-            Actor B: {b}
+            Actor B: {actorB}
         </div>
     );
 }
