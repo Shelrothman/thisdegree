@@ -47,7 +47,7 @@ function PlayBoard() {
         currentActorBridge,
         // setCurrentActorBridge,
         // currentMovieTitle,
-        setCurrentMovieTitle,
+        // setCurrentMovieTitle,
         readyToInputFirst,
         // setReadyToInputFirst,
         currentActorOptions,
@@ -94,17 +94,16 @@ function PlayBoard() {
                 });
 
                 console.log('movieEvaluation: ', movieEvaluationObject);
-
                 let evaluationResult = movieEvaluationObject?.data?.validateMovieInput?.isInMovie;
                 //* dont let the movie get chosen IF its not a vlaid movie with the actor in i9t
                 if (evaluationResult === false) {
                     handleInvalidMovieGuess();
                     // TODO may need more constraints here
                 } else if (evaluationResult === true) {
-                    // add it to the global list
+                    // add the movie to the global list
                     await handleNewMovieGuess(userMovieGuess);
                     // TODO: combine these two functions above and below, refactor them to return spmething.
-                    // add it to the local list
+                    // add the cast of the movie to the actorOptions:
                     await handleValidMovieGuess(userMovieGuess, movieEvaluationObject);
                     submitRef.current.style.display = 'none';
                     inputRef.current.disabled = true;
@@ -124,20 +123,6 @@ function PlayBoard() {
         }
     }
 
-    // async function handleValidMovieGuess(userMovieGuess, movieEvaluationObject) {
-    //     try {
-    //         // submitRef.current.style.display = 'none';
-    //         // console.log('submitRef.current: ', submitRef.current)
-    //         // inputRef.current.disabled = true;
-    //         setCurrentMovieTitle(userMovieGuess);
-    //         let actorList = movieEvaluationObject.data.validateMovieInput?.cast || [];
-    //         console.log('actorList: ', actorList);
-    //         setCurrentActorOptions(actorList);
-    //         return;
-    //     } catch (error) {
-    //         console.error(error);
-    //     }
-    // }
 
     function handleInvalidMovieGuess() {
         handleInvalidMovieInput(inputRef);

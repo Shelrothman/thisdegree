@@ -98,7 +98,7 @@ export function GameContextProvider({ children }) {
         }
     }
 
-
+    // TODO change the name of this function to like buildCastOptions or something
     async function handleValidMovieGuess(userMovieGuess, movieEvaluationObject) {
         try {
             // submitRef.current.style.display = 'none';
@@ -113,7 +113,6 @@ export function GameContextProvider({ children }) {
             console.error(error);
         }
     }
-
 
 
     //TODO MODULATE , errror handeling
