@@ -128,7 +128,6 @@ function PlayBoard() {
         handleInvalidMovieInput(inputRef);
         return;
     }
-
     const actorOptions = currentActorOptions?.map((actor) => {
         return (
             <option key={actor.id} value={actor.name}>{actor.name}</option>
@@ -138,11 +137,11 @@ function PlayBoard() {
     const buildBridgeNodes = movieList?.map((movie, i) => {
         return (
             <div key={i}>
-                <CardContainer />
+                <CardContainer movieName={movie.movieTitle} />
                 <SelectActor id={`select-actor-${i}`} handleChange={handleActorSelection} disableState={movie.actorGuessed} options={actorOptions} movieTitle={movie.movieTitle} />
                 <br />
                 {movie.actorGuessed && (
-                    <CardContainer movieType={false} actorName={movie.actorSelection.name} />
+                    <CardContainer movieType={false} actorName={movie.actorSelection.name} movieName={movie.movieTitle} />
                 )}
                 {(movie.actorSelection.name !== '') && (
                     <div ref={submitRef}>

@@ -104,7 +104,7 @@ export function GameContextProvider({ children }) {
             // submitRef.current.style.display = 'none';
             // console.log('submitRef.current: ', submitRef.current)
             // inputRef.current.disabled = true;
-            setCurrentMovieTitle(userMovieGuess);
+            setCurrentMovieTitle(userMovieGuess);4
             let actorList = movieEvaluationObject.data.validateMovieInput?.cast || [];
             console.log('actorList: ', actorList);
             setCurrentActorOptions(actorList);
