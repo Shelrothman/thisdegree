@@ -6,7 +6,11 @@ the formm should be serpate from the dispolayy bc the form is the input and the 
 - sop one form for movie inputs since that runs once for a display to render and then one for actor selection... 
 - so eadch can just use context to do things (each as in form and display)
 <!-- ! make it so the form is always on the botoom and the display tree is built up top -->
-
+I could just use:
+```jsx
+<div style={{ display: actorA && actorB ? 'block' : 'none' }} />
+``` 
+instead of refs 
 
 - dpmt worry about organizing and modularizing and stuff to all the files... get something like in and then work on optomizing and cleanign up and stuff
 

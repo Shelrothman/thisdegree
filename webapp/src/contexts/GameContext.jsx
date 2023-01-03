@@ -50,7 +50,7 @@ export function GameContextProvider({ children }) {
 
     const [currentActorOptions, setCurrentActorOptions] = useState([]);
 
-    // const [readyToBuild, setReadyToBuild] = useState(movieList.length > 0); // only ready if there are movies in the list
+    const [readyToBuild, setReadyToBuild] = useState(movieList.length > 0); // only ready if there are movies in the list
 
     // TODO: will use setReadyToBridge to enable the actorB btn once the button is triggered by user
     const handleGameStateChange = () => {
@@ -169,8 +169,8 @@ export function GameContextProvider({ children }) {
             setCurrentActorOptions,
             handleActorSelection,
             buildCastOptions,
-            // readyToBuild,
-            // setReadyToBuild,
+            readyToBuild,
+            setReadyToBuild,
         }}>
             {children}
         </GameContext.Provider>

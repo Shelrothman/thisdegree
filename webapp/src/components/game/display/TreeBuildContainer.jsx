@@ -5,6 +5,8 @@ import Col from "react-bootstrap/Col";
 import ActorCard from "./ActorCard";
 import MovieCard from "./MovieCard";
 
+// nice bc they stay in order even when vp changes
+
 function TreeBuildContainer() {
     return (
         <Container id="tree-build-container">
@@ -13,7 +15,7 @@ function TreeBuildContainer() {
                 <ActorCard movie="The Matrix" actorName="Keanu Reeves" />
                 <MovieCard movie="The Matrix" />
                 <ActorCard movie="The Matrix" actorName="Keanu Reeves" />
-                <MovieCard movie="The Matrix" />
+                {/* <MovieCard movie="The Matrix" />
                 <ActorCard movie="The Matrix" actorName="Keanu Reeves" />
                 <MovieCard movie="The Matrix" />
                 <ActorCard movie="The Matrix" actorName="Keanu Reeves" />
@@ -23,7 +25,7 @@ function TreeBuildContainer() {
                 <ActorCard movie="The Matrix" actorName="Keanu Reeves" />
                 <ActorCard movie="The Matrix" actorName="Keanu Reeves" />
                 <ActorCard movie="The Matrix" actorName="Keanu Reeves" />
-                <ActorCard movie="The Matrix" actorName="Keanu Reeves" />
+                <ActorCard movie="The Matrix" actorName="Keanu Reeves" /> */}
             </Row>
         </Container>
     );
