@@ -16,7 +16,7 @@ import { useActorContext } from './ActorContext.jsx';
 // import GameRound from '../models/GameRound';
 import uuid from 'react-uuid';
 
-    // TODO remove from options, the currentActorBridge
+// TODO remove from options, the currentActorBridge
 
 
 // TODO eventually merge in ActorContext and just hold actorA and B in here, all in one context
@@ -77,7 +77,7 @@ export function GameContextProvider({ children }) {
     }, [gameStarted]);
 
     // TODO: MODULARIZE THIS FUNCTION ,,,
-    async function handleNewMovieGuess(userMovieInput) {
+    async function addMovieToGlobal(userMovieInput) {
         try {
             //TODO if movieList is === 0, then we are on the first round else then use the last element in movieList to create the new gameRound \
             let localMovieList = movieList || [];
@@ -93,22 +93,24 @@ export function GameContextProvider({ children }) {
                 },
             });
             setMovieList(localMovieList);
-            return;
+            return true; // return true if the movie was added
         } catch (error) {
             console.error(error);
+            return false; // return false if the movie couldnt be added
         }
     }
 
     // TODO change the name of this function to like buildCastOptions or something
-    async function handleValidMovieGuess(userMovieGuess, movieEvaluationObject) {
+    async function buildCastOptions(userMovieGuess, movieEvaluationObject) {
         try {
-            setCurrentMovieTitle(userMovieGuess);4
+            setCurrentMovieTitle(userMovieGuess);
             let actorList = movieEvaluationObject.data.validateMovieInput?.cast || [];
             console.log('actorList: ', actorList);
             setCurrentActorOptions(actorList);
-            return;
+            return true;
         } catch (error) {
             console.error(error);
+            return false;
         }
     }
 
@@ -150,7 +152,7 @@ export function GameContextProvider({ children }) {
             gameStarted,
             movieList,
             handleGameStateChange,
-            handleNewMovieGuess,
+            addMovieToGlobal,
             handleNewActorGuess,
             readyToBridge,
             currentActorBridge,
@@ -163,7 +165,7 @@ export function GameContextProvider({ children }) {
             currentActorOptions,
             setCurrentActorOptions,
             handleActorSelection,
-            handleValidMovieGuess,
+            buildCastOptions,
             // readyToBuild,
             // setReadyToBuild,
         }}>

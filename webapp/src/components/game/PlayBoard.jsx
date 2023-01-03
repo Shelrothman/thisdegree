@@ -31,23 +31,16 @@ function PlayBoard() {
         gameStarted,
         movieList,
         readyToBridge,
-        handleNewMovieGuess,
-        // handleNewActorGuess,
+        addMovieToGlobal,
         currentActorBridge,
-        // setCurrentActorBridge,
-        // currentMovieTitle,
-        // setCurrentMovieTitle,
         readyToInputFirst,
-        // setReadyToInputFirst,
         currentActorOptions,
         handleFirstClick,
         handleActorSelection,
-        handleValidMovieGuess
+        buildCastOptions
     } = useGameContext();
     const inputRef = useRef(null);
     const submitRef = useRef(null);
-
-
 
     const [formState, setFormState] = useState({
         movieInput: '',
@@ -78,13 +71,11 @@ function PlayBoard() {
                     movieInput: userMovieGuess,
                     actorInput: currentActorBridge
                 });
-
                 let movieEvaluationObject = await refetch({
                     movieInput: userMovieGuess,
                     actorInput: currentActorBridge
                 });
-
-                console.log('movieEvaluation: ', movieEvaluationObject);
+                // console.log('movieEvaluation: ', movieEvaluationObject); // debug
                 let evaluationResult = movieEvaluationObject?.data?.validateMovieInput?.isInMovie;
                 //* dont let the movie get chosen IF its not a vlaid movie with the actor in i9t
                 if (evaluationResult === false) {
@@ -92,21 +83,29 @@ function PlayBoard() {
                     // TODO may need more constraints here
                 } else if (evaluationResult === true) {
                     // add the movie to the global list
-                    await handleNewMovieGuess(userMovieGuess);
+                    const addResponse = await addMovieToGlobal(userMovieGuess);
                     // TODO: combine these two functions above and below, refactor them to return spmething.
                     // add the cast of the movie to the actorOptions:
-                    await handleValidMovieGuess(userMovieGuess, movieEvaluationObject);
-                    submitRef.current.style.display = 'none';
-                    inputRef.current.disabled = true;
+                    if (addResponse === true) {
+                        const buildResponse = await buildCastOptions(userMovieGuess, movieEvaluationObject);
+                        if (buildResponse === true) handleRefs();
+                    } else {
+                        throw new Error('something went wrong in the handleSubmit() function');
+                    }
                 } else {
                     throw new Error('something went wrong in the handleSubmit() function');
                 }
             } else {
-                throw new Error('yo! pick somthing, you smarty pants!');
+                handleInvalidMovieGuess();
             }
         } catch (error) {
             console.error(error);
         }
+    }
+
+    function handleRefs() {
+        submitRef.current.style.display = 'none';
+        inputRef.current.disabled = true;
     }
 
 
@@ -155,7 +154,7 @@ function PlayBoard() {
                             </div>
                         )}
                     </div>
-                            {buildBridgeNodes}
+                    {buildBridgeNodes}
                     {loading && <Spinner />}
                     <End actor={actorB} disabled={!readyToBridge} />
                 </>
