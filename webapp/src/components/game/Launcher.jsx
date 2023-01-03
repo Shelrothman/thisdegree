@@ -7,6 +7,9 @@ import PlayBoard from './PlayBoard.jsx';
 import MovieBtn from '../buttons/MovieBtn.jsx';
 import PlayBtn from '../buttons/PlayBtn.jsx';
 
+import FormContainer from './form/FormContainer.jsx';
+import TreeBuildContainer from './display/TreeBuildContainer.jsx';
+
 function Launcher() {
     const [show, setShow] = useState(false);
     const {
@@ -76,11 +79,12 @@ function Launcher() {
                 handler={handleReady}
                 style={{ display: actorA && actorB ? 'block' : 'none' }}
             />
-
+            <TreeBuildContainer />
             <div className="sample-scoreboard">
                 <h1>This Degrees</h1>
                 <div>
-                    <PlayBoard />
+                    {/* <PlayBoard /> */}
+                    <FormContainer />
                 </div>
             </div>
         </>

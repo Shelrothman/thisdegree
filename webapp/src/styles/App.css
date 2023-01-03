@@ -49,7 +49,26 @@
     padding-right: 0.5rem;
 }
 
+#main-form-container {
+    /* background-color: var(--accent); */
+    color: var(--light-text);
+    border: var(--accent) 5px solid;
+    border-radius: 5px;
+    padding: 10px;
+    /* margin: 10px; */
+    /* margin: 0 10px 0 10px; */
+    /* margin-right: 15%; */
+}
 
+.form-controls {
+    background-color: var(--littleDarker-background) !important;
+    color: var(--light-text) !important;
+}
+
+#submit-btn:hover {
+    background-color: var(--button-border) !important;
+    color: var(--accent) !important;
+}
 
 /* .playBtn {
     background-color: var(--indigo-color);

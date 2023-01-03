@@ -3,8 +3,15 @@
 the formm should be serpate from the dispolayy bc the form is the input and the display is the output
 - so a reusable form should be presnt on screen.
 - and then the display should be on the side of the screen and be a seperate component as it builds the tree
+- sop one form for movie inputs since that runs once for a display to render and then one for actor selection... 
+- so eadch can just use context to do things (each as in form and display)
+<!-- ! make it so the form is always on the botoom and the display tree is built up top -->
+
 
 - dpmt worry about organizing and modularizing and stuff to all the files... get something like in and then work on optomizing and cleanign up and stuff
+
+
+
 
 <!-- ! no display -->
 
