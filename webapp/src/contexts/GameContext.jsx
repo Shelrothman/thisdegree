@@ -18,6 +18,9 @@ import uuid from 'react-uuid';
 
 // TODO remove from options, the currentActorBridge
 
+// ! blerg okay now when i hit save on this file the sibmitRefs all reappear on screen
+// the trouble i think is bc i am just mapping the global list instead of rendering coindtionally and then also the refs are like not being mapped or something and like they are just being rendered as one componente.... and also i need to seperate my FORM components from the GAME components bc one is for the user to input and the other is for the game to display so i need to seperate them out because they do different things
+//************* i need a different approacj wheere i like have the same form stay in the middle of the screen for inputs/btn clicks, and then a seperate component that renders the cards on the side of the screen
 
 // TODO eventually merge in ActorContext and just hold actorA and B in here, all in one context
 // import { useActorContext } from './ActorContext.jsx';

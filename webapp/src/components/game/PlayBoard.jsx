@@ -90,10 +90,10 @@ function PlayBoard() {
                         const buildResponse = await buildCastOptions(userMovieGuess, movieEvaluationObject);
                         if (buildResponse === true) handleRefs();
                     } else {
-                        throw new Error('something went wrong in the handleSubmit() function');
+                        throw new Error('something went wrong in the addMovieToGlobal()');
                     }
                 } else {
-                    throw new Error('something went wrong in the handleSubmit() function');
+                    throw new Error(`something went wrong in handleSubmit(), evaluationResult was not the expected Boolean. Instead I recieved ${evaluationResult}`);
                 }
             } else {
                 handleInvalidMovieGuess();
@@ -106,6 +106,7 @@ function PlayBoard() {
     function handleRefs() {
         submitRef.current.style.display = 'none';
         inputRef.current.disabled = true;
+        return;
     }
 
 
