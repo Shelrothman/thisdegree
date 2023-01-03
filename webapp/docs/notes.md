@@ -13,6 +13,8 @@ I could just use:
 instead of refs 
 yea wow this is a good lesson for me... this is how we can keep these components PURE.. only doing or reading like one thing..
 the ```formState thing```... that makes sense now
+<!-- NOW -->
+<!--* hokay got the form part going proper!  NEXT:: get the display to respond to this shiz-->
 
 - dpmt worry about organizing and modularizing and stuff to all the files... get something like in and then work on optomizing and cleanign up and stuff
 

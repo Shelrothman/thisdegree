@@ -31,13 +31,17 @@ function ActorForm() {
     async function handleSubmit() {
         try {
             const actorSelection = formState.actorInput;
-            if (actorSelection && actorSelection !== 'select') {
-                const selectResponse = await handleActorSelection(actorSelection);
-                if (selectResponse === true) {
-                    setFormState({ actorInput: '' });
-                    return;
+            if (actorSelection) {
+                if (actorSelection !== 'select') {
+                    const selectResponse = await handleActorSelection(actorSelection);
+                    if (selectResponse === true) {
+                        setFormState({ actorInput: '' });
+                        return;
+                    } else {
+                        throw new Error('Something went wrong in handleActorSelection()');
+                    }
                 } else {
-                    throw new Error('Something went wrong in handleActorSelection()');
+                    alert('Please select an actor');
                 }
             } else {
                 throw new Error('Something went wrong ready actor from formState');
