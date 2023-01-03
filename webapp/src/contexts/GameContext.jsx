@@ -10,16 +10,18 @@ import {
     useState,
     useContext,
     createContext,
-    // useEffect
+    useEffect
 } from 'react';
-// import { useActorContext } from './ActorContext.jsx';
+import { useActorContext } from './ActorContext.jsx';
 // import GameRound from '../models/GameRound';
 import uuid from 'react-uuid';
 
+    // TODO remove from options, the currentActorBridge
 
+
+// TODO eventually merge in ActorContext and just hold actorA and B in here, all in one context
 // import { useActorContext } from './ActorContext.jsx';
 //! not until readyToBridge is true is the actorB btn enabled and any "checking" is done
-
 // TODO eventually we send the final movieList array to the createTree backend route
 
 const GameContext = createContext();
@@ -35,28 +37,49 @@ export function useGameContext() {
 
 export function GameContextProvider({ children }) {
     const [gameStarted, setGameStarted] = useState(false);
+    const { actorA, actorB } = useActorContext();
+    const [readyToInputFirst, setReadyToInputFirst] = useState(false);
+    const [currentActorBridge, setCurrentActorBridge] = useState(actorA);
+    const [currentMovieTitle, setCurrentMovieTitle] = useState(''); // this is the movie title of current movie
     // the movieList to hold the whole tree
-    const [movieList, setMovieList] = useState([]); // cant we just use this to keep track of the game? for the tree? wtf did i make a class?
-    // const [newRound, setNewRound] = useState(false);
-    // const { actorA } = useActorContext();
-
+    const [movieList, setMovieList] = useState([]); // cant we just use this to keep track of the game
     const [readyToBridge, setReadyToBridge] = useState(false);
-    // TODO: will use setReadyToBridge to enable the actorB btn once the button is triggered by user
 
+    const [currentActorOptions, setCurrentActorOptions] = useState([]);
+
+    // const [readyToBuild, setReadyToBuild] = useState(movieList.length > 0); // only ready if there are movies in the list
+
+    // TODO: will use setReadyToBridge to enable the actorB btn once the button is triggered by user
     const handleGameStateChange = () => {
         // use this to change the game on and off
         // dont use this for when a game wins
         setGameStarted((prev) => !prev);
         setMovieList([]);
     };
+    function handleFirstClick(actor) {
+        setCurrentActorBridge(actor);
+        setReadyToInputFirst(true);
+        return;
+    }
+
+    useEffect(() => {
+        console.table(movieList);
+        console.log('currentMovieTitle', currentMovieTitle);
+        console.log('currentActorBridge', currentActorBridge);
+    }, [movieList, currentMovieTitle, currentActorBridge]);
+
+    useEffect(() => {
+        if (!gameStarted) {
+            setReadyToInputFirst(false);
+            setCurrentMovieTitle('');
+            setCurrentActorBridge(actorA);
+        }
+    }, [gameStarted]);
 
     // TODO: MODULARIZE THIS FUNCTION ,,,
     async function handleNewMovieGuess(userMovieInput) {
         try {
-            //TODO if movieList is === 0, then we are on the first round
-            // else then use the last element in movieList to create the new gameRound 
-
-
+            //TODO if movieList is === 0, then we are on the first round else then use the last element in movieList to create the new gameRound \
             let localMovieList = movieList || [];
             // add the movie guess to the end of array 
             localMovieList.push({
@@ -68,41 +91,39 @@ export function GameContextProvider({ children }) {
                     name: '',
                     id: '',
                 },
-                // currentRound: gameRound,
             });
             setMovieList(localMovieList);
-            return; 
+            return;
         } catch (error) {
             console.error(error);
         }
+    }
 
-
+    // TODO change the name of this function to like buildCastOptions or something
+    async function handleValidMovieGuess(userMovieGuess, movieEvaluationObject) {
+        try {
+            setCurrentMovieTitle(userMovieGuess);4
+            let actorList = movieEvaluationObject.data.validateMovieInput?.cast || [];
+            console.log('actorList: ', actorList);
+            setCurrentActorOptions(actorList);
+            return;
+        } catch (error) {
+            console.error(error);
+        }
     }
 
 
     //TODO MODULATE , errror handeling
     const handleNewActorGuess = async (userActorInput, movie) => {
-
         try {
-
             // TODO use movieID instead of title to make this more reliable.. or just use the last element of the array since that will be the current round
-            let localMovieObj = movieList.find((movieObj) => movieObj.movieTitle == movie);
-
+            // let localMovieObj = movieList.find((movieObj) => movieObj.movieTitle == movie);
+            let localMovieObj = movieList[movieList.length - 1];
             // remove the movie from movieList and then setMovieList to that new list SO THAT we can replace it at the end of this function
             setMovieList(movieList.filter((movieObj) => movieObj.movieTitle !== movie));
-
-            // let gameRound = await localMovieObj.currentRound.setActorFromSelection(userActorInput);
-            // console.log('gameRound', gameRound);
-
-            // so next we can run complete() bc we have the last piece
-            // TODO Add more conditionals here
-            // let nextRound = await gameRound.complete(); // this should return a new gameRound object
-            // console.log('nextRound', nextRound);
             localMovieObj.actorGuessed = true;
             localMovieObj.actorSelection.name = userActorInput;
             localMovieObj.actorSelection.id = uuid();
-            // localMovieObj.currentRound = gameRound;
-            // localMovieObj.nextRound = nextRound;
 
             setMovieList((prev) => {
                 return [...prev, localMovieObj];
@@ -110,7 +131,16 @@ export function GameContextProvider({ children }) {
         } catch (error) {
             console.error(error)
         }
+    }
 
+    async function handleActorSelection(userSelection) {
+        try {
+            setCurrentActorBridge(userSelection);
+            await handleNewActorGuess(userSelection, currentMovieTitle);
+            return;
+        } catch (error) {
+            console.error(error);
+        }
     }
 
 
@@ -123,6 +153,19 @@ export function GameContextProvider({ children }) {
             handleNewMovieGuess,
             handleNewActorGuess,
             readyToBridge,
+            currentActorBridge,
+            setCurrentActorBridge,
+            currentMovieTitle,
+            setCurrentMovieTitle,
+            readyToInputFirst,
+            setReadyToInputFirst,
+            handleFirstClick,
+            currentActorOptions,
+            setCurrentActorOptions,
+            handleActorSelection,
+            handleValidMovieGuess,
+            // readyToBuild,
+            // setReadyToBuild,
         }}>
             {children}
         </GameContext.Provider>

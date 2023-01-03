@@ -12,7 +12,6 @@ import { useQuery, gql } from '@apollo/client';
 
 import Spinner from '../../utils/Spinner';
 import { useActorContext, useGameContext } from '../../contexts';
-// import uuid from 'react-uuid';
 import MovieBtn from '../buttons/MovieBtn';
 import End from './End';
 import CardContainer from './CardContainer';
@@ -20,8 +19,10 @@ import MovieInput from './form/MovieInput';
 import SelectActor from './form/SelectActor';
 import ActorHeader from './ActorHeader';
 import { handleInvalidMovieInput } from '../../helpers/handlers';
-// import { useApolloGetCast, useApolloValidateMovie } from '../../hooks/useApolloServer';
-// import { useApolloValidate } from '../../hooks/useApolloServer';
+
+// import AggregateBridgeNodes from './AggregateBridgeNodes';
+
+
 const VALIDATE_MOVIE_QUERY = gql`
 query validateMovieInput($movieInput: String!, $actorInput: String!) 
 {
@@ -40,27 +41,32 @@ query validateMovieInput($movieInput: String!, $actorInput: String!)
 
 function PlayBoard() {
     const { actorA, actorB } = useActorContext();
-    const [currentMovie, setCurrentMovie] = useState('');
-    const [currentActorBridge, setCurrentActorBridge] = useState(actorA);
-    const [readyToInputFirst, setReadyToInputFirst] = useState(false);
-    const [currentActorOptions, setCurrentActorOptions] = useState([]);
     const {
         gameStarted,
         movieList,
         readyToBridge,
         handleNewMovieGuess,
-        handleNewActorGuess,
+        // handleNewActorGuess,
+        currentActorBridge,
+        // setCurrentActorBridge,
+        // currentMovieTitle,
+        // setCurrentMovieTitle,
+        readyToInputFirst,
+        // setReadyToInputFirst,
+        currentActorOptions,
+        handleFirstClick,
+        handleActorSelection,
+        handleValidMovieGuess
     } = useGameContext();
     const inputRef = useRef(null);
     const submitRef = useRef(null);
+
+
 
     const [formState, setFormState] = useState({
         movieInput: '',
         actorInput: '',
     });
-
-    const [movieData, setMovieData] = useState({});
-
 
     const { loading, data, error, refetch } = useQuery(VALIDATE_MOVIE_QUERY, {
         variables: {
@@ -69,38 +75,13 @@ function PlayBoard() {
         },
         onCompleted: (data) => {
             console.log('data onCompleted: ', data);
-            setMovieData(data.validateMovieInput);
-            // return;
-            // setCurrentActorOptions(data.validateMovieInput.cast);
         },
         onError: (error) => {
             console.log('error: ', error);
         }
     });
 
-
-    useEffect(() => {
-        console.table(movieList);
-        console.log('currentMovie', currentMovie);
-        console.log('currentActorBridge', currentActorBridge);
-    }, [movieList, currentMovie, currentActorBridge]);
-
-    useEffect(() => {
-        // TODO: move this whole effect into the GameContext, then just bring in this file to conditionally render
-        if (!gameStarted) {
-            setReadyToInputFirst(false);
-            setCurrentMovie('');
-            setCurrentActorBridge(actorA);
-        }
-    }, [gameStarted]);
-
-    // TODO this function could also be moved into the GameContext
-    function handleOnClick(actor) {
-        setCurrentActorBridge(actor);
-        setReadyToInputFirst(true);
-        return;
-    }
-
+    // TODO add message to user why its invalid.. or like if a repeat.. etc
     // TODO add in handling selecting movie for user.. etc..
     // TODO MODULARIZE this function
     async function handleSubmit() {
@@ -124,9 +105,13 @@ function PlayBoard() {
                     handleInvalidMovieGuess();
                     // TODO may need more constraints here
                 } else if (evaluationResult === true) {
-                    // add it to the global list
+                    // add the movie to the global list
                     await handleNewMovieGuess(userMovieGuess);
-                    handleValidMovieGuess(userMovieGuess, movieEvaluationObject);
+                    // TODO: combine these two functions above and below, refactor them to return spmething.
+                    // add the cast of the movie to the actorOptions:
+                    await handleValidMovieGuess(userMovieGuess, movieEvaluationObject);
+                    submitRef.current.style.display = 'none';
+                    inputRef.current.disabled = true;
                 } else {
                     throw new Error('something went wrong in the handleSubmit() function');
                 }
@@ -138,54 +123,26 @@ function PlayBoard() {
         }
     }
 
-    async function handleValidMovieGuess(userMovieGuess, movieEvaluationObject) {
-
-        try {
-            submitRef.current.style.display = 'none';
-            // console.log('submitRef.current: ', submitRef.current)
-            inputRef.current.disabled = true;
-            setCurrentMovie(userMovieGuess);
-            let actorList = movieEvaluationObject.data.validateMovieInput?.cast || [];
-
-
-            console.log('actorList: ', actorList);
-            setCurrentActorOptions(actorList);
-            return;
-        } catch (error) {
-            console.error(error);
-        }
-
-    }
 
     function handleInvalidMovieGuess() {
         handleInvalidMovieInput(inputRef);
         return;
     }
-
     const actorOptions = currentActorOptions?.map((actor) => {
         return (
             <option key={actor.id} value={actor.name}>{actor.name}</option>
         )
     });
 
-    async function handleActorSelection(userSelection) {
-        try {
-            setCurrentActorBridge(userSelection);
-            await handleNewActorGuess(userSelection, currentMovie);
-            return;
-        } catch (error) {
-            console.error(error);
-        }
-    }
-
+    // i want to change this. instead of mapping.. i want the ui nodes to build themselves based on the context with a useEffect
     const buildBridgeNodes = movieList?.map((movie, i) => {
         return (
             <div key={i}>
-                <CardContainer movieTitle={movie.movieTitle} />
+                <CardContainer movieName={movie.movieTitle} />
                 <SelectActor id={`select-actor-${i}`} handleChange={handleActorSelection} disableState={movie.actorGuessed} options={actorOptions} movieTitle={movie.movieTitle} />
                 <br />
                 {movie.actorGuessed && (
-                    <CardContainer movieTitle={movie.movieTitle} movieType={false} actorName={currentActorBridge}/>
+                    <CardContainer movieType={false} actorName={movie.actorSelection.name} movieName={movie.movieTitle} />
                 )}
                 {(movie.actorSelection.name !== '') && (
                     <div ref={submitRef}>
@@ -196,14 +153,15 @@ function PlayBoard() {
         )
     });
 
+
     return (
         <>
-            <ActorHeader a={actorA} b={actorB} />
+            <ActorHeader />
             {gameStarted && (
                 <>
                     <div><h1>Game Started</h1></div>
                     <div>
-                        <MovieBtn text={actorA} handler={handleOnClick} />
+                        <MovieBtn text={actorA} handler={handleFirstClick} />
                         <br />
                         {readyToInputFirst && (
                             <div ref={submitRef}>
@@ -211,7 +169,7 @@ function PlayBoard() {
                             </div>
                         )}
                     </div>
-                    {buildBridgeNodes}
+                            {buildBridgeNodes}
                     {loading && <Spinner />}
                     <End actor={actorB} disabled={!readyToBridge} />
                 </>
