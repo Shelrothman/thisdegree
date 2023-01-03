@@ -6,10 +6,10 @@ function ActorHeader() {
     const { actorA, actorB } = useActorContext();
 
     return (
-        <div>
-            Actor A: {actorA}
+        <div className="container text-center">
+            Actor A: <strong>{actorA}</strong>
             <br />
-            Actor B: {actorB}
+            Actor B: <strong>{actorB}</strong>
         </div>
     );
 }

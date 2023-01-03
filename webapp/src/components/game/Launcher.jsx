@@ -3,10 +3,11 @@ import Offcanvas from 'react-bootstrap/Offcanvas';
 
 import ActorListContainer from '../ActorListContainer.jsx';
 import { useActorContext, useGameContext } from '../../contexts';
+
 import PlayBoard from './PlayBoard.jsx';
 import MovieBtn from '../buttons/MovieBtn.jsx';
 import PlayBtn from '../buttons/PlayBtn.jsx';
-
+import ActorHeader from './ActorHeader.jsx';
 import FormContainer from './form/FormContainer.jsx';
 import TreeBuildContainer from './display/TreeBuildContainer.jsx';
 
@@ -79,14 +80,21 @@ function Launcher() {
                 handler={handleReady}
                 style={{ display: actorA && actorB ? 'block' : 'none' }}
             />
-            <TreeBuildContainer />
-            <div className="sample-scoreboard">
-                <h1>This Degrees</h1>
-                <div>
-                    {/* <PlayBoard /> */}
-                    <FormContainer />
-                </div>
-            </div>
+            {/* <div style={{}}> */}
+            {/* <h1>This Degrees</h1> */}
+            {/* </div> */}
+            {gameStarted && (
+                <>
+                    <ActorHeader />
+                    <TreeBuildContainer />
+                    <div className="sample-scoreboard">
+                        <div>
+                        <div><h1>Game Started</h1></div>
+                            <FormContainer />
+                        </div>
+                    </div>
+                </>
+            )}
         </>
     );
 }
