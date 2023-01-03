@@ -63,9 +63,16 @@
 .form-controls {
     background-color: var(--littleDarker-background) !important;
     color: var(--light-text) !important;
+    border: 1px solid var(--accent) !important;
 }
 
-#submit-btn:hover {
+.form-controls:focus {
+    background-color: var(--button-border) !important;
+    color: var(--dark-text) !important;
+    border: 1px solid var(--accent) !important;
+}
+
+.submit-btn:hover {
     background-color: var(--button-border) !important;
     color: var(--accent) !important;
 }

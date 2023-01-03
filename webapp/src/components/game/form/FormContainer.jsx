@@ -1,4 +1,4 @@
-import { useGameContext } from "../../../contexts";
+
 import Container from "react-bootstrap/Container";
 import ActorForm from "./ActorForm";
 import MovieForm from "./MovieForm";
@@ -9,14 +9,11 @@ import MovieForm from "./MovieForm";
 //? properties from context to affect that: movieTime, actorTime??
 
 function FormContainer() {
-    const { formTypeMovie } = useGameContext();
-    //* yus so using enable, we dont need the refs TO DISPLAY/NOT DISPLAY ANYMORE
-
 
     return (
         <Container id="main-form-container">
-            <MovieForm enable={formTypeMovie}/>
-            <ActorForm enable={formTypeMovie}/>
+            <MovieForm />
+            <ActorForm  />
         </Container>
     );
 }

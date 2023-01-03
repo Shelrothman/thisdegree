@@ -50,7 +50,17 @@ export function GameContextProvider({ children }) {
 
     const [currentActorOptions, setCurrentActorOptions] = useState([]);
 
+
+    // ------------------
     const [readyToBuild, setReadyToBuild] = useState(movieList.length > 0); // only ready if there are movies in the list
+
+    useEffect(() => {
+        if (movieList.length > 0) {
+            setReadyToBuild(true);
+            return;
+        }
+    }, [movieList]); // only ready if there are movies in the list
+    // ---------------------
 
 
     // set state of which form is being used
@@ -77,11 +87,13 @@ export function GameContextProvider({ children }) {
     }, [movieList, currentMovieTitle, currentActorBridge]);
 
     useEffect(() => {
+        // all the resets to happen when the game is over or starts over
         if (!gameStarted) {
             setReadyToInputFirst(false);
             setCurrentMovieTitle('');
             setCurrentActorBridge(actorA);
-        }
+            setReadyToBuild(false);
+        } 
     }, [gameStarted]);
 
     // TODO: MODULARIZE THIS FUNCTION ,,,
@@ -144,14 +156,18 @@ export function GameContextProvider({ children }) {
         }
     }
 
+    /**
+     * @function handleActorSelection  - sets currentActorBridge to the userSelection and then calls handleNewActorGuess which update the global movie list based on the userSelection/actor/options
+     */
     async function handleActorSelection(userSelection) {
         try {
             setCurrentActorBridge(userSelection);
             await handleNewActorGuess(userSelection, currentMovieTitle);
             setFormTypeMovie(true);
-            return;
+            return true;
         } catch (error) {
             console.error(error);
+            return false;
         }
     }
 
