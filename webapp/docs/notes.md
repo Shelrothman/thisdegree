@@ -11,6 +11,8 @@ I could just use:
 <div style={{ display: actorA && actorB ? 'block' : 'none' }} />
 ``` 
 instead of refs 
+yea wow this is a good lesson for me... this is how we can keep these components PURE.. only doing or reading like one thing..
+the ```formState thing```... that makes sense now
 
 - dpmt worry about organizing and modularizing and stuff to all the files... get something like in and then work on optomizing and cleanign up and stuff
 

@@ -52,6 +52,11 @@ export function GameContextProvider({ children }) {
 
     const [readyToBuild, setReadyToBuild] = useState(movieList.length > 0); // only ready if there are movies in the list
 
+
+    // set state of which form is being used
+    const [formTypeMovie, setFormTypeMovie] = useState(true); // if false, then enable the actor form, if true, then enable the movie form
+
+
     // TODO: will use setReadyToBridge to enable the actorB btn once the button is triggered by user
     const handleGameStateChange = () => {
         // use this to change the game on and off
@@ -96,6 +101,7 @@ export function GameContextProvider({ children }) {
                 },
             });
             setMovieList(localMovieList);
+            setFormTypeMovie(false);
             return true; // return true if the movie was added
         } catch (error) {
             console.error(error);
@@ -142,6 +148,7 @@ export function GameContextProvider({ children }) {
         try {
             setCurrentActorBridge(userSelection);
             await handleNewActorGuess(userSelection, currentMovieTitle);
+            setFormTypeMovie(true);
             return;
         } catch (error) {
             console.error(error);
@@ -171,6 +178,8 @@ export function GameContextProvider({ children }) {
             buildCastOptions,
             readyToBuild,
             setReadyToBuild,
+            formTypeMovie,
+            setFormTypeMovie,
         }}>
             {children}
         </GameContext.Provider>
