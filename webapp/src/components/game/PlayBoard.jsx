@@ -19,6 +19,10 @@ import MovieInput from './form/MovieInput';
 import SelectActor from './form/SelectActor';
 import ActorHeader from './ActorHeader';
 import { handleInvalidMovieInput } from '../../helpers/handlers';
+
+// import AggregateBridgeNodes from './AggregateBridgeNodes';
+
+
 const VALIDATE_MOVIE_QUERY = gql`
 query validateMovieInput($movieInput: String!, $actorInput: String!) 
 {
@@ -37,7 +41,6 @@ query validateMovieInput($movieInput: String!, $actorInput: String!)
 
 function PlayBoard() {
     const { actorA, actorB } = useActorContext();
-    // const [currentActorOptions, setCurrentActorOptions] = useState([]);
     const {
         gameStarted,
         movieList,
@@ -57,6 +60,8 @@ function PlayBoard() {
     } = useGameContext();
     const inputRef = useRef(null);
     const submitRef = useRef(null);
+
+
 
     const [formState, setFormState] = useState({
         movieInput: '',
@@ -107,14 +112,9 @@ function PlayBoard() {
                     await handleValidMovieGuess(userMovieGuess, movieEvaluationObject);
                     submitRef.current.style.display = 'none';
                     inputRef.current.disabled = true;
-
                 } else {
                     throw new Error('something went wrong in the handleSubmit() function');
                 }
-
-
-
-
             } else {
                 throw new Error('yo! pick somthing, you smarty pants!');
             }
@@ -134,6 +134,7 @@ function PlayBoard() {
         )
     });
 
+    // i want to change this. instead of mapping.. i want the ui nodes to build themselves based on the context with a useEffect
     const buildBridgeNodes = movieList?.map((movie, i) => {
         return (
             <div key={i}>
@@ -168,7 +169,7 @@ function PlayBoard() {
                             </div>
                         )}
                     </div>
-                    {buildBridgeNodes}
+                            {buildBridgeNodes}
                     {loading && <Spinner />}
                     <End actor={actorB} disabled={!readyToBridge} />
                 </>

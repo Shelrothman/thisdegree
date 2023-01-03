@@ -47,6 +47,7 @@ export function GameContextProvider({ children }) {
 
     const [currentActorOptions, setCurrentActorOptions] = useState([]);
 
+    // const [readyToBuild, setReadyToBuild] = useState(movieList.length > 0); // only ready if there are movies in the list
 
     // TODO: will use setReadyToBridge to enable the actorB btn once the button is triggered by user
     const handleGameStateChange = () => {
@@ -101,9 +102,6 @@ export function GameContextProvider({ children }) {
     // TODO change the name of this function to like buildCastOptions or something
     async function handleValidMovieGuess(userMovieGuess, movieEvaluationObject) {
         try {
-            // submitRef.current.style.display = 'none';
-            // console.log('submitRef.current: ', submitRef.current)
-            // inputRef.current.disabled = true;
             setCurrentMovieTitle(userMovieGuess);4
             let actorList = movieEvaluationObject.data.validateMovieInput?.cast || [];
             console.log('actorList: ', actorList);
@@ -166,6 +164,8 @@ export function GameContextProvider({ children }) {
             setCurrentActorOptions,
             handleActorSelection,
             handleValidMovieGuess,
+            // readyToBuild,
+            // setReadyToBuild,
         }}>
             {children}
         </GameContext.Provider>
