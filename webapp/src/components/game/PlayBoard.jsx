@@ -22,22 +22,8 @@ import { handleInvalidMovieInput } from '../../helpers/handlers';
 
 // import AggregateBridgeNodes from './AggregateBridgeNodes';
 
+import VALIDATE_MOVIE_QUERY from '../../queries/validateMovieInput';
 
-const VALIDATE_MOVIE_QUERY = gql`
-query validateMovieInput($movieInput: String!, $actorInput: String!) 
-{
-    validateMovieInput(title: $movieInput, actor: $actorInput) {
-        id
-        isInMovie
-        character
-        cast {
-            character
-            id
-            name
-        }
-    }
-}`;
-// TODO: put this query in its own file
 
 function PlayBoard() {
     const { actorA, actorB } = useActorContext();
