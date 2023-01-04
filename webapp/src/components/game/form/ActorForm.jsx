@@ -106,9 +106,8 @@ function ActorForm() {
                 const testResponse = await testFinalInput();
                 if (testResponse.evaluationResult === true) {
                     // alert('You did it!');
-
                     let finalTree = await handleFinalBridge(testResponse.characterName);
-                    // PU HERE!!!!
+                    //!!! PU HERE!!!! is this all we wanna do after game is won in this componetn?
                     navigate('/createTree', { state: { tree: JSON.stringify(finalTree) } }); // we read from this state by using the useLocation hook
                     return;
                 } else {

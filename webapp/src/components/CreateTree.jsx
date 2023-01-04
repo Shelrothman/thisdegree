@@ -54,7 +54,7 @@ const CreateTree = () => {
                     createTree();
                 }}
             >
-                <div className="flex flex-column mt3">
+                <div className="flex flex-column mt-3">
                     <input
                         className="mb2"
                         value={formState.treeDeclaration}
@@ -70,10 +70,8 @@ const CreateTree = () => {
                     />
                 </div>
                 <button type="submit">Submit</button>
-                <pre>
-                    <code>
-                        {state.tree}
-                    </code>
+                <pre style={{ whiteSpace: 'pre-wrap' }} >
+                        {JSON.stringify(JSON.parse(state.tree), null, 2)}
                 </pre>
             </form>
         </div>
