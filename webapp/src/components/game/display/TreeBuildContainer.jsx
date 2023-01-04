@@ -74,24 +74,9 @@ function TreeBuildContainer() {
 
 
     return (
-        <Container id="tree-build-container">
+        <Container id="tree-build-container" fluid>
             <Row>
-                {/* <MovieCard movie="The Matrix" /> */}
-
                 {bridgeCards}
-                {/* {movieCards}
-                {actorCards} */}
-                {/* <MovieCard movie="The Matrix" />
-                <ActorCard movie="The Matrix" actorName="Keanu Reeves" />
-                
-                <ActorCard movie="The Matrix" actorName="Keanu Reeves" />
-                <ActorCard movie="The Matrix" actorName="Keanu Reeves" />
-                <ActorCard movie="The Matrix" actorName="Keanu Reeves" />
-                <ActorCard movie="The Matrix" actorName="Keanu Reeves" />
-                <ActorCard movie="The Matrix" actorName="Keanu Reeves" />
-                <ActorCard movie="The Matrix" actorName="Keanu Reeves" />
-                <ActorCard movie="The Matrix" actorName="Keanu Reeves" />
-                <ActorCard movie="The Matrix" actorName="Keanu Reeves" /> */}
             </Row>
         </Container>
     );

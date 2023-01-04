@@ -30,7 +30,7 @@ function ActorForm() {
 
     useEffect(() => {
         setShowRow(false); 
-        // every time the movie changes, we want to reset the form to the default state
+        // reset the form to the default state
     }, [currentMovieTitle]);
 
     // TODO: filter out any actors that have already been selected in global list as well as ActorA and ActorB
@@ -69,22 +69,19 @@ function ActorForm() {
         }
     }
 
-    // TODO come bacl and make it look nicer?
-
-    // EACH TIME THE display switches to the actorForm, first present the user with two button choices; one to go  to actorSelection, another to Ready To Bridge.
-
     function handleSelectChoice() {
         // rowRef.current.style.display = 'none';
         setShowRow(true);
         return;
     }
-
+    
     function handleReadyChoice() {
         // rowRef.current.style.display = 'none';
         setShowRow(false);
-        return;///////
+        return;
     }
-
+    
+    // TODO come bacl and make it look nicer?
 
     return (
         <>
