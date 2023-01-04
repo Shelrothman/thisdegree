@@ -111,6 +111,7 @@ export function GameContextProvider({ children }) {
                 actorSelection: {
                     name: '',
                     id: '',
+                    characterName: '',
                 },
             });
             setMovieList(localMovieList);
@@ -138,7 +139,7 @@ export function GameContextProvider({ children }) {
 
 
     //TODO MODULATE , errror handeling
-    const handleNewActorGuess = async (userActorInput, movie) => {
+    const handleNewActorGuess = async (userActorInput, movie, characterName) => {
         try {
             console.log('userActorInput', userActorInput);
             // TODO use movieID instead of title to make this more reliable.. or just use the last element of the array since that will be the current round
@@ -149,7 +150,8 @@ export function GameContextProvider({ children }) {
             localMovieObj.actorGuessed = true;
             localMovieObj.actorSelection.name = userActorInput;
             localMovieObj.actorSelection.id = uuid();
-
+            localMovieObj.actorSelection.characterName = characterName;
+            
             setMovieList((prev) => {
                 return [...prev, localMovieObj];
             });
@@ -161,10 +163,10 @@ export function GameContextProvider({ children }) {
     /**
      * @function handleActorSelection  - sets currentActorBridge to the userSelection and then calls handleNewActorGuess which update the global movie list based on the userSelection/actor/options
      */
-    async function handleActorSelection(userSelection) {
+    async function handleActorSelection(userSelection, characterName) {
         try {
             setCurrentActorBridge(userSelection);
-            await handleNewActorGuess(userSelection, currentMovieTitle);
+            await handleNewActorGuess(userSelection, currentMovieTitle, characterName);
             setFormTypeMovie(true);
             return true;
         } catch (error) {

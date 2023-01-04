@@ -5,13 +5,13 @@ import FloatingLabel from 'react-bootstrap/esm/FloatingLabel';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Button from 'react-bootstrap/Button';
-import { useGameContext, useActorContext } from '../../../contexts';
+import { useGameContext } from '../../../contexts';
 
 import Spinner from '../../../utils/Spinner';
 // import Dropdown from 'react-bootstrap/Dropdown';
 // import SplitButton from 'react-bootstrap/SplitButton';
 // import SubmitBtn from '../../buttons/SubmitBtn';
-import { handleInvalidMovieInput } from '../../../helpers/handlers';
+// import { handleInvalidMovieInput } from '../../../helpers/handlers';
 import VALIDATE_MOVIE_QUERY from '../../../queries/validateMovieInput';
 
 
@@ -39,7 +39,6 @@ function MovieForm(enable) {
 
     const [formState, setFormState] = useState({
         movieInput: '',
-        // actorInput: actorName,
     });
 
     const [fetchData, { loading, data, error }] = useLazyQuery(VALIDATE_MOVIE_QUERY, {

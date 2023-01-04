@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useLazyQuery } from '@apollo/client';
+// import { useLazyQuery } from '@apollo/client';
 import FloatingLabel from 'react-bootstrap/esm/FloatingLabel';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
@@ -19,7 +19,6 @@ function ActorForm() {
     } = useGameContext();
 
     const [formState, setFormState] = useState({
-        // movieInput: '',
         actorInput: '',
     });
     const actorOptions = currentActorOptions?.map((actor) => {
@@ -28,12 +27,15 @@ function ActorForm() {
         )
     });
 
-    async function handleSubmit() {
+    async function handleSubmit(e) {
         try {
             const actorSelection = formState.actorInput;
+            console.log('actorSelection: ', actorSelection);
             if (actorSelection) {
                 if (actorSelection !== 'select') {
-                    const selectResponse = await handleActorSelection(actorSelection);
+                    const characterName = currentActorOptions.find((actor) => actor.name === actorSelection)?.character || 'unknown';
+                    // console.log('characterName: ', characterName);
+                    const selectResponse = await handleActorSelection(actorSelection, characterName);
                     if (selectResponse === true) {
                         setFormState({ actorInput: '' });
                         return;
