@@ -31,7 +31,7 @@ const CreateTree = () => {
 
     // TODO: play with using a similar setup as this in my scoreboard inputs (state-wise)
     const [formState, setFormState] = useState({
-        treeDeclaration: '',
+        treeDeclaration: state.tree,
     });
     // pass the CREATE_TREE_MUTATION to the useMutation hook 
     // and pass in the data provided in the input fields as variables.
@@ -43,6 +43,9 @@ const CreateTree = () => {
         // TODO: PU HERE AND add logic to handle errors and handle response from posting a tree
         onCompleted: () => {
             navigate('/treehome');
+        },
+        onError: (error) => {
+            console.log('error: ', error);
         },
     });
 
