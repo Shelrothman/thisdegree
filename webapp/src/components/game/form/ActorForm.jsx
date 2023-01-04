@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 // import { useLazyQuery } from '@apollo/client';
 import FloatingLabel from 'react-bootstrap/esm/FloatingLabel';
 import Form from 'react-bootstrap/Form';
@@ -6,6 +6,8 @@ import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 
+
+import ActorModeDecide from './ActorModeDecide';
 import { useGameContext } from '../../../contexts';
 // import Spinner from '../../../utils/Spinner';
 // TODO change to have the character Name somewhere in the tree or soemthign cool
@@ -21,6 +23,17 @@ function ActorForm() {
     const [formState, setFormState] = useState({
         actorInput: '',
     });
+
+    // const { rowRef } = useRef(null);
+
+    const [showRow, setShowRow] = useState(false);
+
+    useEffect(() => {
+        setShowRow(false); 
+        // every time the movie changes, we want to reset the form to the default state
+    }, [currentMovieTitle]);
+
+    // TODO: filter out any actors that have already been selected in global list as well as ActorA and ActorB
     const actorOptions = currentActorOptions?.map((actor) => {
         return (
             <option key={actor.id} value={actor.name}>{actor.name}</option>
@@ -58,39 +71,63 @@ function ActorForm() {
 
     // TODO come bacl and make it look nicer?
 
+    // EACH TIME THE display switches to the actorForm, first present the user with two button choices; one to go  to actorSelection, another to Ready To Bridge.
+
+    function handleSelectChoice() {
+        // rowRef.current.style.display = 'none';
+        setShowRow(true);
+        return;
+    }
+
+    function handleReadyChoice() {
+        // rowRef.current.style.display = 'none';
+        setShowRow(false);
+        return;///////
+    }
+
+
     return (
         <>
             {formTypeMovie === false && (
-                <Row className="g-0">
-                    {/* <Form.Label>Select an Actor from {currentMovieTitle}</Form.Label> */}
-                    <Col>
-                        <FloatingLabel
-                            controlId="floatingSelectGrid"
-                            label={`Select an Actor from ${currentMovieTitle}`}
-                        >
-                            <Form.Select
-                                className="form-controls"
-                                value={formState.actorInput}
-                                onChange={(e) =>
-                                    setFormState({
-                                        ...formState,
-                                        actorInput: e.target.value
-                                    })}
-                            >
-                                <option value="select">. . .</option>
-                                {actorOptions}
-                            </Form.Select>
-                        </FloatingLabel>
-                    </Col>
-                    <Col>
-                        <Button
-                            className="form-controls submit-btn"
-                            onClick={handleSubmit}
-                        >
-                            Submit Actor
-                        </Button>
-                    </Col>
-                </Row>
+                <>
+                    {!showRow ? (
+                        <ActorModeDecide
+                            selectHandler={handleSelectChoice}
+                            readyHandler={handleReadyChoice}
+                        />
+                    ) : (
+                        <Row className="g-0">
+                            {/* <Form.Label>Select an Actor from {currentMovieTitle}</Form.Label> */}
+                            <Col>
+                                <FloatingLabel
+                                    controlId="floatingSelectGrid"
+                                    label={`Select an Actor from ${currentMovieTitle}`}
+                                >
+                                    <Form.Select
+                                        className="form-controls"
+                                        value={formState.actorInput}
+                                        onChange={(e) =>
+                                            setFormState({
+                                                ...formState,
+                                                actorInput: e.target.value
+                                            })}
+                                    >
+                                        <option value="select">. . .</option>
+                                        {actorOptions}
+                                    </Form.Select>
+                                </FloatingLabel>
+                            </Col>
+                            <Col>
+                                <Button
+                                    className="form-controls submit-btn"
+                                    onClick={handleSubmit}
+                                >
+                                    Submit Actor
+                                </Button>
+                            </Col>
+                        </Row>
+                    )}
+                </>
             )}
         </>
     );

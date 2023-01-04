@@ -90,7 +90,6 @@ export function GameContextProvider({ children }) {
     useEffect(() => {
         // all the resets to happen when the game is over or starts over
         if (!gameStarted) {
-            // setReadyToInputFirst(false);
             setCurrentMovieTitle('');
             setCurrentActorBridge(actorA);
             setReadyToBuild(false);
@@ -98,7 +97,7 @@ export function GameContextProvider({ children }) {
         } 
     }, [gameStarted]);
 
-    // TODO: MODULARIZE THIS FUNCTION ,,,
+
     async function addMovieToGlobal(userMovieInput) {
         try {
             //TODO if movieList is === 0, then we are on the first round else then use the last element in movieList to create the new gameRound \
@@ -148,9 +147,10 @@ export function GameContextProvider({ children }) {
             let localMovieObj = movieList[movieList.length - 1];
             // remove the movie from movieList and then setMovieList to that new list SO THAT we can replace it at the end of this function
             setMovieList(movieList.filter((movieObj) => movieObj.movieTitle !== movie));
+
             localMovieObj.actorGuessed = true;
             localMovieObj.actorSelection.name = userActorInput;
-            localMovieObj.actorSelection.id = uuid();
+            localMovieObj.actorSelection.id = uuid(); // TODO use the id of the actor from the api? or remove this bc we may not need it
             localMovieObj.actorSelection.characterName = characterName;
 
             setMovieList((prev) => {
@@ -175,6 +175,23 @@ export function GameContextProvider({ children }) {
             return false;
         }
     }
+
+    // async function handleFinalBridge(movie, actor) {
+    //     try {
+    //         const movieToEvaluate = movieList[movieList.length - 1].movieTitle;
+    //         // TODO: look at all the propertys in the last element of the movieList.. ensure they are as expected
+    //         //? e.g ensure .actorGuessed is false? .. i think we actually need to do the fetchCheck in Launcher and then send results this way.
+    //* this should kinda be more just setting values and stuff for the game state and not really doing any logic
+
+    //         // await handleNewActorGuess(userSelection, currentMovieTitle, characterName);
+    //         // setReadyToBridge(false);
+
+    //         return true;
+    //     } catch (error) {
+    //         console.error(error);
+    //         return false;
+    //     }
+    // }
 
 
 
