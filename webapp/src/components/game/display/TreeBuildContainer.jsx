@@ -5,22 +5,21 @@ import uuid from 'react-uuid';
 
 // import Col from "react-bootstrap/Col";
 // import Card from 'react-bootstrap/Card';
-import { useGameContext, useActorContext } from "../../../contexts";
+import { useGameContext } from "../../../contexts";
 import ActorCard from "./ActorCard";
 import MovieCard from "./MovieCard";
 
 // nice bc they stay in order even when vp changes
 
 function TreeBuildContainer() {
-    const { actorA } = useActorContext();
     const {
         currentMovieTitle,
         currentActorBridge,
         readyToBuild,
+        actorA
     } = useGameContext();
 
-    // const [actorCards, setActorCards] = useState([]);
-    // const [movieCards, setMovieCards] = useState([]);
+
     const [bridgeCards, setBridgeCards] = useState([]);
     const [ actorName, setActorName ] = useState(readyToBuild ? currentActorBridge : actorA);
 

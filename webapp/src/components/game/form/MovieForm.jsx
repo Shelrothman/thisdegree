@@ -18,9 +18,10 @@ import VALIDATE_MOVIE_QUERY from '../../../queries/validateMovieInput';
 // TODO: launcher needs to only be allowed to exit once the BOTH are selected, if only one is- don not let user closer it.. just can for now for ease of development
 
 function MovieForm(enable) {
-    const { actorA } = useActorContext();
+    // const { actorA } = useActorContext();
     const {
         currentActorBridge,
+        actorA,
         readyToBuild,
         addMovieToGlobal,
         buildCastOptions,

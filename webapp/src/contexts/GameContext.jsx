@@ -18,14 +18,12 @@ import uuid from 'react-uuid';
 
 // TODO remove from options, the last currentActorBridge, SO THAT is doesnt show as an option to the user. bc that would mess things up
 
-//************* i need a different approacj wheere i like have the same form stay in the middle of the screen for inputs/btn clicks, and then a seperate component that renders the cards on the side of the screen
-
 // TODO eventually merge in ActorContext and just hold actorA and B in here, all in one context
 // import { useActorContext } from './ActorContext.jsx';
 //! not until readyToBridge is true is the actorB btn enabled and any "checking" is done
 // TODO eventually we send the final movieList array to the createTree backend route
 
-// TODO include the characterName in the actorSelection in the movie object in the movieList array
+// TODO include the characterName in the actorSelection in the movie object in the movieList array SO THAT it can be displayed in the end and/or throughout the game
 
 
 
@@ -43,7 +41,7 @@ export function useGameContext() {
 export function GameContextProvider({ children }) {
     const [gameStarted, setGameStarted] = useState(false);
     const { actorA, actorB } = useActorContext();
-    const [readyToInputFirst, setReadyToInputFirst] = useState(false);
+
     const [currentMovieTitle, setCurrentMovieTitle] = useState(''); // this is the movie title of current movie
     // the movieList to hold the whole tree
     const [movieList, setMovieList] = useState([]); // cant we just use this to keep track of the game
@@ -64,7 +62,7 @@ export function GameContextProvider({ children }) {
     }, [movieList]); // only ready if there are movies in the list
     // ---------------------
 
-    
+
 
     // set state of which form is being used
     const [formTypeMovie, setFormTypeMovie] = useState(true); // if false, then enable the actor form, if true, then enable the movie form
@@ -92,7 +90,7 @@ export function GameContextProvider({ children }) {
     useEffect(() => {
         // all the resets to happen when the game is over or starts over
         if (!gameStarted) {
-            setReadyToInputFirst(false);
+            // setReadyToInputFirst(false);
             setCurrentMovieTitle('');
             setCurrentActorBridge(actorA);
             setReadyToBuild(false);
@@ -189,8 +187,8 @@ export function GameContextProvider({ children }) {
             setCurrentActorBridge,
             currentMovieTitle,
             setCurrentMovieTitle,
-            readyToInputFirst,
-            setReadyToInputFirst,
+            // readyToInputFirst,
+            // setReadyToInputFirst,
             handleFirstClick,
             currentActorOptions,
             setCurrentActorOptions,
@@ -200,6 +198,7 @@ export function GameContextProvider({ children }) {
             setReadyToBuild,
             formTypeMovie,
             setFormTypeMovie,
+            actorA
         }}>
             {children}
         </GameContext.Provider>
