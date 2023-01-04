@@ -77,6 +77,13 @@
     color: var(--accent) !important;
 }
 
+.nice-job {
+    justify-content: center;
+    /* border: var(--button-border) 1px solid; */
+    color: var(--button-border);
+}
+
+
 /* .playBtn {
     background-color: var(--indigo-color);
     color: var(--accent);

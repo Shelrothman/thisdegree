@@ -137,7 +137,10 @@ function Launcher() {
                     <TreeBuildContainer />
                     <div className="sample-scoreboard">
                         <div>
-                            <div><h1>Game Started</h1></div>
+                            <div>
+                                <h2>Game In Process</h2>
+                                {formTypeMovie ? <h3>Movie Mode</h3> : <h3>Actor Mode</h3>}
+                            </div>
                             <FormContainer />
                         </div>
                     </div>

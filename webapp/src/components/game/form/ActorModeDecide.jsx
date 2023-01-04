@@ -8,19 +8,22 @@ import Col from 'react-bootstrap/Col';
 function ActorModeDecide({ selectHandler, readyHandler }) {
     return (
         <>
-            <Row className="text-center">nice!</Row>
+            <Row className="nice-job">
+                <h2>nice!</h2>
+            </Row>
+            <br />
             <Row className="g-2">
                 <Col>
-                    <Button size="lg" className="form-controls" onClick={selectHandler}>
-                        Select next Actor From Movie --`&gt;`
+                    <Button className="form-controls submit-btn" onClick={selectHandler}>
+                        Select next Actor From Movie --&gt;
                     </Button>
                 </Col>
                 <Col>
                     OR
                 </Col>
                 <Col>
-                    <Button size="lg" className="form-controls" onClick={readyHandler}>
-                        I'm Ready To Bridge --`&gt;`
+                    <Button className="form-controls submit-btn" onClick={readyHandler}>
+                        I'm Ready To Bridge --&gt;
                     </Button>
                 </Col>
             </Row>
