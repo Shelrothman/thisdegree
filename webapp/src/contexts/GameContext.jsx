@@ -16,16 +16,18 @@ import { useActorContext } from './ActorContext.jsx';
 // import GameRound from '../models/GameRound';
 import uuid from 'react-uuid';
 
-// TODO remove from options, the currentActorBridge
+// TODO remove from options, the last currentActorBridge, SO THAT is doesnt show as an option to the user. bc that would mess things up
 
-// ! blerg okay now when i hit save on this file the sibmitRefs all reappear on screen
-// the trouble i think is bc i am just mapping the global list instead of rendering coindtionally and then also the refs are like not being mapped or something and like they are just being rendered as one componente.... and also i need to seperate my FORM components from the GAME components bc one is for the user to input and the other is for the game to display so i need to seperate them out because they do different things
 //************* i need a different approacj wheere i like have the same form stay in the middle of the screen for inputs/btn clicks, and then a seperate component that renders the cards on the side of the screen
 
 // TODO eventually merge in ActorContext and just hold actorA and B in here, all in one context
 // import { useActorContext } from './ActorContext.jsx';
 //! not until readyToBridge is true is the actorB btn enabled and any "checking" is done
 // TODO eventually we send the final movieList array to the createTree backend route
+
+// TODO include the characterName in the actorSelection in the movie object in the movieList array
+
+
 
 const GameContext = createContext();
 
@@ -42,18 +44,18 @@ export function GameContextProvider({ children }) {
     const [gameStarted, setGameStarted] = useState(false);
     const { actorA, actorB } = useActorContext();
     const [readyToInputFirst, setReadyToInputFirst] = useState(false);
-    const [currentActorBridge, setCurrentActorBridge] = useState(actorA);
     const [currentMovieTitle, setCurrentMovieTitle] = useState(''); // this is the movie title of current movie
     // the movieList to hold the whole tree
     const [movieList, setMovieList] = useState([]); // cant we just use this to keep track of the game
     const [readyToBridge, setReadyToBridge] = useState(false);
-
+    
     const [currentActorOptions, setCurrentActorOptions] = useState([]);
-
-
+    
+    
     // ------------------
     const [readyToBuild, setReadyToBuild] = useState(movieList.length > 0); // only ready if there are movies in the list
-
+    
+    const [currentActorBridge, setCurrentActorBridge] = useState(actorA);
     useEffect(() => {
         if (movieList.length > 0) {
             setReadyToBuild(true);
@@ -62,6 +64,7 @@ export function GameContextProvider({ children }) {
     }, [movieList]); // only ready if there are movies in the list
     // ---------------------
 
+    
 
     // set state of which form is being used
     const [formTypeMovie, setFormTypeMovie] = useState(true); // if false, then enable the actor form, if true, then enable the movie form
@@ -139,6 +142,7 @@ export function GameContextProvider({ children }) {
     //TODO MODULATE , errror handeling
     const handleNewActorGuess = async (userActorInput, movie) => {
         try {
+            console.log('userActorInput', userActorInput);
             // TODO use movieID instead of title to make this more reliable.. or just use the last element of the array since that will be the current round
             // let localMovieObj = movieList.find((movieObj) => movieObj.movieTitle == movie);
             let localMovieObj = movieList[movieList.length - 1];

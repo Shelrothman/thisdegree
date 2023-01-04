@@ -8,7 +8,7 @@ import Row from 'react-bootstrap/Row';
 
 import { useGameContext } from '../../../contexts';
 // import Spinner from '../../../utils/Spinner';
-/// TODO appear the character Name somewhere in the tree or soemthign cool
+// TODO change to have the character Name somewhere in the tree or soemthign cool
 
 function ActorForm() {
     const {

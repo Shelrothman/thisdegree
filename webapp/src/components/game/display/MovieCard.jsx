@@ -1,12 +1,12 @@
 import Card from 'react-bootstrap/Card';
 
-function MovieCard({ movie }) {
+function MovieCard({ movie, actorName }) {
     return (
         <Card id="card-movie-container">
 
             <Card.Body id="card-movie-body">
                 <Card.Text>
-                    Movie Bridge:
+                    Movie with {actorName}:
                 </Card.Text>
             </Card.Body>
             <Card.Header as="h5" id="card-movie-header">
