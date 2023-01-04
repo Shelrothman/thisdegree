@@ -21,6 +21,7 @@ function Launcher() {
         gameStarted,
         movieList,
         handleGameStateChange,
+        formTypeMovie
     } = useGameContext();
 
     useEffect(() => {
@@ -49,9 +50,31 @@ function Launcher() {
         return; // this will return no matter what
     }
 
+    // TODO: use modules instead of alerts/confirms to look better
+
     const handleReady = () => {
         //TODO PU here and handle the setReadyToBridge stuff (in context)
-        handleGameStateChange();
+        // console.log('internalText', internalText);
+        if (gameStarted) { // then the user is ready to bridge bc already in the game
+            let userConfirm = confirm(`Are you ready to connect to ${actorB}?`);
+            if (userConfirm) {
+                if (!formTypeMovie) {
+                    // then the user is in actor mode
+                    alert('You must enter the final movie to bridge. You are currently in Actor Mode. Select an actor, enter a movie, then try again.');
+                    return;
+                } else {
+                    // then the user is in movieMode and we can test their final input
+                }
+            } else {
+                // then the user is not ready to bridge, return to game w/o changing state
+                return;
+            }
+        } else {
+            // then the user is ready to just start the game
+            handleGameStateChange();
+        }
+
+
         console.log('on ready');
         console.log('gameStarted: ', gameStarted);
         console.log('movieList', movieList);
@@ -79,16 +102,13 @@ function Launcher() {
                 handler={handleReady}
                 style={{ display: actorA && actorB ? 'block' : 'none' }}
             />
-            {/* <div style={{}}> */}
-            {/* <h1>This Degrees</h1> */}
-            {/* </div> */}
             {gameStarted && (
                 <>
                     <ActorHeader />
                     <TreeBuildContainer />
                     <div className="sample-scoreboard">
                         <div>
-                        <div><h1>Game Started</h1></div>
+                            <div><h1>Game Started</h1></div>
                             <FormContainer />
                         </div>
                     </div>

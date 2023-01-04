@@ -1,9 +1,11 @@
-import { useActorContext } from "../../contexts";
+import { useGameContext } from "../../contexts";
 
+
+// toDO; display whethe user is in actor or movie mode
 
 function ActorHeader() {
 
-    const { actorA, actorB } = useActorContext();
+    const { actorA, actorB } = useGameContext();
 
     return (
         <div className="container text-center">

@@ -94,6 +94,7 @@ export function GameContextProvider({ children }) {
             setCurrentMovieTitle('');
             setCurrentActorBridge(actorA);
             setReadyToBuild(false);
+            setFormTypeMovie(true);
         } 
     }, [gameStarted]);
 
@@ -151,7 +152,7 @@ export function GameContextProvider({ children }) {
             localMovieObj.actorSelection.name = userActorInput;
             localMovieObj.actorSelection.id = uuid();
             localMovieObj.actorSelection.characterName = characterName;
-            
+
             setMovieList((prev) => {
                 return [...prev, localMovieObj];
             });
@@ -200,7 +201,8 @@ export function GameContextProvider({ children }) {
             setReadyToBuild,
             formTypeMovie,
             setFormTypeMovie,
-            actorA
+            actorA,
+            actorB,
         }}>
             {children}
         </GameContext.Provider>

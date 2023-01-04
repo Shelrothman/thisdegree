@@ -27,7 +27,7 @@ function ActorForm() {
         )
     });
 
-    async function handleSubmit(e) {
+    async function handleSubmit() {
         try {
             const actorSelection = formState.actorInput;
             console.log('actorSelection: ', actorSelection);
