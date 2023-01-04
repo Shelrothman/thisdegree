@@ -104,12 +104,12 @@ function ActorForm() {
             if (userConfirm) {
                 setReadyToBridge(true);
                 const testResponse = await testFinalInput();
-                if (testResponse === true) {
-                    alert('You did it!');
+                if (testResponse.evaluationResult === true) {
+                    // alert('You did it!');
 
-                    let finalTree = handleFinalBridge();
+                    let finalTree = await handleFinalBridge(testResponse.characterName);
                     // PU HERE!!!!
-                    navigate('/createTree', { state: { finalTree } });
+                    navigate('/createTree', { state: { tree: JSON.stringify(finalTree) } }); // we read from this state by using the useLocation hook
                     return;
                 } else {
                     alert('Fail! Try Again');
@@ -139,7 +139,8 @@ function ActorForm() {
             });
             console.log('data: ', data);
             let evaluationResult = data?.validateMovieInput?.isInMovie || false;
-            return evaluationResult;
+            let characterName = evaluationResult === true ? data.validateMovieInput.character : 'unknown';
+            return { evaluationResult, characterName };
 
         } catch (error) {
             console.error(error);

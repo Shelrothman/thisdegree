@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useMutation, gql } from '@apollo/client';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 // ! user must be authenticated to post a tree
 
@@ -23,6 +23,11 @@ mutation PostMutation(
 
 const CreateTree = () => {
     const navigate = useNavigate();
+
+    // use the useLocation hook to get the state from the previous page
+    const { state } = useLocation();
+    console.log('state: ', state);
+
 
     // TODO: play with using a similar setup as this in my scoreboard inputs (state-wise)
     const [formState, setFormState] = useState({
@@ -65,6 +70,11 @@ const CreateTree = () => {
                     />
                 </div>
                 <button type="submit">Submit</button>
+                <pre>
+                    <code>
+                        {state.tree}
+                    </code>
+                </pre>
             </form>
         </div>
     );

@@ -172,14 +172,24 @@ export function GameContextProvider({ children }) {
         }
     }
 
-    async function handleFinalBridge() {
+    async function handleFinalBridge(characterName) {
         try {
+            // const movieValue = movieList[movieList.length - 1].movieTitle;
+            // let addResponse = await addMovieToGlobal(movieValue);
+            // if (addResponse) {
+            // let localMovieList = movieList || [];
+            // } else {
+            //     throw new Error('could not add movie to global list');
+            // }
             // setCurrentActorBridge(actorB);
             // add movie to global list and actorB as its actor, add actorA to the front of the array.
             // then return the tree
             let finalTreeArray = [];
-
-
+            let res = await handleActorSelection(actorB, characterName);
+            if (res) {
+                finalTreeArray = movieList;
+            }
+            console.log('finalTreeArray', finalTreeArray)
             return finalTreeArray;
         } catch (error) {
             console.error(error);
