@@ -1,9 +1,7 @@
 import { useState, useEffect } from 'react';
-import { useLazyQuery } from '@apollo/client';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 
 
-import VALIDATE_MOVIE_QUERY from '../../queries/validateMovieInput';
 import ActorListContainer from '../ActorListContainer.jsx';
 import { useActorContext, useGameContext } from '../../contexts';
 
@@ -22,7 +20,6 @@ function Launcher() {
     } = useActorContext();
     const {
         gameStarted,
-        movieList,
         handleGameStateChange,
         formTypeMovie
     } = useGameContext();
@@ -38,15 +35,6 @@ function Launcher() {
         return setShow(false);
     }
 
-    // const [fetchData, { loading, data, error }] = useLazyQuery(VALIDATE_MOVIE_QUERY, {
-    //     variables: {
-    //         movieInput: '',
-    //         actorInput: '',
-    //     },
-    //     onCompleted: (data) => console.log('data onCompleted: ', data),
-    //     onError: (error) => console.log('error: ', error),
-    // });
-
     // we also want handleShow to clear out the selected actors
     const handleClick = (internalText) => {
         if (internalText === 'Change Actors') {
@@ -61,8 +49,6 @@ function Launcher() {
         }
         return; // this will return no matter what
     }
-
-
 
 
 

@@ -4,26 +4,24 @@
  * gameStarted: boolean (true if the game has started, false if it hasn't || its over)
  * movieList: array (list of movies {}s holding movie title and which actor used from it)
  *   - we want this for the display at the end the node tree thang
- * TODO: eventually use redux for this once it gets bigger
+ * TODO: eventually use redux for this once it gets bigger?
+ * TODO: use MEMO to prevent re-rendering of components -- do more research on this
+ * ? Optimizing with memo  is only valuable when your component re-renders often with the same exact props, and its re-rendering logic is expensive. If there is no perceptible lag when your component re-renders, memo is unnecessary. Keep in mind that memo is completely useless if the props passed to your component are always different, such as if you pass an object or a plain function defined during rendering. This is why you will often need useMemo and useCallback together with memo.
  */
 import {
     useState,
     useContext,
     createContext,
-    useEffect
+    useEffect,
+    memo
 } from 'react';
 import { useActorContext } from './ActorContext.jsx';
 // import GameRound from '../models/GameRound';
 import uuid from 'react-uuid';
 
-// TODO remove from options, the last currentActorBridge, SO THAT is doesnt show as an option to the user. bc that would mess things up
 
-// TODO eventually merge in ActorContext and just hold actorA and B in here, all in one context
-// import { useActorContext } from './ActorContext.jsx';
-//! not until readyToBridge is true is the actorB btn enabled and any "checking" is done
-// TODO eventually we send the final movieList array to the createTree backend route
-
-// TODO include the characterName in the actorSelection in the movie object in the movieList array SO THAT it can be displayed in the end and/or throughout the game
+//? TODO eventually merge in ActorContext and just hold actorA and B in here, all in one context
+//... still figuring this out...
 
 
 
@@ -44,10 +42,12 @@ export function GameContextProvider({ children }) {
     const [readyToBridge, setReadyToBridge] = useState(false);
 
     const [currentActorOptions, setCurrentActorOptions] = useState([]);
+// TODO remove from options, the last currentActorBridge, SO THAT is doesnt show as an option to the user. bc that would mess things up
 
 
     // ------------------
     const [readyToBuild, setReadyToBuild] = useState(movieList.length > 0); // only ready if there are movies in the list
+    const [formTypeMovie, setFormTypeMovie] = useState(true); // if false, then enable the actor form, if true, then enable the movie form
 
     const [currentActorBridge, setCurrentActorBridge] = useState(actorA);
     useEffect(() => {
@@ -56,26 +56,17 @@ export function GameContextProvider({ children }) {
             return;
         }
     }, [movieList]); // only ready if there are movies in the list
-    // ---------------------
-
-
 
     // set state of which form is being used
-    const [formTypeMovie, setFormTypeMovie] = useState(true); // if false, then enable the actor form, if true, then enable the movie form
 
 
-    // TODO: will use setReadyToBridge to enable the actorB btn once the button is triggered by user
     const handleGameStateChange = () => {
         // use this to change the game on and off
-        // dont use this for when a game wins
+        // dont use this for when a game wins (only when looses)
         setGameStarted((prev) => !prev);
         setMovieList([]);
     };
-    // function handleFirstClick(actor) {
-    //     setCurrentActorBridge(actor);
-    //     setReadyToInputFirst(true);
-    //     return;
-    // }
+
 
     useEffect(() => {
         console.table(movieList);
@@ -96,11 +87,9 @@ export function GameContextProvider({ children }) {
 
     async function addMovieToGlobal(userMovieInput) {
         try {
-            //TODO if movieList is === 0, then we are on the first round else then use the last element in movieList to create the new gameRound \
             let localMovieList = movieList || [];
             // add the movie guess to the end of array 
             localMovieList.push({
-                // TODO previousActor: userActor, this to hold the actor that was used in the previous round to create the userMovieInput
                 movieTitle: userMovieInput,
                 id: uuid(),
                 actorGuessed: false,
@@ -119,7 +108,6 @@ export function GameContextProvider({ children }) {
         }
     }
 
-    // TODO change the name of this function to like buildCastOptions or something
     async function buildCastOptions(userMovieGuess, movieEvaluationObject) {
         try {
             setCurrentMovieTitle(userMovieGuess);
@@ -174,21 +162,16 @@ export function GameContextProvider({ children }) {
 
     async function handleFinalBridge(characterName) {
         try {
-            // const movieValue = movieList[movieList.length - 1].movieTitle;
-            // let addResponse = await addMovieToGlobal(movieValue);
-            // if (addResponse) {
-            // let localMovieList = movieList || [];
-            // } else {
-            //     throw new Error('could not add movie to global list');
-            // }
-            // setCurrentActorBridge(actorB);
-            // add movie to global list and actorB as its actor, add actorA to the front of the array.
-            // then return the tree
             let finalTreeArray = [];
             let res = await handleActorSelection(actorB, characterName);
             if (res) {
                 finalTreeArray = movieList;
             }
+            // unshift the actorA to beginning of the array
+            finalTreeArray.unshift({
+                startingActor: actorA,
+                id: uuid(),
+            });
             console.log('finalTreeArray', finalTreeArray)
             return finalTreeArray;
         } catch (error) {
@@ -211,9 +194,6 @@ export function GameContextProvider({ children }) {
             setCurrentActorBridge,
             currentMovieTitle,
             setCurrentMovieTitle,
-            // readyToInputFirst,
-            // setReadyToInputFirst,
-            // handleFirstClick,
             currentActorOptions,
             setCurrentActorOptions,
             handleActorSelection,
