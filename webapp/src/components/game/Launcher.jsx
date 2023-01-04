@@ -133,7 +133,7 @@ function Launcher() {
             <PlayBtn
                 text='Play!'
                 handler={handleGameStateChange}
-                style={{ display: actorA && actorB  ? 'block' : 'none' }}
+                style={{ display: (actorA && actorB) && !gameStarted ? 'block' : 'none' }}
             />
             {gameStarted && (
                 <>
