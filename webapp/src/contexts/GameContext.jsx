@@ -29,10 +29,6 @@ import uuid from 'react-uuid';
 
 const GameContext = createContext();
 
-const GUESS_STATES = {
-    guessed: 'guessed',
-    notGuessed: 'not guessed'
-};
 
 export function useGameContext() {
     return useContext(GameContext);
@@ -46,13 +42,13 @@ export function GameContextProvider({ children }) {
     // the movieList to hold the whole tree
     const [movieList, setMovieList] = useState([]); // cant we just use this to keep track of the game
     const [readyToBridge, setReadyToBridge] = useState(false);
-    
+
     const [currentActorOptions, setCurrentActorOptions] = useState([]);
-    
-    
+
+
     // ------------------
     const [readyToBuild, setReadyToBuild] = useState(movieList.length > 0); // only ready if there are movies in the list
-    
+
     const [currentActorBridge, setCurrentActorBridge] = useState(actorA);
     useEffect(() => {
         if (movieList.length > 0) {
@@ -94,7 +90,7 @@ export function GameContextProvider({ children }) {
             setCurrentActorBridge(actorA);
             setReadyToBuild(false);
             setFormTypeMovie(true);
-        } 
+        }
     }, [gameStarted]);
 
 
@@ -176,22 +172,19 @@ export function GameContextProvider({ children }) {
         }
     }
 
-    // async function handleFinalBridge(movie, actor) {
-    //     try {
-    //         const movieToEvaluate = movieList[movieList.length - 1].movieTitle;
-    //         // TODO: look at all the propertys in the last element of the movieList.. ensure they are as expected
-    //         //? e.g ensure .actorGuessed is false? .. i think we actually need to do the fetchCheck in Launcher and then send results this way.
-    //* this should kinda be more just setting values and stuff for the game state and not really doing any logic
+    async function handleFinalBridge() {
+        try {
+            // setCurrentActorBridge(actorB);
+            // add movie to global list and actorB as its actor, add actorA to the front of the array.
+            // then return the tree
+            let finalTreeArray = [];
 
-    //         // await handleNewActorGuess(userSelection, currentMovieTitle, characterName);
-    //         // setReadyToBridge(false);
 
-    //         return true;
-    //     } catch (error) {
-    //         console.error(error);
-    //         return false;
-    //     }
-    // }
+            return finalTreeArray;
+        } catch (error) {
+            console.error(error);
+        }
+    }
 
 
 
@@ -203,6 +196,7 @@ export function GameContextProvider({ children }) {
             addMovieToGlobal,
             handleNewActorGuess,
             readyToBridge,
+            setReadyToBridge,
             currentActorBridge,
             setCurrentActorBridge,
             currentMovieTitle,
@@ -220,6 +214,7 @@ export function GameContextProvider({ children }) {
             setFormTypeMovie,
             actorA,
             actorB,
+            handleFinalBridge
         }}>
             {children}
         </GameContext.Provider>

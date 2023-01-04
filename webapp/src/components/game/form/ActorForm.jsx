@@ -1,16 +1,17 @@
 import { useState, useEffect } from 'react';
-// import { useLazyQuery } from '@apollo/client';
+import { useLazyQuery } from '@apollo/client';
+import { useNavigate } from 'react-router-dom';
 import FloatingLabel from 'react-bootstrap/esm/FloatingLabel';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 
-
+import Spinner from '../../../utils/Spinner';
+import VALIDATE_MOVIE_QUERY from '../../../queries/validateMovieInput';
 import ActorModeDecide from './ActorModeDecide';
 import { useGameContext } from '../../../contexts';
-// import Spinner from '../../../utils/Spinner';
-// TODO change to have the character Name somewhere in the tree or soemthign cool
+// TODO change to display the character Name somewhere in the tree or soemthign cool
 
 function ActorForm() {
     const {
@@ -18,20 +19,29 @@ function ActorForm() {
         currentMovieTitle,
         currentActorOptions,
         handleActorSelection,
+        setReadyToBridge,
+        movieList,
+        actorB,
+        handleGameStateChange,
+        handleFinalBridge,
     } = useGameContext();
 
     const [formState, setFormState] = useState({
         actorInput: '',
     });
 
+    const [loadingState, setLoadingState] = useState(false);
+
     // const { rowRef } = useRef(null);
 
     const [showRow, setShowRow] = useState(false);
 
     useEffect(() => {
-        setShowRow(false); 
+        setShowRow(false);
         // reset the form to the default state
     }, [currentMovieTitle]);
+
+    const navigate = useNavigate();
 
     // TODO: filter out any actors that have already been selected in global list as well as ActorA and ActorB
     const actorOptions = currentActorOptions?.map((actor) => {
@@ -39,6 +49,16 @@ function ActorForm() {
             <option key={actor.id} value={actor.name}>{actor.name}</option>
         )
     });
+
+    const [fetchData, { loading, data, error }] = useLazyQuery(VALIDATE_MOVIE_QUERY, {
+        variables: {
+            movieInput: '',
+            actorInput: '',
+        },
+        onCompleted: (data) => console.log('data onCompleted: ', data),
+        onError: (error) => console.log('error: ', error),
+    });
+
 
     async function handleSubmit() {
         try {
@@ -74,13 +94,60 @@ function ActorForm() {
         setShowRow(true);
         return;
     }
-    
-    function handleReadyChoice() {
-        // rowRef.current.style.display = 'none';
-        setShowRow(false);
-        return;
+
+
+    // TODO: use modules instead of alerts/confirms for display to look better
+    async function handleReadyChoice() {
+        try {
+            setShowRow(false);
+            let userConfirm = confirm(`Are you ready to attempt to bridge ${actorB}?`);
+            if (userConfirm) {
+                setReadyToBridge(true);
+                const testResponse = await testFinalInput();
+                if (testResponse === true) {
+                    alert('You did it!');
+
+                    let finalTree = handleFinalBridge();
+                    // PU HERE!!!!
+                    navigate('/createTree', { state: { finalTree } });
+                    return;
+                } else {
+                    alert('Fail! Try Again');
+                    handleGameStateChange();
+                    // reset the game
+                    return;
+                }
+            } else {
+                // then the user is not ready to bridge, so return to game w/o changing state
+                return;
+            }
+        } catch (error) {
+            console.error(error);
+        }
+        // work in here to get the final round checked
     }
-    
+
+    async function testFinalInput() {
+        try {
+            const movieValue = movieList[movieList.length - 1].movieTitle;
+            const actorValue = actorB;
+            const { data } = await fetchData({
+                variables: {
+                    movieInput: movieValue,
+                    actorInput: actorValue,
+                },
+            });
+            console.log('data: ', data);
+            let evaluationResult = data?.validateMovieInput?.isInMovie || false;
+            return evaluationResult;
+
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+
+    // TODO: signify when its in loading state
     // TODO come bacl and make it look nicer?
 
     return (

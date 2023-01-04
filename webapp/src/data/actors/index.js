@@ -1,6 +1,7 @@
 // just doing this in a file bc honestly, using the mockjson thing is literally goiong to be the same amount of lines of code
 
 const actors = [
+    { id: 'x', name: 'Renee Zellweger', },
     { id: 0, name: 'Jonah Hill', },
     { id: 1, name: 'Jack Nicholson', },
     { id: 2, name: 'Marlon Brando', },
@@ -69,6 +70,7 @@ const actors = [
     { id: 65, name: 'Joe Pesci', },
     { id: 66, name: 'Sharon Stone', },
     { id: 67, name: 'Robin Wright  ', },
+    { id: 68, name: 'Catherine Zeta-Jones', },
 ];
 
 
