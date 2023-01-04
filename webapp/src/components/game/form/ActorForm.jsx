@@ -33,7 +33,10 @@ function ActorForm() {
             console.log('actorSelection: ', actorSelection);
             if (actorSelection) {
                 if (actorSelection !== 'select') {
-                    const characterName = currentActorOptions.find((actor) => actor.name === actorSelection)?.character || 'unknown';
+                    const characterName = currentActorOptions?.find((actor) =>
+                        actor.name === actorSelection)
+                        ?.character
+                        || 'unknown';
                     // console.log('characterName: ', characterName);
                     const selectResponse = await handleActorSelection(actorSelection, characterName);
                     if (selectResponse === true) {
