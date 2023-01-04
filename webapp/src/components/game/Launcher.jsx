@@ -64,31 +64,35 @@ function Launcher() {
 
     // TODO: use modules instead of alerts/confirms for display to look better
     // so just we will move this over to ActorForm
-    const handleReady = () => {
-        //TODO PU here and handle the setReadyToBridge stuff (in context)
-        // console.log('internalText', internalText);
-        if (gameStarted) { // then the user is ready to bridge bc already in the game
-            let userConfirm = confirm(`Are you ready to connect to ${actorB}?`);
-            if (userConfirm) {
-                if (!formTypeMovie) {
-                    //TODO need to also account for being in formTypeMovie but with an empty value in the input
-                    // then the user is in actor mode
-                    alert('You must enter the final movie to bridge. You are currently in Actor Mode. Select an actor, enter a movie, then try again.');
-                    return;
-                } else {
-                    // RETURN HERE... create a handleFinalThing in GameContext to be called here
-                    //! then the user is in movieMode and we can test their final input
-                    testFinalInput();
-                }
-            } else {
-                // then the user is not ready to bridge, so return to game w/o changing state
-                return;
-            }
-        } else {
-            // then the user is ready to just start the game
-            handleGameStateChange();
-        }
-    }
+    // const handleReady = () => {
+    //     //TODO PU here and handle the setReadyToBridge stuff (in context)
+    //     // console.log('internalText', internalText);
+    //     if (gameStarted) { // then the user is ready to bridge bc already in the game
+    //         let userConfirm = confirm(`Are you ready to connect to ${actorB}?`);
+    //         if (userConfirm) {
+    //             if (!formTypeMovie) {
+    //                 //TODO need to also account for being in formTypeMovie but with an empty value in the input
+    //                 // then the user is in actor mode
+    //                 alert('You must enter the final movie to bridge. You are currently in Actor Mode. Select an actor, enter a movie, then try again.');
+    //                 return;
+    //             } else {
+    //                 // RETURN HERE... create a handleFinalThing in GameContext to be called here
+    //                 //! then the user is in movieMode and we can test their final input
+    //                 testFinalInput();
+    //             }
+    //         } else {
+    //             // then the user is not ready to bridge, so return to game w/o changing state
+    //             return;
+    //         }
+    //     } else {
+    //         // then the user is ready to just start the game
+    //         handleGameStateChange();
+    //     }
+    // }
+
+    // const handleReady = () => {
+    //     handleGameStateChange();
+    // }
 
     async function testFinalInput() {
         try {
@@ -127,9 +131,9 @@ function Launcher() {
                 </Offcanvas.Body>
             </Offcanvas>
             <PlayBtn
-                text={gameStarted ? 'Ready to Bridge!' : 'Play!'}
-                handler={handleReady}
-                style={{ display: actorA && actorB ? 'block' : 'none' }}
+                text='Play!'
+                handler={handleGameStateChange}
+                style={{ display: actorA && actorB  ? 'block' : 'none' }}
             />
             {gameStarted && (
                 <>

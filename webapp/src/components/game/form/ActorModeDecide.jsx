@@ -14,7 +14,7 @@ function ActorModeDecide({ selectHandler, readyHandler }) {
             <br />
             <Row className="g-2">
                 <Col>
-                    <Button className="form-controls submit-btn" onClick={selectHandler}>
+                    <Button className="degreeBtn" onClick={selectHandler}>
                         Select next Actor From Movie --&gt;
                     </Button>
                 </Col>
@@ -22,7 +22,7 @@ function ActorModeDecide({ selectHandler, readyHandler }) {
                     OR
                 </Col>
                 <Col>
-                    <Button className="form-controls submit-btn" onClick={readyHandler}>
+                    <Button className="degreeBtn" onClick={readyHandler}>
                         I'm Ready To Bridge --&gt;
                     </Button>
                 </Col>

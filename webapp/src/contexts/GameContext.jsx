@@ -75,11 +75,11 @@ export function GameContextProvider({ children }) {
         setGameStarted((prev) => !prev);
         setMovieList([]);
     };
-    function handleFirstClick(actor) {
-        setCurrentActorBridge(actor);
-        setReadyToInputFirst(true);
-        return;
-    }
+    // function handleFirstClick(actor) {
+    //     setCurrentActorBridge(actor);
+    //     setReadyToInputFirst(true);
+    //     return;
+    // }
 
     useEffect(() => {
         console.table(movieList);
@@ -209,7 +209,7 @@ export function GameContextProvider({ children }) {
             setCurrentMovieTitle,
             // readyToInputFirst,
             // setReadyToInputFirst,
-            handleFirstClick,
+            // handleFirstClick,
             currentActorOptions,
             setCurrentActorOptions,
             handleActorSelection,

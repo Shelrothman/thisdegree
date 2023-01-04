@@ -25,7 +25,7 @@
     --light-background: #EDDCD2;
     --accent: #dee3e2;
     --button-border: #0c6950;
-    --littleDarker-background: #969998;
+    --littleDarker-background: #b5bcbb;
     --indigo-color: #96dcee;
     --textarea-text: rgb(29, 29, 39);
 }
@@ -61,15 +61,15 @@
 }
 
 .form-controls {
-    background-color: var(--accent) !important;
-    color: var(--dark-text) !important;
-    border: 2px solid var(--littleDarker-background) !important;
+    background-color: var(--littleDarker-background) !important;
+    color: var(--light-text) !important;
+    border: 1px solid var(--accent) !important;
 }
 
 .form-controls:focus {
     background-color: var(--button-border) !important;
     color: var(--dark-text) !important;
-    border: 2px solid var(--accent) !important;
+    border: 1px solid var(--accent) !important;
 }
 
 .submit-btn:hover {
