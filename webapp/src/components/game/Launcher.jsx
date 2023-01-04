@@ -4,7 +4,6 @@ import Offcanvas from 'react-bootstrap/Offcanvas';
 import ActorListContainer from '../ActorListContainer.jsx';
 import { useActorContext, useGameContext } from '../../contexts';
 
-import PlayBoard from './PlayBoard.jsx';
 import MovieBtn from '../buttons/MovieBtn.jsx';
 import PlayBtn from '../buttons/PlayBtn.jsx';
 import ActorHeader from './ActorHeader.jsx';
