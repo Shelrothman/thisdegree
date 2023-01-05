@@ -36,7 +36,6 @@ function MovieForm(enable) {
         // currentActorBridge is only set when the user selects an actor, we want it back to ActorA only when readyToBuild is false bc that means the game is like starting over
     }, [currentActorBridge, readyToBuild]);
 
-
     const [formState, setFormState] = useState({
         movieInput: '',
     });
@@ -50,6 +49,7 @@ function MovieForm(enable) {
         onError: (error) => console.error(error),
     });
 
+    //TODO purify this function, it is a mess...
     async function handleSubmit() {
         try {
             const userMovieGuess = formState.movieInput;
