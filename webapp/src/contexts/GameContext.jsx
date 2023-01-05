@@ -177,6 +177,11 @@ export function GameContextProvider({ children }) {
                 startingActor: actorA,
                 id: uuid(),
             });
+            // push the actorB to the end of the array
+            finalTreeArray.push({
+                endingActor: actorB,
+                id: uuid(),
+            });
             console.log('finalTreeArray', finalTreeArray)
             return finalTreeArray;
         } catch (error) {
