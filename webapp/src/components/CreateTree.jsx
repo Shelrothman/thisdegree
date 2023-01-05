@@ -1,22 +1,10 @@
 import { useState } from 'react';
-import { useMutation, gql } from '@apollo/client';
+import { useMutation } from '@apollo/client';
 import { useNavigate, useLocation } from 'react-router-dom';
+import CREATE_TREE_MUTATION from '../queries/createTreeMutation';
+
 
 // ! user must be authenticated to post a tree
-
-const CREATE_TREE_MUTATION = gql`
-mutation PostMutation(
-    $treeDeclaration: String!
-) {
-    addTree(treeDeclaration: $treeDeclaration) {
-        id
-        postedBy {
-            id
-            name
-        }
-        treeDeclaration
-    }
-}`;
 
 
 
