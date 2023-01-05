@@ -21,6 +21,7 @@ function Launcher() {
     const {
         gameStarted,
         handleGameStateChange,
+        setGameStarted,
         formTypeMovie
     } = useGameContext();
 
@@ -50,6 +51,13 @@ function Launcher() {
         return; // this will return no matter what
     }
 
+    function handlePlayClick() {
+        if (actorA && actorB) {
+            setGameStarted(true);
+        }
+        return setShow(false);
+    }
+
 
 
     return (
@@ -70,12 +78,13 @@ function Launcher() {
             </Offcanvas>
             <PlayBtn
                 text='Play!'
-                handler={handleGameStateChange}
+                handler={handlePlayClick}
                 style={{ display: (actorA && actorB) && !gameStarted ? 'block' : 'none' }}
             />
+            {actorA || actorB ? <ActorHeader /> : null}
+            {/* <ActorHeader /> */}
             {gameStarted && (
                 <>
-                    <ActorHeader />
                     <TreeBuildContainer />
                     <div className="sample-scoreboard">
                         <div>

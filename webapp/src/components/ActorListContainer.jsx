@@ -1,9 +1,13 @@
 import { useState, useEffect } from 'react';
 import { useActorContext } from '../contexts/ActorContext';
-
+import { BiRefresh } from 'react-icons/bi';
+import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
-import { getAllActors } from '../data/actors';
+import {
+    // getAllActors,
+    getFiftyRandomActors
+} from '../data/actors';
 // import { useActorStart } from '../contexts/ActorStartContext';
 /**
  * in here we need to fetch the actors from the db
@@ -20,7 +24,8 @@ function ActorListContainer() {
 
 
     useEffect(() => {
-        getAllActors().then((actors) => {
+        getFiftyRandomActors().then((actors) => {
+            // console.log(actors);
             setActorList(actors);
         });
     }, []);
@@ -51,12 +56,24 @@ function ActorListContainer() {
         );
     });
 
+    function handleRefresh() {
+        getFiftyRandomActors().then((actors) => {
+            // console.log(actors);
+            setActorList(actors);
+        });
+    }
+
     return (
-        <Card style={{ width: '18rem' }}>
-            <ListGroup variant="flush">
-                {actorListItems}
-            </ListGroup>
-        </Card>
+        <>
+            <Button onClick={handleRefresh}>
+                <BiRefresh size={25} /> Refresh List
+            </Button>
+            <Card style={{ width: '18rem' }}>
+                <ListGroup variant="flush">
+                    {actorListItems}
+                </ListGroup>
+            </Card>
+        </>
     );
 }
 

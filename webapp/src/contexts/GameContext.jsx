@@ -63,7 +63,8 @@ export function GameContextProvider({ children }) {
     const handleGameStateChange = () => {
         // use this to change the game on and off
         // dont use this for when a game wins (only when looses)
-        setGameStarted((prev) => !prev);
+        // setGameStarted((prev) => !prev);
+        setGameStarted(false);
         setMovieList([]);
     };
 
@@ -184,6 +185,7 @@ export function GameContextProvider({ children }) {
     return (
         <GameContext.Provider value={{
             gameStarted,
+            setGameStarted,
             movieList,
             handleGameStateChange,
             addMovieToGlobal,
