@@ -1,8 +1,8 @@
 import { useState, useContext, createContext } from 'react';
-
+// TODO - generate a random list of actors each time the game starts/restarts
 
 const ActorContext = createContext();
-//? would it be better to have these inside the provider?
+
 export function useActorContext() {
     return useContext(ActorContext);
 }

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useMutation, gql } from '@apollo/client';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 // ! user must be authenticated to post a tree
 
@@ -24,9 +24,14 @@ mutation PostMutation(
 const CreateTree = () => {
     const navigate = useNavigate();
 
+    // use the useLocation hook to get the state from the previous page
+    const { state } = useLocation();
+    console.log('state: ', state);
+
+
     // TODO: play with using a similar setup as this in my scoreboard inputs (state-wise)
     const [formState, setFormState] = useState({
-        treeDeclaration: '',
+        treeDeclaration: state.tree,
     });
     // pass the CREATE_TREE_MUTATION to the useMutation hook 
     // and pass in the data provided in the input fields as variables.
@@ -39,6 +44,9 @@ const CreateTree = () => {
         onCompleted: () => {
             navigate('/treehome');
         },
+        onError: (error) => {
+            console.log('error: ', error);
+        },
     });
 
     return (
@@ -49,7 +57,7 @@ const CreateTree = () => {
                     createTree();
                 }}
             >
-                <div className="flex flex-column mt3">
+                <div className="flex flex-column mt-3">
                     <input
                         className="mb2"
                         value={formState.treeDeclaration}
@@ -65,6 +73,9 @@ const CreateTree = () => {
                     />
                 </div>
                 <button type="submit">Submit</button>
+                <pre style={{ whiteSpace: 'pre-wrap' }} >
+                        {JSON.stringify(JSON.parse(state.tree), null, 2)}
+                </pre>
             </form>
         </div>
     );

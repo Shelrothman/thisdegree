@@ -24,7 +24,7 @@
     --dark-background: #DBE7E4;
     --light-background: #EDDCD2;
     --accent: #dee3e2;
-    --button-border: #0c6950;
+    --button-border: #1ac597d7;
     --littleDarker-background: #b5bcbb;
     --indigo-color: #96dcee;
     --textarea-text: rgb(29, 29, 39);
@@ -37,11 +37,12 @@
 }
 
 .degreeBtn:hover {
-    background-color: var(--button-border) ;
+    background-color: var(--button-border);
     color: var(--accent);
 }
 
-.movieTitle-card, .actorTitle-card {
+.movieTitle-card,
+.actorTitle-card {
     color: var(--button-border);
     border: 1px solid var(--button-border);
     border-radius: 4px;
@@ -49,6 +50,52 @@
     padding-right: 0.5rem;
 }
 
+#main-form-container {
+    /* background-color: var(--accent); */
+    color: var(--light-text);
+    border: var(--accent) 5px solid;
+    border-radius: 5px;
+    padding: 10px;
+    /* margin: 10px; */
+    /* margin: 0 10px 0 10px; */
+    /* margin-right: 15%; */
+}
+
+.form-controls {
+    background-color: var(--littleDarker-background) !important;
+    color: var(--light-text) !important;
+    border: 1px solid var(--accent) !important;
+}
+
+.form-controls:focus {
+    background-color: var(--button-border) !important;
+    color: var(--dark-text) !important;
+    border: 1px solid var(--accent) !important;
+}
+
+.refresh-btn {
+    background-color: var(--littleDarker-background) !important;
+    color: var(--light-text) !important;
+    border: 1px solid var(--accent) !important;
+}
+
+.refresh-btn:hover {
+    background-color: var(--button-border) !important;
+    color: var(--dark-text) !important;
+    border: 1px solid var(--accent) !important;
+}
+
+
+.submit-btn:hover {
+    background-color: var(--button-border) !important;
+    color: var(--accent) !important;
+}
+
+.nice-job {
+    justify-content: center;
+    /* border: var(--button-border) 1px solid; */
+    color: var(--button-border);
+}
 
 
 /* .playBtn {
@@ -101,6 +148,7 @@
 #card-movie-header {
     background-color: var(--dark-background);
 }
+
 #card-movie-body {
     background-color: var(--accent);
     color: var(--dark-text)
@@ -163,3 +211,19 @@ textarea {
     border: var(--light-text) 3px solid;
     padding: 3px;
 }
+
+
+/* Blinking shtuff  */
+/* TODO come back and uncomment after done developing */
+/* step-end or step-start could work instead of linear.. i ran some calculations and i think the linear is most efficient, but come back to htink about this */
+.blink {
+    /* animation: blinker 1s linear infinite; */
+    color: red;
+    font-weight: 100;
+}
+
+/* @keyframes blinker {
+    50% {
+        opacity: 0;
+    }
+} */

@@ -1,10 +1,28 @@
-- no routes actually bc this be a single page app
+## FORM - Refactor
+<!--* we need a different approacj wheere i like have the same form stay in the middle of the screen for inputs/btn clicks, and then a seperate component that renders the cards on the side of the screen aka buildin9g the tree -->
+the formm should be serpate from the dispolayy bc the form is the input and the display is the output
+- so a reusable form should be presnt on screen.
+- and then the display should be on the side of the screen and be a seperate component as it builds the tree
+- sop one form for movie inputs since that runs once for a display to render and then one for actor selection... 
+- so eadch can just use context to do things (each as in form and display)
+<!-- ! make it so the form is always on the botoom and the display tree is built up top -->
+I could just use:
+```jsx
+<div style={{ display: actorA && actorB ? 'block' : 'none' }} />
+``` 
+instead of refs 
+yea wow this is a good lesson for me... this is how we can keep these components PURE.. only doing or reading like one thing..
+the ```formState thing```... that makes sense now
+<!-- NOW -->
+<!--* hokay got the form part going proper!  NEXT:: get the display to respond to this shiz-->
 
 - dpmt worry about organizing and modularizing and stuff to all the files... get something like in and then work on optomizing and cleanign up and stuff
 
+
+
+
 <!-- ! no display -->
 
-<!-- ? I could eventually do all my data fetching in those data/movies/index.js pla\ce -->
 
 ## Round 1
     - only logic and functionality, do not worry about any styling or anything
