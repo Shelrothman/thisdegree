@@ -39,47 +39,24 @@ export function useGameContext() {
 export function GameContextProvider({ children }) {
     const [gameStarted, setGameStarted] = useState(false);
     const { actorA, actorB } = useActorContext();
-
-    // keep track of all the actors being used so far
-    // const [actorsInGame, setActorsInGame] = useState([actorA]);
-
-    const [currentMovieTitle, setCurrentMovieTitle] = useState(''); // this is the movie title of current movie
+    // this is the movie title of current movie
+    const [currentMovieTitle, setCurrentMovieTitle] = useState('');
     // the movieList to hold the whole tree
-    const [movieList, setMovieList] = useState([]); // cant we just use this to keep track of the game
+    const [movieList, setMovieList] = useState([]);
     const [readyToBridge, setReadyToBridge] = useState(false);
-
     const [currentActorOptions, setCurrentActorOptions] = useState([]);
-
-
-    // ------------------
-    const [readyToBuild, setReadyToBuild] = useState(movieList.length > 0); // only ready if there are movies in the list
-    const [formTypeMovie, setFormTypeMovie] = useState(true); // if false, then enable the actor form, if true, then enable the movie form
-
+    // only ready if there are movies in the list
+    const [readyToBuild, setReadyToBuild] = useState(movieList.length > 0);
+    // if false, then enable the actor form, if true, then enable the movie form
+    const [formTypeMovie, setFormTypeMovie] = useState(true);
     const [currentActorBridge, setCurrentActorBridge] = useState(actorA);
+
     useEffect(() => {
         if (movieList.length > 0) {
             setReadyToBuild(true);
             return;
-        }
-    }, [movieList]); // only ready if there are movies in the list
-
-    // set state of which form is being used
-
-
-    const handleGameStateChange = () => {
-        // use this to change the game on and off, dont use this for when a game wins (only when looses)
-        // setGameStarted((prev) => !prev);
-        setGameStarted(false);
-        setMovieList([]);
-    };
-
-    // useEffect(() => {
-    //     // every time a new currentActorBridge is made, add it to the list of actors in game and keep the rest in the list
-    //     let localActorsInGame = actorsInGame || [];
-    //     localActorsInGame.push(currentActorBridge);
-    //     setActorsInGame(localActorsInGame);
-    //     console.log('actorsInGame', actorsInGame);
-    // }, [currentActorBridge]);
+        } // only ready if there are movies in the list
+    }, [movieList]);
 
     useEffect(() => {
         console.table(movieList);
@@ -97,6 +74,11 @@ export function GameContextProvider({ children }) {
         }
     }, [gameStarted]);
 
+    const handleGameStateChange = () => {
+        // use this to change the game on and off, dont use this for when a game wins (only when looses)
+        setGameStarted(false);// setGameStarted((prev) => !prev);
+        setMovieList([]);
+    };
 
     async function addMovieToGlobal(userMovieInput) {
         try {
@@ -139,16 +121,13 @@ export function GameContextProvider({ children }) {
         }
     }
 
-    //TODO MODULATE , errror handeling
     const handleNewActorGuess = async (userActorInput, movie, characterName) => {
         try {
             console.log('userActorInput', userActorInput);
-            // TODO use movieID instead of title to make this more reliable.. or just use the last element of the array since that will be the current round
-            // let localMovieObj = movieList.find((movieObj) => movieObj.movieTitle == movie);
+            // TODO use movieID instead of title to make this more reliable
             let localMovieObj = movieList[movieList.length - 1];
             // remove the movie from movieList and then setMovieList to that new list SO THAT we can replace it at the end of this function
             setMovieList(movieList.filter((movieObj) => movieObj.movieTitle !== movie));
-
             localMovieObj.actorGuessed = true;
             localMovieObj.actorSelection.name = userActorInput;
             localMovieObj.actorSelection.id = uuid(); // TODO use the id of the actor from the api? or remove this bc we may not need it

@@ -8,7 +8,7 @@ import {
     // getAllActors,
     getFiftyRandomActors
 } from '../data/actors';
-// import { useActorStart } from '../contexts/ActorStartContext';
+
 /**
  * in here we need to fetch the actors from the db
  * and then render them in a list with actions to select them
