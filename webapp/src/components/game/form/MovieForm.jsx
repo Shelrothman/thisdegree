@@ -26,7 +26,7 @@ function MovieForm(enable) {
         addMovieToGlobal,
         buildCastOptions,
         formTypeMovie,
-        // setCurrentActorBridge
+        handleUniqueCheck,
     } = useGameContext();
     const [actorName, setActorName] = useState(readyToBuild ? currentActorBridge : actorA);
 
@@ -47,7 +47,7 @@ function MovieForm(enable) {
             actorInput: '',
         },
         onCompleted: (data) => console.log('data onCompleted: ', data),
-        onError: (error) => console.log('error: ', error),
+        onError: (error) => console.error(error),
     });
 
     async function handleSubmit() {
@@ -55,29 +55,35 @@ function MovieForm(enable) {
             const userMovieGuess = formState.movieInput;
             if (userMovieGuess) {
                 let evaluationResult;
-                let movieEvaluationObject = await fetchData({
-                    variables: {
-                        movieInput: userMovieGuess,
-                        actorInput: actorName,
-                    },
-                });
-                // console.log('movieEvaluationObject: ', movieEvaluationObject); // debyg
-                evaluationResult = movieEvaluationObject?.data?.validateMovieInput?.isInMovie;
-                if (evaluationResult === false) {
-                    handleInvalidMovieGuess('actor is not found in movie evaluation');
-                } else if (evaluationResult === true) {
-                    // add the movie to the global list
-                    const addResponse = await addMovieToGlobal(userMovieGuess);
-                    // TODO: combine these two functions above and below?
-                    if (addResponse === true) {
-                        // add the cast of the movie to the actorOptions of the currentMovie(in the global list):
-                        const buildResponse = await buildCastOptions(userMovieGuess, movieEvaluationObject);
-                        if (buildResponse === true) handleRefs();
-                    } else {
-                        handleInvalidMovieGuess('something went wrong in the addMovieToGlobal()');
-                    }
+                // check for repeat
+                const uniqueMovie = handleUniqueCheck(userMovieGuess);
+                if (uniqueMovie === false) {
+                    handleInvalidMovieGuess('movie has already been used');
                 } else {
-                    handleInvalidMovieGuess(`something went wrong in handleSubmit(), evaluationResult was not the expected Boolean. Instead I recieved ${evaluationResult}`);
+                    let movieEvaluationObject = await fetchData({
+                        variables: {
+                            movieInput: userMovieGuess,
+                            actorInput: actorName,
+                        },
+                    });
+                    // console.log('movieEvaluationObject: ', movieEvaluationObject); // debyg
+                    evaluationResult = movieEvaluationObject?.data?.validateMovieInput?.isInMovie;
+                    if (evaluationResult === false) {
+                        handleInvalidMovieGuess('actor is not found in movie evaluation');
+                    } else if (evaluationResult === true) {
+                        // add the movie to the global list
+                        const addResponse = await addMovieToGlobal(userMovieGuess);
+                        // TODO: combine these two functions above and below?
+                        if (addResponse === true) {
+                            // add the cast of the movie to the actorOptions of the currentMovie(in the global list):
+                            const buildResponse = await buildCastOptions(userMovieGuess, movieEvaluationObject);
+                            if (buildResponse === true) handleRefs();
+                        } else {
+                            handleInvalidMovieGuess('something went wrong in the addMovieToGlobal()');
+                        }
+                    } else {
+                        handleInvalidMovieGuess(`something went wrong in handleSubmit(), evaluationResult was not the expected Boolean. Instead I recieved ${evaluationResult}`);
+                    }
                 }
             } else {
                 handleInvalidMovieGuess('movie input was empty');

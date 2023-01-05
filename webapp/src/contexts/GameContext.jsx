@@ -109,9 +109,9 @@ export function GameContextProvider({ children }) {
             let actorList = movieEvaluationObject.data.validateMovieInput?.cast || [];
             // console.log('actorList: ', actorList); // debug
             //* Filter out the actors that are already in the game
-            let currentActorsInGame = [actorA, ...movieList.map((movie) => movie.actorSelection.name)];
-            // console.log('currentActorsInGame: ', currentActorsInGame); // debug                        
-            let actorOptions = actorList.filter((actor) => !currentActorsInGame.includes(actor.name));
+            let currentActorsInGame = [actorA.toLowerCase(), ...movieList.map((movie) => movie.actorSelection.name.toLowerCase())];
+            console.log('currentActorsInGame: ', currentActorsInGame); // debug                        
+            let actorOptions = actorList.filter((actor) => !currentActorsInGame.includes(actor.name.toLowerCase()));
             // console.log('actorOptions: ', actorOptions); // debug
             setCurrentActorOptions(actorOptions);
             return true;
@@ -175,6 +175,15 @@ export function GameContextProvider({ children }) {
         }
     }
 
+    function handleUniqueCheck(movieInput) {
+        // check if the movie is already in the list
+        // let currentMoviesInGame = movieList.map((movie) => movie.movieTitle);
+        if (movieList.length === 0) {
+            return true;
+        }
+        let unique = movieList.every((movie) => movie.movieTitle.toLowerCase() !== movieInput.toLowerCase());
+        return unique;
+    }
 
 
     return (
@@ -194,6 +203,7 @@ export function GameContextProvider({ children }) {
             currentActorOptions,
             setCurrentActorOptions,
             handleActorSelection,
+            handleUniqueCheck,
             buildCastOptions,
             readyToBuild,
             setReadyToBuild,
