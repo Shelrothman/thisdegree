@@ -5,6 +5,7 @@
     },
     {
         "movieTitle": "stepmom",
+        // previousActor: { name = "Susan Sarandon", id = "d0a9a36e-8245-448a-eb15-97b30388b46e", characterName = "Elizabeth Marks"}
         "id": "9df0bce1-8221-bdbe-e005-8bc752312eda",
         "actorGuessed": true,
         "actorSelection": {

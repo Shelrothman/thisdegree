@@ -68,12 +68,13 @@ function MovieForm(enable) {
                     });
                     // console.log('movieEvaluationObject: ', movieEvaluationObject); // debyg
                     evaluationResult = movieEvaluationObject?.data?.validateMovieInput?.isInMovie;
+                    let previousActorCharacterName = movieEvaluationObject?.data?.validateMovieInput?.character || 'unknown';
                     if (evaluationResult === false) {
                         handleInvalidMovieGuess('actor is not found in movie evaluation');
                     } else if (evaluationResult === true) {
                         // add the movie to the global list
-                        const addResponse = await addMovieToGlobal(userMovieGuess);
-                        // TODO: combine these two functions above and below?
+                        const addResponse = await addMovieToGlobal(userMovieGuess, previousActorCharacterName);
+                        // TODO: MODULATE THis function better
                         if (addResponse === true) {
                             // add the cast of the movie to the actorOptions of the currentMovie(in the global list):
                             const buildResponse = await buildCastOptions(userMovieGuess, movieEvaluationObject);
