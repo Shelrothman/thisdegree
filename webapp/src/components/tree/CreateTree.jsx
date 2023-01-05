@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { useNavigate, useLocation } from 'react-router-dom';
-import CREATE_TREE_MUTATION from '../queries/createTreeMutation';
-
+import CREATE_TREE_MUTATION from '../../queries/createTreeMutation';
+import DataTree from './DataTree';
 
 // ! user must be authenticated to post a tree
 
@@ -16,10 +16,15 @@ const CreateTree = () => {
     const { state } = useLocation();
     console.log('state: ', state);
 
+    const [treeObject, setTreeObject] = useState(JSON.parse(state.tree));
+    console.log('treeObject: ', treeObject)
+    console.log(typeof treeObject);
 
     // TODO: play with using a similar setup as this in my scoreboard inputs (state-wise)
     const [formState, setFormState] = useState({
         treeDeclaration: state.tree,
+        // treeDeclaration: 'test tree declaration',
+        // !!! using hard value for now for testing. return and update thus
     });
     // pass the CREATE_TREE_MUTATION to the useMutation hook 
     // and pass in the data provided in the input fields as variables.
@@ -64,6 +69,7 @@ const CreateTree = () => {
                 <pre style={{ whiteSpace: 'pre-wrap' }} >
                         {JSON.stringify(JSON.parse(state.tree), null, 2)}
                 </pre>
+                <DataTree treeData={treeObject} />
             </form>
         </div>
     );
