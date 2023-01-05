@@ -8,6 +8,8 @@
  * TODO: use MEMO to prevent re-rendering of components -- do more research on this
  * ? Optimizing with memo is only valuable when your component re-renders often with the same exact props, and its re-rendering logic is expensive. If there is no perceptible lag when your component re-renders, memo is unnecessary. Keep in mind that memo is completely useless if the props passed to your component are always different, such as if you pass an object or a plain function defined during rendering. This is why you will often need useMemo and useCallback together with memo.
  */
+
+
 import {
     useState,
     useContext,
@@ -23,6 +25,8 @@ import uuid from 'react-uuid';
 //? TODO eventually merge in ActorContext and just hold actorA and B in here, all in one context
 //... still figuring this out...
 
+// TODO: not allow the user to select the same actor twice
+// TODO: not allow the user to select the same movie twice
 
 
 const GameContext = createContext();
@@ -36,13 +40,15 @@ export function GameContextProvider({ children }) {
     const [gameStarted, setGameStarted] = useState(false);
     const { actorA, actorB } = useActorContext();
 
+    // keep track of all the actors being used so far
+    // const [actorsInGame, setActorsInGame] = useState([actorA]);
+
     const [currentMovieTitle, setCurrentMovieTitle] = useState(''); // this is the movie title of current movie
     // the movieList to hold the whole tree
     const [movieList, setMovieList] = useState([]); // cant we just use this to keep track of the game
     const [readyToBridge, setReadyToBridge] = useState(false);
 
     const [currentActorOptions, setCurrentActorOptions] = useState([]);
-// TODO remove from options, the last currentActorBridge, SO THAT is doesnt show as an option to the user. bc that would mess things up
 
 
     // ------------------
@@ -61,13 +67,19 @@ export function GameContextProvider({ children }) {
 
 
     const handleGameStateChange = () => {
-        // use this to change the game on and off
-        // dont use this for when a game wins (only when looses)
+        // use this to change the game on and off, dont use this for when a game wins (only when looses)
         // setGameStarted((prev) => !prev);
         setGameStarted(false);
         setMovieList([]);
     };
 
+    // useEffect(() => {
+    //     // every time a new currentActorBridge is made, add it to the list of actors in game and keep the rest in the list
+    //     let localActorsInGame = actorsInGame || [];
+    //     localActorsInGame.push(currentActorBridge);
+    //     setActorsInGame(localActorsInGame);
+    //     console.log('actorsInGame', actorsInGame);
+    // }, [currentActorBridge]);
 
     useEffect(() => {
         console.table(movieList);
@@ -113,15 +125,19 @@ export function GameContextProvider({ children }) {
         try {
             setCurrentMovieTitle(userMovieGuess);
             let actorList = movieEvaluationObject.data.validateMovieInput?.cast || [];
-            console.log('actorList: ', actorList);
-            setCurrentActorOptions(actorList);
+            // console.log('actorList: ', actorList); // debug
+            //* Filter out the actors that are already in the game
+            let currentActorsInGame = [actorA, ...movieList.map((movie) => movie.actorSelection.name)];
+            // console.log('currentActorsInGame: ', currentActorsInGame); // debug                        
+            let actorOptions = actorList.filter((actor) => !currentActorsInGame.includes(actor.name));
+            // console.log('actorOptions: ', actorOptions); // debug
+            setCurrentActorOptions(actorOptions);
             return true;
         } catch (error) {
             console.error(error);
             return false;
         }
     }
-
 
     //TODO MODULATE , errror handeling
     const handleNewActorGuess = async (userActorInput, movie, characterName) => {

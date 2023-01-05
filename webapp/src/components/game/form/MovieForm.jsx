@@ -54,36 +54,37 @@ function MovieForm(enable) {
         try {
             const userMovieGuess = formState.movieInput;
             if (userMovieGuess) {
+                let evaluationResult;
                 let movieEvaluationObject = await fetchData({
                     variables: {
                         movieInput: userMovieGuess,
                         actorInput: actorName,
                     },
                 });
-                console.log('movieEvaluationObject: ', movieEvaluationObject);
-
-                let evaluationResult = movieEvaluationObject?.data?.validateMovieInput?.isInMovie;
+                // console.log('movieEvaluationObject: ', movieEvaluationObject); // debyg
+                evaluationResult = movieEvaluationObject?.data?.validateMovieInput?.isInMovie;
                 if (evaluationResult === false) {
-                    handleInvalidMovieGuess();
+                    handleInvalidMovieGuess('actor is not found in movie evaluation');
                 } else if (evaluationResult === true) {
                     // add the movie to the global list
                     const addResponse = await addMovieToGlobal(userMovieGuess);
                     // TODO: combine these two functions above and below?
                     if (addResponse === true) {
-                        // add the cast of the movie to the actorOptions of the currentMovie:
+                        // add the cast of the movie to the actorOptions of the currentMovie(in the global list):
                         const buildResponse = await buildCastOptions(userMovieGuess, movieEvaluationObject);
                         if (buildResponse === true) handleRefs();
                     } else {
-                        throw new Error('something went wrong in the addMovieToGlobal()');
+                        handleInvalidMovieGuess('something went wrong in the addMovieToGlobal()');
                     }
                 } else {
-                    throw new Error(`something went wrong in handleSubmit(), evaluationResult was not the expected Boolean. Instead I recieved ${evaluationResult}`);
+                    handleInvalidMovieGuess(`something went wrong in handleSubmit(), evaluationResult was not the expected Boolean. Instead I recieved ${evaluationResult}`);
                 }
             } else {
-                handleInvalidMovieGuess();
+                handleInvalidMovieGuess('movie input was empty');
             }
         } catch (error) {
-            console.error(error);
+            // console.error(error);
+            handleInvalidMovieGuess(error);
         }
     }
 
@@ -92,12 +93,12 @@ function MovieForm(enable) {
         return;
     }
 
-    function handleInvalidMovieGuess() {
+    function handleInvalidMovieGuess(errorMessage) {
+        console.error(errorMessage);
         setFormState({ movieInput: 'INVALID INPUT' })
         setTimeout(() => {
-            setFormState({ movieInput: '' })
+            handleRefs();
         }, 1100);
-        return;
     }
 
     return (
@@ -111,6 +112,7 @@ function MovieForm(enable) {
                                 type="text"
                                 className="form-controls"
                                 value={formState.movieInput}
+                                autoComplete="off"
                                 onChange={(e) =>
                                     setFormState({
                                         ...formState,

@@ -214,14 +214,16 @@ textarea {
 
 
 /* Blinking shtuff  */
+/* TODO come back and uncomment after done developing */
 /* step-end or step-start could work instead of linear.. i ran some calculations and i think the linear is most efficient, but come back to htink about this */
 .blink {
-    animation: blinker 1s linear infinite;
+    /* animation: blinker 1s linear infinite; */
     color: red;
+    font-weight: 100;
 }
 
-@keyframes blinker {
+/* @keyframes blinker {
     50% {
         opacity: 0;
     }
-}
+} */
