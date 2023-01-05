@@ -36,7 +36,7 @@ function TreeBuildContainer() {
             });
         }
     }, [currentMovieTitle]);
-
+    // ? should these useEffects be refactored?
     useEffect(() => {
         if (currentMovieTitle) {
             setBridgeCards((prevBridgeCards) => {

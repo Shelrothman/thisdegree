@@ -1,10 +1,8 @@
 import { useState, useEffect } from 'react';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 
-
-import ActorListContainer from '../ActorListContainer.jsx';
 import { useActorContext, useGameContext } from '../../contexts';
-
+import ActorListContainer from '../ActorListContainer.jsx';
 import MovieBtn from '../buttons/MovieBtn.jsx';
 import PlayBtn from '../buttons/PlayBtn.jsx';
 import ActorHeader from './ActorHeader.jsx';
@@ -89,7 +87,7 @@ function Launcher() {
                     <div className="sample-scoreboard">
                         <div>
                             <div>
-                                <h2>Game In Process</h2>
+                                <h2 className="blink">Game In Process</h2>
                                 {formTypeMovie ? <h3>Movie Mode</h3> : <h3>Actor Mode</h3>}
                             </div>
                             <FormContainer />

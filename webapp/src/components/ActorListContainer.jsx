@@ -65,7 +65,7 @@ function ActorListContainer() {
 
     return (
         <>
-            <Button onClick={handleRefresh}>
+            <Button onClick={handleRefresh} className="refresh-btn">
                 <BiRefresh size={25} /> Refresh List
             </Button>
             <Card style={{ width: '18rem' }}>
