@@ -238,14 +238,16 @@ li {
 }
 
 .movie-li,
-.actors-li-a,
-.actors-li-b,
-.bridge-li,
-/* .castle-li */
 .actor-bridge-li {
     margin: 4px;
     padding: 4px;
     color: white !important;
+}
+
+.actors-span-a,
+.actors-span-b {
+    padding: 0.2rem;
+    margin-right: 5px;
 }
 
 /* .bridge-castle-li {
@@ -259,9 +261,9 @@ li {
 }
 
 
-.movie-li {
+/* .movie-li {
     border: var(--actor-border) medium double;
-}
+} */
 
 /* .castle-li {
     border-radius: 20%;
@@ -280,15 +282,18 @@ li {
 
 /* .bridge-castle-li  */
 
-.movie-li {
+.movie-span {
     background-color: blue;
+    /* margin: 0.2rem; */
+    padding: 0.2rem;
+    border: var(--actor-border) medium double;
 }
 
-.actors-li-a, 
+.actors-span-a, 
 .castle-li {
     background-color: purple;
 }
 
-.actors-li-b {
+.actors-span-b {
     background-color: green;
 }

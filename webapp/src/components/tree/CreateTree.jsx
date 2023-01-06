@@ -3,9 +3,7 @@ import { useMutation } from '@apollo/client';
 import { useNavigate, useLocation } from 'react-router-dom';
 import CREATE_TREE_MUTATION from '../../queries/createTreeMutation';
 import DataTree from './DataTree';
-import { GiRialtoBridge, GiCastle } from "react-icons/gi";
-
-import { MdOutlineEditRoad } from "react-icons/md";
+import { GiCastle } from "react-icons/gi";
 import HeaderBridge from './HeaderBridge';
 
 // ! user must be authenticated to post a tree
@@ -78,11 +76,11 @@ const CreateTree = () => {
     const navigate = useNavigate();
 
     // use the useLocation hook to get the state from the previous page
-    //! const { state } = useLocation();
-    //! console.log('state: ', state);
+    const { state } = useLocation();
+    console.log('state: ', state);
 
-    //const [treeObject, setTreeObject] = useState(JSON.parse(state.tree));
-    const [treeObject, setTreeObject] = useState(JSON.parse(TEST_TREE));
+    const [treeObject, setTreeObject] = useState(JSON.parse(state.tree));
+    // const [treeObject, setTreeObject] = useState(JSON.parse(TEST_TREE));
 
 
 
@@ -90,8 +88,8 @@ const CreateTree = () => {
     console.log(typeof treeObject);
 
     const [formState, setFormState] = useState({
-        // treeDeclaration: state.tree,
-        treeDeclaration: 'test tree declaration',
+        treeDeclaration: state.tree,
+        // treeDeclaration: 'test tree declaration',
         //! return to uncomment
     });
     // pass the CREATE_TREE_MUTATION to the useMutation hook 

@@ -14,8 +14,8 @@ function TreeNode({ id, movieTitle, previousActor, actorSelection, level, length
 
     return (
         <>
-            <li style={{ paddingLeft: `${(level) * 20}px` }}>
-                <span className='movie-li' id={`${level}-movie-li`}>
+            <li style={{ paddingLeft: `${(level) * 20}px` }} className='movie-li'>
+                <span className='movie-span' id={`${level}-movie-li`}>
                     <GiRialtoBridge size={33} />&nbsp;
                     {movieTitle.toUpperCase()}
                 </span>
@@ -33,7 +33,7 @@ function TreeNode({ id, movieTitle, previousActor, actorSelection, level, length
                 />
             </div>
             <li style={{ paddingLeft: `${(level + 1.5) * 20}px` }} className='actor-bridge-li' >
-                <span className={(level % 2 === 0) ? 'actors-li-a' : 'actors-li-b'}>
+                <span className={(level % 2 === 0) ? 'actors-span-a' : 'actors-span-b'}>
                     <strong>{previousActor.name}</strong> ({previousActor.characterName})
                 </span>
                 {level === 0 && <GiCastle
@@ -56,7 +56,7 @@ function TreeNode({ id, movieTitle, previousActor, actorSelection, level, length
                     />
                 </span>
                 <br />
-                <span className={(level % 2 === 0) ? 'actors-li-b' : 'actors-li-a'}>
+                <span className={(level % 2 === 0) ? 'actors-span-b' : 'actors-span-a'}>
                     <strong>{actorSelection.name}</strong> ({actorSelection.characterName})
                 </span>
                 {level === (length - 1) && <GiCastle
@@ -69,7 +69,6 @@ function TreeNode({ id, movieTitle, previousActor, actorSelection, level, length
                 {level !== (length - 1) && <CgArrowsExpandDownRight
                     className='arrow-li' size={28}
                     style={{
-                        // transform: 'rotate(180deg)',
                         transform: 'rotate(90deg)',
                         marginBottom: '15x',
                         borderRadius: '18%',
