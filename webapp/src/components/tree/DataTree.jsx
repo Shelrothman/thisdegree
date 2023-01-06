@@ -1,33 +1,37 @@
-import { useEffect } from "react";
-import { useState } from "react";
-import { AiOutlineArrowDown, AiOutlineArrowRight } from "react-icons/ai";
-import { BsArrow90DegRight } from "react-icons/bs";
+// import { useEffect } from "react";
+// import { useState } from "react";
+import { BsArrow90DegRight, BsArrowDown } from "react-icons/bs";
 
+
+// function - a modular function so that TreeNode is not so repetitive
 
 
 function TreeNode({ id, movieTitle, previousActor, actorSelection, level, children }) {
     return (
         <>
             <li style={{ paddingLeft: `${(level) * 20}px` }}>
-                {/* {level > 0 && <BsArrow90DegRight size={25} style={{ transform: 'rotate(180deg)' }} />} */}
-                {movieTitle.toUpperCase()}
-                {/* {level > 0 && <br />} */}
+                <span className='movie-li' id={`${level}-movie-li`}>
+                    {movieTitle.toUpperCase()}
+                </span>
             </li>
             <div style={{ paddingLeft: `${(level + .5) * 20}px` }} >
                 <BsArrow90DegRight size={25} style={{ transform: 'rotate(180deg) scaleX(-1)' }} />
             </div>
-            <li style={{ paddingLeft: `${(level + 1.5) * 20}px` }}>
-                {previousActor.name} ({previousActor.characterName})
-                <br /> 
-                <span style={{ paddingLeft: '50px' }}>
-                    +
-                </span> 
+            <li style={{ paddingLeft: `${(level + 1.5) * 20}px` }} >
+                <span className={(level % 2 === 0) ? 'actors-li-a' : 'actors-li-b' }>
+                    {previousActor.name} ({previousActor.characterName})
+                    <br />
+                </span>
+                <span style={{ paddingLeft: '50px' }}>+</span>
                 <br />
-                {actorSelection.name} ({actorSelection.characterName})
+                <span className={(level % 2 === 0) ? 'actors-li-b' : 'actors-li-a' }>
+                    {actorSelection.name} ({actorSelection.characterName})
+                </span>
             </li>
             <div style={{ paddingLeft: `${(level + 3.5) * 20}px` }}>
-                <AiOutlineArrowDown size={25} />
+                <BsArrowDown size={30} />
             </div>
+            {children}
         </>
     )
 }
@@ -41,6 +45,7 @@ function DataTree({ treeData }) {
         <ul>
             {treeData
                 // filter out any nodes that don't have a movieTitle property (FOR NOW__ MAYBE WE CHANGE)
+                //TODO maybe just remove the logic that adds them over in GameContext
                 .filter(({ movieTitle }) => movieTitle)
                 .map(
                     ({ id, movieTitle, previousActor, actorSelection, children }, index) => (
@@ -51,7 +56,6 @@ function DataTree({ treeData }) {
                             actorSelection={actorSelection}
                             level={index}
                         >
-                            {/* If this node has children, recursively render them as well, indenting them one level farther in */}
                             {children && (
                                 <DataTree
                                     treeData={children}

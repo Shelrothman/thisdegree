@@ -138,6 +138,7 @@ const CreateTree = () => {
                 <pre style={{ whiteSpace: 'pre-wrap' }} >
                         {/* {JSON.stringify(JSON.parse(state.tree), null, 2)} */}
                 </pre>
+                <h2>{treeObject[1].previousActor.name} ----&gt; {treeObject[treeObject.length - 1].endingActor}</h2> 
                 <DataTree treeData={treeObject} />
             </form>
         </div>

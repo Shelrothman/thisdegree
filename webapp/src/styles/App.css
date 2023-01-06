@@ -1,10 +1,10 @@
-/* #root {
-    max-width: 1280px;
-    margin: 0 auto;
+#root {
+    /* max-width: 1280px; */
+    /* margin: 0 auto; */
     padding-left: 1rem;
     padding-right: 1rem;
-    text-align: center;
-} */
+    /* text-align: center; */
+}
 
 .theme-dark {
     --dark-text: #292929;
@@ -230,4 +230,21 @@ textarea {
 
 li {
     list-style: none;
+}
+
+.movie-li, .actors-li-a, .actors-li-b  {
+    padding: 0.2rem;
+    margin: 0.2rem;
+}
+
+.movie-li {
+    background-color: purple;
+}
+
+.actors-li-a {
+    background-color: blue;
+}
+
+.actors-li-b {
+    background-color: green;
 }
