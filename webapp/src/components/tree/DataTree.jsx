@@ -1,36 +1,53 @@
 import { useEffect } from "react";
 import { useState } from "react";
-import { AiOutlineArrowDown } from "react-icons/ai";
+import { AiOutlineArrowDown, AiOutlineArrowRight } from "react-icons/ai";
 
+
+function Space({ two =  true, one = false}) {
+    return (
+        <>
+            {two && <>&emsp;&emsp;&emsp;&emsp;</>}
+            {!two && <>&emsp;&emsp;</>}
+            {one && <>&emsp;</>}
+        </>
+    )
+}
 
 function TreeNode({ id, movieTitle, previousActor, actorSelection, level, children }) {
-    // setLevel(prevLevel => prevLevel + 1);
-    // const nextLevel = level + 1;
-    // setLevel(nextLevel);
-    // const [level, setLevel] = useState(0);
-
-// make level increase on each <li> node
-
     
 
 // todo: when hover over the movie node, highlight its actors nodes with it in same color
 // good for me to know how this gets fone for future toruble shooting
 // highlight one actor node, the other actor node with same name and different character name gets highlighted with it with like a shadow or something.
-
+// !! YO PU here... get this rendering way better looking but its getting there!!
     return (
-        <li style={{ paddingLeft: `${level * 10}px` }}>
-            
+        <li style={{ paddingLeft: `${level * 30}px` }}>
+            {/* &emsp;&emsp; */}
+            {/* {level > 0 && <Space />} */}
+            {/* {level > 0 && <Space one={true} />} */}
+            {level > 0 && <AiOutlineArrowRight size={25} />}
             {movieTitle.toUpperCase()} 
             <br />
+            {level > 0 && <Space two={true} />}
             <AiOutlineArrowDown size={25} />
             <br />
-            &emsp;{previousActor.name} ({previousActor.characterName}) 
+            {level > 0 && <Space two={true} />}
+            &emsp;<AiOutlineArrowRight size={25} />
+            {previousActor.name} ({previousActor.characterName}) 
             <br />
-            &emsp;<AiOutlineArrowDown size={25} />
+            {level > 0 && <Space two={true} />}
+            &emsp;&emsp;<AiOutlineArrowDown size={25} />
             <br />
-            &emsp;{actorSelection.name} ({actorSelection.characterName})
+            {level > 0 && <Space two={true} />}
+            &emsp;&emsp;{actorSelection.name} ({actorSelection.characterName})
             <br />
-            &emsp;<AiOutlineArrowDown size={25} />
+            {level > 0 && <Space two={true} />}
+            {/* {level > 0 && <Space />} */}
+            &emsp;&emsp;<AiOutlineArrowDown size={25} />
+            <br />
+            {/* &emsp;&emsp;&emsp;<AiOutlineArrowRight size={25} /> {children} */}
+            {/* <br /> */}
+            {/* &emsp;&emsp;&emsp;<AiOutlineArrowRight size={25} /> */}
             {children}
         </li>
     );
@@ -39,7 +56,7 @@ function TreeNode({ id, movieTitle, previousActor, actorSelection, level, childr
 
 function DataTree({ treeData }) {
     // useState for the level to increase dynamically
-    const [level, setLevel] = useState(0);
+    // const [level, setLevel] = useState(0);
 
     return (
         <ul>
@@ -54,13 +71,11 @@ function DataTree({ treeData }) {
                             previousActor={previousActor}
                             actorSelection={actorSelection}
                             level={index}
-                            // level={index > 0 ? setLevel(prevLevel => prevLevel + 1) : level}
                         >
                             {/* If this node has children, recursively render them as well, indenting them one level farther in */}
                             {children && (
                                 <DataTree
                                     treeData={children}
-                                // level={setLevel(prevLevel => prevLevel + 1)}
                                 />
                             )}
                         </TreeNode>
