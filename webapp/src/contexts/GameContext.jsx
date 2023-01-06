@@ -176,7 +176,7 @@ export function GameContextProvider({ children }) {
             finalTreeArray.unshift({
                 startingActor: actorA,
                 id: uuid(),
-            });
+            }); //! may end up not needing either of these
             // push the actorB to the end of the array
             finalTreeArray.push({
                 endingActor: actorB,
