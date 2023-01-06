@@ -135,20 +135,22 @@ const CreateTree = () => {
                 </div>
                 <button type="submit">Submit</button>
             </form>
-            <h2 className="tree-header">
-                <span className="tree-header-span">
-                    <GiCastle size={30} />
-                    &nbsp;
-                    {treeObject[0].previousActor.name}
-                    &nbsp;
-                    <HeaderBridge />
-                    &nbsp;
-                    {treeObject[treeObject.length - 1].actorSelection.name}
-                    &nbsp;
-                    <GiCastle size={30} />
-                </span>
-            </h2>
-            <DataTree treeData={treeObject} />
+            <div>
+                <h2 className="tree-header">
+                    <span className="tree-header-span">
+                        <GiCastle size={30} />
+                        &nbsp;
+                        {treeObject[0].previousActor.name}
+                        &nbsp;
+                        <HeaderBridge />
+                        &nbsp;
+                        {treeObject[treeObject.length - 1].actorSelection.name}
+                        &nbsp;
+                        <GiCastle size={30} />
+                    </span>
+                </h2>
+                <DataTree treeData={treeObject} />
+            </div>
         </div>
     );
 };

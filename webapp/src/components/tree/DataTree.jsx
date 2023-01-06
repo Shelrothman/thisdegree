@@ -16,13 +16,13 @@ function TreeNode({ id, movieTitle, previousActor, actorSelection, level, length
         <>
             <li style={{ paddingLeft: `${(level) * 20}px` }}>
                 <span className='movie-li' id={`${level}-movie-li`}>
-                    <GiRialtoBridge className='bridge-castle-li' size={30} />&nbsp;
+                    <GiRialtoBridge size={33} />&nbsp;
                     {movieTitle.toUpperCase()}
                 </span>
             </li>
             <div style={{ paddingLeft: `${(level + .5) * 20}px` }} >
                 <TbCornerRightUpDouble
-                    className='bridge-li' 
+                    className='bridge-li'
                     size={35}
                     style={{
                         transform: 'rotate(90deg)',
@@ -36,15 +36,20 @@ function TreeNode({ id, movieTitle, previousActor, actorSelection, level, length
                 <span className={(level % 2 === 0) ? 'actors-li-a' : 'actors-li-b'}>
                     <strong>{previousActor.name}</strong> ({previousActor.characterName})
                 </span>
-                {level === 0 && <GiCastle className='castle-li' size={35} />}
+                {level === 0 && <GiCastle
+                    className='castle-li'
+                    size={35}
+                    style={{borderRadius: '20%', padding: '1px' }}
+                />}
                 <br />
-                <span style={{ paddingLeft: '50px' }}>
+                <span style={{ paddingLeft: '50px' }} >
                     <GiRialtoBridge
-                        className='bridge-castle-li' 
-                        size={40}
+                        size={45}
+                        className='bridge-castle-li'
                         style={{
                             transform: 'rotate(90deg)',
-                            margin: '5px',
+                            marginTop: '5px',
+                            marginBottom: '10px',
                             backgroundColor: 'rgb(69, 40, 3)',
                             borderRadius: '18%',
                         }}
@@ -54,7 +59,11 @@ function TreeNode({ id, movieTitle, previousActor, actorSelection, level, length
                 <span className={(level % 2 === 0) ? 'actors-li-b' : 'actors-li-a'}>
                     <strong>{actorSelection.name}</strong> ({actorSelection.characterName})
                 </span>
-                {level === (length - 1) && <GiCastle className='castle-li' size={35} />}
+                {level === (length - 1) && <GiCastle
+                    className='castle-li'
+                    size={35}
+                    style={{borderRadius: '20%', padding: '1px' }}
+                />}
             </li>
             <div style={{ paddingLeft: `${(level + 3.5) * 20}px` }}>
                 {level !== (length - 1) && <CgArrowsExpandDownRight
@@ -62,7 +71,7 @@ function TreeNode({ id, movieTitle, previousActor, actorSelection, level, length
                     style={{
                         // transform: 'rotate(180deg)',
                         transform: 'rotate(90deg)',
-                        margin: '5px',
+                        marginBottom: '15x',
                         borderRadius: '18%',
                         backgroundColor: (level % 2 === 0) ? 'rgb(38, 140, 121)' : 'rgb(141, 66, 245)',
                     }}

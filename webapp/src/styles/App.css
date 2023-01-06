@@ -230,6 +230,9 @@ textarea {
     }
 } */
 
+
+/* * TREE SHIZ * */
+
 li {
     list-style: none;
 }
@@ -238,31 +241,31 @@ li {
 .actors-li-a,
 .actors-li-b,
 .bridge-li,
-.bridge-castle-li,
-.actor-bridge-li,
-.castle-li {
-    padding: 0.2rem;
-    margin: 0.2rem;
+/* .castle-li */
+.actor-bridge-li {
+    margin: 4px;
+    padding: 4px;
     color: white !important;
 }
 
+/* .bridge-castle-li {
+    padding-top: 2px;
+    padding-bottom: 2px;
+} */
 
 .actors-li-a,
 .actors-li-b {
     border: var(--actor-border) 1px solid;
-    /* border-radius: 10%; */
-    /* padding: 0.2rem; */
 }
+
 
 .movie-li {
-    border: var(--actor-border) thick double;
-    /* border-radius: 10%; */
-    /* padding: 0.2rem; */
+    border: var(--actor-border) medium double;
 }
 
-.castle-li {
+/* .castle-li {
     border-radius: 20%;
-}
+} */
 
 .tree-header {
     margin-top: 1rem;
@@ -271,8 +274,6 @@ li {
 
 .tree-header-span {
     padding: 0.2rem;
-    /* border-radius: 10%; */
-    /* margin-top: 3px; */
     border: var(--actor-border) thick double;
     background-color: rgb(69, 40, 3);
 }
