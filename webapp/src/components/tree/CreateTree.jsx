@@ -3,14 +3,17 @@ import { useMutation } from '@apollo/client';
 import { useNavigate, useLocation } from 'react-router-dom';
 import CREATE_TREE_MUTATION from '../../queries/createTreeMutation';
 import DataTree from './DataTree';
+import { GiRialtoBridge, GiCastle } from "react-icons/gi";
+
+import { MdOutlineEditRoad } from "react-icons/md";
+import HeaderBridge from './HeaderBridge';
 
 // ! user must be authenticated to post a tree
 
+
+
+
 const TEST_TREE = `[
-    {
-        "startingActor": "Jennifer Aniston",
-        "id": "319f76a8-8302-83b4-0915-a7771a8e5fb2"
-    },
     {
         "id": "8e325b58-6319-bf1e-14ea-3da93232460e",
         "movieTitle": "along came polly",
@@ -66,10 +69,6 @@ const TEST_TREE = `[
             "name": "Will Ferrell",
             "characterName": "Robert Benson"
         }
-    },
-    {
-        "endingActor": "Will Ferrell",
-        "id": "d8970a28-69a8-9380-9c2f-5a5db4cc6b98"
     }
 ]`
 
@@ -84,9 +83,9 @@ const CreateTree = () => {
 
     //const [treeObject, setTreeObject] = useState(JSON.parse(state.tree));
     const [treeObject, setTreeObject] = useState(JSON.parse(TEST_TREE));
-    
-    
-    
+
+
+
     console.log('treeObject: ', treeObject)
     console.log(typeof treeObject);
 
@@ -135,12 +134,21 @@ const CreateTree = () => {
                     />
                 </div>
                 <button type="submit">Submit</button>
-                <pre style={{ whiteSpace: 'pre-wrap' }} >
-                        {/* {JSON.stringify(JSON.parse(state.tree), null, 2)} */}
-                </pre>
-                <h2>{treeObject[1].previousActor.name} ----&gt; {treeObject[treeObject.length - 1].endingActor}</h2> 
-                <DataTree treeData={treeObject} />
             </form>
+            <h2 className="tree-header">
+                <span className="tree-header-span">
+                    <GiCastle size={30} />
+                    &nbsp;
+                    {treeObject[0].previousActor.name}
+                    &nbsp;
+                    <HeaderBridge />
+                    &nbsp;
+                    {treeObject[treeObject.length - 1].actorSelection.name}
+                    &nbsp;
+                    <GiCastle size={30} />
+                </span>
+            </h2>
+            <DataTree treeData={treeObject} />
         </div>
     );
 };

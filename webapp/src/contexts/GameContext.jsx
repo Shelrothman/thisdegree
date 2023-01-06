@@ -173,15 +173,15 @@ export function GameContextProvider({ children }) {
                 finalTreeArray = movieList;
             }
             // unshift the actorA to beginning of the array
-            finalTreeArray.unshift({
-                startingActor: actorA,
-                id: uuid(),
-            }); //! may end up not needing either of these
-            // push the actorB to the end of the array
-            finalTreeArray.push({
-                endingActor: actorB,
-                id: uuid(),
-            });
+            // finalTreeArray.unshift({
+            //     startingActor: actorA,
+            //     id: uuid(),
+            // }); //! may end up not needing either of these
+            // // push the actorB to the end of the array
+            // finalTreeArray.push({
+            //     endingActor: actorB,
+            //     id: uuid(),
+            // });
             console.log('finalTreeArray', finalTreeArray)
             return finalTreeArray;
         } catch (error) {

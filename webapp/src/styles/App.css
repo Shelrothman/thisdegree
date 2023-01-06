@@ -16,6 +16,7 @@
     --littleDarker-background: rgb(29, 29, 39);
     --textarea-text: #fff;
     --indigo-color: #6b7abb;
+    --actor-border: white;
 }
 
 .theme-light {
@@ -28,6 +29,7 @@
     --littleDarker-background: #b5bcbb;
     --indigo-color: #96dcee;
     --textarea-text: rgb(29, 29, 39);
+    --actor-border: black;
 }
 
 .degreeBtn {
@@ -232,17 +234,58 @@ li {
     list-style: none;
 }
 
-.movie-li, .actors-li-a, .actors-li-b  {
+.movie-li,
+.actors-li-a,
+.actors-li-b,
+.bridge-li,
+.bridge-castle-li,
+.actor-bridge-li,
+.castle-li {
     padding: 0.2rem;
     margin: 0.2rem;
+    color: white !important;
+}
+
+
+.actors-li-a,
+.actors-li-b {
+    border: var(--actor-border) 1px solid;
+    /* border-radius: 10%; */
+    /* padding: 0.2rem; */
 }
 
 .movie-li {
-    background-color: purple;
+    border: var(--actor-border) thick double;
+    /* border-radius: 10%; */
+    /* padding: 0.2rem; */
 }
 
-.actors-li-a {
+.castle-li {
+    border-radius: 20%;
+}
+
+.tree-header {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+.tree-header-span {
+    padding: 0.2rem;
+    /* border-radius: 10%; */
+    /* margin-top: 3px; */
+    border: var(--actor-border) thick double;
+    background-color: rgb(69, 40, 3);
+}
+
+/* .bridge-castle-li  */
+
+.movie-li {
     background-color: blue;
+}
+
+.actors-li-a, 
+.castle-li {
+    background-color: purple;
 }
 
 .actors-li-b {

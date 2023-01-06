@@ -1,35 +1,72 @@
 // import { useEffect } from "react";
 // import { useState } from "react";
-import { BsArrow90DegRight, BsArrowDown } from "react-icons/bs";
-
-
+// import { BsArrow90DegRight, BsArrowDown, BsArrowDownRightSquareFill } from "react-icons/bs";
+import { GiBroadheadArrow, GiRialtoBridge, GiCastle, GiBottomRight3DArrow } from "react-icons/gi";
 // function - a modular function so that TreeNode is not so repetitive
+import { TbCornerRightUpDouble, TbChevronsDownRight } from 'react-icons/tb'
+// import { FcDownRight } from "react-icons/fc";
+import { CgArrowTopRightR, CgArrowsExpandDownRight } from "react-icons/cg";
 
+// TODO: modulate this thing and get rid of the repetitive stuff
+function TreeNode({ id, movieTitle, previousActor, actorSelection, level, length, children }) {
 
-function TreeNode({ id, movieTitle, previousActor, actorSelection, level, children }) {
+    // *** lets try to do it with real data first ***
+
     return (
         <>
             <li style={{ paddingLeft: `${(level) * 20}px` }}>
                 <span className='movie-li' id={`${level}-movie-li`}>
+                    <GiRialtoBridge className='bridge-castle-li' size={30} />&nbsp;
                     {movieTitle.toUpperCase()}
                 </span>
             </li>
             <div style={{ paddingLeft: `${(level + .5) * 20}px` }} >
-                <BsArrow90DegRight size={25} style={{ transform: 'rotate(180deg) scaleX(-1)' }} />
+                <TbCornerRightUpDouble
+                    className='bridge-li' 
+                    size={35}
+                    style={{
+                        transform: 'rotate(90deg)',
+                        margin: '5px',
+                        borderRadius: '18%',
+                        backgroundColor: (level % 2 === 0) ? 'rgb(141, 66, 245)' : 'rgb(38, 140, 121)',
+                    }}
+                />
             </div>
-            <li style={{ paddingLeft: `${(level + 1.5) * 20}px` }} >
-                <span className={(level % 2 === 0) ? 'actors-li-a' : 'actors-li-b' }>
-                    {previousActor.name} ({previousActor.characterName})
-                    <br />
+            <li style={{ paddingLeft: `${(level + 1.5) * 20}px` }} className='actor-bridge-li' >
+                <span className={(level % 2 === 0) ? 'actors-li-a' : 'actors-li-b'}>
+                    <strong>{previousActor.name}</strong> ({previousActor.characterName})
                 </span>
-                <span style={{ paddingLeft: '50px' }}>+</span>
+                {level === 0 && <GiCastle className='castle-li' size={35} />}
                 <br />
-                <span className={(level % 2 === 0) ? 'actors-li-b' : 'actors-li-a' }>
-                    {actorSelection.name} ({actorSelection.characterName})
+                <span style={{ paddingLeft: '50px' }}>
+                    <GiRialtoBridge
+                        className='bridge-castle-li' 
+                        size={40}
+                        style={{
+                            transform: 'rotate(90deg)',
+                            margin: '5px',
+                            backgroundColor: 'rgb(69, 40, 3)',
+                            borderRadius: '18%',
+                        }}
+                    />
                 </span>
+                <br />
+                <span className={(level % 2 === 0) ? 'actors-li-b' : 'actors-li-a'}>
+                    <strong>{actorSelection.name}</strong> ({actorSelection.characterName})
+                </span>
+                {level === (length - 1) && <GiCastle className='castle-li' size={35} />}
             </li>
             <div style={{ paddingLeft: `${(level + 3.5) * 20}px` }}>
-                <BsArrowDown size={30} />
+                {level !== (length - 1) && <CgArrowsExpandDownRight
+                    className='arrow-li' size={28}
+                    style={{
+                        // transform: 'rotate(180deg)',
+                        transform: 'rotate(90deg)',
+                        margin: '5px',
+                        borderRadius: '18%',
+                        backgroundColor: (level % 2 === 0) ? 'rgb(38, 140, 121)' : 'rgb(141, 66, 245)',
+                    }}
+                />}
             </div>
             {children}
         </>
@@ -55,6 +92,7 @@ function DataTree({ treeData }) {
                             previousActor={previousActor}
                             actorSelection={actorSelection}
                             level={index}
+                            length={treeData.length}
                         >
                             {children && (
                                 <DataTree
