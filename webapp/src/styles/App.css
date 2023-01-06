@@ -1,10 +1,9 @@
-#root {
-    /* max-width: 1280px; */
-    /* margin: 0 auto; */
+/* #root {
+    max-width: 1280px;
+    margin: 0 auto;
     padding-left: 1rem;
     padding-right: 1rem;
-    /* text-align: center; */
-}
+} */
 
 .theme-dark {
     --dark-text: #292929;
@@ -233,6 +232,17 @@ textarea {
 
 /* * TREE SHIZ * */
 
+#tree-display-div {
+    margin-top: 5px;
+    border: var(--actor-border) thin solid !important;
+    padding-left: 10px;
+    padding-top: 5px;
+    margin-left: 2%;
+    margin-right: 2%;
+    color: white !important;
+    background-color: var(--light-background) !important;
+}
+
 li {
     list-style: none;
 }
@@ -246,28 +256,15 @@ li {
 
 .actors-span-a,
 .actors-span-b {
+    border: var(--actor-border) thin solid;
     padding: 0.2rem;
     margin-right: 5px;
 }
-
-/* .bridge-castle-li {
-    padding-top: 2px;
-    padding-bottom: 2px;
-} */
 
 .actors-li-a,
 .actors-li-b {
     border: var(--actor-border) 1px solid;
 }
-
-
-/* .movie-li {
-    border: var(--actor-border) medium double;
-} */
-
-/* .castle-li {
-    border-radius: 20%;
-} */
 
 .tree-header {
     margin-top: 1rem;

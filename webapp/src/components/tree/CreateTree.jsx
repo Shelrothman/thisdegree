@@ -1,14 +1,13 @@
 import { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { useNavigate, useLocation } from 'react-router-dom';
+
 import CREATE_TREE_MUTATION from '../../queries/createTreeMutation';
 import DataTree from './DataTree';
-import { GiCastle } from "react-icons/gi";
 import HeaderBridge from './HeaderBridge';
+import Castle from '../icons/Castle';
 
 // ! user must be authenticated to post a tree
-
-
 
 
 const TEST_TREE = `[
@@ -131,12 +130,12 @@ const CreateTree = () => {
                         placeholder="A treeDeclaration for the tree"
                     />
                 </div>
-                <button type="submit">Submit</button>
+                <button type="submit">Post Your Tree!</button>
             </form>
-            <div>
+            <div id='tree-display-div'>
                 <h2 className="tree-header">
                     <span className="tree-header-span">
-                        <GiCastle size={30} />
+                        <Castle/>
                         &nbsp;
                         {treeObject[0].previousActor.name}
                         &nbsp;
@@ -144,7 +143,7 @@ const CreateTree = () => {
                         &nbsp;
                         {treeObject[treeObject.length - 1].actorSelection.name}
                         &nbsp;
-                        <GiCastle size={30} />
+                        <Castle />
                     </span>
                 </h2>
                 <DataTree treeData={treeObject} />
