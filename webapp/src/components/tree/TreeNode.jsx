@@ -10,14 +10,14 @@ import Castle from "../icons/Castle";
 
 function TreeNode({ id, movieTitle, previousActor, actorSelection, level, length, children }) {
     const even = level % 2 === 0;
+    const lastNode = level === (length - 1);
+    const firstNode = level === 0;
 
     return (
         <>
             <li style={{ paddingLeft: `${(level) * 20}px` }} className='movie-li'>
                 <span className='movie-span' id={`${level}-movie-li`}>
-                    <RoyalBridge />
-                    &nbsp;
-                    {movieTitle.toUpperCase()}
+                    <RoyalBridge />&nbsp;{movieTitle.toUpperCase()}
                 </span>
             </li>
             <div style={{ paddingLeft: `${(level + .5) * 20}px` }} >
@@ -25,17 +25,17 @@ function TreeNode({ id, movieTitle, previousActor, actorSelection, level, length
             </div>
             <li style={{ paddingLeft: `${(level + 1.5) * 20}px` }} className='actor-bridge-li' >
                 <ActorBridgeSpan identifier={even ? 'a' : 'b'} actor={previousActor} />
-                {level === 0 && <Castle list />}
+                {firstNode && <Castle list />}
                 <br />
                 <span style={{ paddingLeft: '50px' }} >
                     <RoyalBridge vertical />
                 </span>
                 <br />
                 <ActorBridgeSpan identifier={even ? 'b' : 'a'} actor={actorSelection} />
-                {level === (length - 1) && <Castle list />}
+                {lastNode && <Castle list />}
             </li>
             <div style={{ paddingLeft: `${(level + 3.5) * 20}px` }}>
-                {level !== (length - 1) && <DiagonalArrow level={level} />}
+                {!lastNode && <DiagonalArrow level={level} />}
             </div>
             {children}
         </>
