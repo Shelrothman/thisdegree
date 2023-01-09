@@ -10,7 +10,6 @@ import MovieForm from "./MovieForm";
 import { useGameContext } from "../../../contexts";
 
 // if going back when in movie mode -> go back to the actor select options, remove the actor card
-
 // (remove from global movieList)
 // if going back in actor mode (after choosing to select an actor) -> goes back to the two options and remove last movie card 
 //(remove from global movieList)
@@ -22,7 +21,7 @@ function FormContainer() {
     const {
         readyToBuild,
         formTypeMovie,
-        removeMovieFromGlobal,
+        removeMovieObjFromGlobal,
     } = useGameContext();
 
     const [showBackBtn, setShowBackBtn] = useState(readyToBuild);
@@ -32,15 +31,39 @@ function FormContainer() {
     }, [readyToBuild]);
 
     async function handleBackClick() {
-        if (formTypeMovie) {
-            console.log('In formTypeMovie');
-            // mode is only true when in the text-input mode movie mode
-            const removeRes = await removeMovieFromGlobal();
-            console.log('removeRes: ', removeRes);
-        } else {
-            console.log('not in formTypeMovie');
+        try {
+            const removeRes = await removeMovieObjFromGlobal();
+            if (removeRes) {
+                // setShowBackBtn(false);
+                console.log('removed movie from global');
+            }
+        } catch (error) {
+            console.error(error);
         }
     }
+
+    // async function handleBackClick() {
+    // if (formTypeMovie) {
+    // console.log('In formTypeMovie');
+    // mode is only true when in the text-input mode movie mode
+    // const removeRes = await removeMovieObjFromGlobal();
+    // if (removeRes) {
+    //     // setShowBackBtn(false);
+    //     console.log('removed movie from global');
+    // }
+    //!!! RETURN HERE!!! GET THIS WORKING... rethink some backend stuff...
+    //! rethink where we really want to have the button be showing as an option... maybe not everywhere but just at one spot and make it a force to have to go back all the way to the last round,, yea like no matter where the back is clicked at, we remove the last item from the movieList array and the user can either enter the same movie and then a new actor.. or a brand new movie and a new actor.... 
+    // so the button should only be visible when in movieMode and the only back direction to take it is to the last movieInput.....so the form wont change bc the mode wont change but the movieList will. and just whole at a time.
+    // perhaps the button could be visible still at any point BUT no matter wjhat.. it always takes them back to the beginning of a fresh Round.. i.e. to the movie Input place.
+    // } else {
+    // console.log('not in formTypeMovie');
+    // const removeRes = await removeMovieObjFromGlobal();
+    // if (removeRes) {
+    //     // setShowBackBtn(false);
+    //     console.log('removed movie from global');
+    // }
+    // }
+    // }
 
     return (
         <>

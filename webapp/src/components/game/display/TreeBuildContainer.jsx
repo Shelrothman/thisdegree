@@ -8,7 +8,6 @@ import ActorCard from "./ActorCard";
 import MovieCard from "./MovieCard";
 
 
-
 function TreeBuildContainer() {
     const {
         currentMovieTitle,
@@ -17,9 +16,10 @@ function TreeBuildContainer() {
         actorA
     } = useGameContext();
 
-
     const [bridgeCards, setBridgeCards] = useState([]);
     const [actorName, setActorName] = useState(readyToBuild ? currentActorBridge : actorA);
+    const [movieName, setMovieName] = useState(currentMovieTitle);
+
 
     useEffect(() => {
         if (readyToBuild) setActorName(currentActorBridge);
@@ -27,24 +27,32 @@ function TreeBuildContainer() {
         // currentActorBridge back to ActorA only when readyToBuild is false bc the game is starting over
     }, [currentActorBridge, readyToBuild]);
 
+    useEffect(() => {
+        setMovieName(currentMovieTitle);
+    }, [currentMovieTitle]);
+
+
+    //!!!! RETURN HERE !!!~~~~!!!!!!!!!!!!!!!!!!!!!!!
+    // the form and its text is UPDATING based on going back / undo
+    // BUT the bridgeCards are not updating... they just keep rendering and rendering...
     //? useMemo in here?
     useEffect(() => {
-        if (currentMovieTitle) {
+        if (readyToBuild) {
             setBridgeCards((prevBridgeCards) => {
                 return [...prevBridgeCards,
-                <MovieCard key={uuid()} movie={currentMovieTitle} actorName={actorName} />,];
+                <MovieCard key={uuid()} movie={movieName} actorName={actorName} />,];
             });
         }
-    }, [currentMovieTitle]);
+    }, [movieName]);
     // ? should these useEffects be refactored?
     useEffect(() => {
-        if (currentMovieTitle) {
+        if (readyToBuild) {
             setBridgeCards((prevBridgeCards) => {
                 return [...prevBridgeCards,
-                <ActorCard key={uuid()} movie={currentMovieTitle} actorName={currentActorBridge} />,];
+                <ActorCard key={uuid()} movie={movieName} actorName={actorName} />,];
             });
         }
-    }, [currentActorBridge]);
+    }, [actorName]);
 
 
     return (

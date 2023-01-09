@@ -25,7 +25,7 @@ function ActorForm() {
         handleGameStateChange,
         handleFinalBridge,
     } = useGameContext();
-
+    const [movieName, setMovieName] = useState(currentMovieTitle);
     const [formState, setFormState] = useState({
         actorInput: '',
     });
@@ -35,6 +35,7 @@ function ActorForm() {
 
     useEffect(() => {
         setShowRow(false);
+        setMovieName(currentMovieTitle);
         // reset the form to the default state
     }, [currentMovieTitle]);
 
@@ -151,7 +152,7 @@ function ActorForm() {
                         <ActorModeDecide
                             selectHandler={handleSelectChoice}
                             readyHandler={handleReadyChoice}
-                            movieTitle={currentMovieTitle}
+                            movieTitle={movieName}
                         />
                     ) : (
                         <Row className="g-0">
@@ -159,7 +160,7 @@ function ActorForm() {
                             <Col md={9}>
                                 <FloatingLabel
                                     controlId="floatingSelectGrid"
-                                    label={`Select an Actor from ${currentMovieTitle}`}
+                                    label={`Select an Actor from ${movieName}`}
                                 >
                                     <Form.Select
                                         className="form-controls"

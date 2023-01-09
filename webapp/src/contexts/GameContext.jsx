@@ -20,10 +20,8 @@ import uuid from 'react-uuid';
 //? TODO eventually merge in ActorContext and just hold actorA and B in here, all in one context
 //... still figuring this out...
 
-// TODO: not allow the user to select the same actor twice
-// TODO: not allow the user to select the same movie twice
-
-
+// // TODO: not allow the user to select the same actor twice
+// // TODO: not allow the user to select the same movie twice
 const GameContext = createContext();
 
 
@@ -49,9 +47,7 @@ export function GameContextProvider({ children }) {
     const [previousActorBridge, setPreviousActorBridge] = useState('');
     const [previousMovieTitle, setPreviousMovieTitle] = useState('');
 
-    // useEffect(() => {
-    //     console.log('readyToBuild effect', readyToBuild);
-    // }, [readyToBuild]);
+
 
     useEffect(() => {
         if (actorA) {
@@ -65,44 +61,45 @@ export function GameContextProvider({ children }) {
         console.log('currentActorBridge', currentActorBridge);
     }, [movieList, currentMovieTitle, currentActorBridge]);
 
+
+    /*
+    useEffect(() => {
+        console.log('readyToBuild effect', readyToBuild);
+    }, [readyToBuild]);
     useEffect(() => {
         console.log('previousMovieTitle in effect', previousMovieTitle);
     }, [previousMovieTitle]);
-
+    DEBUGGING
     useEffect(() => {
         console.log('previousActorBridge in effect', previousActorBridge);
-    }, [previousActorBridge]); // this is not getting called bc the previous actor bridge is not changing  0000 yea its like being set with the same thing currentActorBridge is set to... okauy
+    }, [previousActorBridge]); 
+    */
 
-
+    /**use this to change the game on and off, dont use this for when a game wins (only when looses)  */
     const handleGameStateChange = () => {
-        // use this to change the game on and off, dont use this for when a game wins (only when looses)
+        // all the resets to happen when the game is over through loosing or starts over
         setGameStarted(false);
         setReadyToBuild(false);
-        // setGameStarted((prev) => !prev);
         setMovieList([]);
-        // all the resets to happen when the game is over or starts over
         setCurrentMovieTitle('');
         setCurrentActorBridge(actorA);
         setFormTypeMovie(true);
-
         setPreviousActorBridge('');
         setPreviousMovieTitle('');
     };
 
     async function addMovieToGlobal(userMovieInput, previousActorCharacterName) {
         try {
-            // if movieList has anything in it, first grab the last movie title and set it as the previous movie title
             if (currentMovieTitle !== '') {
+                // set the previous movie to the current one before we change it
                 setPreviousMovieTitle(currentMovieTitle);
-                // setPreviousActorBridge(movieList[movieList.length - 1].actorSelection.name);
             }
-
-
             setCurrentMovieTitle(userMovieInput);
             // set readyToBuild on the first time only: 
             if (!readyToBuild) setReadyToBuild(true);
             let localMovieList = movieList || [];
             // add the movie guess to the end of array 
+            // TODO: maybe use like Object.assign or something ES6y here?
             localMovieList.push({
                 id: uuid(),
                 movieTitle: userMovieInput,
@@ -126,24 +123,45 @@ export function GameContextProvider({ children }) {
         }
     }
 
-    async function removeMovieFromGlobal() {
+    async function removeMovieObjFromGlobal() {
         try {
-            let localMovieList = movieList; // no way it will be empty bc the removal option wouldnt be there
+            // set currentMovie Title to the title from the last movieTitle
+            // if (previousMovieTitle !== '')
+            setCurrentMovieTitle(previousMovieTitle); // there will be a movie to set BC the button does not appear until there is a movie
+            // the previousActorBridge is diff.. it would be empty if the user just started the game and only wants to undo the movie.
+            // so set the currentActorBridge to it no matter what bc if its empty, then that is what it should be at that point
 
-            // set currentMovie Title to the title from the last movie (2nd to last in list)
-            setCurrentMovieTitle(localMovieList[localMovieList.length - 2].movieTitle);
-            // * hold up this wont work when the list is smaller than 2... maybe instead the index before it...
+            setCurrentActorBridge(previousActorBridge); // but do we need more conditons around this?
 
-            // remove that movie from the list and setMovieList to it
-            setMovieList(localMovieList.pop()); // this is no good either bc it makes a new card appear..
+            // if (previousActorBridge !== '') setCurrentActorBridge(previousActorBridge); // this is ?
+            // remove that movie from the list and set the global MovieList to it
+            
+            let localMovieList = movieList;
+            
+            let indexToRemove = localMovieList.length - 1;
+            
+            localMovieList.splice(indexToRemove, 1);
+            console.log('localMovieList', localMovieList)
+            // OKay this works in the console (TESTED).. you gotta keep the array in place duhhhhhhhh
+            // The form is changing approp. when in decideMode
 
-            setFormTypeMovie(true);
-            return true; // return true if the movie was removed
+            setFormTypeMovie(true); // so the ui goes back//stays to the movie input
+            setMovieList(localMovieList); // set the global movieList to the new one
+
+            return true; // return true if the movie obj was removed
         } catch (error) {
             console.error(error);
             return false; // return false if the movie couldnt be removed
         }
     }
+
+    // async function removeActorFromGlobal() {
+    //     try {
+    //         console.log('removeActorFromGlobal()');
+    //     } catch (error) {
+    //         console.error(error);
+    //     }
+    // }
 
     async function buildCastOptions(movieEvaluationObject) {
         try {
@@ -169,19 +187,14 @@ export function GameContextProvider({ children }) {
         try {
             console.log('userActorInput', userActorInput);
             // TODO use movieID instead of title to make this more reliable
-            // if movieList has anything in it, first grab the last actorName and set it as the previous actorBridge
-            if (currentActorBridge !== '') {
-                setPreviousActorBridge(currentActorBridge);
-            }
-
-
 
             let localMovieObj = movieList[movieList.length - 1];
             // remove the movie from movieList and then setMovieList to that new list SO THAT we can replace it at the end of this function
             setMovieList(movieList.filter((movieObj) => movieObj.movieTitle !== movie));
             localMovieObj.actorGuessed = true;
             localMovieObj.actorSelection.name = userActorInput;
-            localMovieObj.actorSelection.id = uuid(); // TODO use the id of the actor from the api? or remove this bc we may not need it
+            localMovieObj.actorSelection.id = uuid();
+            // TODO use the id of the actor from the api? or remove this bc we may not need it
             localMovieObj.actorSelection.characterName = characterName;
 
             setMovieList((prev) => {
@@ -197,13 +210,10 @@ export function GameContextProvider({ children }) {
      */
     async function handleActorSelection(userSelection, characterName) {
         try {
-
-            // if movieList has anything in it, first grab the last actorName and set it as the previous actorBridge
-            // if (movieList.length > 0) {
-            //     console.log('we in hur?')
-            //     setPreviousActorBridge(movieList[movieList.length - 1].actorSelection.name);
-            // } 
-
+            if (currentActorBridge !== '') {
+                // set the previous actor bridge to the current actor bridge before we change it
+                setPreviousActorBridge(currentActorBridge);
+            }
             setCurrentActorBridge(userSelection);
             await handleNewActorGuess(userSelection, currentMovieTitle, characterName);
             setFormTypeMovie(true);
@@ -275,7 +285,8 @@ export function GameContextProvider({ children }) {
             actorA,
             actorB,
             handleFinalBridge,
-            removeMovieFromGlobal,
+            removeMovieObjFromGlobal,
+            // removeActorFromGlobal,
         }}>
             {children}
         </GameContext.Provider>
