@@ -5,23 +5,30 @@ import Col from 'react-bootstrap/Col';
 
 
 /** two presented choices to user to display each time the mode changes */
-function ActorModeDecide({ selectHandler, readyHandler }) {
+function ActorModeDecide({ selectHandler, readyHandler, movieTitle }) {
+    
+    
+    const goodItems = ['nice', 'woot', 'oh yea', 'wahoo', 'keep it up', 'way to go', 'you rock', 'you\'re awesome'];
+    
     return (
         <>
             <Row className="nice-job">
-                <h2>nice!</h2>
+                <h2>
+                    {/* generate a random saying on each render */}
+                    {goodItems[Math.floor(Math.random() * goodItems.length)]}!
+                </h2>
             </Row>
             <br />
             <Row className="g-2">
-                <Col>
+                <Col md={5}>
                     <Button className="degreeBtn" onClick={selectHandler}>
-                        Select next Actor From Movie --&gt;
+                        Select next Actor From {movieTitle.toUpperCase()} --&gt;
                     </Button>
                 </Col>
-                <Col>
+                <Col md={2}>
                     OR
                 </Col>
-                <Col>
+                <Col md={5}>
                     <Button className="degreeBtn" onClick={readyHandler}>
                         I'm Ready To Bridge --&gt;
                     </Button>

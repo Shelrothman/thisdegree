@@ -1,10 +1,6 @@
 [
     // THIS is an example of a response that we will build the tree off of
     {
-        "startingActor": "Jennifer Aniston",
-        "id": "319f76a8-8302-83b4-0915-a7771a8e5fb2"
-    },
-    {
         "id": "8e325b58-6319-bf1e-14ea-3da93232460e",
         "movieTitle": "along came polly",
         "previousActor": {
@@ -59,9 +55,5 @@
             "name": "Will Ferrell",
             "characterName": "Robert Benson"
         }
-    },
-    {
-        "endingActor": "Will Ferrell",
-        "id": "d8970a28-69a8-9380-9c2f-5a5db4cc6b98"
     }
 ]

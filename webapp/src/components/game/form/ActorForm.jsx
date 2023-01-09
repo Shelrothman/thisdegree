@@ -7,7 +7,7 @@ import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 
-import Spinner from '../../../utils/Spinner';
+// import Spinner from '../../../utils/Spinner';
 import VALIDATE_MOVIE_QUERY from '../../../queries/validateMovieInput';
 import ActorModeDecide from './ActorModeDecide';
 import { useGameContext } from '../../../contexts';
@@ -29,12 +29,9 @@ function ActorForm() {
     const [formState, setFormState] = useState({
         actorInput: '',
     });
-
-    const [loadingState, setLoadingState] = useState(false);
-
-    // const { rowRef } = useRef(null);
-
     const [showRow, setShowRow] = useState(false);
+
+    // const [loadingState, setLoadingState] = useState(false);
 
     useEffect(() => {
         setShowRow(false);
@@ -45,9 +42,7 @@ function ActorForm() {
 
     // TODO: filter out any actors that have already been selected in global list as well as ActorA and ActorB
     const actorOptions = currentActorOptions?.map((actor) => {
-        return (
-            <option key={actor.id} value={actor.name}>{actor.name}</option>
-        )
+        return <option key={actor.id} value={actor.name}>{actor.name}</option>
     });
 
     const [fetchData, { loading, data, error }] = useLazyQuery(VALIDATE_MOVIE_QUERY, {
@@ -90,7 +85,6 @@ function ActorForm() {
     }
 
     function handleSelectChoice() {
-        // rowRef.current.style.display = 'none';
         setShowRow(true);
         return;
     }
@@ -107,8 +101,8 @@ function ActorForm() {
                 if (testResponse.evaluationResult === true) {
                     // alert('You did it!');
                     let finalTree = await handleFinalBridge(testResponse.characterName);
-                    //!!! PU HERE!!!! is this all we wanna do after game is won in this componetn?
-                    navigate('/createTree', { state: { tree: JSON.stringify(finalTree) } }); // we read from this state by using the useLocation hook
+                    //!!! PU HERE!!!! is this all we wanna do after game is won in this component?
+                    navigate('/createTree', { state: { tree: JSON.stringify(finalTree) } }); 
                     return;
                 } else {
                     alert('Fail! Try Again');
@@ -123,7 +117,7 @@ function ActorForm() {
         } catch (error) {
             console.error(error);
         }
-        // work in here to get the final round checked
+        // work in here to get the final round checked... no it gets check as it goes..
     }
 
     async function testFinalInput() {
@@ -140,7 +134,6 @@ function ActorForm() {
             let evaluationResult = data?.validateMovieInput?.isInMovie || false;
             let characterName = evaluationResult === true ? data.validateMovieInput.character : 'unknown';
             return { evaluationResult, characterName };
-
         } catch (error) {
             console.error(error);
         }
@@ -158,11 +151,12 @@ function ActorForm() {
                         <ActorModeDecide
                             selectHandler={handleSelectChoice}
                             readyHandler={handleReadyChoice}
+                            movieTitle={currentMovieTitle}
                         />
                     ) : (
                         <Row className="g-0">
                             {/* <Form.Label>Select an Actor from {currentMovieTitle}</Form.Label> */}
-                            <Col>
+                            <Col md={9}>
                                 <FloatingLabel
                                     controlId="floatingSelectGrid"
                                     label={`Select an Actor from ${currentMovieTitle}`}
@@ -181,7 +175,7 @@ function ActorForm() {
                                     </Form.Select>
                                 </FloatingLabel>
                             </Col>
-                            <Col>
+                            <Col md={3}>
                                 <Button
                                     className="form-controls submit-btn"
                                     onClick={handleSubmit}
