@@ -234,11 +234,14 @@ textarea {
 
 #tree-display-div {
     margin-top: 5px;
-    border: var(--actor-border) thin solid !important;
+    margin-left: 2vw;
+    margin-right: 2vw;
     padding-left: 10px;
     padding-top: 5px;
-    margin-left: 2%;
-    margin-right: 2%;
+    height: 75vh;
+    overflow-x: hidden;
+    overflow-y: auto;
+    border: var(--actor-border) thin solid !important;
     color: white !important;
     background-color: var(--light-background) !important;
 }
@@ -286,7 +289,7 @@ li {
     border: var(--actor-border) medium double;
 }
 
-.actors-span-a, 
+.actors-span-a,
 .castle-li {
     background-color: purple;
 }

@@ -78,7 +78,7 @@ const CreateTree = () => {
     const { state } = useLocation();
     console.log('state: ', state);
 
-    const [treeObject, setTreeObject] = useState(JSON.parse(state.tree));
+    const [treeObject, setTreeObject] = useState(state ? JSON.parse(state.tree) : JSON.parse(TEST_TREE));
     // const [treeObject, setTreeObject] = useState(JSON.parse(TEST_TREE));
 
 
@@ -87,7 +87,8 @@ const CreateTree = () => {
     console.log(typeof treeObject);
 
     const [formState, setFormState] = useState({
-        treeDeclaration: state.tree,
+        // treeDeclaration: state.tree,
+        treeDeclaration: state ? state.tree : TEST_TREE,
         // treeDeclaration: 'test tree declaration',
         //! return to uncomment
     });
@@ -107,8 +108,13 @@ const CreateTree = () => {
         },
     });
 
+    // Todo: modulate
     return (
         <div>
+            <div className='text-center'>
+                <h1>You did it!</h1>
+                <h3>Check out your tree! Click below to Share your tree with the world</h3>
+            </div>
             <form
                 onSubmit={(e) => {
                     e.preventDefault();
@@ -117,7 +123,9 @@ const CreateTree = () => {
             >
                 <div className="flex flex-column mt-3">
                     <input
+                        style={{ display: 'none' }}
                         className="mb2"
+                        //visibily hiding the form input
                         value={formState.treeDeclaration}
                         onChange={(e) =>
                             setFormState({
@@ -130,24 +138,30 @@ const CreateTree = () => {
                         placeholder="A treeDeclaration for the tree"
                     />
                 </div>
-                <button type="submit">Post Your Tree!</button>
+                <div className='float-right'>
+                    <button type="submit">
+                        Share Your Tree to the Feed!
+                    </button>
+                </div>
             </form>
-            <div id='tree-display-div'>
-                <h2 className="tree-header">
-                    <span className="tree-header-span">
-                        <Castle/>
-                        &nbsp;
-                        {treeObject[0].previousActor.name}
-                        &nbsp;
-                        <HeaderBridge />
-                        &nbsp;
-                        {treeObject[treeObject.length - 1].actorSelection.name}
-                        &nbsp;
-                        <Castle />
-                    </span>
-                </h2>
-                <DataTree treeData={treeObject} />
-            </div>
+            {treeObject && (
+                <div id='tree-display-div'>
+                    <h2 className="tree-header">
+                        <span className="tree-header-span">
+                            <Castle />
+                            &nbsp;
+                            {treeObject[0].previousActor.name}
+                            &nbsp;
+                            <HeaderBridge />
+                            &nbsp;
+                            {treeObject[treeObject.length - 1].actorSelection.name}
+                            &nbsp;
+                            <Castle />
+                        </span>
+                    </h2>
+                    <DataTree treeData={treeObject} />
+                </div>
+            )}
         </div>
     );
 };
