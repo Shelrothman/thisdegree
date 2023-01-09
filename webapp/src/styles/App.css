@@ -3,7 +3,6 @@
     margin: 0 auto;
     padding-left: 1rem;
     padding-right: 1rem;
-    text-align: center;
 } */
 
 .theme-dark {
@@ -16,6 +15,7 @@
     --littleDarker-background: rgb(29, 29, 39);
     --textarea-text: #fff;
     --indigo-color: #6b7abb;
+    --actor-border: white;
 }
 
 .theme-light {
@@ -28,6 +28,7 @@
     --littleDarker-background: #b5bcbb;
     --indigo-color: #96dcee;
     --textarea-text: rgb(29, 29, 39);
+    --actor-border: black;
 }
 
 .degreeBtn {
@@ -227,3 +228,95 @@ textarea {
         opacity: 0;
     }
 } */
+
+
+/* * TREE SHIZ * */
+
+#tree-display-div {
+    margin-top: 5px;
+    margin-left: 2vw;
+    margin-right: 2vw;
+    padding-left: 10px;
+    padding-top: 5px;
+    height: 75vh;
+    overflow-x: hidden;
+    overflow-y: auto;
+    border: var(--actor-border) thin solid !important;
+    border-radius: 7px;
+    color: white !important;
+    background-color: var(--light-background) !important;
+}
+
+/* width */
+::-webkit-scrollbar {
+    width: 20px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px var(--littleDarker-background);
+    border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: var(--dark-background);
+    border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: var(--littleDarker-background);
+}
+
+li {
+    list-style: none;
+}
+
+.movie-li,
+.actor-bridge-li {
+    margin: 4px;
+    padding: 4px;
+    color: white !important;
+}
+
+.actors-span-a,
+.actors-span-b {
+    border: var(--actor-border) thin solid;
+    padding: 0.2rem;
+    margin-right: 5px;
+}
+
+.actors-li-a,
+.actors-li-b {
+    border: var(--actor-border) 1px solid;
+}
+
+.tree-header {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+.tree-header-span {
+    padding: 0.2rem;
+    border: var(--actor-border) thick double;
+    background-color: rgb(69, 40, 3);
+}
+
+/* .bridge-castle-li  */
+
+.movie-span {
+    background-color: blue;
+    /* margin: 0.2rem; */
+    padding: 0.2rem;
+    border: var(--actor-border) medium double;
+}
+
+.actors-span-a,
+.castle-li {
+    background-color: purple;
+}
+
+.actors-span-b {
+    background-color: green;
+}

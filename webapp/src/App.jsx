@@ -7,8 +7,8 @@ import Launcher from './components/game/Launcher.jsx';
 
 import { ActorContextProvider, ThemeContextProvider, GameContextProvider } from './contexts';
 
-import CreateTree from './components/CreateTree';
-import TreeList from './components/TreeList';
+import CreateTree from './components/tree/CreateTree';
+import TreeList from './components/tree/TreeList';
 import Login from './components/Login';
 
 

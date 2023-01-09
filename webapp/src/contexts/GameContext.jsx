@@ -1,9 +1,5 @@
 /**
- * in here we want to keep track of the current game
- * what states are we going to need?
- * gameStarted: boolean (true if the game has started, false if it hasn't || its over)
- * movieList: array (list of movies {}s holding movie title and which actor used from it)
- *   - we want this for the display at the end the node tree thang
+ * in here we keep track of the current game
  * TODO: eventually use redux for this once it gets bigger?
  * TODO: use MEMO to prevent re-rendering of components -- do more research on this
  * ? Optimizing with memo is only valuable when your component re-renders often with the same exact props, and its re-rendering logic is expensive. If there is no perceptible lag when your component re-renders, memo is unnecessary. Keep in mind that memo is completely useless if the props passed to your component are always different, such as if you pass an object or a plain function defined during rendering. This is why you will often need useMemo and useCallback together with memo.
@@ -18,7 +14,6 @@ import {
     memo
 } from 'react';
 import { useActorContext } from './ActorContext.jsx';
-// import GameRound from '../models/GameRound';
 import uuid from 'react-uuid';
 
 
@@ -51,12 +46,20 @@ export function GameContextProvider({ children }) {
     const [formTypeMovie, setFormTypeMovie] = useState(true);
     const [currentActorBridge, setCurrentActorBridge] = useState(actorA);
 
+    // const [currentActorChracter, setCurrentActorChracter] = useState('');
+
     useEffect(() => {
         if (movieList.length > 0) {
             setReadyToBuild(true);
             return;
         } // only ready if there are movies in the list
     }, [movieList]);
+
+    useEffect(() => {
+        if (actorA) {
+            setCurrentActorBridge(actorA);
+        }
+    }, [actorA]);
 
     useEffect(() => {
         console.table(movieList);
@@ -80,17 +83,21 @@ export function GameContextProvider({ children }) {
         setMovieList([]);
     };
 
-    async function addMovieToGlobal(userMovieInput) {
+    async function addMovieToGlobal(userMovieInput, previousActorCharacterName) {
         try {
             let localMovieList = movieList || [];
             // add the movie guess to the end of array 
             localMovieList.push({
-                movieTitle: userMovieInput,
                 id: uuid(),
+                movieTitle: userMovieInput,
+                previousActor: {
+                    name: currentActorBridge,
+                    characterName: previousActorCharacterName
+                },
                 actorGuessed: false,
                 actorSelection: {
-                    name: '',
                     id: '',
+                    name: '',
                     characterName: '',
                 },
             });
@@ -108,11 +115,13 @@ export function GameContextProvider({ children }) {
             setCurrentMovieTitle(userMovieGuess);
             let actorList = movieEvaluationObject.data.validateMovieInput?.cast || [];
             // console.log('actorList: ', actorList); // debug
+
             //* Filter out the actors that are already in the game
             let currentActorsInGame = [actorA.toLowerCase(), ...movieList.map((movie) => movie.actorSelection.name.toLowerCase())];
             console.log('currentActorsInGame: ', currentActorsInGame); // debug                        
             let actorOptions = actorList.filter((actor) => !currentActorsInGame.includes(actor.name.toLowerCase()));
             // console.log('actorOptions: ', actorOptions); // debug
+
             setCurrentActorOptions(actorOptions);
             return true;
         } catch (error) {
@@ -164,10 +173,15 @@ export function GameContextProvider({ children }) {
                 finalTreeArray = movieList;
             }
             // unshift the actorA to beginning of the array
-            finalTreeArray.unshift({
-                startingActor: actorA,
-                id: uuid(),
-            });
+            // finalTreeArray.unshift({
+            //     startingActor: actorA,
+            //     id: uuid(),
+            // }); //! may end up not needing either of these
+            // // push the actorB to the end of the array
+            // finalTreeArray.push({
+            //     endingActor: actorB,
+            //     id: uuid(),
+            // });
             console.log('finalTreeArray', finalTreeArray)
             return finalTreeArray;
         } catch (error) {
