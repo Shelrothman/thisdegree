@@ -8,17 +8,13 @@ import Button from 'react-bootstrap/Button';
 import { useGameContext } from '../../../contexts';
 
 import Spinner from '../../../utils/Spinner';
-// import Dropdown from 'react-bootstrap/Dropdown';
-// import SplitButton from 'react-bootstrap/SplitButton';
-// import SubmitBtn from '../../buttons/SubmitBtn';
-// import { handleInvalidMovieInput } from '../../../helpers/handlers';
+
 import VALIDATE_MOVIE_QUERY from '../../../queries/validateMovieInput';
 
 
-// TODO: launcher needs to only be allowed to exit once the BOTH are selected, if only one is- don not let user closer it.. just can for now for ease of development
+// TODO: launcher needs to only be allowed to exit once the BOTH are selected, if only one is- dont not let user closer it.. just can for now for ease of development
 
-function MovieForm(enable) {
-    // const { actorA } = useActorContext();
+function MovieForm() {
     const {
         currentActorBridge,
         actorA,
@@ -77,7 +73,7 @@ function MovieForm(enable) {
                         // TODO: MODULATE THis function better
                         if (addResponse === true) {
                             // add the cast of the movie to the actorOptions of the currentMovie(in the global list):
-                            const buildResponse = await buildCastOptions(userMovieGuess, movieEvaluationObject);
+                            const buildResponse = await buildCastOptions(movieEvaluationObject);
                             if (buildResponse === true) handleRefs();
                         } else {
                             handleInvalidMovieGuess('something went wrong in the addMovieToGlobal()');

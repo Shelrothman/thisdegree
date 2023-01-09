@@ -70,6 +70,17 @@ function ActorListContainer() {
             </Button>
             <Card style={{ width: '18rem' }}>
                 <ListGroup variant="flush">
+                    <ListGroup.Item
+                        //! REMOVE THIS ListGroup.ITEM LATER
+                        //* its in here just to speed up testing
+                        onClick={() => handleSelection('Adam Sandler')}
+                        className='actorItem-holder'
+                        style={{ cursor: 'pointer' }}
+                    >
+                        <a className='actor-item' >
+                            Adam Sandler
+                        </a>
+                    </ListGroup.Item>
                     {actorListItems}
                 </ListGroup>
             </Card>

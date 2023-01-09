@@ -5,7 +5,7 @@ import CornerRight from "../icons/CornerRight";
 import RoyalBridge from "../icons/RoyalBridge";
 import Castle from "../icons/Castle";
 
-// TODO: modulate this thing and get rid of the repetitive stuff
+// TODO: get rid of the repetitive stuff
 // TODO eventually each movie and actor element to be clickable or something for info photos links etc
 
 function TreeNode({ id, movieTitle, previousActor, actorSelection, level, length, children }) {

@@ -48,12 +48,32 @@ export function GameContextProvider({ children }) {
 
     // const [currentActorChracter, setCurrentActorChracter] = useState('');
 
+
+    // why is teh below useEffect not updating the readyToBuild state?
+    // bc the movieList is not updating in time
+    // to fix that, we need to use the useEffect below
+    // useEffect(() => {
+    //     if (currentMovieTitle !== '') {
+    //         setReadyToBuild(true);
+    //         console.log('this should get printed the first time the movie title changes?')
+    //         // return;
+    //     } 
+    //     return;
+    //     // setReadyToBuild(false);
+    // }, [currentMovieTitle]);
+    // useEffect(() => {
+    //     if (movieList.length > 0 || currentActorBridge !== actorA) {
+    //         console.log('aint we jhere')
+    //         setReadyToBuild(true);
+    //         // return;
+    //     } // only ready if there are movies in the list
+    //     setReadyToBuild(false);
+    // }, [movieList, currentActorBridge, actorA]);
+
     useEffect(() => {
-        if (movieList.length > 0) {
-            setReadyToBuild(true);
-            return;
-        } // only ready if there are movies in the list
-    }, [movieList]);
+        console.log('readyToBuild effect', readyToBuild);
+
+    }, [readyToBuild]);
 
     useEffect(() => {
         if (actorA) {
@@ -79,12 +99,17 @@ export function GameContextProvider({ children }) {
 
     const handleGameStateChange = () => {
         // use this to change the game on and off, dont use this for when a game wins (only when looses)
-        setGameStarted(false);// setGameStarted((prev) => !prev);
+        setGameStarted(false);
+        // setGameStarted((prev) => !prev);
         setMovieList([]);
     };
 
     async function addMovieToGlobal(userMovieInput, previousActorCharacterName) {
         try {
+            
+            setCurrentMovieTitle(userMovieInput);
+            setReadyToBuild(true);
+
             let localMovieList = movieList || [];
             // add the movie guess to the end of array 
             localMovieList.push({
@@ -110,9 +135,9 @@ export function GameContextProvider({ children }) {
         }
     }
 
-    async function buildCastOptions(userMovieGuess, movieEvaluationObject) {
+    async function buildCastOptions(movieEvaluationObject) {
         try {
-            setCurrentMovieTitle(userMovieGuess);
+            // setCurrentMovieTitle(userMovieGuess); //! moved this into above function
             let actorList = movieEvaluationObject.data.validateMovieInput?.cast || [];
             // console.log('actorList: ', actorList); // debug
 
