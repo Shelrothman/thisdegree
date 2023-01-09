@@ -242,6 +242,7 @@ textarea {
     overflow-x: hidden;
     overflow-y: auto;
     border: var(--actor-border) thin solid !important;
+    border-radius: 7px;
     color: white !important;
     background-color: var(--light-background) !important;
 }
