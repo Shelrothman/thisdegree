@@ -73,12 +73,12 @@ function ActorListContainer() {
                     <ListGroup.Item
                         //! REMOVE THIS ListGroup.ITEM LATER
                         //* its in here just to speed up testing
-                        onClick={() => handleSelection('Adam Sandler')}
+                        onClick={() => handleSelection('Tom Hanks')}
                         className='actorItem-holder'
                         style={{ cursor: 'pointer' }}
                     >
                         <a className='actor-item' >
-                            Adam Sandler
+                            Tom Hanks
                         </a>
                     </ListGroup.Item>
                     {actorListItems}

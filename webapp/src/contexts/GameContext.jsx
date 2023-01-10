@@ -38,8 +38,10 @@ export function GameContextProvider({ children }) {
     const [movieList, setMovieList] = useState([]);
     const [readyToBridge, setReadyToBridge] = useState(false);
     const [currentActorOptions, setCurrentActorOptions] = useState([]);
+    
     // only ready if there are movies in the list
     const [readyToBuild, setReadyToBuild] = useState(movieList.length > 0);
+    
     // if false, then enable the actor form, if true, then enable the movie form
     const [formTypeMovie, setFormTypeMovie] = useState(true);
     const [currentActorBridge, setCurrentActorBridge] = useState(actorA);
@@ -47,13 +49,15 @@ export function GameContextProvider({ children }) {
     const [previousActorBridge, setPreviousActorBridge] = useState('');
     const [previousMovieTitle, setPreviousMovieTitle] = useState('');
 
-
+    const [gameChange, setGameChange] = useState(false);
 
     useEffect(() => {
         if (actorA) {
             setCurrentActorBridge(actorA);
         }
     }, [actorA]);
+
+
 
     useEffect(() => {
         console.table(movieList);
@@ -84,7 +88,9 @@ export function GameContextProvider({ children }) {
         setCurrentMovieTitle('');
         setCurrentActorBridge(actorA);
         setFormTypeMovie(true);
-        setPreviousActorBridge('');
+
+        setPreviousActorBridge(''); 
+        
         setPreviousMovieTitle('');
     };
 
@@ -110,7 +116,7 @@ export function GameContextProvider({ children }) {
                 actorGuessed: false,
                 actorSelection: {
                     id: '',
-                    name: '',
+                    name: '...',
                     characterName: '',
                 },
             });
@@ -123,27 +129,39 @@ export function GameContextProvider({ children }) {
         }
     }
 
+    // turn game chagne to true in here and then back in the function call in formContainer.. we turn it back to false. but the effect in the caerdContainer will listen for the change on the gameChange state and then it will re-render the cards.
+
     async function removeMovieObjFromGlobal() {
         try {
             // set currentMovie Title to the title from the last movieTitle
             // if (previousMovieTitle !== '')
+            console.log(`attempting to remove ${currentMovieTitle}-object from global...`);
+            console.log('previousActorBridge', previousActorBridge);
             setCurrentMovieTitle(previousMovieTitle); // there will be a movie to set BC the button does not appear until there is a movie
-            // the previousActorBridge is diff.. it would be empty if the user just started the game and only wants to undo the movie.
             // so set the currentActorBridge to it no matter what bc if its empty, then that is what it should be at that point
 
-            setCurrentActorBridge(previousActorBridge); // but do we need more conditons around this?
+            //! not until there is a selection made is the previousActorBridge set, so if back is clicked in actorMode then the previousACTOR has not been set yet.
+            // AKA if clicked when formTypeMovi is false.
+                // so if previious actor has not been upated yet, then we dont want to update.
 
-            // if (previousActorBridge !== '') setCurrentActorBridge(previousActorBridge); // this is ?
-            // remove that movie from the list and set the global MovieList to it
-            
+            setCurrentActorBridge(movieList[movieList.length - 1].previousActor.name);
+
+            // if (formTypeMovie) {
+            //     setCurrentActorBridge(previousActorBridge);
+            // } else {
+            //     setCurrentActorBridge(movieList[movieList.length - 1].previousActor.name);
+            //     console.log('we are in the else of removeMovieObjFromGlobal()')
+            //     // we dont need to bc the currentActor is still the previousActor
+            // }
+            // but do we need more conditons around this?
+
+
             let localMovieList = movieList;
-            
             let indexToRemove = localMovieList.length - 1;
-            
             localMovieList.splice(indexToRemove, 1);
-            console.log('localMovieList', localMovieList)
-            // OKay this works in the console (TESTED).. you gotta keep the array in place duhhhhhhhh
-            // The form is changing approp. when in decideMode
+            // console.log('localMovieList', localMovieList)
+
+            setGameChange(true); // this is to trigger the useEffect in the cardContainer to re-render the cards
 
             setFormTypeMovie(true); // so the ui goes back//stays to the movie input
             setMovieList(localMovieList); // set the global movieList to the new one
@@ -286,6 +304,8 @@ export function GameContextProvider({ children }) {
             actorB,
             handleFinalBridge,
             removeMovieObjFromGlobal,
+            gameChange,
+            setGameChange,
             // removeActorFromGlobal,
         }}>
             {children}

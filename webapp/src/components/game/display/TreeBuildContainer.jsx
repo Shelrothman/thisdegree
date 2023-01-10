@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, Fragment } from "react";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import uuid from 'react-uuid';
@@ -13,52 +13,55 @@ function TreeBuildContainer() {
         currentMovieTitle,
         currentActorBridge,
         readyToBuild,
-        actorA
+        formTypeMovie,
+        gameChange,
+        actorA,
+        movieList
     } = useGameContext();
 
-    const [bridgeCards, setBridgeCards] = useState([]);
+    // const [bridgeCards, setBridgeCards] = useState([]);
     const [actorName, setActorName] = useState(readyToBuild ? currentActorBridge : actorA);
-    const [movieName, setMovieName] = useState(currentMovieTitle);
+    // const [movieName, setMovieName] = useState(currentMovieTitle);
+
+    const [localMovieList, setLocalMovieList] = useState(movieList);
 
 
-    useEffect(() => {
-        if (readyToBuild) setActorName(currentActorBridge);
-        else setActorName(actorA);
-        // currentActorBridge back to ActorA only when readyToBuild is false bc the game is starting over
-    }, [currentActorBridge, readyToBuild]);
 
-    useEffect(() => {
-        setMovieName(currentMovieTitle);
-    }, [currentMovieTitle]);
-
-
-    //!!!! RETURN HERE !!!~~~~!!!!!!!!!!!!!!!!!!!!!!!
-    // the form and its text is UPDATING based on going back / undo
-    // BUT the bridgeCards are not updating... they just keep rendering and rendering...
+    
     //? useMemo in here?
+    // useEffect(() => {
+    //     if (readyToBuild) {
+    //         setBridgeCards((prevBridgeCards) => {
+    //             return [...prevBridgeCards,
+    //             <MovieCard key={uuid()} movie={movieName} actorName={actorName} />,];
+    //         });
+    //     }
+    // }, [movieName]);
+    // // ? should these useEffects be refactored?
+
     useEffect(() => {
         if (readyToBuild) {
-            setBridgeCards((prevBridgeCards) => {
-                return [...prevBridgeCards,
-                <MovieCard key={uuid()} movie={movieName} actorName={actorName} />,];
-            });
+            setActorName(currentActorBridge);
         }
-    }, [movieName]);
-    // ? should these useEffects be refactored?
+        else setActorName(actorA);
+    }, [currentActorBridge]);
+
+    //* i thihnk i should be mapping the movieLost like o did way back before refactor... like map it and then set the bridgeCards to that so THAT we can filter it out when we need to
+
+
+    // }, [gameChange]);
+
     useEffect(() => {
-        if (readyToBuild) {
-            setBridgeCards((prevBridgeCards) => {
-                return [...prevBridgeCards,
-                <ActorCard key={uuid()} movie={movieName} actorName={actorName} />,];
-            });
-        }
-    }, [actorName]);
-
-
+        setLocalMovieList(movieList);
+    }, [currentMovieTitle]);
     return (
         <Container id="tree-build-container" fluid>
             <Row>
-                {bridgeCards}
+                {localMovieList.map((movie) => {
+                    return (
+                        <MovieCard key={uuid()} lastActor={!readyToBuild ? actorA : movie.previousActor.name} movie={movie.movieTitle} actorName={movie.actorSelection.name} />
+                    )
+                })}
             </Row>
         </Container>
     );

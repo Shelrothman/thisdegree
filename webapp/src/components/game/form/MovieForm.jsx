@@ -30,7 +30,7 @@ function MovieForm() {
         if (readyToBuild) setActorName(currentActorBridge);
         else setActorName(actorA);
         // currentActorBridge is only set when the user selects an actor, we want it back to ActorA only when readyToBuild is false bc that means the game is like starting over
-    }, [currentActorBridge, readyToBuild]);
+    }, [currentActorBridge]);
 
     const [formState, setFormState] = useState({
         movieInput: '',
@@ -115,7 +115,8 @@ function MovieForm() {
                                 type="text"
                                 className="form-controls"
                                 value={formState.movieInput}
-                                autoComplete="off"
+                                //!! autoComplete="off"
+                                // ! turn back off when done testing
                                 onChange={(e) =>
                                     setFormState({
                                         ...formState,

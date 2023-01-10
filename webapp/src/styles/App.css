@@ -25,7 +25,7 @@
     --light-background: #EDDCD2;
     --accent: #dee3e2;
     --button-border: #1ac597d7;
-    --littleDarker-background: #b5bcbb;
+    --littleDarker-background: #999d9c;
     --indigo-color: #96dcee;
     --textarea-text: rgb(29, 29, 39);
     --actor-border: black;
@@ -42,13 +42,25 @@
     color: var(--accent);
 }
 
-.movieTitle-card,
-.actorTitle-card {
+.movieTitle-card {
     color: var(--button-border);
-    border: 1px solid var(--button-border);
-    border-radius: 4px;
-    padding-left: 0.5rem;
-    padding-right: 0.5rem;
+    font-weight: bolder;
+    /* make it underlined */
+    text-decoration: underline;
+    /* border: 1px solid var(--button-border); */
+    /* border-radius: 4px; */
+    /* padding-left: 0.5rem; */
+    /* padding-right: 0.5rem; */
+}
+
+.actorName-card {
+    color: var(--littleDarker-background);
+    /* font-weight: bolder; */
+    /* text-decoration: underline; */
+    font-style: italic;
+    /* box-shadow: var(--littleDarker-background); */
+    /* text-decoration: ; */
+
 }
 
 #main-form-container {
