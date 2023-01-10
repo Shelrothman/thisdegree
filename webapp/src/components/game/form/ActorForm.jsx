@@ -24,14 +24,23 @@ function ActorForm() {
         actorB,
         handleGameStateChange,
         handleFinalBridge,
+        setDecideMode,
+        decideMode,
     } = useGameContext();
     const [movieName, setMovieName] = useState(currentMovieTitle);
     const [formState, setFormState] = useState({
         actorInput: '',
     });
-    const [showRow, setShowRow] = useState(false);
+    const [showRow, setShowRow] = useState(!decideMode);
 
     // const [loadingState, setLoadingState] = useState(false);
+
+
+
+    useEffect(() => {
+        setShowRow(!decideMode);
+        console.log('decideMode: ', decideMode);
+    }, [decideMode]);
 
     useEffect(() => {
         setShowRow(false);
@@ -86,6 +95,7 @@ function ActorForm() {
     }
 
     function handleSelectChoice() {
+        setDecideMode(false); // track when in decideMode in Form (only true when in ActorModeDecide)
         setShowRow(true);
         return;
     }

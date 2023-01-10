@@ -13,29 +13,41 @@ import { useGameContext } from "../../../contexts";
 // TODO in modal, invalid input for this reason: ...
 // then display the challenge button
 
-
-//* it is working when pressing it in Movie Mode
-
-
 function FormContainer() {
     const {
         readyToBuild,
         setGameChange,
         removeMovieObjFromGlobal,
-        movieList,
+        setDecideMode,
+        decideMode,
+        formTypeMovie,
     } = useGameContext();
 
     // const [showBackBtn, setShowBackBtn] = useState(readyToBuild);
 
-    const [showBackBtn, setShowBackBtn] = useState(movieList.length >= 2);
+    const [showBackBtn, setShowBackBtn] = useState(readyToBuild);
+    // const [decideMode, setDecideMode] = useState(false);
+
 
     useEffect(() => {
         // setShowBackBtn(readyToBuild);
-        setShowBackBtn(movieList.length >= 2);
-    }, [movieList]);
+        setShowBackBtn(readyToBuild);
+    }, [readyToBuild]);
+
+    // useEffect(() => {
+        // setShowBackBtn(readyToBuild);
+        // setShowBackBtn(readyToBuild);
+    // }, [decideMode]);
+
 
     async function handleBackClick() {
         try {
+            // first see if need to just go back to decideMode
+            if (!decideMode && !formTypeMovie) {
+                // just go back to decide mode (that controls the actorForms showRow)
+                setDecideMode(true); 
+                return;
+            }
             let userChoice = confirm('Are you sure you want to undo the last round?');
             if (!userChoice) return;
             const removeRes = await removeMovieObjFromGlobal();

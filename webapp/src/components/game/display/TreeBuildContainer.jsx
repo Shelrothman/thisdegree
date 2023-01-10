@@ -10,14 +10,10 @@ import MovieCard from "./MovieCard";
 function TreeBuildContainer() {
     const {
         currentMovieTitle,
-        readyToBuild,
-        actorA,
         movieList
     } = useGameContext();
 
-
     const [localMovieList, setLocalMovieList] = useState(movieList);
-
 
     useEffect(() => {
         setLocalMovieList(movieList);

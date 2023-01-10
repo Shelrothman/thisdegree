@@ -38,10 +38,10 @@ export function GameContextProvider({ children }) {
     const [movieList, setMovieList] = useState([]);
     const [readyToBridge, setReadyToBridge] = useState(false);
     const [currentActorOptions, setCurrentActorOptions] = useState([]);
-    
+
     // only ready if there are movies in the list
     const [readyToBuild, setReadyToBuild] = useState(movieList.length > 0);
-    
+
     // if false, then enable the actor form, if true, then enable the movie form
     const [formTypeMovie, setFormTypeMovie] = useState(true);
     const [currentActorBridge, setCurrentActorBridge] = useState(actorA);
@@ -51,19 +51,34 @@ export function GameContextProvider({ children }) {
 
     const [gameChange, setGameChange] = useState(false);
 
+    const [decideMode, setDecideMode] = useState(false);
+
+
     useEffect(() => {
         if (actorA) {
             setCurrentActorBridge(actorA);
         }
     }, [actorA]);
 
+    useEffect(() => {
+        console.log('decideMode', decideMode);
+    }, [decideMode]);
+    useEffect(() => {
+        console.log('formTypeMovie', formTypeMovie);
+    }, [formTypeMovie]);
 
 
     useEffect(() => {
         console.table(movieList);
         console.log('currentMovieTitle', currentMovieTitle);
         console.log('currentActorBridge', currentActorBridge);
-    }, [movieList, currentMovieTitle, currentActorBridge]);
+        // if (movieList[movieList.length - 1]) {
+        // console.log('last movie in movieList', movieList[movieList.length - 1]);
+        // }
+        // const lastMovie = movieList[movieList.length - 1];
+        // if (lastMovie.actorSelection) {
+        // }
+    }, [movieList, currentMovieTitle]);
 
 
     /*
@@ -89,8 +104,8 @@ export function GameContextProvider({ children }) {
         setCurrentActorBridge(actorA);
         setFormTypeMovie(true);
 
-        setPreviousActorBridge(''); 
-        
+        setPreviousActorBridge('');
+
         setPreviousMovieTitle('');
     };
 
@@ -116,10 +131,12 @@ export function GameContextProvider({ children }) {
                 actorGuessed: false,
                 actorSelection: {
                     id: '',
-                    name: '...',
+                    name: '...', // this is nice for the user in the ui
                     characterName: '',
                 },
             });
+            // set it to true after a movie is added (sets to false in the formContainer/ actorForm)
+            setDecideMode(true);
             setMovieList(localMovieList);
             setFormTypeMovie(false);
             return true; // return true if the movie was added
@@ -142,7 +159,7 @@ export function GameContextProvider({ children }) {
 
             //! not until there is a selection made is the previousActorBridge set, so if back is clicked in actorMode then the previousACTOR has not been set yet.
             // AKA if clicked when formTypeMovi is false.
-                // so if previious actor has not been upated yet, then we dont want to update.
+            // so if previious actor has not been upated yet, then we dont want to update.
 
             setCurrentActorBridge(movieList[movieList.length - 1].previousActor.name);
 
@@ -306,6 +323,8 @@ export function GameContextProvider({ children }) {
             removeMovieObjFromGlobal,
             gameChange,
             setGameChange,
+            decideMode,
+            setDecideMode
             // removeActorFromGlobal,
         }}>
             {children}
