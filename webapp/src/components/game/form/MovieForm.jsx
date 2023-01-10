@@ -24,11 +24,12 @@ function MovieForm() {
         formTypeMovie,
         handleUniqueCheck,
     } = useGameContext();
-    const [actorName, setActorName] = useState(readyToBuild ? currentActorBridge : actorA);
+    const [actorName, setActorName] = useState(currentActorBridge);
 
     useEffect(() => {
-        if (readyToBuild) setActorName(currentActorBridge);
-        else setActorName(actorA);
+        // if (readyToBuild) setActorName(currentActorBridge);
+        // else setActorName(actorA);
+        setActorName(currentActorBridge);
         // currentActorBridge is only set when the user selects an actor, we want it back to ActorA only when readyToBuild is false bc that means the game is like starting over
     }, [currentActorBridge]);
 

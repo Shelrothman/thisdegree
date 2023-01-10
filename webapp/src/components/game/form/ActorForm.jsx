@@ -33,19 +33,16 @@ function ActorForm() {
     });
     const [showRow, setShowRow] = useState(!decideMode);
 
-    // const [loadingState, setLoadingState] = useState(false);
-
-
 
     useEffect(() => {
         setShowRow(!decideMode);
-        console.log('decideMode: ', decideMode);
+        // console.log('decideMode: ', decideMode);
     }, [decideMode]);
 
     useEffect(() => {
         setShowRow(false);
         setMovieName(currentMovieTitle);
-        // reset the form to the default state
+        // reset the form to the default state each round
     }, [currentMovieTitle]);
 
     const navigate = useNavigate();
@@ -128,7 +125,6 @@ function ActorForm() {
         } catch (error) {
             console.error(error);
         }
-        // work in here to get the final round checked... no it gets check as it goes..
     }
 
     async function testFinalInput() {
@@ -151,9 +147,7 @@ function ActorForm() {
     }
 
 
-    // TODO: signify when its in loading state
-    // TODO come bacl and make it look nicer?
-
+    // TODO come back and make it look nicer?
     return (
         <>
             {formTypeMovie === false && (

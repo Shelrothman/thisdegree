@@ -20,7 +20,8 @@ function Launcher() {
         gameStarted,
         handleGameStateChange,
         setGameStarted,
-        formTypeMovie
+        formTypeMovie,
+        decideMode
     } = useGameContext();
 
     useEffect(() => {
@@ -91,7 +92,7 @@ function Launcher() {
                         <div>
                             <div>
                                 <h2 className="blink">Game In Process</h2>
-                                {formTypeMovie ? <h3>Movie Mode</h3> : <h3>Actor Mode</h3>}
+                                {formTypeMovie ? <h3>Movie Mode</h3> : decideMode ? <h3>Decide Mode</h3> : <h3>Actor Mode</h3>}
                             </div>
                             <FormContainer />
                         </div>

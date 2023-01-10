@@ -16,28 +16,20 @@ import { useGameContext } from "../../../contexts";
 function FormContainer() {
     const {
         readyToBuild,
-        setGameChange,
         removeMovieObjFromGlobal,
         setDecideMode,
         decideMode,
         formTypeMovie,
     } = useGameContext();
 
-    // const [showBackBtn, setShowBackBtn] = useState(readyToBuild);
 
     const [showBackBtn, setShowBackBtn] = useState(readyToBuild);
-    // const [decideMode, setDecideMode] = useState(false);
 
 
     useEffect(() => {
-        // setShowBackBtn(readyToBuild);
         setShowBackBtn(readyToBuild);
     }, [readyToBuild]);
 
-    // useEffect(() => {
-        // setShowBackBtn(readyToBuild);
-        // setShowBackBtn(readyToBuild);
-    // }, [decideMode]);
 
 
     async function handleBackClick() {
@@ -45,15 +37,14 @@ function FormContainer() {
             // first see if need to just go back to decideMode
             if (!decideMode && !formTypeMovie) {
                 // just go back to decide mode (that controls the actorForms showRow)
-                setDecideMode(true); 
+                setDecideMode(true);
                 return;
             }
             let userChoice = confirm('Are you sure you want to undo the last round?');
             if (!userChoice) return;
             const removeRes = await removeMovieObjFromGlobal();
             if (removeRes) {
-                // setShowBackBtn(false);
-                setGameChange(false); // set it back to false bc we are going back to the beginning of a new round 
+                // we are going back to the beginning of a new round 
                 console.log('removed movie from global');
             }
             return;
