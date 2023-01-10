@@ -109,7 +109,7 @@ function ActorForm() {
                 if (testResponse.evaluationResult === true) {
                     // alert('You did it!');
                     let finalTree = await handleFinalBridge(testResponse.characterName);
-                    //!!! PU HERE!!!! is this all we wanna do after game is won in this component?
+                    //!!! handle any congratulatory messages over in createTree component
                     navigate('/createTree', { state: { tree: JSON.stringify(finalTree) } }); 
                     return;
                 } else {
