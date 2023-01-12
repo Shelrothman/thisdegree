@@ -1,26 +1,37 @@
-import Alert from 'react-bootstrap/Alert';
-// import Button from 'react-bootstrap/Button';
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
 
-function GameAlert({text, visible, setVisible}) {
+
+function GameAlert({ text, visible, setVisible, end = false }) {
     // const [show, setShow] = useState(visible);
-
+    const handleClose = () => setVisible(false);
 
     if (visible) {
         return (
-            <Alert variant="danger" 
-            onClose={() => setVisible(false)} 
-            dismissible>
-                <Alert.Heading>
-                    {text}
-                </Alert.Heading>
-                {/* <p>
-                    Change this and that and try again. Duis mollis, est non commodo
-                    luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit.
-                    Cras mattis consectetur purus sit amet fermentum.
-                </p> */}
-            </Alert>
+            <>
+                <Modal
+                    show={visible}
+                    onHide={handleClose}
+                    backdrop="static"
+                    keyboard={false}
+                    centered
+                >
+                    <Modal.Header closeButton>
+                        <Modal.Title>{text}</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        {text}
+                    </Modal.Body>
+                    <Modal.Footer>
+                        {end && <Button variant="primary" onClick={handleClose}>
+                            OK
+                        </Button>}
+                    </Modal.Footer>
+                </Modal>
+            </>
+
         );
-    } 
+    }
 }
 
 export default GameAlert;

@@ -39,6 +39,7 @@ function ActorForm() {
     const [showAlert, setShowAlert] = useState({
         show: false,
         text: '',
+        end: false,
     });
 
     useEffect(() => {
@@ -74,29 +75,21 @@ function ActorForm() {
             const actorSelection = formState.actorInput;
             console.log('actorSelection: ', actorSelection);
             if (actorSelection) {
-                if (actorSelection !== 'select') {
-                    const characterName = currentActorOptions?.find((actor) =>
-                        actor.name === actorSelection)
-                        ?.character
-                        || 'unknown';
-                    // console.log('characterName: ', characterName);
-                    const selectResponse = await handleActorSelection(actorSelection, characterName);
-                    if (selectResponse === true) {
-                        setFormState({ actorInput: '' });
-                        return;
-                    } else {
-                        throw new Error('Something went wrong in handleActorSelection()');
-                    }
+                const characterName = currentActorOptions?.find((actor) =>
+                    actor.name === actorSelection)
+                    ?.character
+                    || 'unknown';
+                // console.log('characterName: ', characterName);
+                const selectResponse = await handleActorSelection(actorSelection, characterName);
+                if (selectResponse === true) {
+                    setFormState({ actorInput: '' });
+                    return;
                 } else {
-                    // alert('Please select an actor');
-                    setShowAlert({ show: true, text: 'Please select an actor' });
-                    // why does this only do it once?
-                    // because it's not resetting the state of the alert
-                    // setShowAlert({ show: false, text: '' }); // reset the alert
-                    // return;
+                    throw new Error('Something went wrong in handleActorSelection()');
                 }
             } else {
                 setShowAlert({ show: true, text: 'Please select an actor' });
+                // throw new Error('Something went wrong in handleSubmit()');
                 return;
             }
         } catch (error) {
@@ -128,8 +121,11 @@ function ActorForm() {
                     return;
                 } else {
                     // alert('Fail! Try Again');
-                    setShowAlert({ show: true, text: 'Fail! Try Again' });
-                    handleGameStateChange();
+                    setShowAlert({ show: true, text: 'Fail! Try Again', end: true });
+                    // !!!!
+                    setTimeout(() => {
+                        handleGameStateChange();
+                    }, 5000);
                     // reset the game
                     return;
                 }
@@ -165,6 +161,7 @@ function ActorForm() {
 
 
     // TODO come back and make it look nicer?
+    // TODO show spinner underneath maybe
     return (
         <>
             {showAlert && <GameAlert
@@ -172,6 +169,7 @@ function ActorForm() {
                 visible={showAlert.show}
                 setVisible={() => setShowAlert()}
             />}
+            {/* {(formTypeMovie === false && gameStarted) && ( */}
             {formTypeMovie === false && (
                 <>
                     {!showRow ? (
@@ -197,7 +195,7 @@ function ActorForm() {
                                                 actorInput: e.target.value
                                             })}
                                     >
-                                        <option value="select">. . .</option>
+                                        <option>. . .</option>
                                         {actorOptions}
                                     </Form.Select>
                                 </FloatingLabel>
