@@ -1,3 +1,8 @@
+
+
+<!-- TODO: need a route in between createTree and the main / (game)route... like `winnerViewTree/${userName}` or something SPECIFIC! SO THAT... it can be sharrrrred.. and we just need it for calrity -->
+
+
 ## FORM - Refactor
 <!--* we need a different approacj wheere i like have the same form stay in the middle of the screen for inputs/btn clicks, and then a seperate component that renders the cards on the side of the screen aka buildin9g the tree -->
 the formm should be serpate from the dispolayy bc the form is the input and the display is the output

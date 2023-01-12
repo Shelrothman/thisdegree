@@ -13,6 +13,10 @@ import ActorModeDecide from './ActorModeDecide';
 import { useGameContext } from '../../../contexts';
 // TODO change to display the character Name somewhere in the tree or soemthign cool
 
+import GameAlert from '../../modals/GameAlert';
+
+
+
 function ActorForm() {
     const {
         formTypeMovie,
@@ -32,7 +36,10 @@ function ActorForm() {
         actorInput: '',
     });
     const [showRow, setShowRow] = useState(!decideMode);
-
+    const [showAlert, setShowAlert] = useState({
+        show: false,
+        text: '',
+    });
 
     useEffect(() => {
         setShowRow(!decideMode);
@@ -81,10 +88,16 @@ function ActorForm() {
                         throw new Error('Something went wrong in handleActorSelection()');
                     }
                 } else {
-                    alert('Please select an actor');
+                    // alert('Please select an actor');
+                    setShowAlert({ show: true, text: 'Please select an actor' });
+                    // why does this only do it once?
+                    // because it's not resetting the state of the alert
+                    // setShowAlert({ show: false, text: '' }); // reset the alert
+                    // return;
                 }
             } else {
-                throw new Error('Something went wrong ready actor from formState');
+                setShowAlert({ show: true, text: 'Please select an actor' });
+                return;
             }
         } catch (error) {
             console.error(error);
@@ -96,6 +109,7 @@ function ActorForm() {
         setShowRow(true);
         return;
     }
+
 
 
     // TODO: use modules instead of alerts/confirms for display to look better
@@ -110,10 +124,11 @@ function ActorForm() {
                     // alert('You did it!');
                     let finalTree = await handleFinalBridge(testResponse.characterName);
                     //!!! handle any congratulatory messages over in createTree component
-                    navigate('/createTree', { state: { tree: JSON.stringify(finalTree) } }); 
+                    navigate('/createTree', { state: { tree: JSON.stringify(finalTree) } });
                     return;
                 } else {
-                    alert('Fail! Try Again');
+                    // alert('Fail! Try Again');
+                    setShowAlert({ show: true, text: 'Fail! Try Again' });
                     handleGameStateChange();
                     // reset the game
                     return;
@@ -152,6 +167,11 @@ function ActorForm() {
     // TODO come back and make it look nicer?
     return (
         <>
+            {showAlert && <GameAlert
+                text={showAlert.text}
+                visible={showAlert.show}
+                setVisible={() => setShowAlert()}
+            />}
             {formTypeMovie === false && (
                 <>
                     {!showRow ? (
