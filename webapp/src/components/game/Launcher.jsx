@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 
 import { useActorContext, useGameContext } from '../../contexts';
-import ActorListContainer from '../ActorListContainer.jsx';
+import ActorListContainer from './ActorListContainer.jsx';
 import MovieBtn from '../buttons/MovieBtn.jsx';
 import PlayBtn from '../buttons/PlayBtn.jsx';
 import ActorHeader from './ActorHeader.jsx';

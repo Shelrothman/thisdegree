@@ -129,6 +129,8 @@ function ActorForm() {
 
     async function testFinalInput() {
         try {
+            // TODO: need to incorporate context and update state with the final movie and actor
+
             const movieValue = movieList[movieList.length - 1].movieTitle;
             const actorValue = actorB;
             const { data } = await fetchData({

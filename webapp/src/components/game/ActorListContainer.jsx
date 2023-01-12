@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react';
-import { useActorContext } from '../contexts/ActorContext';
+import { useActorContext } from '../../contexts/ActorContext';
 import { BiRefresh } from 'react-icons/bi';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
 import {
-    // getAllActors,
+    //! getAllActors,
     getFiftyRandomActors
-} from '../data/actors';
+} from '../../data/actors';
 
 /**
  * in here we need to fetch the actors from the db
