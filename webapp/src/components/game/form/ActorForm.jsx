@@ -30,17 +30,19 @@ function ActorForm() {
         handleFinalBridge,
         setDecideMode,
         decideMode,
+        showAlert,
+        setShowAlert,
     } = useGameContext();
     const [movieName, setMovieName] = useState(currentMovieTitle);
     const [formState, setFormState] = useState({
         actorInput: '',
     });
     const [showRow, setShowRow] = useState(!decideMode);
-    const [showAlert, setShowAlert] = useState({
-        show: false,
-        text: '',
-        end: false,
-    });
+    // const [showAlert, setShowAlert] = useState({
+    //     show: false,
+    //     text: '',
+    //     end: false,
+    // });
 
     useEffect(() => {
         setShowRow(!decideMode);
@@ -125,7 +127,7 @@ function ActorForm() {
                     // !!!!
                     setTimeout(() => {
                         handleGameStateChange();
-                    }, 5000);
+                    }, 4600);
                     // reset the game
                     return;
                 }
@@ -168,6 +170,7 @@ function ActorForm() {
                 text={showAlert.text}
                 visible={showAlert.show}
                 setVisible={() => setShowAlert()}
+                end={showAlert.end}
             />}
             {/* {(formTypeMovie === false && gameStarted) && ( */}
             {formTypeMovie === false && (

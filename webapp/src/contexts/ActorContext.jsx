@@ -27,7 +27,7 @@ export function ActorContextProvider({ children }) {
 
 
     return (
-        <ActorContext.Provider value={{ actorA, actorB, handleActorSelection }}>
+        <ActorContext.Provider value={{ actorA, actorB, handleActorSelection, setActorA, setActorB }}>
             {children}
         </ActorContext.Provider>
     );

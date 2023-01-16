@@ -2,9 +2,16 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 
 
-function GameAlert({ text, visible, setVisible, end = false }) {
-    // const [show, setShow] = useState(visible);
+function GameAlert({
+    text,
+    visible,
+    setVisible,
+    end = false,
+    subtext = text
+}) {
     const handleClose = () => setVisible(false);
+
+    // console.log('end: ', end);
 
     if (visible) {
         return (
@@ -16,14 +23,14 @@ function GameAlert({ text, visible, setVisible, end = false }) {
                     keyboard={false}
                     centered
                 >
-                    <Modal.Header closeButton>
+                    <Modal.Header closeButton={!end}>
                         <Modal.Title>{text}</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         {text}
                     </Modal.Body>
                     <Modal.Footer>
-                        {end && <Button variant="primary" onClick={handleClose}>
+                        {!end && <Button variant="primary" onClick={handleClose}>
                             OK
                         </Button>}
                     </Modal.Footer>

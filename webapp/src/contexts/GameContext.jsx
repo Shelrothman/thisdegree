@@ -30,7 +30,12 @@ export function useGameContext() {
 
 export function GameContextProvider({ children }) {
     const [gameStarted, setGameStarted] = useState(false);
-    const { actorA, actorB } = useActorContext();
+    const {
+        actorA,
+        actorB,
+        // setActorA,
+        // setActorB
+    } = useActorContext();
     // this is the movie title of current movie
     const [currentMovieTitle, setCurrentMovieTitle] = useState('');
 
@@ -49,6 +54,12 @@ export function GameContextProvider({ children }) {
     const [previousActorBridge, setPreviousActorBridge] = useState('');
     const [previousMovieTitle, setPreviousMovieTitle] = useState('');
     const [decideMode, setDecideMode] = useState(false);
+
+    const [showAlert, setShowAlert] = useState({
+        show: false,
+        text: '',
+        end: false,
+    });
 
 
     useEffect(() => {
@@ -71,6 +82,7 @@ export function GameContextProvider({ children }) {
     const handleGameStateChange = () => {
         // all the resets to happen when the game is over through loosing or starts over
         setGameStarted(false);
+        // setActorA('');
         setReadyToBuild(false);
         setMovieList([]);
         setCurrentMovieTitle('');
@@ -78,6 +90,11 @@ export function GameContextProvider({ children }) {
         setFormTypeMovie(true);
         setPreviousActorBridge('');
         setPreviousMovieTitle('');
+        setShowAlert({
+            show: false,
+            text: '',
+            end: false,
+        });
     };
 
     async function addMovieToGlobal(userMovieInput, previousActorCharacterName) {
@@ -132,13 +149,13 @@ export function GameContextProvider({ children }) {
             let indexToRemove = localMovieList.length - 1;
             localMovieList.splice(indexToRemove, 1);
 
-            
+
             // so the ui goes back/stays to the movie input
             setFormTypeMovie(true);
             // set the global movieList to the new one
             setMovieList(localMovieList);
             // return true if the movie obj was removed
-            return true; 
+            return true;
         } catch (error) {
             console.error(error);
             return false; // return false if the movie couldnt be removed
@@ -270,7 +287,9 @@ export function GameContextProvider({ children }) {
             handleFinalBridge,
             removeMovieObjFromGlobal,
             decideMode,
-            setDecideMode
+            setDecideMode,
+            showAlert,
+            setShowAlert,
             // removeActorFromGlobal,
         }}>
             {children}

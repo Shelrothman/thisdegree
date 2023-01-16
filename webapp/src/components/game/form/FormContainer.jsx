@@ -4,11 +4,10 @@ import { BsSkipBackwardCircleFill } from "react-icons/bs";
 import Tooltip from "react-bootstrap/Tooltip";
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 
-
 import ActorForm from "./ActorForm";
 import MovieForm from "./MovieForm";
 import { useGameContext } from "../../../contexts";
-
+import GameAlert from "../../modals/GameAlert";
 
 // TODO in modal, invalid input for this reason: ...
 // then display the challenge button
@@ -20,6 +19,8 @@ function FormContainer() {
         setDecideMode,
         decideMode,
         formTypeMovie,
+        showAlert,
+        setShowAlert,
     } = useGameContext();
 
 
@@ -57,6 +58,12 @@ function FormContainer() {
     return (
         <>
             <Container id="main-form-container">
+                {showAlert && <GameAlert
+                    text={showAlert.text}
+                    visible={showAlert.show}
+                    setVisible={() => setShowAlert()}
+                    end={showAlert.end}
+                />}
                 <MovieForm />
                 <ActorForm />
             </Container>

@@ -1,9 +1,9 @@
 <!-- ! alerts -->
-<!-- * vertical centered -->
+<!--  * vertical centered -->
 <!--  on invalid input alerting and why its wrong -->
 <!--  when like trying to start with out actorB picked out or soemthign idk.. failsafes -->
-<!--  alert('Please select an actor'); -->
-<!--  On fail after trying to bridge. -->
+<!-- // alert('Please select an actor'); -->
+<!-- // On fail after trying to bridge. -->
 <!-- INVALID INPUT -->
 
 <!-- ! confirms -->
