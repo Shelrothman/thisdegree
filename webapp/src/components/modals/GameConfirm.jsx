@@ -13,7 +13,7 @@ function GameConfirm({
 
 
     const MESSAGE = {
-        undo: 'Are you sure you want to undo?',
+        undo: 'Are you sure you want to undo the last round?',
         startOver: 'Are you sure you want to start over?',
         final: `Are you ready to attempt to bridge ${actorB}?`,
         default: ''

@@ -101,7 +101,7 @@ export function GameContextProvider({ children }) {
             subtext: '',
             variant: 'primary', // not needing this yet
         });
-        setConfirmMode(false);
+        // setConfirmMode(false);
     };
 
     async function addMovieToGlobal(userMovieInput, previousActorCharacterName) {

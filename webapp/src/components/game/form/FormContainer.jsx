@@ -8,6 +8,7 @@ import ActorForm from "./ActorForm";
 import MovieForm from "./MovieForm";
 import { useGameContext } from "../../../contexts";
 import GameAlert from "../../modals/GameAlert";
+import GameConfirm from "../../modals/GameConfirm";
 
 // TODO display the challenge button after user ssees the reason for invalid
 
@@ -22,11 +23,12 @@ function FormContainer() {
         formTypeMovie,
         showAlert,
         setShowAlert,
+        actorB,
     } = useGameContext();
 
 
     const [showBackBtn, setShowBackBtn] = useState(readyToBuild);
-
+    const [showConfirm, setShowConfirm] = useState(false); // for the visual 
 
     useEffect(() => {
         setShowBackBtn(readyToBuild);
@@ -41,8 +43,16 @@ function FormContainer() {
                 setDecideMode(true);
                 return;
             }
-            let userChoice = confirm('Are you sure you want to undo the last round?');
-            if (!userChoice) return;
+            setShowConfirm(true);
+            return;
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    async function handleConfirmClick() {
+        try {
+            setShowConfirm(false);
             const removeRes = await removeMovieObjFromGlobal();
             if (removeRes) {
                 // we are going back to the beginning of a new round 
@@ -52,11 +62,26 @@ function FormContainer() {
         } catch (error) {
             console.error(error);
         }
+
     }
+
+    function handleCancelClick() {
+        setShowConfirm(false);
+        return;
+    }
+
 
 
     return (
         <>
+            {showConfirm && (
+                <GameConfirm
+                    text='undo'
+                    actorB={actorB}
+                    handleCancelClick={handleCancelClick}
+                    handleConfirmClick={handleConfirmClick}
+                />
+            )}
             <Container id="main-form-container">
                 <GameAlert
                     text={showAlert?.text}

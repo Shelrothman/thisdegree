@@ -67,6 +67,7 @@ function Launcher() {
         handleGameStateChange();
         handleActorSelection(null, null);
         setShow(true);
+        return;
     }
 
     function handleCancelClick() {
