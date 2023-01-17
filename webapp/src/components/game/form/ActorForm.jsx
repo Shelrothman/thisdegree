@@ -30,17 +30,14 @@ function ActorForm() {
         handleFinalBridge,
         setDecideMode,
         decideMode,
-        // showAlert,
         setShowAlert,
-        confirmMode,
-        setConfirmMode,
     } = useGameContext();
     const [movieName, setMovieName] = useState(currentMovieTitle);
     const [formState, setFormState] = useState({
         actorInput: '',
     });
     const [showRow, setShowRow] = useState(!decideMode);
-    const [showConfirm, setShowConfirm] = useState(confirmMode); // for the visual 
+    const [showConfirm, setShowConfirm] = useState(false); // for the visual 
 
 
     useEffect(() => {
@@ -48,9 +45,9 @@ function ActorForm() {
         // console.log('decideMode: ', decideMode);
     }, [decideMode]);
 
-    useEffect(() => {
-        setShowConfirm(confirmMode);
-    }, [confirmMode]);
+    // useEffect(() => {
+    //     setShowConfirm(confirmMode);
+    // }, [confirmMode]);
 
     useEffect(() => {
         setShowRow(false);
@@ -116,7 +113,7 @@ function ActorForm() {
             setShowRow(false);
 
             // set it here to true so that it will display the confirm form.
-            setConfirmMode(true);
+            setShowConfirm(true);
             return; 
         } catch (error) {
             console.error(error);
@@ -145,7 +142,7 @@ function ActorForm() {
 
     async function handleReadyClick() {
         try {
-            setConfirmMode(false);
+            setShowConfirm(false);
             const testResponse = await testFinalInput();
             if (testResponse.evaluationResult === true) {
                 // alert('You did it!');
@@ -170,15 +167,14 @@ function ActorForm() {
     };
 
     function handleCancelClick() {
-        setConfirmMode(false);
+        setShowConfirm(false);
         return;
-        // setShowConfirm(false); dont need this bc it will be set to false in useEffect
     };
 
 
 
     // TODO come back and make it look nicer?
-    // TODO show spinner underneath maybe while final bridge checkas
+    // TODO show spinner underneath for while final bridge checkas
     return (
         <>
             {showConfirm && (

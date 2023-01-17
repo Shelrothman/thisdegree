@@ -17,7 +17,7 @@ function Launcher() {
         actorA,
         actorB,
         handleActorSelection,
-        
+
     } = useActorContext();
     const {
         gameStarted,
@@ -25,16 +25,13 @@ function Launcher() {
         setGameStarted,
         formTypeMovie,
         decideMode,
-        confirmMode,
-        setConfirmMode,
+        // confirmMode,
+        // setConfirmMode,
     } = useGameContext();
 
     // TODO: move this one and the actorForm one into context
-    const [showConfirm, setShowConfirm] = useState(confirmMode); // for the visual 
+    const [showConfirm, setShowConfirm] = useState(false); // for the visual 
 
-    useEffect(() => {
-        setShowConfirm(confirmMode);
-    }, [confirmMode]);
 
     useEffect(() => {
         if (actorA && actorB) {
@@ -50,21 +47,12 @@ function Launcher() {
     // we also want handleShow to clear out the selected actors
     const handleClick = (internalText) => {
         if (internalText === 'Change Actors') {
-            setConfirmMode(true); // this will trigger the GameConfirm component to show
-            // its not tho, why not?
-            
-
-            // let userConfirm = confirm('Are you sure you want to start over?');
-            // if (userConfirm) {
-            //     handleGameStateChange();
-            //     handleActorSelection(null, null);
-            //     setShow(true);
-            // }
+            setShowConfirm(true);
         } else {
             // just open the offcanvas, no need to change the game state bc its hasnt started yet
             setShow(true);
         }
-        return; // this will return no matter what
+        return;
     }
 
     function handlePlayClick() {
@@ -75,17 +63,14 @@ function Launcher() {
     }
 
     function handleConfirmClick() {
-        setConfirmMode(false);
+        setShowConfirm(false);
         handleGameStateChange();
         handleActorSelection(null, null);
         setShow(true);
     }
 
     function handleCancelClick() {
-        setConfirmMode(false); 
-        // why is this not working, i am doing the same thing as in ActorForm... why is this throwing an error that setConfirmMode is not a function????
-        // bc i am not passing it down to the GameConfirm component, i am just calling it directly in the Launcher component
-        // the reason it works in ActorForm is because i am passing it down to the ActorForm component
+        setShowConfirm(false);
         return;
     }
 

@@ -51,7 +51,7 @@ export function GameContextProvider({ children }) {
     
     const [decideMode, setDecideMode] = useState(false);
 
-    const [confirmMode, setConfirmMode] = useState(false);
+    // const [confirmMode, setConfirmMode] = useState(false);
 
 
     const [showAlert, setShowAlert] = useState({
@@ -297,8 +297,8 @@ export function GameContextProvider({ children }) {
             setDecideMode,
             showAlert,
             setShowAlert,
-            confirmMode,
-            setConfirmMode,
+            // confirmMode,
+            // setConfirmMode,
         }}>
             {children}
         </GameContext.Provider>
