@@ -4,8 +4,8 @@ import Card from 'react-bootstrap/Card';
 
 function GameConfirm({
     text,
-    visible,
-    setVisible,
+    // visible,
+    // setVisible,
     actorB,
     handleCancelClick,
     handleConfirmClick,
@@ -23,7 +23,7 @@ function GameConfirm({
     return (
         <div>
             <Card
-                style={{ display: visible ? 'block' : 'none' }}
+                // style={{ display: visible ? 'block' : 'none' }}
                 className='game-alert'
             >
                 <Card.Header>
@@ -38,13 +38,11 @@ function GameConfirm({
                     </Card.Title>
 
                     {/* <form onSubmit={handleSubmit}> */}
-
-
-                    <Button variant="primary" type="submit" onClick={handleClose}>
-                        Cancel
-                    </Button>
-                    <Button variant="primary" type="submit" onClick={handleConfirmClick}>
+                    <Button onClick={handleConfirmClick}>
                         OK
+                    </Button>
+                    <Button onClick={handleCancelClick}>
+                        Cancel
                     </Button>
                     {/* </form> */}
                     {/* </Modal.Footer> */}

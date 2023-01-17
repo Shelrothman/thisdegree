@@ -14,7 +14,7 @@ import { useGameContext } from '../../../contexts';
 // TODO change to display the character Name somewhere in the tree or soemthign cool
 
 // import GameAlert from '../../modals/GameAlert';
-
+import GameConfirm from '../../modals/GameConfirm';
 
 
 function ActorForm() {
@@ -115,10 +115,8 @@ function ActorForm() {
         try {
             setShowRow(false);
 
-            setConfirmMode(true); // set it here to true so that it will display the confirm form.
-            // then handle the clicking in that form to set it back to false AND handle the bridge attempt 
-            // the bridge attempt to be handled within that function triggerd by click
-            // let userConfirm = confirm(`Are you ready to attempt to bridge ${actorB}?`);
+            // set it here to true so that it will display the confirm form.
+            setConfirmMode(true);
         } catch (error) {
             console.error(error);
         }
@@ -144,9 +142,6 @@ function ActorForm() {
         }
     }
 
-    // lets go ahead and implement the confirms in here like we did with the ActorModeDecide component
-    // have it appear when user clicks the ready button and follow the same structure
-
     async function handleReadyClick() {
         try {
             setConfirmMode(false);
@@ -169,7 +164,7 @@ function ActorForm() {
         } catch (error) {
             console.error(error);
         }
-        
+
 
     };
 
@@ -181,63 +176,63 @@ function ActorForm() {
 
 
 
-        // TODO come back and make it look nicer?
-        // TODO show spinner underneath maybe while final bridge checkas
-        return (
-            <>
-                {showConfirm && (
-                    <form>
-                        <label>
-                            Are you ready to attempt to bridge {actorB}?
-                        </label>
-                        <button type="button" onClick={handleReadyClick}>Yes</button>
-                        <button type="button" onClick={handleCancelClick}>Cancel</button>
-                    </form>
-                )}
-                {(formTypeMovie === false && !showConfirm) && (
-                    <>
-                        {!showRow ? (
-                            <ActorModeDecide
-                                selectHandler={handleSelectChoice}
-                                readyHandler={handleReadyChoice}
-                                movieTitle={movieName}
-                            />
-                        ) : (
-                            <Row className="g-0">
-                                {/* <Form.Label>Select an Actor from {currentMovieTitle}</Form.Label> */}
-                                <Col md={9}>
-                                    <FloatingLabel
-                                        controlId="floatingSelectGrid"
-                                        label={`Select an Actor from ${movieName}`}
+    // TODO come back and make it look nicer?
+    // TODO show spinner underneath maybe while final bridge checkas
+    return (
+        <>
+            {showConfirm && (
+                <GameConfirm
+                    text='final'
+                    // visible={}
+                    actorB={actorB}
+                    handleCancelClick={handleCancelClick}
+                    handleConfirmClick={handleReadyClick}
+                />
+            )}
+            {(formTypeMovie === false && !showConfirm) && (
+                <>
+                    {!showRow ? (
+                        <ActorModeDecide
+                            selectHandler={handleSelectChoice}
+                            readyHandler={handleReadyChoice}
+                            movieTitle={movieName}
+                        />
+                    ) : (
+                        <Row className="g-0">
+                            {/* <Form.Label>Select an Actor from {currentMovieTitle}</Form.Label> */}
+                            <Col md={9}>
+                                <FloatingLabel
+                                    controlId="floatingSelectGrid"
+                                    label={`Select an Actor from ${movieName}`}
+                                >
+                                    <Form.Select
+                                        className="form-controls"
+                                        value={formState.actorInput}
+                                        onChange={(e) =>
+                                            setFormState({
+                                                ...formState,
+                                                actorInput: e.target.value
+                                            })}
                                     >
-                                        <Form.Select
-                                            className="form-controls"
-                                            value={formState.actorInput}
-                                            onChange={(e) =>
-                                                setFormState({
-                                                    ...formState,
-                                                    actorInput: e.target.value
-                                                })}
-                                        >
-                                            <option>. . .</option>
-                                            {actorOptions}
-                                        </Form.Select>
-                                    </FloatingLabel>
-                                </Col>
-                                <Col md={3}>
-                                    <Button
-                                        className="form-controls submit-btn"
-                                        onClick={handleSubmit}
-                                    >
-                                        Submit Actor
-                                    </Button>
-                                </Col>
-                            </Row>
-                        )}
-                    </>
-                )}
-            </>
-        );
-    }
+                                        <option>. . .</option>
+                                        {actorOptions}
+                                    </Form.Select>
+                                </FloatingLabel>
+                            </Col>
+                            <Col md={3}>
+                                <Button
+                                    className="form-controls submit-btn"
+                                    onClick={handleSubmit}
+                                >
+                                    Submit Actor
+                                </Button>
+                            </Col>
+                        </Row>
+                    )}
+                </>
+            )}
+        </>
+    );
+}
 
-    export default ActorForm;
+export default ActorForm;
