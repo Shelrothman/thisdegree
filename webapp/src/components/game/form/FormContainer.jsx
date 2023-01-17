@@ -8,10 +8,10 @@ import ActorForm from "./ActorForm";
 import MovieForm from "./MovieForm";
 import { useGameContext } from "../../../contexts";
 import GameAlert from "../../modals/GameAlert";
-// import GameConfirm from "../../modals/GameConfirm";
 
-// TODO in modal, invalid input for this reason: ...
-// then display the challenge button
+// TODO display the challenge button after user ssees the reason for invalid
+
+
 
 function FormContainer() {
     const {

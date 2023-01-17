@@ -117,6 +117,7 @@ function ActorForm() {
 
             // set it here to true so that it will display the confirm form.
             setConfirmMode(true);
+            return; 
         } catch (error) {
             console.error(error);
         }
@@ -183,7 +184,6 @@ function ActorForm() {
             {showConfirm && (
                 <GameConfirm
                     text='final'
-                    // visible={}
                     actorB={actorB}
                     handleCancelClick={handleCancelClick}
                     handleConfirmClick={handleReadyClick}

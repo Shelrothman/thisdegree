@@ -26,7 +26,7 @@ function GameAlert({
             <div>
                 <Modal
                     show={visible}
-                    // onHide={handleClose}
+                    onHide={handleClose}
                     backdrop='static'
                     keyboard={false}
                     centered

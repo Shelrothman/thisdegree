@@ -8,10 +8,9 @@
 
 <!-- ! confirms -->
 <!--  yes/no prompts -->
-<!-- * deff use the backdrop="static" AND keyboard={false} so no game logic can be changed by the user wrongly  -->
 <!-- ?(start) are u wsure you wanna undo? -->
 <!--  sure yoiure ready to startt over -->
-<!--  let userConfirm = confirm(`Are you ready to attempt to bridge ${actorB}?`); -->
+<!-- //  let userConfirm = confirm(`Are you ready to attempt to bridge ${actorB}?`); -->
 
 <!-- ! prompts  -->
 <!-- * refer to the 'focus on specific element example' -->

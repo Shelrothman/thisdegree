@@ -8,21 +8,33 @@ import PlayBtn from '../buttons/PlayBtn.jsx';
 import ActorHeader from './ActorHeader.jsx';
 import FormContainer from './form/FormContainer.jsx';
 import TreeBuildContainer from './display/TreeBuildContainer.jsx';
+import GameConfirm from '../modals/GameConfirm';
+
 
 function Launcher() {
     const [show, setShow] = useState(false);
     const {
         actorA,
         actorB,
-        handleActorSelection
+        handleActorSelection,
+        
     } = useActorContext();
     const {
         gameStarted,
         handleGameStateChange,
         setGameStarted,
         formTypeMovie,
-        decideMode
+        decideMode,
+        confirmMode,
+        setConfirmMode,
     } = useGameContext();
+
+    // TODO: move this one and the actorForm one into context
+    const [showConfirm, setShowConfirm] = useState(confirmMode); // for the visual 
+
+    useEffect(() => {
+        setShowConfirm(confirmMode);
+    }, [confirmMode]);
 
     useEffect(() => {
         if (actorA && actorB) {
@@ -38,13 +50,18 @@ function Launcher() {
     // we also want handleShow to clear out the selected actors
     const handleClick = (internalText) => {
         if (internalText === 'Change Actors') {
-            let userConfirm = confirm('Are you sure you want to start over?');
-            if (userConfirm) {
-                handleGameStateChange();
-                handleActorSelection(null, null);
-                setShow(true);
-            }
-        } else { // just open the offcanvas, no need to change the game state bc its hasnt started yet
+            setConfirmMode(true); // this will trigger the GameConfirm component to show
+            // its not tho, why not?
+            
+
+            // let userConfirm = confirm('Are you sure you want to start over?');
+            // if (userConfirm) {
+            //     handleGameStateChange();
+            //     handleActorSelection(null, null);
+            //     setShow(true);
+            // }
+        } else {
+            // just open the offcanvas, no need to change the game state bc its hasnt started yet
             setShow(true);
         }
         return; // this will return no matter what
@@ -57,17 +74,38 @@ function Launcher() {
         return setShow(false);
     }
 
+    function handleConfirmClick() {
+        setConfirmMode(false);
+        handleGameStateChange();
+        handleActorSelection(null, null);
+        setShow(true);
+    }
 
+    function handleCancelClick() {
+        setConfirmMode(false); 
+        // why is this not working, i am doing the same thing as in ActorForm... why is this throwing an error that setConfirmMode is not a function????
+        // bc i am not passing it down to the GameConfirm component, i am just calling it directly in the Launcher component
+        // the reason it works in ActorForm is because i am passing it down to the ActorForm component
+        return;
+    }
 
     return (
         <>
-        <div className='float-end'>
-            Rounds: add round stuff
-        </div>
+            <div className='float-end'>
+                Rounds: add round stuff
+            </div>
             <MovieBtn
                 text={actorA && actorB ? 'Change Actors' : 'Select Actors'}
                 handler={handleClick}
             /> <br />
+            {showConfirm && (
+                <GameConfirm
+                    text='startOver'
+                    actorB={actorB}
+                    handleCancelClick={handleCancelClick}
+                    handleConfirmClick={handleConfirmClick}
+                />
+            )}
             <Offcanvas show={show}
                 // ref={canvasRef}
                 onHide={handleClose} placement='end'>
