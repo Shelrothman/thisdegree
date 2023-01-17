@@ -16,9 +16,6 @@ function GameAlert({
     setVisible,
     end = false,
     subtext,
-    // variant = undefined,
-    // variant = 'blue',
-    // subtext = text
 }) {
     const handleClose = () => setVisible({ show: false });
 

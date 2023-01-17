@@ -1,29 +1,16 @@
-import { useState, useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
-// import Modal from 'react-bootstrap/Modal';
 import Card from 'react-bootstrap/Card';
-// import { useActorContext } from '../../contexts';
-// import { useGameContext } from '../../contexts';
 
 
 function GameConfirm({
     text,
     visible,
     setVisible,
-    subtext,
     actorB,
-    setConfirmed,
-    confirmed,
+    handleCancelClick,
+    handleConfirmClick,
 }) {
 
-    // const { setShowConfirm } = useGameContext();
-
-    
-
-    const handleClose = () => setVisible({ show: false });
-
-
-    const handleConfirmClick = () => setConfirmed(true);
 
     const MESSAGE = {
         undo: 'Are you sure you want to undo?',
@@ -46,7 +33,7 @@ function GameConfirm({
 
                 <Card.Body>
                     <Card.Title>
-                        {MESSAGE[subtext] || 'something went wrong'}
+                        {MESSAGE[text] || 'something went wrong'}
                         {/* <Modal.Footer> */}
                     </Card.Title>
 

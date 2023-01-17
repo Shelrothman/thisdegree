@@ -13,7 +13,7 @@ import ActorModeDecide from './ActorModeDecide';
 import { useGameContext } from '../../../contexts';
 // TODO change to display the character Name somewhere in the tree or soemthign cool
 
-import GameAlert from '../../modals/GameAlert';
+// import GameAlert from '../../modals/GameAlert';
 
 
 
@@ -32,21 +32,25 @@ function ActorForm() {
         decideMode,
         // showAlert,
         setShowAlert,
-        // showConfirm,
-        // setShowConfirm,
-        // clicked,
+        confirmMode,
+        setConfirmMode,
     } = useGameContext();
     const [movieName, setMovieName] = useState(currentMovieTitle);
     const [formState, setFormState] = useState({
         actorInput: '',
     });
     const [showRow, setShowRow] = useState(!decideMode);
+    const [showConfirm, setShowConfirm] = useState(confirmMode); // for the visual 
 
 
     useEffect(() => {
         setShowRow(!decideMode);
         // console.log('decideMode: ', decideMode);
     }, [decideMode]);
+
+    useEffect(() => {
+        setShowConfirm(confirmMode);
+    }, [confirmMode]);
 
     useEffect(() => {
         setShowRow(false);
@@ -104,46 +108,17 @@ function ActorForm() {
         return;
     }
 
-    // async function throwConfirm() {
-    //     try {
-    //         setShowConfirm({ show: true, text: `Are you ready to attempt to bridge ${actorB}?` });
-    //         // let userConfirm = showConfirm.confirmed;
-    //         return true;
-    //     } catch (error) {
-    //         console.error(error);
-    //     }
 
-    // }
 
     // TODO: use modules instead of alerts/confirms for display to look better
     async function handleReadyChoice() {
         try {
             setShowRow(false);
 
-            let userConfirm = confirm(`Are you ready to attempt to bridge ${actorB}?`);
-
-            if (userConfirm === true) {
-                const testResponse = await testFinalInput();
-                if (testResponse.evaluationResult === true) {
-                    // alert('You did it!');
-                    let finalTree = await handleFinalBridge(testResponse.characterName);
-                    //* handling any congratulatory messages over in createTree component
-                    navigate('/createTree', { state: { tree: JSON.stringify(finalTree) } });
-                    return;
-                } else {
-                    // alert('Fail! Try Again');
-                    setShowAlert({ show: true, text: 'Fail! Try Again', end: true });
-                    setTimeout(() => {
-                        handleGameStateChange();
-                    }, 4600);
-                    // reset the game after giving user enough time to read the alert
-                    return;
-                }
-            } else {
-                // then the user is not ready to bridge, so return to game w/o changing state
-                return;
-            }
-            // }
+            setConfirmMode(true); // set it here to true so that it will display the confirm form.
+            // then handle the clicking in that form to set it back to false AND handle the bridge attempt 
+            // the bridge attempt to be handled within that function triggerd by click
+            // let userConfirm = confirm(`Are you ready to attempt to bridge ${actorB}?`);
         } catch (error) {
             console.error(error);
         }
@@ -152,7 +127,6 @@ function ActorForm() {
     async function testFinalInput() {
         try {
             // TODO: need to incorporate context and update state with the final movie and actor
-
             const movieValue = movieList[movieList.length - 1].movieTitle;
             const actorValue = actorB;
             const { data } = await fetchData({
@@ -170,55 +144,100 @@ function ActorForm() {
         }
     }
 
+    // lets go ahead and implement the confirms in here like we did with the ActorModeDecide component
+    // have it appear when user clicks the ready button and follow the same structure
 
-    // TODO come back and make it look nicer?
-    // TODO show spinner underneath maybe
-    return (
-        <>
-            {formTypeMovie === false && (
-                <>
-                    {!showRow ? (
-                        <ActorModeDecide
-                            selectHandler={handleSelectChoice}
-                            readyHandler={handleReadyChoice}
-                            movieTitle={movieName}
-                        />
-                    ) : (
-                        <Row className="g-0">
-                            {/* <Form.Label>Select an Actor from {currentMovieTitle}</Form.Label> */}
-                            <Col md={9}>
-                                <FloatingLabel
-                                    controlId="floatingSelectGrid"
-                                    label={`Select an Actor from ${movieName}`}
-                                >
-                                    <Form.Select
-                                        className="form-controls"
-                                        value={formState.actorInput}
-                                        onChange={(e) =>
-                                            setFormState({
-                                                ...formState,
-                                                actorInput: e.target.value
-                                            })}
+    async function handleReadyClick() {
+        try {
+            setConfirmMode(false);
+            const testResponse = await testFinalInput();
+            if (testResponse.evaluationResult === true) {
+                // alert('You did it!');
+                let finalTree = await handleFinalBridge(testResponse.characterName);
+                //* handling any congratulatory messages over in createTree component
+                navigate('/createTree', { state: { tree: JSON.stringify(finalTree) } });
+                return;
+            } else {
+                // alert('Fail! Try Again');
+                setShowAlert({ show: true, text: 'Fail! Try Again', end: true });
+                setTimeout(() => {
+                    handleGameStateChange();
+                }, 4600);
+                // reset the game after giving user enough time to read the alert
+                return;
+            }
+        } catch (error) {
+            console.error(error);
+        }
+        
+
+    };
+
+    function handleCancelClick() {
+        setConfirmMode(false);
+        return;
+        // setShowConfirm(false); dont need this bc it will be set to false in useEffect
+    };
+
+
+
+        // TODO come back and make it look nicer?
+        // TODO show spinner underneath maybe while final bridge checkas
+        return (
+            <>
+                {showConfirm && (
+                    <form>
+                        <label>
+                            Are you ready to attempt to bridge {actorB}?
+                        </label>
+                        <button type="button" onClick={handleReadyClick}>Yes</button>
+                        <button type="button" onClick={handleCancelClick}>Cancel</button>
+                    </form>
+                )}
+                {(formTypeMovie === false && !showConfirm) && (
+                    <>
+                        {!showRow ? (
+                            <ActorModeDecide
+                                selectHandler={handleSelectChoice}
+                                readyHandler={handleReadyChoice}
+                                movieTitle={movieName}
+                            />
+                        ) : (
+                            <Row className="g-0">
+                                {/* <Form.Label>Select an Actor from {currentMovieTitle}</Form.Label> */}
+                                <Col md={9}>
+                                    <FloatingLabel
+                                        controlId="floatingSelectGrid"
+                                        label={`Select an Actor from ${movieName}`}
                                     >
-                                        <option>. . .</option>
-                                        {actorOptions}
-                                    </Form.Select>
-                                </FloatingLabel>
-                            </Col>
-                            <Col md={3}>
-                                <Button
-                                    className="form-controls submit-btn"
-                                    onClick={handleSubmit}
-                                >
-                                    Submit Actor
-                                </Button>
-                            </Col>
-                        </Row>
-                    )}
-                </>
-            )}
-        </>
-    );
-}
+                                        <Form.Select
+                                            className="form-controls"
+                                            value={formState.actorInput}
+                                            onChange={(e) =>
+                                                setFormState({
+                                                    ...formState,
+                                                    actorInput: e.target.value
+                                                })}
+                                        >
+                                            <option>. . .</option>
+                                            {actorOptions}
+                                        </Form.Select>
+                                    </FloatingLabel>
+                                </Col>
+                                <Col md={3}>
+                                    <Button
+                                        className="form-controls submit-btn"
+                                        onClick={handleSubmit}
+                                    >
+                                        Submit Actor
+                                    </Button>
+                                </Col>
+                            </Row>
+                        )}
+                    </>
+                )}
+            </>
+        );
+    }
 
-export default ActorForm;
+    export default ActorForm;

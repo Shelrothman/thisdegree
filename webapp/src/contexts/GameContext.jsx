@@ -48,7 +48,11 @@ export function GameContextProvider({ children }) {
 
     const [previousActorBridge, setPreviousActorBridge] = useState('');
     const [previousMovieTitle, setPreviousMovieTitle] = useState('');
+    
     const [decideMode, setDecideMode] = useState(false);
+
+    const [confirmMode, setConfirmMode] = useState(false);
+
 
     const [showAlert, setShowAlert] = useState({
         show: false,
@@ -97,14 +101,7 @@ export function GameContextProvider({ children }) {
             subtext: '',
             variant: 'primary', // not needing this yet
         });
-
-        setShowConfirm({
-            show: false,
-            text: '',
-            subtext: '',
-            actorB: actorB,
-            confirmed: false,
-        });
+        setConfirmMode(false);
     };
 
     async function addMovieToGlobal(userMovieInput, previousActorCharacterName) {
@@ -300,12 +297,8 @@ export function GameContextProvider({ children }) {
             setDecideMode,
             showAlert,
             setShowAlert,
-            // showConfirm,
-            // setShowConfirm,
-            // clicked,
-            // setClicked,
-
-            // removeActorFromGlobal,
+            confirmMode,
+            setConfirmMode,
         }}>
             {children}
         </GameContext.Provider>
