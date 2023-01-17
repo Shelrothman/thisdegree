@@ -35,7 +35,7 @@ export function GameContextProvider({ children }) {
 
     // the movieList to hold the whole tree
     const [movieList, setMovieList] = useState([]);
-    const [readyToBridge, setReadyToBridge] = useState(false);
+    // const [readyToBridge, setReadyToBridge] = useState(false);
     const [currentActorOptions, setCurrentActorOptions] = useState([]);
 
     // only ready if there are movies in the list
@@ -53,14 +53,34 @@ export function GameContextProvider({ children }) {
         show: false,
         text: '',
         end: false,
-        subtext: '',
+        subtext: 'default',
         // variants: ['primary', 'secondary', 'success', 'danger', 'warning', 'info', 'light', 'dark'],
         variant: 'primary',
     }); 
     //!!!! PU HERE!  do this for all the others amnd shiz.. hold the state of all teh modals in here then render in Launcher .. customize in individual components
 
+    // objv i aint the first to have iussues with confirm i wma= seeing now...
+
+    const [showConfirm, setShowConfirm] = useState({
+        show: false,
+        text: '',
+        // end: false,
+        subtext: 'default',
+        actorB: actorB,
+        confirmed: false,
+        // handeling confirm in component
+    });
 
 
+    // useEffect(() => {
+    //     setShowConfirm({
+    //         confirmed: true
+    //     });
+    // }, [actorB]);
+
+    // useEffect(() => {
+    //     console.log('showConfirm', showConfirm);
+    // }, [showConfirm]);
     useEffect(() => {
         if (actorA) {
             setCurrentActorBridge(actorA);
@@ -95,6 +115,14 @@ export function GameContextProvider({ children }) {
             end: false,
             subtext: '',
             variant: 'primary', // not needing this yet
+        });
+
+        setShowConfirm({
+            show: false,
+            text: '',
+            subtext: '',
+            actorB: actorB,
+            confirmed: false,
         });
     };
 
@@ -268,8 +296,8 @@ export function GameContextProvider({ children }) {
             handleGameStateChange,
             addMovieToGlobal,
             handleNewActorGuess,
-            readyToBridge,
-            setReadyToBridge,
+            // readyToBridge,
+            // setReadyToBridge,
             currentActorBridge,
             setCurrentActorBridge,
             currentMovieTitle,
@@ -291,6 +319,8 @@ export function GameContextProvider({ children }) {
             setDecideMode,
             showAlert,
             setShowAlert,
+            showConfirm,
+            setShowConfirm,
             // removeActorFromGlobal,
         }}>
             {children}
