@@ -11,6 +11,7 @@ import {
     useContext,
     createContext,
     useEffect,
+    useCallback,
     // ? memo
 } from 'react';
 import { useActorContext } from './ActorContext.jsx';
@@ -56,31 +57,11 @@ export function GameContextProvider({ children }) {
         subtext: 'default',
         // variants: ['primary', 'secondary', 'success', 'danger', 'warning', 'info', 'light', 'dark'],
         variant: 'primary',
-    }); 
+    });
     //!!!! PU HERE!  do this for all the others amnd shiz.. hold the state of all teh modals in here then render in Launcher .. customize in individual components
 
     // objv i aint the first to have iussues with confirm i wma= seeing now...
 
-    const [showConfirm, setShowConfirm] = useState({
-        show: false,
-        text: '',
-        // end: false,
-        subtext: 'default',
-        actorB: actorB,
-        confirmed: false,
-        // handeling confirm in component
-    });
-
-
-    // useEffect(() => {
-    //     setShowConfirm({
-    //         confirmed: true
-    //     });
-    // }, [actorB]);
-
-    // useEffect(() => {
-    //     console.log('showConfirm', showConfirm);
-    // }, [showConfirm]);
     useEffect(() => {
         if (actorA) {
             setCurrentActorBridge(actorA);
@@ -319,8 +300,11 @@ export function GameContextProvider({ children }) {
             setDecideMode,
             showAlert,
             setShowAlert,
-            showConfirm,
-            setShowConfirm,
+            // showConfirm,
+            // setShowConfirm,
+            // clicked,
+            // setClicked,
+
             // removeActorFromGlobal,
         }}>
             {children}

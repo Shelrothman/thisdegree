@@ -2,6 +2,14 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 
 
+// static shiz
+const MESSAGE = {
+    notUnique: 'movie has already been used',
+    notFound: 'actor is not found in movie evaluation',
+    empty: 'movie input was empty',
+    default: 'unknown error'
+}
+
 function GameAlert({
     text,
     visible,
@@ -12,7 +20,7 @@ function GameAlert({
     // variant = 'blue',
     // subtext = text
 }) {
-    const handleClose = () => setVisible(false);
+    const handleClose = () => setVisible({ show: false });
 
     // console.log('end: ', end);
 
@@ -21,7 +29,7 @@ function GameAlert({
             <div>
                 <Modal
                     show={visible}
-                    onHide={handleClose}
+                    // onHide={handleClose}
                     backdrop='static'
                     keyboard={false}
                     centered
@@ -31,7 +39,9 @@ function GameAlert({
                         <Modal.Title>{text}</Modal.Title>
                     </Modal.Header>
 
-                    {subtext && <Modal.Body>{subtext}</Modal.Body>}
+                    {subtext && <Modal.Body>
+                        {MESSAGE[subtext] || 'unknown error'}
+                    </Modal.Body>}
                     <Modal.Footer>
                         {!end && <Button variant="primary" onClick={handleClose}>
                             OK

@@ -38,7 +38,7 @@ function MovieForm() {
 
     // !! DURING DEV ONLY HARD CODING THIS>> .. return to change (obviously)
     const [formState, setFormState] = useState({
-        //! movieInput: '',
+        // movieInput: '',
         movieInput: 'Forrest Gump',
     });
 
@@ -60,7 +60,7 @@ function MovieForm() {
                 // check for repeat
                 const uniqueMovie = handleUniqueCheck(userMovieGuess);
                 if (uniqueMovie === false) {
-                    handleInvalidMovieGuess('movie has already been used');
+                    handleWrongMovie('notUnique');
                 } else {
                     let movieEvaluationObject = await fetchData({
                         variables: {
@@ -71,12 +71,10 @@ function MovieForm() {
                     // console.log('movieEvaluationObject: ', movieEvaluationObject); // debyg
                     evaluationResult = movieEvaluationObject?.data?.validateMovieInput?.isInMovie;
                     let previousActorCharacterName = movieEvaluationObject?.data?.validateMovieInput?.character || 'unknown';
+                    
+                    
                     if (evaluationResult === false) {
-
-                        // TODO here add challengingin
-                        handleInvalidMovieGuess('actor is not found in movie evaluation');
-
-
+                        handleWrongMovie('notFound');
                     } else if (evaluationResult === true) {
                         // add the movie to the global list
                         const addResponse = await addMovieToGlobal(userMovieGuess, previousActorCharacterName);
@@ -86,18 +84,19 @@ function MovieForm() {
                             const buildResponse = await buildCastOptions(movieEvaluationObject);
                             if (buildResponse === true) handleRefs();
                         } else {
-                            handleInvalidMovieGuess('something went wrong in the addMovieToGlobal()');
+                            throw new Error('something went wrong in the addMovieToGlobal()');
                         }
                     } else {
-                        handleInvalidMovieGuess(`something went wrong in handleSubmit(), evaluationResult was not the expected Boolean. Instead I recieved ${evaluationResult}`);
+                        throw new Error(`something went wrong in handleSubmit(), evaluationResult was not the expected Boolean. Instead I recieved ${evaluationResult}`);
                     }
+
+
                 }
             } else {
-                handleInvalidMovieGuess('movie input was empty');
+                handleWrongMovie('empty');
             }
         } catch (error) {
-            // console.error(error);
-            handleInvalidMovieGuess(error);
+            throw new Error(error);
         }
     }
 
@@ -106,20 +105,16 @@ function MovieForm() {
         return;
     }
 
-    function handleInvalidMovieGuess(errorMessage) {
-        console.error(errorMessage);
+    function handleWrongMovie(errorMessage) {
+        console.log('not valid bc: \n', errorMessage);
         setFormState({ movieInput: 'INVALID INPUT' });
-
         setShowAlert({
             show: true,
             text: 'Invalid Input',
             subtext: errorMessage,
             // variant: 'danger',
         });
-
-        setTimeout(() => {
-            handleRefs();
-        }, 1100);
+        handleRefs();
     }
 
     return (
@@ -133,8 +128,8 @@ function MovieForm() {
                                 type="text"
                                 className="form-controls"
                                 value={formState.movieInput}
-                                //!! autoComplete="off"
-                                // ! turn back off when done testing
+                                autoComplete="off"
+                                // ! comment above 4 testing
                                 onChange={(e) =>
                                     setFormState({
                                         ...formState,

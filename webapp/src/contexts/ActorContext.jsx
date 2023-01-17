@@ -10,6 +10,7 @@ export function useActorContext() {
 export function ActorContextProvider({ children }) {
     const [actorA, setActorA] = useState(null);
     const [actorB, setActorB] = useState(null);
+    // const [actorB, setActorB] = useState('Meg Ryan');
 
     const handleActorSelection = (actor) => {
         if (!actorA) {

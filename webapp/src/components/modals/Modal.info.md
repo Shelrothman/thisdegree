@@ -1,15 +1,15 @@
 <!-- ! alerts -->
-<!--  * vertical centered -->
-<!--  on invalid input alerting and why its wrong -->
-<!--  when like trying to start with out actorB picked out or soemthign idk.. failsafes -->
+<!-- //  * vertical centered -->
+<!-- // on invalid input alerting and why its wrong -->
+<!-- TODO  when like trying to start with out actorB picked out or soemthign idk.. failsafes no just make it impossible for the user to let that hapen -->
 <!-- // alert('Please select an actor'); -->
 <!-- // On fail after trying to bridge. -->
-<!-- INVALID INPUT -->
+<!-- // INVALID INPUT -->
 
 <!-- ! confirms -->
 <!--  yes/no prompts -->
 <!-- * deff use the backdrop="static" AND keyboard={false} so no game logic can be changed by the user wrongly  -->
-<!--  are u wsure you wanna undo? -->
+<!-- ?(start) are u wsure you wanna undo? -->
 <!--  sure yoiure ready to startt over -->
 <!--  let userConfirm = confirm(`Are you ready to attempt to bridge ${actorB}?`); -->
 

@@ -8,6 +8,7 @@ import ActorForm from "./ActorForm";
 import MovieForm from "./MovieForm";
 import { useGameContext } from "../../../contexts";
 import GameAlert from "../../modals/GameAlert";
+// import GameConfirm from "../../modals/GameConfirm";
 
 // TODO in modal, invalid input for this reason: ...
 // then display the challenge button
@@ -30,7 +31,6 @@ function FormContainer() {
     useEffect(() => {
         setShowBackBtn(readyToBuild);
     }, [readyToBuild]);
-
 
 
     async function handleBackClick() {
@@ -58,13 +58,13 @@ function FormContainer() {
     return (
         <>
             <Container id="main-form-container">
-                {showAlert && <GameAlert
-                    text={showAlert.text}
-                    visible={showAlert.show}
+                <GameAlert
+                    text={showAlert?.text}
+                    visible={showAlert?.show}
                     setVisible={() => setShowAlert()}
-                    end={showAlert.end}
-                    subtext={showAlert.subtext}
-                />}
+                    end={showAlert?.end}
+                    subtext={showAlert?.subtext}
+                />
                 <MovieForm />
                 <ActorForm />
             </Container>

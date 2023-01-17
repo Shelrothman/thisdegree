@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useLazyQuery } from '@apollo/client';
 import { useNavigate } from 'react-router-dom';
 import FloatingLabel from 'react-bootstrap/esm/FloatingLabel';
@@ -23,26 +23,25 @@ function ActorForm() {
         currentMovieTitle,
         currentActorOptions,
         handleActorSelection,
-        setReadyToBridge,
+        // setReadyToBridge,
         movieList,
         actorB,
         handleGameStateChange,
         handleFinalBridge,
         setDecideMode,
         decideMode,
-        showAlert,
+        // showAlert,
         setShowAlert,
+        // showConfirm,
+        // setShowConfirm,
+        // clicked,
     } = useGameContext();
     const [movieName, setMovieName] = useState(currentMovieTitle);
     const [formState, setFormState] = useState({
         actorInput: '',
     });
     const [showRow, setShowRow] = useState(!decideMode);
-    // const [showAlert, setShowAlert] = useState({
-    //     show: false,
-    //     text: '',
-    //     end: false,
-    // });
+
 
     useEffect(() => {
         setShowRow(!decideMode);
@@ -105,37 +104,46 @@ function ActorForm() {
         return;
     }
 
+    // async function throwConfirm() {
+    //     try {
+    //         setShowConfirm({ show: true, text: `Are you ready to attempt to bridge ${actorB}?` });
+    //         // let userConfirm = showConfirm.confirmed;
+    //         return true;
+    //     } catch (error) {
+    //         console.error(error);
+    //     }
 
+    // }
 
     // TODO: use modules instead of alerts/confirms for display to look better
     async function handleReadyChoice() {
         try {
             setShowRow(false);
+
             let userConfirm = confirm(`Are you ready to attempt to bridge ${actorB}?`);
-            if (userConfirm) {
-                setReadyToBridge(true);
+
+            if (userConfirm === true) {
                 const testResponse = await testFinalInput();
                 if (testResponse.evaluationResult === true) {
                     // alert('You did it!');
                     let finalTree = await handleFinalBridge(testResponse.characterName);
-                    //!!! handle any congratulatory messages over in createTree component
+                    //* handling any congratulatory messages over in createTree component
                     navigate('/createTree', { state: { tree: JSON.stringify(finalTree) } });
                     return;
                 } else {
                     // alert('Fail! Try Again');
                     setShowAlert({ show: true, text: 'Fail! Try Again', end: true });
-                    // !!!! this needs work.. when the fail happens, the background words stay bc the gamestate hasnt changed yet but i have it waiting so that the modal shows up for the user to see it before the ui resets from teh game changing
-                    // so to do this another way we could have the modal show up in the game component and then have the game component change the state of the game and then the modal would close and the game would reset?
                     setTimeout(() => {
                         handleGameStateChange();
                     }, 4600);
-                    // reset the game
+                    // reset the game after giving user enough time to read the alert
                     return;
                 }
             } else {
                 // then the user is not ready to bridge, so return to game w/o changing state
                 return;
             }
+            // }
         } catch (error) {
             console.error(error);
         }
@@ -167,15 +175,6 @@ function ActorForm() {
     // TODO show spinner underneath maybe
     return (
         <>
-            {showAlert && <GameAlert
-                text={showAlert.text}
-                visible={showAlert.show}
-                setVisible={() => setShowAlert()}
-                end={showAlert.end}
-                subtext={showAlert.subtext}
-                variant={showAlert.variant}
-            />}
-            {/* {(formTypeMovie === false && gameStarted) && ( */}
             {formTypeMovie === false && (
                 <>
                     {!showRow ? (
