@@ -16,10 +16,6 @@ import {
 import { useActorContext } from './ActorContext.jsx';
 import uuid from 'react-uuid';
 
-// ! something still gets weird when we save this file, the currentActorBridge gets reset to actorA
-// ! but the currentMovieTitle gets reset to the previous movie title
-// this is bc the useEffect is running when the file is saved, and the useEffect is resetting the currentActorBridge to actorA
-// TODO come back and work on that^^^
 
 const GameContext = createContext();
 
@@ -32,9 +28,7 @@ export function GameContextProvider({ children }) {
     const [gameStarted, setGameStarted] = useState(false);
     const {
         actorA,
-        actorB,
-        // setActorA,
-        // setActorB
+        actorB
     } = useActorContext();
     // this is the movie title of current movie
     const [currentMovieTitle, setCurrentMovieTitle] = useState('');
@@ -59,7 +53,12 @@ export function GameContextProvider({ children }) {
         show: false,
         text: '',
         end: false,
-    });
+        subtext: '',
+        // variants: ['primary', 'secondary', 'success', 'danger', 'warning', 'info', 'light', 'dark'],
+        variant: 'primary',
+    }); 
+    //!!!! PU HERE!  do this for all the others amnd shiz.. hold the state of all teh modals in here then render in Launcher .. customize in individual components
+
 
 
     useEffect(() => {
@@ -94,6 +93,8 @@ export function GameContextProvider({ children }) {
             show: false,
             text: '',
             end: false,
+            subtext: '',
+            variant: 'primary', // not needing this yet
         });
     };
 

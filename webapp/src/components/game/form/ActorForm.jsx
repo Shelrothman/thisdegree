@@ -124,7 +124,8 @@ function ActorForm() {
                 } else {
                     // alert('Fail! Try Again');
                     setShowAlert({ show: true, text: 'Fail! Try Again', end: true });
-                    // !!!!
+                    // !!!! this needs work.. when the fail happens, the background words stay bc the gamestate hasnt changed yet but i have it waiting so that the modal shows up for the user to see it before the ui resets from teh game changing
+                    // so to do this another way we could have the modal show up in the game component and then have the game component change the state of the game and then the modal would close and the game would reset?
                     setTimeout(() => {
                         handleGameStateChange();
                     }, 4600);
@@ -171,6 +172,8 @@ function ActorForm() {
                 visible={showAlert.show}
                 setVisible={() => setShowAlert()}
                 end={showAlert.end}
+                subtext={showAlert.subtext}
+                variant={showAlert.variant}
             />}
             {/* {(formTypeMovie === false && gameStarted) && ( */}
             {formTypeMovie === false && (

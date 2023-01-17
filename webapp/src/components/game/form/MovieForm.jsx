@@ -23,6 +23,8 @@ function MovieForm() {
         buildCastOptions,
         formTypeMovie,
         handleUniqueCheck,
+        // showAlert,
+        setShowAlert,
     } = useGameContext();
     const [actorName, setActorName] = useState(currentActorBridge);
 
@@ -33,8 +35,11 @@ function MovieForm() {
         // currentActorBridge is only set when the user selects an actor, we want it back to ActorA only when readyToBuild is false bc that means the game is like starting over
     }, [currentActorBridge]);
 
+
+    // !! DURING DEV ONLY HARD CODING THIS>> .. return to change (obviously)
     const [formState, setFormState] = useState({
-        movieInput: '',
+        //! movieInput: '',
+        movieInput: 'Forrest Gump',
     });
 
     const [fetchData, { loading, data, error }] = useLazyQuery(VALIDATE_MOVIE_QUERY, {
@@ -67,7 +72,11 @@ function MovieForm() {
                     evaluationResult = movieEvaluationObject?.data?.validateMovieInput?.isInMovie;
                     let previousActorCharacterName = movieEvaluationObject?.data?.validateMovieInput?.character || 'unknown';
                     if (evaluationResult === false) {
+
+                        // TODO here add challengingin
                         handleInvalidMovieGuess('actor is not found in movie evaluation');
+
+
                     } else if (evaluationResult === true) {
                         // add the movie to the global list
                         const addResponse = await addMovieToGlobal(userMovieGuess, previousActorCharacterName);
@@ -99,7 +108,15 @@ function MovieForm() {
 
     function handleInvalidMovieGuess(errorMessage) {
         console.error(errorMessage);
-        setFormState({ movieInput: 'INVALID INPUT' })
+        setFormState({ movieInput: 'INVALID INPUT' });
+
+        setShowAlert({
+            show: true,
+            text: 'Invalid Input',
+            subtext: errorMessage,
+            // variant: 'danger',
+        });
+
         setTimeout(() => {
             handleRefs();
         }, 1100);

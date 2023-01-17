@@ -63,6 +63,7 @@ function FormContainer() {
                     visible={showAlert.show}
                     setVisible={() => setShowAlert()}
                     end={showAlert.end}
+                    subtext={showAlert.subtext}
                 />}
                 <MovieForm />
                 <ActorForm />

@@ -7,7 +7,10 @@ function GameAlert({
     visible,
     setVisible,
     end = false,
-    subtext = text
+    subtext,
+    // variant = undefined,
+    // variant = 'blue',
+    // subtext = text
 }) {
     const handleClose = () => setVisible(false);
 
@@ -15,27 +18,27 @@ function GameAlert({
 
     if (visible) {
         return (
-            <>
+            <div>
                 <Modal
                     show={visible}
                     onHide={handleClose}
-                    backdrop="static"
+                    backdrop='static'
                     keyboard={false}
                     centered
+                    className='game-alert'
                 >
                     <Modal.Header closeButton={!end}>
                         <Modal.Title>{text}</Modal.Title>
                     </Modal.Header>
-                    <Modal.Body>
-                        {text}
-                    </Modal.Body>
+
+                    {subtext && <Modal.Body>{subtext}</Modal.Body>}
                     <Modal.Footer>
                         {!end && <Button variant="primary" onClick={handleClose}>
                             OK
                         </Button>}
                     </Modal.Footer>
                 </Modal>
-            </>
+            </div>
 
         );
     }

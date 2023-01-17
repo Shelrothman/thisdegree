@@ -31,6 +31,16 @@
     --actor-border: black;
 }
 
+/* * this actually works really well just simply and globally */
+.game-alert {
+    background-color: var(--dark-background); 
+}
+
+.modal-content {
+    background-color: var(--indigo-color);
+    color: var(--light-text);
+}
+
 .degreeBtn {
     background-color: var(--accent);
     color: var(--dark-text);
