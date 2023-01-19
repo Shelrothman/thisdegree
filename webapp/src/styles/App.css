@@ -33,7 +33,7 @@
 
 /* * this actually works really well just simply and globally */
 .game-alert {
-    background-color: var(--dark-background); 
+    background-color: var(--dark-background);
 }
 
 .modal-content {
@@ -183,6 +183,12 @@ html,
     color: var(--light-text);
 }
 
+
+.content {
+    margin-left: .5rem;
+    margin-right: .5rem;
+}
+
 textarea {
     width: 85%;
 }
@@ -270,6 +276,7 @@ textarea {
 #tree-display-div::-webkit-scrollbar {
     width: 20px;
 }
+
 /* ::-webkit-scrollbar {
     width: 20px;
 } */
