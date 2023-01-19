@@ -70,29 +70,30 @@ function FormContainer() {
         return;
     }
 
-
-
+    // !!!!!!!!!!!!! PU HERE! woot woot finish up the confirm work and then move on to the prompts
+    // TODO::: use a ternary to show confirm if showConfirm and if not then show the rest!
     return (
         <>
-            {showConfirm && (
+            {showConfirm ? (
                 <GameConfirm
                     text='undo'
                     actorB={actorB}
                     handleCancelClick={handleCancelClick}
                     handleConfirmClick={handleConfirmClick}
                 />
+            ) : (
+                <Container id="main-form-container">
+                    <GameAlert
+                        text={showAlert?.text}
+                        visible={showAlert?.show}
+                        setVisible={() => setShowAlert()}
+                        end={showAlert?.end}
+                        subtext={showAlert?.subtext}
+                    />
+                    <MovieForm />
+                    <ActorForm />
+                </Container>
             )}
-            <Container id="main-form-container">
-                <GameAlert
-                    text={showAlert?.text}
-                    visible={showAlert?.show}
-                    setVisible={() => setShowAlert()}
-                    end={showAlert?.end}
-                    subtext={showAlert?.subtext}
-                />
-                <MovieForm />
-                <ActorForm />
-            </Container>
             <div className="float-start mt-3">
                 <OverlayTrigger
                     placement="right"

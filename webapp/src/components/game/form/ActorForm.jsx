@@ -15,7 +15,7 @@ import { useGameContext } from '../../../contexts';
 
 // import GameAlert from '../../modals/GameAlert';
 import GameConfirm from '../../modals/GameConfirm';
-
+import ActorFormRow from './ActorFormRow';
 
 function ActorForm() {
     const {
@@ -107,14 +107,12 @@ function ActorForm() {
 
 
 
-    // TODO: use modules instead of alerts/confirms for display to look better
     async function handleReadyChoice() {
         try {
             setShowRow(false);
-
             // set it here to true so that it will display the confirm form.
             setShowConfirm(true);
-            return; 
+            return;
         } catch (error) {
             console.error(error);
         }
@@ -173,57 +171,38 @@ function ActorForm() {
 
 
 
-    // TODO come back and make it look nicer?
-    // TODO show spinner underneath for while final bridge checkas
+    // TODO move all confirm stuff to context
+    // TODO show spinner underneath for while final bridge "checkas" the last input for actorB and movieTitle
+    // TODO this function is a mess and needs work.
     return (
         <>
-            {showConfirm && (
-                <GameConfirm
-                    text='final'
-                    actorB={actorB}
-                    handleCancelClick={handleCancelClick}
-                    handleConfirmClick={handleReadyClick}
-                />
-            )}
-            {(formTypeMovie === false && !showConfirm) && (
+            {formTypeMovie === false && (
                 <>
-                    {!showRow ? (
-                        <ActorModeDecide
-                            selectHandler={handleSelectChoice}
-                            readyHandler={handleReadyChoice}
-                            movieTitle={movieName}
+                    {showConfirm ? (
+                        <GameConfirm
+                            text='final'
+                            actorB={actorB}
+                            handleCancelClick={handleCancelClick}
+                            handleConfirmClick={handleReadyClick}
                         />
                     ) : (
-                        <Row className="g-0">
-                            {/* <Form.Label>Select an Actor from {currentMovieTitle}</Form.Label> */}
-                            <Col md={9}>
-                                <FloatingLabel
-                                    controlId="floatingSelectGrid"
-                                    label={`Select an Actor from ${movieName}`}
-                                >
-                                    <Form.Select
-                                        className="form-controls"
-                                        value={formState.actorInput}
-                                        onChange={(e) =>
-                                            setFormState({
-                                                ...formState,
-                                                actorInput: e.target.value
-                                            })}
-                                    >
-                                        <option>. . .</option>
-                                        {actorOptions}
-                                    </Form.Select>
-                                </FloatingLabel>
-                            </Col>
-                            <Col md={3}>
-                                <Button
-                                    className="form-controls submit-btn"
-                                    onClick={handleSubmit}
-                                >
-                                    Submit Actor
-                                </Button>
-                            </Col>
-                        </Row>
+                        <>
+                            {!showRow ? (
+                                <ActorModeDecide
+                                    selectHandler={handleSelectChoice}
+                                    readyHandler={handleReadyChoice}
+                                    movieTitle={movieName}
+                                />
+                            ) : (
+                                <ActorFormRow
+                                    actorOptions={actorOptions}
+                                    formState={formState}
+                                    setFormState={setFormState}
+                                    handleSubmit={handleSubmit}
+                                // loading={loading}
+                                />
+                            )}
+                        </>
                     )}
                 </>
             )}
