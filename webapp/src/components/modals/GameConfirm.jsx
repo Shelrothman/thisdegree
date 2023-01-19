@@ -24,7 +24,7 @@ function GameConfirm({
         <div>
             <Card
                 // style={{ display: visible ? 'block' : 'none' }}
-                className='game-alert'
+                className='game-confirm'
             >
                 <Card.Header>
                     {/* {text} */}

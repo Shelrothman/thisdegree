@@ -31,13 +31,17 @@ function ActorForm() {
         setDecideMode,
         decideMode,
         setShowAlert,
+        showConfirm,
+        setShowConfirm,
+        confirmText,
+        setConfirmText,
     } = useGameContext();
     const [movieName, setMovieName] = useState(currentMovieTitle);
     const [formState, setFormState] = useState({
         actorInput: '',
     });
     const [showRow, setShowRow] = useState(!decideMode);
-    const [showConfirm, setShowConfirm] = useState(false); // for the visual 
+    // const [showConfirm, setShowConfirm] = useState(false); // for the visual 
 
 
     useEffect(() => {
@@ -112,6 +116,7 @@ function ActorForm() {
             setShowRow(false);
             // set it here to true so that it will display the confirm form.
             setShowConfirm(true);
+            setConfirmText('final');
             return;
         } catch (error) {
             console.error(error);
@@ -141,6 +146,7 @@ function ActorForm() {
     async function handleReadyClick() {
         try {
             setShowConfirm(false);
+            setConfirmText('default');
             const testResponse = await testFinalInput();
             if (testResponse.evaluationResult === true) {
                 // alert('You did it!');
@@ -153,8 +159,8 @@ function ActorForm() {
                 setShowAlert({ show: true, text: 'Fail! Try Again', end: true });
                 setTimeout(() => {
                     handleGameStateChange();
+                    // reset the game after giving user enough time to read the alert
                 }, 4600);
-                // reset the game after giving user enough time to read the alert
                 return;
             }
         } catch (error) {
@@ -166,6 +172,7 @@ function ActorForm() {
 
     function handleCancelClick() {
         setShowConfirm(false);
+        setConfirmText('default');
         return;
     };
 
@@ -180,7 +187,7 @@ function ActorForm() {
                 <>
                     {showConfirm ? (
                         <GameConfirm
-                            text='final'
+                            text={confirmText}
                             actorB={actorB}
                             handleCancelClick={handleCancelClick}
                             handleConfirmClick={handleReadyClick}
@@ -195,6 +202,7 @@ function ActorForm() {
                                 />
                             ) : (
                                 <ActorFormRow
+                                    movieName={movieName}
                                     actorOptions={actorOptions}
                                     formState={formState}
                                     setFormState={setFormState}

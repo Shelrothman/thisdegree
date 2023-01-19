@@ -24,11 +24,15 @@ function FormContainer() {
         showAlert,
         setShowAlert,
         actorB,
+        showConfirm,
+        setShowConfirm,
+        confirmText,
+        setConfirmText,
     } = useGameContext();
 
 
     const [showBackBtn, setShowBackBtn] = useState(readyToBuild);
-    const [showConfirm, setShowConfirm] = useState(false); // for the visual 
+    // const [showConfirm, setShowConfirm] = useState(false); // for the visual 
 
     useEffect(() => {
         setShowBackBtn(readyToBuild);
@@ -44,6 +48,7 @@ function FormContainer() {
                 return;
             }
             setShowConfirm(true);
+            setConfirmText('undo');
             return;
         } catch (error) {
             console.error(error);
@@ -53,6 +58,7 @@ function FormContainer() {
     async function handleConfirmClick() {
         try {
             setShowConfirm(false);
+            setConfirmText('default');
             const removeRes = await removeMovieObjFromGlobal();
             if (removeRes) {
                 // we are going back to the beginning of a new round 
@@ -67,6 +73,7 @@ function FormContainer() {
 
     function handleCancelClick() {
         setShowConfirm(false);
+        setConfirmText('default');
         return;
     }
 
@@ -76,38 +83,40 @@ function FormContainer() {
         <>
             {showConfirm ? (
                 <GameConfirm
-                    text='undo'
+                    text={confirmText}
                     actorB={actorB}
                     handleCancelClick={handleCancelClick}
                     handleConfirmClick={handleConfirmClick}
                 />
             ) : (
-                <Container id="main-form-container">
-                    <GameAlert
-                        text={showAlert?.text}
-                        visible={showAlert?.show}
-                        setVisible={() => setShowAlert()}
-                        end={showAlert?.end}
-                        subtext={showAlert?.subtext}
-                    />
-                    <MovieForm />
-                    <ActorForm />
-                </Container>
+                <>
+                    <Container id="main-form-container">
+                        <GameAlert
+                            text={showAlert?.text}
+                            visible={showAlert?.show}
+                            setVisible={() => setShowAlert()}
+                            end={showAlert?.end}
+                            subtext={showAlert?.subtext}
+                        />
+                        <MovieForm />
+                        <ActorForm />
+                    </Container>
+                    <div className="float-start mt-3">
+                        <OverlayTrigger
+                            placement="right"
+                            overlay={<Tooltip>Go back to previous step</Tooltip>}>
+                            <button
+                                className='degreeBtn btn'
+                                style={{ opacity: showBackBtn ? 1 : 0 }}
+                                onClick={handleBackClick}
+                            >
+                                <BsSkipBackwardCircleFill size={25} />
+                                &nbsp;
+                            </button>
+                        </OverlayTrigger>
+                    </div>
+                </>
             )}
-            <div className="float-start mt-3">
-                <OverlayTrigger
-                    placement="right"
-                    overlay={<Tooltip>Go back to previous step</Tooltip>}>
-                    <button
-                        className='degreeBtn btn'
-                        style={{ opacity: showBackBtn ? 1 : 0 }}
-                        onClick={handleBackClick}
-                    >
-                        <BsSkipBackwardCircleFill size={25} />
-                        &nbsp;
-                    </button>
-                </OverlayTrigger>
-            </div>
         </>
     );
 }

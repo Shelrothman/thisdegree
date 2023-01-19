@@ -30,14 +30,16 @@ function App() {
                 <GameContextProvider>
                     <div className="App">
                         <TopNav />
-                        <Routes>
-                            <Route path='/' element={<Launcher />} /> 
-                            <Route path='/treehome' element={<TreeList />} />
-                            <Route path='/createTree' element={<CreateTree />} />
-                            <Route path='/account' element={<h1>Account</h1>} />
-                            <Route path='/login' element={<Login />} />
-                            <Route path='*' element={<h1>404 - Not Found</h1>} /> 
-                        </Routes>
+                        <div className="content">
+                            <Routes>
+                                <Route path='/' element={<Launcher />} />
+                                <Route path='/treehome' element={<TreeList />} />
+                                <Route path='/createTree' element={<CreateTree />} />
+                                <Route path='/account' element={<h1>Account</h1>} />
+                                <Route path='/login' element={<Login />} />
+                                <Route path='*' element={<h1>404 - Not Found</h1>} />
+                            </Routes>
+                        </div>
                         {/* <p>a footer at the bttom would always be here</p> */}
                     </div>
                 </GameContextProvider>

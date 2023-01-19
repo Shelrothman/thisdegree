@@ -11,7 +11,6 @@ import {
     useContext,
     createContext,
     useEffect,
-    useCallback,
     // ? memo
 } from 'react';
 import { useActorContext } from './ActorContext.jsx';
@@ -48,8 +47,13 @@ export function GameContextProvider({ children }) {
 
     const [previousActorBridge, setPreviousActorBridge] = useState('');
     const [previousMovieTitle, setPreviousMovieTitle] = useState('');
-    
+
     const [decideMode, setDecideMode] = useState(false);
+
+    const [showConfirm, setShowConfirm] = useState(false); // for the visual 
+    const [confirmText, setConfirmText] = useState('default');
+        
+
 
     // const [confirmMode, setConfirmMode] = useState(false);
 
@@ -156,6 +160,8 @@ export function GameContextProvider({ children }) {
             let indexToRemove = localMovieList.length - 1;
             localMovieList.splice(indexToRemove, 1);
 
+            // so the back button goes away
+            setReadyToBuild(false);
 
             // so the ui goes back/stays to the movie input
             setFormTypeMovie(true);
@@ -297,6 +303,10 @@ export function GameContextProvider({ children }) {
             setDecideMode,
             showAlert,
             setShowAlert,
+            showConfirm,
+            setShowConfirm,
+            confirmText,
+            setConfirmText,
             // confirmMode,
             // setConfirmMode,
         }}>

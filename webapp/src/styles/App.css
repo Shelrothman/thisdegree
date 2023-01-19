@@ -36,6 +36,10 @@
     background-color: var(--dark-background);
 }
 
+.game-confirm {
+    background-color: var(--littleDarker-background);
+}
+
 .modal-content {
     background-color: var(--indigo-color);
     color: var(--light-text);

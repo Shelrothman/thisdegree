@@ -25,13 +25,17 @@ function Launcher() {
         setGameStarted,
         formTypeMovie,
         decideMode,
-        // confirmMode,
-        // setConfirmMode,
+        showConfirm,
+        setShowConfirm,
+        confirmText,
+        setConfirmText,
     } = useGameContext();
 
     // TODO: move this one and the actorForm one into context
-    const [showConfirm, setShowConfirm] = useState(false); // for the visual 
+    // const [showConfirm, setShowConfirm] = useState(false); // for the visual 
 
+
+// should only need it here...
 
     useEffect(() => {
         if (actorA && actorB) {
@@ -48,6 +52,7 @@ function Launcher() {
     const handleClick = (internalText) => {
         if (internalText === 'Change Actors') {
             setShowConfirm(true);
+            setConfirmText('startOver');
         } else {
             // just open the offcanvas, no need to change the game state bc its hasnt started yet
             setShow(true);
@@ -64,6 +69,7 @@ function Launcher() {
 
     function handleConfirmClick() {
         setShowConfirm(false);
+        setConfirmText('default');
         handleGameStateChange();
         handleActorSelection(null, null);
         setShow(true);
@@ -72,9 +78,12 @@ function Launcher() {
 
     function handleCancelClick() {
         setShowConfirm(false);
+        setConfirmText('default');
         return;
     }
 
+
+    // ! this could be refactored witht the conditionakls better    
     return (
         <>
             <div className='float-end'>
@@ -84,14 +93,6 @@ function Launcher() {
                 text={actorA && actorB ? 'Change Actors' : 'Select Actors'}
                 handler={handleClick}
             /> <br />
-            {showConfirm && (
-                <GameConfirm
-                    text='startOver'
-                    actorB={actorB}
-                    handleCancelClick={handleCancelClick}
-                    handleConfirmClick={handleConfirmClick}
-                />
-            )}
             <Offcanvas show={show}
                 // ref={canvasRef}
                 onHide={handleClose} placement='end'>
@@ -118,7 +119,18 @@ function Launcher() {
                                 <h2 className="blink">Game In Process</h2>
                                 {formTypeMovie ? <h3>Movie Mode</h3> : decideMode ? <h3>Decide Mode</h3> : <h3>Actor Mode</h3>}
                             </div>
-                            <FormContainer />
+                            {showConfirm ? (
+                                <div className='mx-5'>
+                                    <GameConfirm
+                                        text={confirmText}
+                                        actorB={actorB}
+                                        handleCancelClick={handleCancelClick}
+                                        handleConfirmClick={handleConfirmClick}
+                                    />
+                                </div>
+                            ) : (
+                                <FormContainer />
+                            )}
                         </div>
                     </div>
                 </>
