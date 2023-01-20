@@ -29,6 +29,10 @@ function Launcher() {
         setShowConfirm,
         confirmText,
         setConfirmText,
+        handleCancelClick,
+        confirmCallback,
+        confirmModal,
+        setConfirmModal,
     } = useGameContext();
 
     // TODO: move this one and the actorForm one into context
@@ -48,11 +52,27 @@ function Launcher() {
         return setShow(false);
     }
 
+    function handleConfirmClick() {
+        setShowConfirm(false);
+        setConfirmText('default');
+        handleGameStateChange();
+        handleActorSelection(null, null);
+        setShow(true);
+        return;
+    }
+
     // we also want handleShow to clear out the selected actors
-    const handleClick = (internalText) => {
+    const handleChangeClick = (internalText) => {
         if (internalText === 'Change Actors') {
             setShowConfirm(true);
-            setConfirmText('startOver');
+            setConfirmModal({
+                show: true,
+                text: 'startOver',
+                callback: () => {
+                    handleConfirmClick();
+                }
+            })
+
         } else {
             // just open the offcanvas, no need to change the game state bc its hasnt started yet
             setShow(true);
@@ -67,20 +87,13 @@ function Launcher() {
         return setShow(false);
     }
 
-    function handleConfirmClick() {
-        setShowConfirm(false);
-        setConfirmText('default');
-        handleGameStateChange();
-        handleActorSelection(null, null);
-        setShow(true);
-        return;
-    }
 
-    function handleCancelClick() {
-        setShowConfirm(false);
-        setConfirmText('default');
-        return;
-    }
+
+    // function handleCancelClick() {
+    //     setShowConfirm(false);
+    //     setConfirmText('default');
+    //     return;
+    // }
 
 
     // ! this could be refactored witht the conditionakls better    
@@ -91,7 +104,7 @@ function Launcher() {
             </div>
             <MovieBtn
                 text={actorA && actorB ? 'Change Actors' : 'Select Actors'}
-                handler={handleClick}
+                handler={handleChangeClick}
             /> <br />
             <Offcanvas show={show}
                 // ref={canvasRef}
@@ -109,7 +122,6 @@ function Launcher() {
                 style={{ display: (actorA && actorB) && !gameStarted ? 'block' : 'none' }}
             />
             {actorA || actorB ? <ActorHeader /> : null}
-            {/* <ActorHeader /> */}
             {gameStarted && (
                 <>
                     <TreeBuildContainer />
@@ -122,10 +134,10 @@ function Launcher() {
                             {showConfirm ? (
                                 <div className='mx-5'>
                                     <GameConfirm
-                                        text={confirmText}
+                                        text={confirmModal.text}
                                         actorB={actorB}
                                         handleCancelClick={handleCancelClick}
-                                        handleConfirmClick={handleConfirmClick}
+                                        handleConfirmClick={confirmModal.callback}
                                     />
                                 </div>
                             ) : (

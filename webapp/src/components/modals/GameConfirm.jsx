@@ -19,6 +19,7 @@ function GameConfirm({
         default: ''
     };
 
+    console.log('handler: ', handleConfirmClick);
 
     return (
         <div>

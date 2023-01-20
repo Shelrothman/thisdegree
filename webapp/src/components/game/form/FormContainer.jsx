@@ -28,11 +28,15 @@ function FormContainer() {
         setShowConfirm,
         confirmText,
         setConfirmText,
+        handleCancelClick,
+        handleUndoLastRound,
+        setConfirmCallback,
+        confirmModal,
+        setConfirmModal,
     } = useGameContext();
 
 
     const [showBackBtn, setShowBackBtn] = useState(readyToBuild);
-    // const [showConfirm, setShowConfirm] = useState(false); // for the visual 
 
     useEffect(() => {
         setShowBackBtn(readyToBuild);
@@ -47,38 +51,44 @@ function FormContainer() {
                 setDecideMode(true);
                 return;
             }
+            // set here to make is display
             setShowConfirm(true);
-            setConfirmText('undo');
+            setConfirmModal({
+                show: true,
+                text: 'undo',
+                callback: () => { handleUndoLastRound() }
+            })
             return;
         } catch (error) {
             console.error(error);
         }
     }
 
-    async function handleConfirmClick() {
-        try {
-            setShowConfirm(false);
-            setConfirmText('default');
-            const removeRes = await removeMovieObjFromGlobal();
-            if (removeRes) {
-                // we are going back to the beginning of a new round 
-                console.log('removed movie from global');
-            }
-            return;
-        } catch (error) {
-            console.error(error);
-        }
+    // async function handleConfirmClick() {
+    //     try {
+    //         setShowConfirm(false);
+    //         setConfirmText('default');
+    //         const removeRes = await removeMovieObjFromGlobal();
+    //         if (removeRes) {
+    //             // we are going back to the beginning of a new round 
+    //             console.log('removed movie from global');
+    //         }
+    //         return;
+    //     } catch (error) {
+    //         console.error(error);
+    //     }
+    // }
 
-    }
+    // function handleCancelClick() {
+    //     setShowConfirm(false);
+    //     setConfirmText('default');
+    //     return;
+    // }
 
-    function handleCancelClick() {
-        setShowConfirm(false);
-        setConfirmText('default');
-        return;
-    }
-
-    // !!!!!!!!!!!!! PU HERE! woot woot finish up the confirm work and then move on to the prompts
-    // TODO::: use a ternary to show confirm if showConfirm and if not then show the rest!
+    // !!!!!!!!!!!!! PU HERE! woot woot finished up the confirm work and then move on to the prompts
+    
+    // TODO remove cruft... remove ecvess confirms bc we only need the onein Launcher
+    
     return (
         <>
             {showConfirm ? (
@@ -86,7 +96,7 @@ function FormContainer() {
                     text={confirmText}
                     actorB={actorB}
                     handleCancelClick={handleCancelClick}
-                    handleConfirmClick={handleConfirmClick}
+                    handleConfirmClick={handleUndoLastRound}
                 />
             ) : (
                 <>

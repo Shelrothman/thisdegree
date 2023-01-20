@@ -52,11 +52,17 @@ export function GameContextProvider({ children }) {
 
     const [showConfirm, setShowConfirm] = useState(false); // for the visual 
     const [confirmText, setConfirmText] = useState('default');
-        
 
-
+    const [confirmCallback, setConfirmCallback] = useState(() => { console.log('default confirm callback') });
+    // the above 3 states could be combined into one object?
     // const [confirmMode, setConfirmMode] = useState(false);
 
+
+    const [confirmModal, setConfirmModal] = useState({
+        show: false,
+        text: 'default',
+        callback: () => { console.log('default confirm callback') },
+    });
 
     const [showAlert, setShowAlert] = useState({
         show: false,
@@ -106,6 +112,12 @@ export function GameContextProvider({ children }) {
             variant: 'primary', // not needing this yet
         });
         // setConfirmMode(false);
+    };
+
+    function handleCancelClick() {
+        setShowConfirm(false);
+        setConfirmText('default');
+        return;
     };
 
     async function addMovieToGlobal(userMovieInput, previousActorCharacterName) {
@@ -271,6 +283,21 @@ export function GameContextProvider({ children }) {
         return unique;
     }
 
+    // TODO: i think wer can move this function back in to FormContainer if its thew only component that uses it
+    async function handleUndoLastRound() {
+        try {
+            setShowConfirm(false);
+            setConfirmText('default');
+            const removeRes = await removeMovieObjFromGlobal();
+            if (removeRes) {
+                // we are going back to the beginning of a new round 
+                console.log('removed movie from global');
+            }
+            return;
+        } catch (error) {
+            console.error(error);
+        }
+    }
 
     return (
         <GameContext.Provider value={{
@@ -307,8 +334,14 @@ export function GameContextProvider({ children }) {
             setShowConfirm,
             confirmText,
             setConfirmText,
+            handleCancelClick,
+            handleUndoLastRound,
+            confirmCallback,
+            setConfirmCallback,
             // confirmMode,
             // setConfirmMode,
+            confirmModal,
+            setConfirmModal,
         }}>
             {children}
         </GameContext.Provider>
