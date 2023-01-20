@@ -1,53 +1,38 @@
 import { useEffect, useState } from 'react';
 // import { useMutation, gql } from '@apollo/client';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { AUTH_TOKEN } from '../utils/constants';
-import { useLogin } from '../hooks/useGQLclient';
-
+import { useSignup } from '../hooks/useGQLclient';
 import Spinner from '../utils/Spinner';
-
 // * the returned token is what we can attach to subsequent requests to authenticate the user(i.e. indicate that a request is made on behalf of that user).
 
-function Login() {
+function Signup() {
     const navigate = useNavigate();
-    const { state } = useLocation();
     const [formState, setFormState] = useState({
         // login: true,
-        email: state?.email || '',
-        password: state?.password || '',
-        name: state?.name || ''
+        email: '',
+        password: '',
+        name: ''
     });
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
-    // const [login] = useMutation(LOGIN_MUTATION, {
-    //     variables: {
-    //         email: formState.email,
-    //         password: formState.password
-    //     },
-    //     onCompleted: ({ login }) => {
-    //         localStorage.setItem(AUTH_TOKEN, login.token);
-    //         navigate('/');
-    //     }
-    // });
 
     const {
-        mutate: login,
+        mutate: signup,
         isLoading,
-        error: loginError,
+        error: signupError,
         data
-    } = useLogin(formState.email, formState.password);
-
-
+    } = useSignup(formState.email, formState.password, formState.name);
 
     useEffect(() => {
         if (isLoading) setLoading(true);
-        if (loginError) setError(loginError);
+        if (signupError) setError(signupError);
         if (data) {
-            localStorage.setItem(AUTH_TOKEN, data?.login.token);
-            navigate('/');
+            localStorage.setItem(AUTH_TOKEN, data?.signup.token);
+            navigate('/login', { state: { email: formState.email, password: formState.password, name: formState.name } });
         }
-    }, [isLoading, loginError, data]);
+    }, [isLoading, signupError, data]);
 
 
 
@@ -58,9 +43,21 @@ function Login() {
             {error && <div>Error hath occured! Uh oh...{error}</div>}
             {!loading && !error && (
                 <>
-                    <h2>Welcome {formState.name}</h2>
-                    <h4 className="mv3">Login</h4>
+                    <h4 className="mv3">
+                        Sign Up
+                    </h4>
                     <div className="flex flex-column">
+                        <input
+                            value={formState.name}
+                            onChange={(e) =>
+                                setFormState({
+                                    ...formState,
+                                    name: e.target.value
+                                })
+                            }
+                            type="text"
+                            placeholder="Your name"
+                        />
                         <input
                             value={formState.email}
                             onChange={(e) =>
@@ -81,19 +78,22 @@ function Login() {
                                 })
                             }
                             type="password"
-                            placeholder="Your password"
+                            placeholder="Choose a safe password"
                         />
                     </div>
 
                     <div className="flex mt3">
-                        <button className="pointer mr2 button" onClick={login}>
-                            Login
+                        <button
+                            className="pointer mr2 button"
+                            onClick={signup}
+                        >
+                            Create Account
                         </button>
                         <button
                             className="pointer button"
-                            onClick={() => navigate('/signup')}
+                            onClick={() => navigate('/login')}
                         >
-                            Create New Account
+                            Already have an account?
                         </button>
                     </div>
                 </>
@@ -103,4 +103,4 @@ function Login() {
     );
 };
 
-export default Login;
+export default Signup;

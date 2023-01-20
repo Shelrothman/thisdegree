@@ -10,7 +10,7 @@ import { ActorContextProvider, ThemeContextProvider, GameContextProvider } from 
 import CreateTree from './components/tree/CreateTree';
 import TreeList from './components/tree/TreeList';
 import Login from './components/Login';
-
+import Signup from './components/Signup';
 
 
 function App() {
@@ -37,6 +37,7 @@ function App() {
                                 <Route path='/createTree' element={<CreateTree />} />
                                 <Route path='/account' element={<h1>Account</h1>} />
                                 <Route path='/login' element={<Login />} />
+                                <Route path='/signup' element={<Signup />} />
                                 <Route path='*' element={<h1>404 - Not Found</h1>} />
                             </Routes>
                         </div>

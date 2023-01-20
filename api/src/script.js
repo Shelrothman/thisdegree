@@ -1,3 +1,8 @@
+/**
+ * Mainly use this file to run tests to the database.
+ */
+
+
 // Import the PrismaClient constructor from the @prisma/client node module.
 const { PrismaClient } = require('@prisma/client');
 
@@ -25,12 +30,12 @@ async function main() {
     const allActors = await prisma.actor.findMany();
     // console.log(allActors);
     console.log('-----------------');
-    
+
     const allTrees = await prisma.tree.findMany();
-    console.log(allTrees);
+    // console.log(allTrees);
 
     const allUsers = await prisma.user.findMany();
-    // console.log(allUsers);
+    console.log(allUsers);
 
 }
 
