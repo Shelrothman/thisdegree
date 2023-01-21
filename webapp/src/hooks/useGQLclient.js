@@ -1,11 +1,11 @@
 import { useQuery, useMutation } from '@tanstack/react-query';
 import { GraphQLClient } from "graphql-request";
-// import { useNavigate } from 'react-router-dom';
 import {
     AUTH_TOKEN,
     TREE_QUERY,
     SIGNUP_MUTATION,
-    LOGIN_MUTATION
+    LOGIN_MUTATION,
+    VALIDATE_MOVIE_QUERY,
 } from '../utils/constants';
 
 
@@ -21,7 +21,14 @@ const graphQLClient = new GraphQLClient(API_URL, {
     // caches: new InMemoryCache() // i think rq uses this by default
 });
 
+function useLazyQuery(key, fn, options = {}) {
+    const query = useQuery(key, fn, {
+        ...options,
+        enabled: false
+    })
 
+    return [query.refetch, query]
+}
 
 export function useTreeFeed() {
     const { data, isLoading, error } = useQuery({
@@ -40,10 +47,10 @@ export function useLogin(email, password) {
             return graphQLClient.request(LOGIN_MUTATION, variables);
         },
     });
-    
+
     return { mutate, isLoading, error, data };
 }
-
+// * the returned token is what we can attach to subsequent requests to authenticate the user(i.e. indicate that a request is made on behalf of that user).
 export function useSignup(email, password, name) {
 
     const variables = { email, password, name };
@@ -58,3 +65,33 @@ export function useSignup(email, password, name) {
     return { mutate, isLoading, error, data };
 }
 
+// i can just make a useSetup that like is always enabled so that it can save the title but not fetch it...
+
+// export function useSetup(movieInput) {
+//     let readyVal;
+//     const { data, isLoading, error } = useQuery({
+//         queryKey: ['setup'],
+//         queryFn: () => console.log(" running setup query"),
+//     });
+//     if (data) {
+//         readyVal = data.treeFeed.find((movie) => movie.title === movieInput);
+//     return { data, isLoading, error };
+// }
+
+export function useValidateMovieInput(movieInput, actorInput) {
+    // console.log("!!! Running mutation !!!")
+    const variables = { movieInput, actorInput };
+
+    const { data, isInitialLoading, refetch } = useQuery({
+        queryKey: ['validateMovieInput', movieInput],
+        queryFn: () => {
+            console.log("!!! Running query !!!");
+            return graphQLClient.request(VALIDATE_MOVIE_QUERY, variables);
+        },
+        enabled: !!movieInput, // disable the query if filter is empty
+        // ! this is important, lets the query to be called manually
+        // enabled: false
+        // why is it still running all the time when i change the input..   
+    });
+    return { data, isInitialLoading, refetch };
+}

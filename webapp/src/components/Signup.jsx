@@ -1,10 +1,8 @@
 import { useEffect, useState } from 'react';
-// import { useMutation, gql } from '@apollo/client';
 import { useNavigate } from 'react-router-dom';
 import { AUTH_TOKEN } from '../utils/constants';
 import { useSignup } from '../hooks/useGQLclient';
 import Spinner from '../utils/Spinner';
-// * the returned token is what we can attach to subsequent requests to authenticate the user(i.e. indicate that a request is made on behalf of that user).
 
 function Signup() {
     const navigate = useNavigate();

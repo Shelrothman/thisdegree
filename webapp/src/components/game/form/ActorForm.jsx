@@ -1,21 +1,16 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import { useLazyQuery } from '@apollo/client';
 import { useNavigate } from 'react-router-dom';
-// import FloatingLabel from 'react-bootstrap/esm/FloatingLabel';
-// import Form from 'react-bootstrap/Form';
-// import Button from 'react-bootstrap/Button';
-// import Col from 'react-bootstrap/Col';
-// import Row from 'react-bootstrap/Row';
 
-// import Spinner from '../../../utils/Spinner';
 import VALIDATE_MOVIE_QUERY from '../../../queries/validateMovieInput';
 import ActorModeDecide from './ActorModeDecide';
 import { useGameContext } from '../../../contexts';
 // TODO change to display the character Name somewhere in the tree or soemthign cool
 
-// import GameAlert from '../../modals/GameAlert';
 import GameConfirm from '../../modals/GameConfirm';
 import ActorFormRow from './ActorFormRow';
+
+
 
 function ActorForm() {
     const {

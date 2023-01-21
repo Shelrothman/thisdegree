@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-// import { useMutation, gql } from '@apollo/client';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { AUTH_TOKEN } from '../utils/constants';
 import { useLogin } from '../hooks/useGQLclient';
@@ -8,11 +7,15 @@ import Spinner from '../utils/Spinner';
 
 // * the returned token is what we can attach to subsequent requests to authenticate the user(i.e. indicate that a request is made on behalf of that user).
 
+//TODO: come back and add on here...
+// TODO: i.e., forgets password, invalid one, already in use...
+// * make it look way nuiceer and the code clean it up, remove repitation and make a singlular form component that login and signup can use
+
+
 function Login() {
     const navigate = useNavigate();
     const { state } = useLocation();
     const [formState, setFormState] = useState({
-        // login: true,
         email: state?.email || '',
         password: state?.password || '',
         name: state?.name || ''
@@ -20,25 +23,12 @@ function Login() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
-    // const [login] = useMutation(LOGIN_MUTATION, {
-    //     variables: {
-    //         email: formState.email,
-    //         password: formState.password
-    //     },
-    //     onCompleted: ({ login }) => {
-    //         localStorage.setItem(AUTH_TOKEN, login.token);
-    //         navigate('/');
-    //     }
-    // });
-
     const {
         mutate: login,
         isLoading,
         error: loginError,
         data
     } = useLogin(formState.email, formState.password);
-
-
 
     useEffect(() => {
         if (isLoading) setLoading(true);
@@ -48,8 +38,6 @@ function Login() {
             navigate('/');
         }
     }, [isLoading, loginError, data]);
-
-
 
 
     return (
@@ -89,10 +77,7 @@ function Login() {
                         <button className="pointer mr2 button" onClick={login}>
                             Login
                         </button>
-                        <button
-                            className="pointer button"
-                            onClick={() => navigate('/signup')}
-                        >
+                        <button className="pointer button" onClick={() => navigate('/signup')}>
                             Create New Account
                         </button>
                     </div>

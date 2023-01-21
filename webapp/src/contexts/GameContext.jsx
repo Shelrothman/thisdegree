@@ -191,7 +191,7 @@ export function GameContextProvider({ children }) {
     async function buildCastOptions(movieEvaluationObject) {
         try {
             // setCurrentMovieTitle(userMovieGuess); //! moved this into above function
-            let actorList = movieEvaluationObject.data.validateMovieInput?.cast || [];
+            let actorList = movieEvaluationObject.cast || [];
             // console.log('actorList: ', actorList); // debug
 
             //* Filter out the actors that are already in the game
