@@ -66,10 +66,10 @@ export function useSignup(email, password, name) {
 }
 
 export function useValidateMovieInput(movieInput, actorInput) {
-    // console.log("!!! Running mutation !!!")
     const variables = { movieInput, actorInput };
+    // const enableQuery = movieInput.includes("$%$%") || false; // symbol to indicate that the query should be enabled
 
-    const { data, isLoading, error, refetch } = useQuery({
+    const { data, isLoading, error, refetch, isFetching } = useQuery({
         queryKey: ['validateMovieInput', movieInput],
         queryFn: () => {
             console.log("!!! Running query !!!");
@@ -80,12 +80,12 @@ export function useValidateMovieInput(movieInput, actorInput) {
             });
         },
         enabled: false
-        // enabled: !!movieInput, // disable the query if filter is empty
         // ! this is important, lets the query to be called manually
-        // enabled: false
-        // why is it still running all the time when i change the input..   
+        // ? we could also say enalbed: !!movieInput and it wont execute until we have a movieInput
+        // however, my form updates the movieInput as its inputted, so it will always be true 
+        // to avoid this, we can use the enabled: false and call the query manually with refetch
     });
-    return { data, isLoading, error, refetch }
+    return { data, isLoading, error, refetch, isFetching }
 }
 
 

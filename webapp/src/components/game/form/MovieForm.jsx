@@ -1,12 +1,10 @@
 import { useState, useEffect } from 'react';
-import { useLazyQuery } from '@apollo/client';
-
+// import { useLazyQuery } from '@apollo/client';
 import FloatingLabel from 'react-bootstrap/esm/FloatingLabel';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Button from 'react-bootstrap/Button';
 import { useGameContext } from '../../../contexts';
-
 import Spinner from '../../../utils/Spinner';
 
 import { useValidateMovieInput } from '../../../hooks/useGQLclient';
@@ -31,21 +29,18 @@ function MovieForm() {
         // currentActorBridge is only set when the user selects an actor, we want it back to ActorA only when readyToBuild is false bc that means the game is starting over
     }, [currentActorBridge]);
 
-    const [showSpinner, setShowSpinner] = useState(false);
-
-
     // !! DURING DEV ONLY HARD CODING THIS>> .. return to change (obviously)
     const [formState, setFormState] = useState({
         movieInput: '',
         // movieInput: 'Forrest Gump',
     });
 
-    const { data, isLoading, error, refetch, isFetching } = useValidateMovieInput(formState.movieInput, actorName);
+    const { data, isLoading, error: isQueryError, refetch, isFetching } = useValidateMovieInput(formState.movieInput, actorName);
+    // i dont like that it depends on my formState.. but i dont know how to make it depend on the form input without it being in the state
+    // this should be okay for now, bc the queries are disabled until the form is submitted
+    // but eventually I want to make this more react appropriate.. 
+    // * a good question to pose to chris when I have the opportunity
 
-    useEffect(() => {
-        if (isFetching === true) setShowSpinner(true);
-        else setShowSpinner(false);
-    }, [isLoading]);
 
     useEffect(() => {
         const userMovieGuess = formState.movieInput;
@@ -53,25 +48,25 @@ function MovieForm() {
             const uniqueMovie = handleUniqueCheck(userMovieGuess);
             if (uniqueMovie === false) {
                 handleWrongMovie('notUnique');
+                // kind of cool this will alert the user if they type in the same name, even before submitting
+                return;
             } else {
-                handleSubmit(data).catch((error) => console.error(error));
+                handleSubmit(data).catch((error) => {
+                    console.error(error);
+                    handleWrongMovie('error');
+                });
             }
-            // if (data) {
-            //     setResponseData(data);
-            //     // handleSubmit();
-            // !!! YEA PU HEREER ur getting closer...
         }
     }, [data]);
+    // data in this case is the result of the query that is triggered by the form submission, therefore this effect will only run when the query triggers
 
 
     //TODO purify this function, it is a mess...
     async function handleSubmit(data) {
         try {
-            // const userMovieGuess = formState.movieInput;
-            // if (userMovieGuess) {
             let evaluationResult;
             let movieEvaluationObject = data;
-            console.log('movieEvaluationObject: ', movieEvaluationObject); // debyg
+            // console.log('movieEvaluationObject: ', movieEvaluationObject); // debyg
             evaluationResult = movieEvaluationObject?.validateMovieInput?.isInMovie;
             let previousActorCharacterName = movieEvaluationObject?.validateMovieInput?.character || 'unknown';
 
@@ -86,22 +81,15 @@ function MovieForm() {
                     const buildResponse = await buildCastOptions(movieEvaluationObject.validateMovieInput.cast);
                     if (buildResponse === true) handleRefs();
                 } else {
-                    throw new Error('something went wrong in the addMovieToGlobal()');
+                    throw new Error('something went wrong attempting to add the movie to the global list');
                 }
             } else {
-                throw new Error(`something went wrong in handleSubmit(), evaluationResult was not the expected Boolean. Instead I recieved ${evaluationResult}`);
+                throw new Error(`something went wrong; evaluationResult was not the expected Boolean. Instead I recieved ${evaluationResult}`);
             }
-            // }
-            // } else {
-            //     handleWrongMovie('empty');
-            // }
         } catch (error) {
             throw new Error(error);
         }
     }
-
-
-
 
     function handleRefs() {
         setFormState({ movieInput: '' });
@@ -110,7 +98,7 @@ function MovieForm() {
 
     function handleWrongMovie(errorMessage) {
         console.log('not valid bc: \n', errorMessage);
-        setFormState({ movieInput: 'INVALID INPUT' });
+        // setFormState({ movieInput: 'INVALID INPUT' });
         setShowAlert({
             show: true,
             text: 'Invalid Input',
@@ -122,6 +110,8 @@ function MovieForm() {
 
     return (
         <>
+            {isFetching ? <Spinner /> : <></>}
+            {isQueryError && <p>error fetching validation query</p>}
             {formTypeMovie === true && (
                 <>
                     <InputGroup className="mb-3">
@@ -148,7 +138,6 @@ function MovieForm() {
                             Submit
                         </Button>
                     </InputGroup>
-                    {showSpinner ? <Spinner /> : <></>}
                 </>
             )}
         </>
