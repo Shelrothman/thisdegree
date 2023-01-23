@@ -6,6 +6,7 @@ import {
     SIGNUP_MUTATION,
     LOGIN_MUTATION,
     VALIDATE_MOVIE_QUERY,
+    CREATE_TREE_MUTATION
 } from '../utils/constants';
 
 
@@ -20,15 +21,6 @@ const graphQLClient = new GraphQLClient(API_URL, {
     // * but do we protect the movie stiff? ..I think we should bc that way keep it user specific
     // caches: new InMemoryCache() // i think rq uses this by default
 });
-
-// function useLazyQuery(key, fn, options = {}) {
-//     const query = useQuery(key, fn, {
-//         ...options,
-//         enabled: false
-//     })
-
-//     return [query.refetch, query]
-// }
 
 export function useTreeFeed() {
     const { data, isLoading, error } = useQuery({
@@ -89,31 +81,16 @@ export function useValidateMovieInput(movieInput, actorInput) {
 }
 
 
-// export function useValidateMovieInput(movieInput, actorInput) {
-//     // console.log("!!! Running mutation !!!")
-//     const variables = { movieInput, actorInput };
+export function useCreateTree(treeDeclaration) {
+    const variables = { treeDeclaration };
 
-//     const { data, isLoading, error, mutate } = useMutation({
-//         mutationKey: ['validateMovieInput', movieInput],
-//         mutationFn: () => {
-//             console.log("!!! Running query !!!");
-//             return graphQLClient.request(VALIDATE_MOVIE_QUERY, variables);
-//         },
-//     });
-//     return { data, isLoading, error, mutate }
-// }
 
-export function useTestRQ(userId) {
-    const { data, isLoading, error, refetch, isFetching } = useQuery({
-        queryKey: ['testRQ', userId],
-        queryFn: () => {
-            console.log("!! running test query");
-            // return graphQLClient.request(TREE_QUERY);
-            return fetch(`https://jsonplaceholder.typicode.com/todos/${userId}`).then((res) => {
-                return res.json()
-            });
+    const { mutate, isLoading, error, data } = useMutation({
+        mutationKey: ['createTree'],
+        mutationFn: () => {
+            return graphQLClient.request(CREATE_TREE_MUTATION, variables);
         },
-        enabled: false
     });
-    return { data, isLoading, error, refetch };
+
+    return { mutate, isLoading, error, data };
 }

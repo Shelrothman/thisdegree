@@ -1,11 +1,15 @@
-import { useState } from 'react';
-import { useMutation } from '@apollo/client';
+import { useState, useEffect } from 'react';
+// import { useMutation } from '@apollo/client';
 import { useNavigate, useLocation } from 'react-router-dom';
 
-import CREATE_TREE_MUTATION from '../../queries/createTreeMutation';
+// import CREATE_TREE_MUTATION from '../../queries/createTreeMutation';
+
+import { useCreateTree } from '../../hooks/useGQLclient';
 import DataTree from './DataTree';
 import HeaderBridge from './HeaderBridge';
 import Castle from '../icons/Castle';
+
+import Spinner from '../../utils/Spinner';
 
 // ! user must be authenticated to post a tree
 
@@ -79,34 +83,56 @@ const CreateTree = () => {
     console.log('state: ', state);
 
     const [treeObject, setTreeObject] = useState(state ? JSON.parse(state.tree) : JSON.parse(TEST_TREE));
-    // const [treeObject, setTreeObject] = useState(JSON.parse(TEST_TREE));
+    
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
 
 
+    console.log('treeObject: ', treeObject);
 
-    console.log('treeObject: ', treeObject)
-    console.log(typeof treeObject);
-
+    
     const [formState, setFormState] = useState({
         // treeDeclaration: state.tree,
-        treeDeclaration: state ? state.tree : TEST_TREE,
+        treeDeclaration: state ? state.tree : `${TEST_TREE}`,
         // treeDeclaration: 'test tree declaration',
         //! return to uncomment
     });
+
+    const {
+        mutate: createTree,
+        isLoading,
+        error: creationError,
+        data
+    } = useCreateTree(formState.treeDeclaration);
+
+
+    useEffect(() => {
+        if (isLoading) setLoading(true);
+        if (creationError) {
+            console.error(creationError);
+            setError(creationError);
+        }
+        if (data && !isLoading && !creationError) {
+            // localStorage.setItem(AUTH_TOKEN, data?.login.token);
+            navigate('/treeHome');
+        }
+    }, [isLoading, creationError, data]);
+
     // pass the CREATE_TREE_MUTATION to the useMutation hook 
     // and pass in the data provided in the input fields as variables.
     // 'createTree' is the destructured function that can be used to call the mutation
-    const [createTree] = useMutation(CREATE_TREE_MUTATION, {
-        variables: {
-            treeDeclaration: formState.treeDeclaration,
-        },
-        // TODO: PU HERE AND add logic to handle errors and handle response from posting a tree
-        onCompleted: () => {
-            navigate('/treehome');
-        },
-        onError: (error) => {
-            console.log('error: ', error);
-        },
-    });
+    // const [createTree] = useMutation(CREATE_TREE_MUTATION, {
+    //     variables: {
+    //         treeDeclaration: formState.treeDeclaration,
+    //     },
+    //     // TODO: PU HERE AND add logic to handle errors and handle response from posting a tree
+    //     onCompleted: () => {
+    //         navigate('/treehome');
+    //     },
+    //     onError: (error) => {
+    //         console.log('error: ', error);
+    //     },
+    // });
 
     // Todo: modulate
     return (
@@ -129,7 +155,7 @@ const CreateTree = () => {
                         value={formState.treeDeclaration}
                         onChange={(e) =>
                             setFormState({
-                                ...formState,
+                                // ...formState,
                                 // using the spread operator to keep the other values in the formState
                                 treeDeclaration: e.target.value,
                             })

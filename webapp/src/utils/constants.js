@@ -3,7 +3,7 @@ import { gql } from "graphql-request";
 export const AUTH_TOKEN = 'auth-token';
 
 export const CREATE_TREE_MUTATION = gql`
-mutation PostMutation(
+mutation PostTreeMutation(
     $treeDeclaration: String!
 ) {
     addTree(treeDeclaration: $treeDeclaration) {

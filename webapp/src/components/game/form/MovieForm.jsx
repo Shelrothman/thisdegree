@@ -4,9 +4,9 @@ import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Button from 'react-bootstrap/Button';
 import { useGameContext } from '../../../contexts';
-import Spinner from '../../../utils/Spinner';
 
 import { useValidateMovieInput } from '../../../hooks/useGQLclient';
+// import Spinner from '../../../utils/Spinner';
 
 
 
@@ -35,7 +35,13 @@ function MovieForm() {
         // movieInput: 'Forrest Gump',
     });
 
-    const { data, isLoading, error: isQueryError, refetch, isFetching } = useValidateMovieInput(formState.movieInput, actorName);
+    const { 
+        data,
+        isLoading,
+        error: isQueryError,
+        refetch,
+        isFetching
+    } = useValidateMovieInput(formState.movieInput, actorName);
     // i dont like that it depends on my formState.. but the queue clears so it really doesnt matter and that is best practices i think
     // * confirm this with Chris when you get a chance
 
