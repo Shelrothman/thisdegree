@@ -188,12 +188,8 @@ export function GameContextProvider({ children }) {
     }
 
 
-    async function buildCastOptions(movieEvaluationObject) {
+    async function buildCastOptions(actorList = []) {
         try {
-            // setCurrentMovieTitle(userMovieGuess); //! moved this into above function
-            let actorList = movieEvaluationObject.cast || [];
-            // console.log('actorList: ', actorList); // debug
-
             //* Filter out the actors that are already in the game
             let currentActorsInGame = [actorA.toLowerCase(), ...movieList.map((movie) => movie.actorSelection.name.toLowerCase())];
             console.log('currentActorsInGame: ', currentActorsInGame); // debug                        

@@ -9,7 +9,7 @@ import ActorHeader from './ActorHeader.jsx';
 import FormContainer from './form/FormContainer.jsx';
 import TreeBuildContainer from './display/TreeBuildContainer.jsx';
 import GameConfirm from '../modals/GameConfirm';
-
+import { useTestRQ } from '../../hooks/useGQLclient';
 
 function Launcher() {
     const [show, setShow] = useState(false);
@@ -17,7 +17,6 @@ function Launcher() {
         actorA,
         actorB,
         handleActorSelection,
-
     } = useActorContext();
     const {
         gameStarted,
@@ -38,6 +37,18 @@ function Launcher() {
     // TODO: move this one and the actorForm one into context
     // const [showConfirm, setShowConfirm] = useState(false); // for the visual 
 
+    // const inputRef = useRef(null);
+
+    const [userId, setUserId] = useState("");
+    const { data, isLoading, error, refetch } = useTestRQ(userId);
+
+    const [formInput, setFormInput] = useState(null);
+
+    // useEffect(() => {
+    //     if (inputRef.current.value) {
+    //         setUserId(inputRef.current.value);
+    //     }
+    // }, []);
 
 // should only need it here...
 
@@ -94,11 +105,19 @@ function Launcher() {
     //     setConfirmText('default');
     //     return;
     // }
+    //"" == false
+// true
 
 
     // ! this could be refactored witht the conditionakls better    
     return (
         <>
+        {/* <button onClick={refetch}>refetch</button>
+        <input type="number" value={userId} onChange={
+            (e) => {
+                setUserId(e.target.value);
+            }
+        } /> */}
             <div className='float-end'>
                 Rounds: add round stuff
             </div>

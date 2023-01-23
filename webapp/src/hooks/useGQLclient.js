@@ -21,14 +21,14 @@ const graphQLClient = new GraphQLClient(API_URL, {
     // caches: new InMemoryCache() // i think rq uses this by default
 });
 
-function useLazyQuery(key, fn, options = {}) {
-    const query = useQuery(key, fn, {
-        ...options,
-        enabled: false
-    })
+// function useLazyQuery(key, fn, options = {}) {
+//     const query = useQuery(key, fn, {
+//         ...options,
+//         enabled: false
+//     })
 
-    return [query.refetch, query]
-}
+//     return [query.refetch, query]
+// }
 
 export function useTreeFeed() {
     const { data, isLoading, error } = useQuery({
@@ -65,33 +65,55 @@ export function useSignup(email, password, name) {
     return { mutate, isLoading, error, data };
 }
 
-// i can just make a useSetup that like is always enabled so that it can save the title but not fetch it...
-
-// export function useSetup(movieInput) {
-//     let readyVal;
-//     const { data, isLoading, error } = useQuery({
-//         queryKey: ['setup'],
-//         queryFn: () => console.log(" running setup query"),
-//     });
-//     if (data) {
-//         readyVal = data.treeFeed.find((movie) => movie.title === movieInput);
-//     return { data, isLoading, error };
-// }
-
 export function useValidateMovieInput(movieInput, actorInput) {
     // console.log("!!! Running mutation !!!")
     const variables = { movieInput, actorInput };
 
-    const { data, isInitialLoading, refetch } = useQuery({
+    const { data, isLoading, error, refetch } = useQuery({
         queryKey: ['validateMovieInput', movieInput],
         queryFn: () => {
             console.log("!!! Running query !!!");
-            return graphQLClient.request(VALIDATE_MOVIE_QUERY, variables);
+            return graphQLClient.request(VALIDATE_MOVIE_QUERY, variables).then((data) => {
+                console.log("$$ data $$");
+                console.log(data);
+                return data;
+            });
         },
-        enabled: !!movieInput, // disable the query if filter is empty
+        enabled: false
+        // enabled: !!movieInput, // disable the query if filter is empty
         // ! this is important, lets the query to be called manually
         // enabled: false
         // why is it still running all the time when i change the input..   
     });
-    return { data, isInitialLoading, refetch };
+    return { data, isLoading, error, refetch }
+}
+
+
+// export function useValidateMovieInput(movieInput, actorInput) {
+//     // console.log("!!! Running mutation !!!")
+//     const variables = { movieInput, actorInput };
+
+//     const { data, isLoading, error, mutate } = useMutation({
+//         mutationKey: ['validateMovieInput', movieInput],
+//         mutationFn: () => {
+//             console.log("!!! Running query !!!");
+//             return graphQLClient.request(VALIDATE_MOVIE_QUERY, variables);
+//         },
+//     });
+//     return { data, isLoading, error, mutate }
+// }
+
+export function useTestRQ(userId) {
+    const { data, isLoading, error, refetch, isFetching } = useQuery({
+        queryKey: ['testRQ', userId],
+        queryFn: () => {
+            console.log("!! running test query");
+            // return graphQLClient.request(TREE_QUERY);
+            return fetch(`https://jsonplaceholder.typicode.com/todos/${userId}`).then((res) => {
+                return res.json()
+            });
+        },
+        enabled: false
+    });
+    return { data, isLoading, error, refetch };
 }

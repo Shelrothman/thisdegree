@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 const APP_SECRET = 'GraphQL-is-aw3some';
 
 function getTokenPayload(token) {
-    console.log('token', token);
+    // console.log('token', token);
     return jwt.verify(token, APP_SECRET);
 }
 
