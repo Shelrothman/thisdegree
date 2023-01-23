@@ -70,7 +70,7 @@ export function useValidateMovieInput(movieInput, actorInput) {
     // const enableQuery = movieInput.includes("$%$%") || false; // symbol to indicate that the query should be enabled
 
     const { data, isLoading, error, refetch, isFetching } = useQuery({
-        queryKey: ['validateMovieInput', movieInput],
+        queryKey: ['validateMovieInput', `${movieInput}-${actorInput}`],
         queryFn: () => {
             console.log("!!! Running query !!!");
             return graphQLClient.request(VALIDATE_MOVIE_QUERY, variables).then((data) => {

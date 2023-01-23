@@ -26,7 +26,7 @@ function ActorFormRow(props) {
                         value={formState.actorInput}
                         onChange={(e) =>
                             setFormState({
-                                ...formState,
+                                // ...formState,
                                 actorInput: e.target.value
                             })}
                     >

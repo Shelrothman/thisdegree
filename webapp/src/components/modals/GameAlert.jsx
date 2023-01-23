@@ -7,7 +7,7 @@ const MESSAGE = {
     notUnique: 'movie has already been used',
     notFound: 'actor is not found in movie evaluation',
     empty: 'movie input was empty',
-    default: 'unknown error'
+    default: ''
 }
 
 function GameAlert({
@@ -37,7 +37,7 @@ function GameAlert({
                     </Modal.Header>
 
                     {subtext && <Modal.Body>
-                        {MESSAGE[subtext] || 'unknown error'}
+                        {MESSAGE[subtext] || subtext}
                     </Modal.Body>}
                     <Modal.Footer>
                         {!end && <Button variant="primary" onClick={handleClose}>
