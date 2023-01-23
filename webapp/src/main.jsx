@@ -7,33 +7,21 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import App from './App';
 
 // yea we cant inspect mutations: https://github.com/tannerlinsley/react-query-devtools/issues/31#issuecomment-655794286
-import {
-    ApolloProvider,
-    ApolloClient,
-    createHttpLink,
-    InMemoryCache
-} from '@apollo/client';
 
+
+//TODO: allow user to input their own actor name
+// * will need to validate the actor exists through the API and if itdoes, store the string like the others... if not then say no choose again
 
 const queryClient = new QueryClient();
 
 
-//!! initialize ApolloClient
-// !! remove this cruft once done with rq
-const client = new ApolloClient({
-    // link: authLink.concat(httpLink),
-    cache: new InMemoryCache()
-});
-
 ReactDOM.createRoot(document.getElementById('root')).render(
     <BrowserRouter>
-        <ApolloProvider client={client}>
-            <QueryClientProvider client={queryClient}>
-                <React.StrictMode>
-                    <App />
-                </React.StrictMode>
-                <ReactQueryDevtools />
-            </QueryClientProvider>
-        </ApolloProvider>
+        <QueryClientProvider client={queryClient}>
+            <React.StrictMode>
+                <App />
+            </React.StrictMode>
+            <ReactQueryDevtools />
+        </QueryClientProvider>
     </BrowserRouter>
 );

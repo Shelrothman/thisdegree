@@ -1,10 +1,7 @@
 import { useState, useEffect } from 'react';
-// import { useMutation } from '@apollo/client';
 import { useNavigate, useLocation } from 'react-router-dom';
-
-// import CREATE_TREE_MUTATION from '../../queries/createTreeMutation';
-
 import { useCreateTree } from '../../hooks/useGQLclient';
+
 import DataTree from './DataTree';
 import HeaderBridge from './HeaderBridge';
 import Castle from '../icons/Castle';
@@ -90,7 +87,7 @@ const CreateTree = () => {
 
     console.log('treeObject: ', treeObject);
 
-    
+
     const [formState, setFormState] = useState({
         // treeDeclaration: state.tree,
         treeDeclaration: state ? state.tree : `${TEST_TREE}`,
@@ -137,6 +134,8 @@ const CreateTree = () => {
     // Todo: modulate
     return (
         <div>
+            {loading && <Spinner />}
+            {error && <p>uh oh error: {creationError}</p>}
             <div className='text-center'>
                 <h1>You did it!</h1>
                 <h3>Check out your tree! Click below to Share your tree with the world</h3>
