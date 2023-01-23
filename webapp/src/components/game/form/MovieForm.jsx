@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-// import { useLazyQuery } from '@apollo/client';
 import FloatingLabel from 'react-bootstrap/esm/FloatingLabel';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
@@ -21,6 +20,7 @@ function MovieForm() {
         formTypeMovie,
         handleUniqueCheck,
         setShowAlert,
+        setDataLoading,
     } = useGameContext();
     const [actorName, setActorName] = useState(currentActorBridge);
 
@@ -36,10 +36,8 @@ function MovieForm() {
     });
 
     const { data, isLoading, error: isQueryError, refetch, isFetching } = useValidateMovieInput(formState.movieInput, actorName);
-    // i dont like that it depends on my formState.. but i dont know how to make it depend on the form input without it being in the state
-    // this should be okay for now, bc the queries are disabled until the form is submitted
-    // but eventually I want to make this more react appropriate.. 
-    // * a good question to pose to chris when I have the opportunity
+    // i dont like that it depends on my formState.. but the queue clears so it really doesnt matter and that is best practices i think
+    // * confirm this with Chris when you get a chance
 
 
     useEffect(() => {
@@ -49,6 +47,7 @@ function MovieForm() {
             if (uniqueMovie === false) {
                 handleWrongMovie('notUnique');
                 // kind of cool this will alert the user if they type in the same name, even before submitting
+                // also cool bc if a movie is in the cache already, it will update with response immediatly without clickign
                 return;
             } else {
                 handleSubmit(data).catch((error) => {
@@ -60,6 +59,15 @@ function MovieForm() {
     }, [data]);
     // data in this case is the result of the query that is triggered by the form submission, therefore this effect will only run when the query triggers
 
+
+    useEffect(() => {
+        if (isFetching) {
+            setDataLoading(true);
+        }
+        if (!isFetching) {
+            setDataLoading(false);
+        }
+    }, [isFetching]);
 
     //TODO purify this function, it is a mess...
     async function handleSubmit(data) {
@@ -110,7 +118,7 @@ function MovieForm() {
 
     return (
         <>
-            {isFetching ? <Spinner /> : <></>}
+            {/* {isFetching ? <Spinner /> : <></>} */}
             {isQueryError && <p>error fetching validation query</p>}
             {formTypeMovie === true && (
                 <>

@@ -22,9 +22,8 @@ function ActorForm() {
         setDecideMode,
         decideMode,
         setShowAlert,
-        setShowConfirm,
-        setConfirmText,
         setConfirmModal,
+        setDataLoading,
     } = useGameContext();
     const [movieName, setMovieName] = useState(currentMovieTitle);
     const [formState, setFormState] = useState({
@@ -50,7 +49,7 @@ function ActorForm() {
         return <option key={actor.id} value={actor.name}>{actor.name}</option>
     });
 
-
+    // TODO handle error inui
     const {
         data,
         isLoading,
@@ -59,6 +58,14 @@ function ActorForm() {
         isFetching
     } = useValidateMovieInput(movieName, actorB);
 
+    useEffect(() => {
+        if (isFetching) {
+            setDataLoading(true);
+        }
+        if (!isFetching) {
+            setDataLoading(false);
+        }
+    }, [isFetching]);
 
 
     async function handleSubmit() {
@@ -98,7 +105,7 @@ function ActorForm() {
     async function handleReadyChoice() {
         try {
             setShowRow(false);
-            setShowConfirm(true);
+            // setShowConfirm(true);
             setConfirmModal({
                 show: true,
                 text: 'final',
@@ -119,8 +126,8 @@ function ActorForm() {
         try {
             console.log('in handleFinalResults()');
             // console.log('data: ', data); // debug
-            setShowConfirm(false);
-            setConfirmText('default');
+            // setShowConfirm(false);
+            // setConfirmText('default');
             setConfirmModal({ show: false, text: 'default' });
             let evaluationResult = data.validateMovieInput;
             // console.log('evaluationResult: ', evaluationResult); // debug
@@ -157,7 +164,7 @@ function ActorForm() {
     // TODO this function is a mess and needs work.
     return (
         <>
-            {isFetching ? <Spinner /> : <></>}
+            {/* {isFetching ? <Spinner /> : <></>} */}
             {formTypeMovie === false && (
                 <>
                     {!showRow ? (

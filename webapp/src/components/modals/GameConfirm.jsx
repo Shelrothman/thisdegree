@@ -34,7 +34,7 @@ function GameConfirm({
 
                 <Card.Body>
                     <Card.Title>
-                        {MESSAGE[text] || 'something went wrong'}
+                        {MESSAGE[text] || text}
                         {/* <Modal.Footer> */}
                     </Card.Title>
 

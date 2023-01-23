@@ -24,13 +24,13 @@ function FormContainer() {
         showAlert,
         setShowAlert,
         actorB,
-        showConfirm,
-        setShowConfirm,
-        confirmText,
-        setConfirmText,
+        // showConfirm,
+        // setShowConfirm,
+        // confirmText,
+        // setConfirmText,
         handleCancelClick,
         handleUndoLastRound,
-        setConfirmCallback,
+        // setConfirmCallback,
         confirmModal,
         setConfirmModal,
     } = useGameContext();
@@ -51,8 +51,7 @@ function FormContainer() {
                 setDecideMode(true);
                 return;
             }
-            // set here to make is display
-            setShowConfirm(true);
+            // setShowConfirm(true);
             setConfirmModal({
                 show: true,
                 text: 'undo',
@@ -86,47 +85,36 @@ function FormContainer() {
     // }
 
     // !!!!!!!!!!!!! PU HERE! woot woot finished up the confirm work and then move on to the prompts
-    
+
     // TODO remove cruft... remove ecvess confirms bc we only need the onein Launcher
-    
+
     return (
         <>
-            {showConfirm ? (
-                <GameConfirm
-                    text={confirmText}
-                    actorB={actorB}
-                    handleCancelClick={handleCancelClick}
-                    handleConfirmClick={handleUndoLastRound}
+            <Container id="main-form-container">
+                <GameAlert
+                    text={showAlert?.text}
+                    visible={showAlert?.show}
+                    setVisible={() => setShowAlert()}
+                    end={showAlert?.end}
+                    subtext={showAlert?.subtext}
                 />
-            ) : (
-                <>
-                    <Container id="main-form-container">
-                        <GameAlert
-                            text={showAlert?.text}
-                            visible={showAlert?.show}
-                            setVisible={() => setShowAlert()}
-                            end={showAlert?.end}
-                            subtext={showAlert?.subtext}
-                        />
-                        <MovieForm />
-                        <ActorForm />
-                    </Container>
-                    <div className="float-start mt-3">
-                        <OverlayTrigger
-                            placement="right"
-                            overlay={<Tooltip>Go back to previous step</Tooltip>}>
-                            <button
-                                className='degreeBtn btn'
-                                style={{ opacity: showBackBtn ? 1 : 0 }}
-                                onClick={handleBackClick}
-                            >
-                                <BsSkipBackwardCircleFill size={25} />
-                                &nbsp;
-                            </button>
-                        </OverlayTrigger>
-                    </div>
-                </>
-            )}
+                <MovieForm />
+                <ActorForm />
+            </Container>
+            <div className="float-start mt-3">
+                <OverlayTrigger
+                    placement="right"
+                    overlay={<Tooltip>Go back to previous step</Tooltip>}>
+                    <button
+                        className='degreeBtn btn'
+                        style={{ opacity: showBackBtn ? 1 : 0 }}
+                        onClick={handleBackClick}
+                    >
+                        <BsSkipBackwardCircleFill size={25} />
+                        &nbsp;
+                    </button>
+                </OverlayTrigger>
+            </div>
         </>
     );
 }

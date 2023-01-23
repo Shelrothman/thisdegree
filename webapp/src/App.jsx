@@ -30,6 +30,7 @@ function App() {
                 <GameContextProvider>
                     <div className="App">
                         <TopNav />
+                        {/*  put spinner here? */}
                         <div className="content">
                             <Routes>
                                 <Route path='/' element={<Launcher />} />

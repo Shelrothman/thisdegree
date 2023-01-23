@@ -32,47 +32,35 @@ export function GameContextProvider({ children }) {
     } = useActorContext();
     // this is the movie title of current movie
     const [currentMovieTitle, setCurrentMovieTitle] = useState('');
-
     // the movieList to hold the whole tree
     const [movieList, setMovieList] = useState([]);
     // const [readyToBridge, setReadyToBridge] = useState(false);
     const [currentActorOptions, setCurrentActorOptions] = useState([]);
-
     // only ready if there are movies in the list
     const [readyToBuild, setReadyToBuild] = useState(movieList.length > 0);
-
     // if false, then enable the actor form, if true, then enable the movie form
     const [formTypeMovie, setFormTypeMovie] = useState(true);
     const [currentActorBridge, setCurrentActorBridge] = useState(actorA);
-
     const [previousActorBridge, setPreviousActorBridge] = useState('');
     const [previousMovieTitle, setPreviousMovieTitle] = useState('');
-
     const [decideMode, setDecideMode] = useState(false);
-
-    const [showConfirm, setShowConfirm] = useState(false); // for the visual 
-    const [confirmText, setConfirmText] = useState('default');
-
-    const [confirmCallback, setConfirmCallback] = useState(() => { console.log('default confirm callback') });
-    // the above 3 states could be combined into one object?
-    // const [confirmMode, setConfirmMode] = useState(false);
-
-
+    // this is for the loading spinner
+    const [dataLoading, setDataLoading] = useState(false);
+    
     const [confirmModal, setConfirmModal] = useState({
         show: false,
         text: 'default',
         callback: () => { console.log('default confirm callback') },
     });
+    //!!!! PU HERE! now just do it for the prompts.
 
     const [showAlert, setShowAlert] = useState({
         show: false,
         text: '',
         end: false,
         subtext: 'default',
-        // variants: ['primary', 'secondary', 'success', 'danger', 'warning', 'info', 'light', 'dark'],
         variant: 'primary',
     });
-    //!!!! PU HERE!  do this for all the others amnd shiz.. hold the state of all teh modals in here then render in Launcher .. customize in individual components
 
     // objv i aint the first to have iussues with confirm i wma= seeing now...
 
@@ -115,8 +103,12 @@ export function GameContextProvider({ children }) {
     };
 
     function handleCancelClick() {
-        setShowConfirm(false);
-        setConfirmText('default');
+        // setShowConfirm(false);
+        // setConfirmText('default');
+        setConfirmModal({
+            show: false,
+            text: 'default',
+        });
         return;
     };
 
@@ -252,16 +244,6 @@ export function GameContextProvider({ children }) {
             if (res) {
                 finalTreeArray = movieList;
             }
-            // unshift the actorA to beginning of the array
-            // finalTreeArray.unshift({
-            //     startingActor: actorA,
-            //     id: uuid(),
-            // }); //! may end up not needing either of these
-            // // push the actorB to the end of the array
-            // finalTreeArray.push({
-            //     endingActor: actorB,
-            //     id: uuid(),
-            // });
             console.log('finalTreeArray', finalTreeArray)
             return finalTreeArray;
         } catch (error) {
@@ -282,8 +264,12 @@ export function GameContextProvider({ children }) {
     // TODO: i think wer can move this function back in to FormContainer if its thew only component that uses it
     async function handleUndoLastRound() {
         try {
-            setShowConfirm(false);
-            setConfirmText('default');
+            // setShowConfirm(false);
+            // setConfirmText('default');
+            setConfirmModal({
+                show: false,
+                text: 'default',
+            })
             const removeRes = await removeMovieObjFromGlobal();
             if (removeRes) {
                 // we are going back to the beginning of a new round 
@@ -303,8 +289,6 @@ export function GameContextProvider({ children }) {
             handleGameStateChange,
             addMovieToGlobal,
             handleNewActorGuess,
-            // readyToBridge,
-            // setReadyToBridge,
             currentActorBridge,
             setCurrentActorBridge,
             currentMovieTitle,
@@ -326,18 +310,12 @@ export function GameContextProvider({ children }) {
             setDecideMode,
             showAlert,
             setShowAlert,
-            showConfirm,
-            setShowConfirm,
-            confirmText,
-            setConfirmText,
             handleCancelClick,
             handleUndoLastRound,
-            confirmCallback,
-            setConfirmCallback,
-            // confirmMode,
-            // setConfirmMode,
             confirmModal,
             setConfirmModal,
+            dataLoading,
+            setDataLoading,
         }}>
             {children}
         </GameContext.Provider>

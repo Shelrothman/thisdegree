@@ -9,7 +9,8 @@ import ActorHeader from './ActorHeader.jsx';
 import FormContainer from './form/FormContainer.jsx';
 import TreeBuildContainer from './display/TreeBuildContainer.jsx';
 import GameConfirm from '../modals/GameConfirm';
-import { useTestRQ } from '../../hooks/useGQLclient';
+import Spinner from '../../utils/Spinner';
+
 
 function Launcher() {
     const [show, setShow] = useState(false);
@@ -24,25 +25,17 @@ function Launcher() {
         setGameStarted,
         formTypeMovie,
         decideMode,
-        showConfirm,
-        setShowConfirm,
-        confirmText,
-        setConfirmText,
         handleCancelClick,
-        confirmCallback,
         confirmModal,
         setConfirmModal,
+        dataLoading,
     } = useGameContext();
 
-    // TODO: move this one and the actorForm one into context
-    // const [showConfirm, setShowConfirm] = useState(false); // for the visual 
 
-    // const inputRef = useRef(null);
+    // const [userId, setUserId] = useState("");
+    // const { data, isLoading, error, refetch } = useTestRQ(userId);
 
-    const [userId, setUserId] = useState("");
-    const { data, isLoading, error, refetch } = useTestRQ(userId);
-
-    const [formInput, setFormInput] = useState(null);
+    // const [formInput, setFormInput] = useState(null);
 
     // useEffect(() => {
     //     if (inputRef.current.value) {
@@ -64,8 +57,12 @@ function Launcher() {
     }
 
     function handleConfirmClick() {
-        setShowConfirm(false);
-        setConfirmText('default');
+        // setShowConfirm(false);
+        // setConfirmText('default');
+        setConfirmModal({
+            show: false,
+            text: 'default',
+        })
         handleGameStateChange();
         handleActorSelection(null, null);
         setShow(true);
@@ -75,7 +72,7 @@ function Launcher() {
     // we also want handleShow to clear out the selected actors
     const handleChangeClick = (internalText) => {
         if (internalText === 'Change Actors') {
-            setShowConfirm(true);
+            // setShowConfirm(true);
             setConfirmModal({
                 show: true,
                 text: 'startOver',
@@ -112,12 +109,6 @@ function Launcher() {
     // ! this could be refactored witht the conditionakls better    
     return (
         <>
-        {/* <button onClick={refetch}>refetch</button>
-        <input type="number" value={userId} onChange={
-            (e) => {
-                setUserId(e.target.value);
-            }
-        } /> */}
             <div className='float-end'>
                 Rounds: add round stuff
             </div>
@@ -140,6 +131,7 @@ function Launcher() {
                 handler={handlePlayClick}
                 style={{ display: (actorA && actorB) && !gameStarted ? 'block' : 'none' }}
             />
+            {dataLoading && <Spinner />}
             {actorA || actorB ? <ActorHeader /> : null}
             {gameStarted && (
                 <>
@@ -150,7 +142,7 @@ function Launcher() {
                                 <h2 className="blink">Game In Process</h2>
                                 {formTypeMovie ? <h3>Movie Mode</h3> : decideMode ? <h3>Decide Mode</h3> : <h3>Actor Mode</h3>}
                             </div>
-                            {showConfirm ? (
+                            {confirmModal.show ? (
                                 <div className='mx-5'>
                                     <GameConfirm
                                         text={confirmModal.text}

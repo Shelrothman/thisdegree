@@ -5,9 +5,14 @@ import Spinner from 'react-bootstrap/Spinner';
 function BasicExample() {
     return (
         <div style={{
-            position: 'absolute', left: '50%', top: '50%',
+            position: 'absolute', 
+            left: '25%', 
+            right: '25%',
+            top: '50%',
         }}>
-            <Spinner animation="border" role="status">
+            <Spinner animation="border" role="status" style={{
+                width: "20rem", height: "20rem",
+            }}>
                 <span className="visually-hidden">Loading...</span>
             </Spinner>
         </div>

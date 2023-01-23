@@ -31,6 +31,7 @@
     --actor-border: black;
 }
 
+
 /* * this actually works really well just simply and globally */
 .game-alert {
     background-color: var(--dark-background);
@@ -76,6 +77,8 @@
     /* text-decoration: ; */
 
 }
+
+
 
 #main-form-container {
     color: var(--light-text);
