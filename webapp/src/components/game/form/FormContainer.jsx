@@ -8,7 +8,7 @@ import ActorForm from "./ActorForm";
 import MovieForm from "./MovieForm";
 import { useGameContext } from "../../../contexts";
 import GameAlert from "../../modals/GameAlert";
-import GameConfirm from "../../modals/GameConfirm";
+// import GameConfirm from "../../modals/GameConfirm";
 
 // TODO display the challenge button after user ssees the reason for invalid
 
@@ -17,21 +17,12 @@ import GameConfirm from "../../modals/GameConfirm";
 function FormContainer() {
     const {
         readyToBuild,
-        removeMovieObjFromGlobal,
         setDecideMode,
         decideMode,
         formTypeMovie,
         showAlert,
         setShowAlert,
-        actorB,
-        // showConfirm,
-        // setShowConfirm,
-        // confirmText,
-        // setConfirmText,
-        handleCancelClick,
         handleUndoLastRound,
-        // setConfirmCallback,
-        confirmModal,
         setConfirmModal,
     } = useGameContext();
 
@@ -51,7 +42,6 @@ function FormContainer() {
                 setDecideMode(true);
                 return;
             }
-            // setShowConfirm(true);
             setConfirmModal({
                 show: true,
                 text: 'undo',
@@ -63,30 +53,7 @@ function FormContainer() {
         }
     }
 
-    // async function handleConfirmClick() {
-    //     try {
-    //         setShowConfirm(false);
-    //         setConfirmText('default');
-    //         const removeRes = await removeMovieObjFromGlobal();
-    //         if (removeRes) {
-    //             // we are going back to the beginning of a new round 
-    //             console.log('removed movie from global');
-    //         }
-    //         return;
-    //     } catch (error) {
-    //         console.error(error);
-    //     }
-    // }
-
-    // function handleCancelClick() {
-    //     setShowConfirm(false);
-    //     setConfirmText('default');
-    //     return;
-    // }
-
-    // !!!!!!!!!!!!! PU HERE! woot woot finished up the confirm work and then move on to the prompts
-
-    // TODO remove cruft... remove ecvess confirms bc we only need the onein Launcher
+    // // TODO remove cruft... remove ecvess confirms bc we only need the onein Launcher
 
     return (
         <>

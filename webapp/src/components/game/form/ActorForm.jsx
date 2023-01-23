@@ -49,7 +49,7 @@ function ActorForm() {
         return <option key={actor.id} value={actor.name}>{actor.name}</option>
     });
 
-    // TODO handle error inui
+    // TODO handle error in ui
     const {
         data,
         isLoading,
@@ -87,7 +87,6 @@ function ActorForm() {
                 }
             } else {
                 setShowAlert({ show: true, text: 'Please select an actor' });
-                // throw new Error('Something went wrong in handleSubmit()');
                 return;
             }
         } catch (error) {
@@ -126,8 +125,6 @@ function ActorForm() {
         try {
             console.log('in handleFinalResults()');
             // console.log('data: ', data); // debug
-            // setShowConfirm(false);
-            // setConfirmText('default');
             setConfirmModal({ show: false, text: 'default' });
             let evaluationResult = data.validateMovieInput;
             // console.log('evaluationResult: ', evaluationResult); // debug
@@ -160,11 +157,9 @@ function ActorForm() {
 
 
     // // TODO move all confirm stuff to context
-    // TODO show spinner underneath for while final bridge "checkas" the last input for actorB and movieTitle
     // TODO this function is a mess and needs work.
     return (
         <>
-            {/* {isFetching ? <Spinner /> : <></>} */}
             {formTypeMovie === false && (
                 <>
                     {!showRow ? (

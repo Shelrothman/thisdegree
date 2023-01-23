@@ -91,7 +91,6 @@ const CreateTree = () => {
     const [formState, setFormState] = useState({
         // treeDeclaration: state.tree,
         treeDeclaration: state ? state.tree : `${TEST_TREE}`,
-        // treeDeclaration: 'test tree declaration',
         //! return to uncomment
     });
 
@@ -114,22 +113,6 @@ const CreateTree = () => {
             navigate('/treeHome');
         }
     }, [isLoading, creationError, data]);
-
-    // pass the CREATE_TREE_MUTATION to the useMutation hook 
-    // and pass in the data provided in the input fields as variables.
-    // 'createTree' is the destructured function that can be used to call the mutation
-    // const [createTree] = useMutation(CREATE_TREE_MUTATION, {
-    //     variables: {
-    //         treeDeclaration: formState.treeDeclaration,
-    //     },
-    //     // TODO: PU HERE AND add logic to handle errors and handle response from posting a tree
-    //     onCompleted: () => {
-    //         navigate('/treehome');
-    //     },
-    //     onError: (error) => {
-    //         console.log('error: ', error);
-    //     },
-    // });
 
     // Todo: modulate
     return (
