@@ -1,14 +1,16 @@
 import { useState, useEffect } from 'react';
-import { useLazyQuery } from '@apollo/client';
+// import { useLazyQuery } from '@apollo/client';
 import { useNavigate } from 'react-router-dom';
 
-import VALIDATE_MOVIE_QUERY from '../../../queries/validateMovieInput';
+// import VALIDATE_MOVIE_QUERY from '../../../queries/validateMovieInput';
 import ActorModeDecide from './ActorModeDecide';
 import { useGameContext } from '../../../contexts';
 // TODO change to display the character Name somewhere in the tree or soemthign cool
 
 import GameConfirm from '../../modals/GameConfirm';
 import ActorFormRow from './ActorFormRow';
+
+import { useValidateMovieInput } from '../../../hooks/useGQLclient';
 
 
 
@@ -75,14 +77,16 @@ function ActorForm() {
         return <option key={actor.id} value={actor.name}>{actor.name}</option>
     });
 
-    const [fetchData, { loading, data, error }] = useLazyQuery(VALIDATE_MOVIE_QUERY, {
-        variables: {
-            movieInput: '',
-            actorInput: '',
-        },
-        onCompleted: (data) => console.log('data onCompleted: ', data),
-        onError: (error) => console.log('error: ', error),
-    });
+    // const [fetchData, { loading, data, error }] = useLazyQuery(VALIDATE_MOVIE_QUERY, {
+    //     variables: {
+    //         movieInput: '',
+    //         actorInput: '',
+    //     },
+    //     onCompleted: (data) => console.log('data onCompleted: ', data),
+    //     onError: (error) => console.log('error: ', error),
+    // });
+
+    const { data, isLoading, error: isQueryError, refetch, isFetching } = useValidateMovieInput(movieName, actorB);
 
 
     async function handleSubmit() {
@@ -122,88 +126,85 @@ function ActorForm() {
     async function handleReadyChoice() {
         try {
             setShowRow(false);
-            setShowConfirm(true);
-            setConfirmModal({
-                show: true,
-                text: 'final',
-                callback: () => main(),
-            })
+            // setShowConfirm(true);
+            // setConfirmModal({
+            //     show: true,
+            //     text: 'final',
+            //     callback: () => main(),
+            // })
             ///!!! SOo close but just this one callback i cant do async with it,,,
             // but it works so well everywhere else... WHAT DO PEOPLE DO WHEN THEY WANT TO USE an async function inside useState>??? 
             //**  ugh i need to rethink the logic AGAIN.....
             // maybe react-query would be beter than apollo since (ader to use) I can use it outside of components so i Can set it up in the context and then call to it from the context and set it in here
             // set it here to true so that it will display the confirm form.
-            return;
+
+
+            let userConfirm = confirm('Are you sure you want to submit your final answer?');
+            if (userConfirm) {
+                await handleReadyClick();
+                return;
+            } else {
+                return;
+            }
+
+
+            // return;
         } catch (error) {
             console.error(error);
         }
     }
 
-    function main() {
-        handleReadyClick().then(() => {
-            console.log('yea we in this effect');
-        }); //////////////
-    }
+    // function main() {
+    //     handleReadyClick().then(() => {
+    //         console.log('yea we in this effect');
+    //     }); //////////////
+    // }
 
     async function testFinalInput() {
         try {
+
+            console.log('hjhfjsdj')
             // // TODO: need to incorporate context and update state with the final movie and actor
             const movieValue = movieList[movieList.length - 1].movieTitle;
             const actorValue = actorB;
-            const { data } = await fetchData({
-                variables: {
-                    movieInput: movieValue,
-                    actorInput: actorValue,
-                },
-            });
-            evaluationResult = data?.validateMovieInput?.isInMovie || false;
-            characterName = evaluationResult === true ? data.validateMovieInput.character : 'unknown';
-            // fetchDataPromise(movieValue, actorValue).then(({data}) => {
-            //     console.log('data: ', data); // this isnt getting called bc the promise is not resolving
-            //     // in order for it to resolve, the data needs to be returned from the server
-            //     evaluationResult = data?.validateMovieInput?.isInMovie || false;
-            //     characterName = evaluationResult === true ? data.validateMovieInput.character : 'unknown';
+
+
+            console.log('movieValue: ', movieValue);
+            // const { data } = await fetchData({
+            //     variables: {
+            //         movieInput: movieValue,
+            //         actorInput: actorValue,
+            //     },
             // });
+
+            const { data } = await refetch();
+
+            // !!! NOT REACHING HERE PU
+            console.log('data: ', data);
+            let evaluationResult = data?.validateMovieInput?.isInMovie || false;
+            let characterName = evaluationResult === true ? data.validateMovieInput.character : 'unknown';
             return { evaluationResult, characterName };
         } catch (error) {
             console.error(error);
         }
     }
 
-    // function fetchDataPromise(movieValue, actorValue) {
-    //     return new Promise((resolve, reject) => {
-    //         fetchData({
-    //             variables: {
-    //                 movieInput: movieValue,
-    //                 actorInput: actorValue,
-    //             },
-    //         }).then((response) => {
-    //             if (response) {
-    //                 resolve(response);
-    //             } else {
-    //                 reject(Error("No data in response"));
-    //             }
-    //         }).catch((error) => {
-    //             reject(error);
-    //         });
-    //     });
-    // }
-
     async function handleReadyClick() {
         try {
             console.log('we got here cutie');
             // why does this not go any further than here?
             // bc u cant do an async in set state for the callback.
-            let testResponse;
-            setShowConfirm(false);
+            // let testResponse;
+            // setShowConfirm(false);
             // setConfirmText('default');
             // setConfirmModal({ show: false, text: 'default' });
-            testResponse = await testFinalInput();
+            let testResponse = await testFinalInput();
+            console.log('testResponse: ', testResponse);
             if (testResponse.evaluationResult === true) {
                 console.log('And here??')
 
                 // alert('You did it!');
-                let finalTree = handleFinalBridge(testResponse.characterName);
+                let finalTree = await handleFinalBridge(testResponse.characterName);
                 //* handling any congratulatory messages over in createTree component
                 navigate('/createTree', { state: { tree: JSON.stringify(finalTree) } });
                 return;
@@ -212,7 +213,7 @@ function ActorForm() {
 
                 console.log('And here??!!!!');
 
-                setShowAlert({ show: true, text: 'Fail! Try Again', end: true });
+                // setShowAlert({ show: true, text: 'Fail! Try Again', end: true });
                 setTimeout(() => {
                     handleGameStateChange();
                     // reset the game after giving user enough time to read the alert
