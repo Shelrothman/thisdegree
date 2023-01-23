@@ -1,16 +1,12 @@
 import { useState, useEffect } from 'react';
-// import { useLazyQuery } from '@apollo/client';
 import { useNavigate } from 'react-router-dom';
-
-// import VALIDATE_MOVIE_QUERY from '../../../queries/validateMovieInput';
-import ActorModeDecide from './ActorModeDecide';
 import { useGameContext } from '../../../contexts';
 // TODO change to display the character Name somewhere in the tree or soemthign cool
 
-import GameConfirm from '../../modals/GameConfirm';
+import ActorModeDecide from './ActorModeDecide';
 import ActorFormRow from './ActorFormRow';
-
 import { useValidateMovieInput } from '../../../hooks/useGQLclient';
+import Spinner from '../../../utils/Spinner';
 
 
 
@@ -20,20 +16,14 @@ function ActorForm() {
         currentMovieTitle,
         currentActorOptions,
         handleActorSelection,
-        // setReadyToBridge,
-        movieList,
         actorB,
         handleGameStateChange,
         handleFinalBridge,
         setDecideMode,
         decideMode,
         setShowAlert,
-        showConfirm,
         setShowConfirm,
-        confirmText,
         setConfirmText,
-        handleCancelClick,
-        confirmModal,
         setConfirmModal,
     } = useGameContext();
     const [movieName, setMovieName] = useState(currentMovieTitle);
@@ -41,6 +31,7 @@ function ActorForm() {
         actorInput: '',
     });
     const [showRow, setShowRow] = useState(!decideMode);
+    const navigate = useNavigate();
 
     useEffect(() => {
         setShowRow(!decideMode);
@@ -53,7 +44,6 @@ function ActorForm() {
         // reset the form to the default state each round
     }, [currentMovieTitle]);
 
-    const navigate = useNavigate();
 
     // TODO: filter out any actors that have already been selected in global list as well as ActorA and ActorB
     const actorOptions = currentActorOptions?.map((actor) => {
@@ -113,7 +103,7 @@ function ActorForm() {
                 show: true,
                 text: 'final',
                 callback: () => refetch().then((res) => {
-                    console.log('res: ', res);
+                    // console.log('res: ', res); // debug
                     handleFinalResults(res.data);
                 }),
             })
@@ -129,16 +119,13 @@ function ActorForm() {
         try {
             console.log('in handleFinalResults()');
             // console.log('data: ', data); // debug
-
             setShowConfirm(false);
             setConfirmText('default');
             setConfirmModal({ show: false, text: 'default' });
             let evaluationResult = data.validateMovieInput;
-
-
+            // console.log('evaluationResult: ', evaluationResult); // debug
             if (evaluationResult.isInMovie === true) {
                 console.log('true isInMovie!')
-
                 let finalTree = await handleFinalBridge(evaluationResult.character);
                 //* handling any congratulatory messages over in createTree component
                 navigate('/createTree', { state: { tree: JSON.stringify(finalTree) } });
@@ -165,11 +152,12 @@ function ActorForm() {
 
 
 
-    // TODO move all confirm stuff to context
+    // // TODO move all confirm stuff to context
     // TODO show spinner underneath for while final bridge "checkas" the last input for actorB and movieTitle
     // TODO this function is a mess and needs work.
     return (
         <>
+            {isFetching ? <Spinner /> : <></>}
             {formTypeMovie === false && (
                 <>
                     {!showRow ? (
