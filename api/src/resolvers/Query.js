@@ -64,26 +64,14 @@ async function getCastList(parent, args, context) {
 async function validateMovieInput(parent, args, context) {
     try {
         const { title, actor } = args;
-        let movieValidation = await validateMovie(title, actor);
-
-        // dont do anythih else if it doesnt exist
-        if (movieValidation.officialTitle === "MOVIE_DOES_NOT_EXIST") {
-            return {
-                id: uuidv4(),
-                isInMovie: movieValidation.found,
-                character: movieValidation.character,
-                cast: [],
-                officialTitle: movieValidation.officialTitle,
-            }
-        } else {
-            return {
-                id: uuidv4(),
-                isInMovie: movieValidation.found,
-                character: movieValidation.character,
-                cast: movieValidation.actorList,
-                officialTitle: movieValidation.officialTitle,
-            }
-        }
+        const { found, character, officialTitle, actorList } = await validateMovie(title, actor);
+        return {
+            id: uuidv4(),
+            isInMovie: found,
+            character,
+            cast: actorList,
+            officialTitle,
+        };
     } catch (error) {
         console.error(error);
     }
