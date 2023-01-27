@@ -64,14 +64,14 @@ async function getCastList(parent, args, context) {
 async function validateMovieInput(parent, args, context) {
     try {
         const { title, actor } = args;
-        const { found, character, officialTitle, actorList } = await validateMovie(title, actor);
-        return {
-            id: uuidv4(),
-            isInMovie: found,
+        const {
+            found: isInMovie,
             character,
-            cast: actorList,
             officialTitle,
-        };
+            actorList: cast,
+        } = await validateMovie(title, actor);
+        const originalInput = `{title: ${title}, actor: ${actor}}`;
+        return { id: uuidv4(), isInMovie, character, cast, officialTitle, originalInput };
     } catch (error) {
         console.error(error);
     }
@@ -80,6 +80,7 @@ async function validateMovieInput(parent, args, context) {
 // async function challengeMovieValidation(parent, args, context) {
 //     try {
 //         const { movieValidation } = args;
+//         const { officialTitle, actor } = movieValidation;
 
 //     } catch (error) {
 //         console.error(error);

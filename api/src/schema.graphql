@@ -33,7 +33,9 @@ type MovieValidation {
     isInMovie: Boolean
     character: String
     cast: [Actor]
-    officialTitle: String #  save this to use AS input when validation gets challenged
+    officialTitle: String 
+    #  save this to use AS input when validation gets challenged
+    originalInput: String
 }
 
 type Mutation {
