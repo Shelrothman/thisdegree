@@ -36,7 +36,6 @@ async function validateMovie(movie, actor) {
         let character = '';
         for (let x = 0, max = cast.length; x < max; x++) {
             let castMember = cast[x];
-            console.log("castMember", castMember);
             if (castMember.name.toLowerCase() == actor.toLowerCase()) { //! doing a == instead of === 
                 found = true;
                 console.log("we here ri?")
@@ -45,7 +44,7 @@ async function validateMovie(movie, actor) {
                 break;
             }
         }
-        return { found, character, officialTitle, actorList };
+        return { found, character, officialTitle, actorList, movieID };
     } catch (error) {
         console.error(error);
     }
