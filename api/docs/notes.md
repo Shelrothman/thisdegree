@@ -22,7 +22,7 @@ went too far down the rabbi whole... chill out.. move on and cud always come bac
 * so we gonna grab the first element in the array
  IF the user wants to challenge, we resend that request and present them with a list 
  that list is the other elements in the array that gets returned from the query
- if still not found we can go to the next page... but that is a stretch goal
+!!!!!!!!! if still not found we can go to the next page... but that is a stretch goal !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 ```
 <!-- ? we are going to want the actors id to be set as either a new uuid if theyre not in the db, OR if their already in db then use that id. -->
 <!-- TODO: so we need to implement that functionality into the db/gql stuff

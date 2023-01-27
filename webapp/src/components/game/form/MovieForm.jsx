@@ -92,6 +92,7 @@ function MovieForm() {
                 // TODO: MODULATE THis function better
                 if (addResponse === true) {
                     // add the cast of the movie to the actorOptions of the currentMovie(in the global list):
+                    // TODO: ** CHANGE THIS TO USE THE getCastList QUERY
                     const buildResponse = await buildCastOptions(movieEvaluationObject.validateMovieInput.cast);
                     if (buildResponse === true) handleRefs();
                 } else {

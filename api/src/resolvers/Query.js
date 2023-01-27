@@ -65,17 +65,38 @@ async function validateMovieInput(parent, args, context) {
     try {
         const { title, actor } = args;
         let movieValidation = await validateMovie(title, actor);
-        return {
-            id: uuidv4(),
-            isInMovie: movieValidation.found,
-            character: movieValidation.character,
-            cast: await getCast(title),
-        };
+
+        // dont do anythih else if it doesnt exist
+        if (movieValidation.officialTitle === "MOVIE_DOES_NOT_EXIST") {
+            return {
+                id: uuidv4(),
+                isInMovie: movieValidation.found,
+                character: movieValidation.character,
+                cast: [],
+                officialTitle: movieValidation.officialTitle,
+            }
+        } else {
+            return {
+                id: uuidv4(),
+                isInMovie: movieValidation.found,
+                character: movieValidation.character,
+                cast: movieValidation.actorList,
+                officialTitle: movieValidation.officialTitle,
+            }
+        }
     } catch (error) {
         console.error(error);
     }
 }
 
+// async function challengeMovieValidation(parent, args, context) {
+//     try {
+//         const { movieValidation } = args;
+
+//     } catch (error) {
+//         console.error(error);
+//     }
+// }
 
 
 
@@ -86,4 +107,5 @@ module.exports = {
     treeFeed,
     getCastList,
     validateMovieInput,
+    // challengeMovieValidation,
 }

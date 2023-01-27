@@ -1,3 +1,4 @@
+# todo: change all these titles and stuff to dat agnostic names and can specify on the front end their usecase
 type Query {
     info: String!
     # gets all movies in the db
@@ -19,6 +20,12 @@ type Query {
     validateMovieInput(title: String!, actor: String!): MovieValidation
 
     # user challenges a rejection and we do more fetching for them to see if they are right (bc a rejection = no option for selection)
+
+
+    # challengeMovieValidation(movieValidation: MovieValidationInput!): MovieValidation
+
+    #getChallengeOptions
+    # ! have uit return the other items in the results array other than the first one to hold to save to present to user as options if they challenge.... (workable for movieGame or science or anythignns)
 }
 
 type MovieValidation {
@@ -26,6 +33,7 @@ type MovieValidation {
     isInMovie: Boolean
     character: String
     cast: [Actor]
+    officialTitle: String #  save this to use AS input when validation gets challenged
 }
 
 type Mutation {
@@ -41,6 +49,14 @@ type Mutation {
     signup(email: String!, password: String!, name: String!): AuthPayload
     login(email: String!, password: String!): AuthPayload
 }
+
+# input MovieValidationInput {
+#     id: ID
+#     isInMovie: Boolean
+#     # TODO: get the OGtitle in from validation and have it return
+#     character: String
+#     cast: [Actor]
+# }
 
 input TreeOrderByInput {
     treeDeclaration: Sort
