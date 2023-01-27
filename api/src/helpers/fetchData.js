@@ -17,6 +17,9 @@ const apiBase = `https://api.themoviedb.org/3`;
 const urlPrefix = `/search/movie?query=`;
 const urlSuffix = `&page=1&api_key=${apiKey}`;
 
+const NOT_EXIST_STRING = "MOVIE_DOES_NOT_EXIST";
+
+
 // TODO: other validation queries.. challenges.
 
 //* used after user enters a movie  to validate currentActor is in it
@@ -24,8 +27,8 @@ async function validateMovie(movie, actor) {
     try {
         let actorList = [];
         const { movieID, officialTitle } = await getMovieByTitle(movie);
-        if (officialTitle === "MOVIE_DOES_NOT_EXIST") {
-            return { found: false, character: "", officialTitle, actorList };
+        if (officialTitle === NOT_EXIST_STRING) {
+            return { found: false, character: "", officialTitle, actorList, movieID };
         }
         // yaa cant know if its false WITHOUT getting the cast silly,.,.
         let cast = await getMovieCast(movieID) || [];
@@ -38,7 +41,6 @@ async function validateMovie(movie, actor) {
             let castMember = cast[x];
             if (castMember.name.toLowerCase() == actor.toLowerCase()) { //! doing a == instead of === 
                 found = true;
-                console.log("we here ri?")
                 character = castMember.character;
                 console.log("character", character)
                 break;
@@ -64,7 +66,7 @@ async function getMovieByTitle(movieTitle) {
             resObject.total_results == 0 ||
             resObject.total_results == undefined
         ) {
-            return { movieID: "", officialTitle: "MOVIE_DOES_NOT_EXIST" };
+            return { movieID: "", officialTitle: NOT_EXIST_STRING };
         }
         let movieID = resObject?.results?.[0]?.id || '';
         let officialTitle = resObject?.results?.[0]?.original_title || '';
@@ -74,17 +76,39 @@ async function getMovieByTitle(movieTitle) {
     }
 }
 
+async function getAlternativeTitles(ogTitle) {
+    try {
+        const response = await fetch(`${apiBase}${urlPrefix}${ogTitle}${urlSuffix}`);
+        const resObject = await response.json();
+
+        const movieObjects = resObject.results || [];
+        
+        let retVal = {
+            total_pages: resObject.total_pages || 0,
+            total_results: resObject.total_results || 0,
+            altTitles: [],
+            continuation: '' // some kind of thing to paginate the results
+        }
+        for (var x = 0, max = movieObjects.length; x < max; x++) {
+            let movieObject = movieObjects[x];
+            retVal.altTitles.push({title: movieObject.title});
+        }
+        // get the total amount of pages so can return that iterator for uiser to say show me the next page- another list.. if they want...
+
+        console.log("retVal", retVal)
+        return retVal;
+    } catch (error) {
+        console.error(error);
+        
+    }
+}
+
 async function getMovieCast(movieID) {
     try {
         let cast = [];
         const response = await fetch(`${apiBase}/movie/${movieID}/credits?api_key=${apiKey}`);
-        // console.log("response", response)
-
         const resObject = await response.json();
-        // console.log("resObjectGetMovieCast", resObject)
         cast = resObject.cast;
-
-        // console.log("cast", cast)
         return cast;
     } catch (error) {
         console.error(error);
@@ -138,5 +162,6 @@ async function getCast(input) {
 module.exports = {
     getCast,
     validateMovie,
-    getMovieCast
+    getMovieCast,
+    getAlternativeTitles
 }
