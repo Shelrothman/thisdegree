@@ -10,7 +10,7 @@ import FormContainer from './form/FormContainer.jsx';
 import TreeBuildContainer from './display/TreeBuildContainer.jsx';
 import GameConfirm from '../modals/GameConfirm';
 import Spinner from '../../utils/Spinner';
-
+import ChallengeBtn from '../buttons/ChallengeBtn';
 
 function Launcher() {
     const [show, setShow] = useState(false);
@@ -43,7 +43,7 @@ function Launcher() {
     //     }
     // }, []);
 
-// should only need it here...
+    // should only need it here...
 
     useEffect(() => {
         if (actorA && actorB) {
@@ -103,7 +103,7 @@ function Launcher() {
     //     return;
     // }
     //"" == false
-// true
+    // true
 
 
     // ! this could be refactored witht the conditionakls better    
@@ -111,6 +111,10 @@ function Launcher() {
         <>
             <div className='float-end'>
                 Rounds: add round stuff
+                <br />
+                <div className='float-end'>
+                    <ChallengeBtn />
+                </div>
             </div>
             <MovieBtn
                 text={actorA && actorB ? 'Change Actors' : 'Select Actors'}

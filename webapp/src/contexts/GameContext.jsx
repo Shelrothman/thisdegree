@@ -62,6 +62,8 @@ export function GameContextProvider({ children }) {
         variant: 'primary',
     });
 
+    const [showChallenge, setShowChallenge] = useState(false);
+
     // objv i aint the first to have iussues with confirm i wma= seeing now...
 
     useEffect(() => {
@@ -99,6 +101,7 @@ export function GameContextProvider({ children }) {
             subtext: '',
             variant: 'primary', // not needing this yet
         });
+        setShowChallenge(false);
         // setConfirmMode(false);
     };
 
@@ -316,6 +319,8 @@ export function GameContextProvider({ children }) {
             setConfirmModal,
             dataLoading,
             setDataLoading,
+            showChallenge,
+            setShowChallenge,
         }}>
             {children}
         </GameContext.Provider>

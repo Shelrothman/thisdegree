@@ -21,6 +21,7 @@ function MovieForm() {
         handleUniqueCheck,
         setShowAlert,
         setDataLoading,
+        setShowChallenge
     } = useGameContext();
     const [actorName, setActorName] = useState(currentActorBridge);
 
@@ -113,6 +114,7 @@ function MovieForm() {
 
     function handleWrongMovie(errorMessage) {
         console.log('not valid bc: \n', errorMessage);
+        setShowChallenge(true);
         // setFormState({ movieInput: 'INVALID INPUT' });
         setShowAlert({
             show: true,
