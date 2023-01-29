@@ -37,10 +37,18 @@ type ChallengedValidationResult {
     # the results of the challenge
     results: String! 
     otherOptions: [AltTitle]
+    continuationToken: ContinuationToken!
 }
 
 type AltTitle {
     title: String!
+    # continuationToken: ContinuationToken!
+}
+
+type ContinuationToken {
+    page: Int!
+    total_pages: Int!
+    total_results: Int!
 }
 
 

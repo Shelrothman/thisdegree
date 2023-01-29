@@ -82,7 +82,10 @@ async function getAlternativeTitles(ogTitle) {
         const resObject = await response.json();
 
         const movieObjects = resObject.results || [];
-        const { page, total_pages, total_results } = resObject;
+        const { page = 0,
+            total_pages = 0,
+            total_results = 0
+        } = resObject;
         // console.log(resObject);
 
         // const continuationToken = `${page}_${total_pages}_${total_results}`
@@ -91,14 +94,15 @@ async function getAlternativeTitles(ogTitle) {
             // total_pages: resObject.total_pages || 0,
             total_results: resObject.total_results || 0,
             altTitles: [],
-            // continuation: '' // some kind of thing to paginate the results
+            continuationToken: { page, total_pages, total_results }
+            // ensures never null bc defaults to zero
         }
         for (var x = 0, max = movieObjects.length; x < max; x++) {
             let movieObject = movieObjects[x];
-            retVal.altTitles.push({ title: movieObject.title });
+            retVal.altTitles.push({ title: movieObject.title || "" });
         }
         // get the total amount of pages so can return that iterator for uiser to say show me the next page- another list.. if they want...
-        retVal.altTitles.push({page, total_pages, total_results});
+        // retVal.altTitles.push({ page, total_pages, total_results });
         // console.log("retVal", retVal)
         return retVal;
     } catch (error) {
