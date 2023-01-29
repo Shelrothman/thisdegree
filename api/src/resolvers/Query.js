@@ -105,9 +105,11 @@ async function handleNotFound(ogTitle) {
 }
 
 const RESULT_STRING = {
-    // found:
+    found: (x) => `Actor Found! Movie is valid! Resend ValidationQuery with ${x} as the title.`,
     notFound: 'Valid movie but actor not found. Did you mean one of these returned titles?'
 }
+
+// const 
 
 /**
  *  
@@ -124,7 +126,7 @@ async function challengeMovieValidation(parent, args, context) {
     try {
         const { challengeItem } = args;
         const { id, officialTitle: ogOfficialTitle, originalInput, reason } = challengeItem;
-        
+
         const { title: ogTitle, actor } = JSON.parse(originalInput);
         // console.log("ogTitle: ", ogTitle)
         const {
@@ -148,18 +150,31 @@ async function challengeMovieValidation(parent, args, context) {
             case CHALLENGE_REASONS.invalid:
                 // *  I think this is all we want in this case for now, but may need to reasses after lookin/g at ui
                 if (officialTitle === NOT_EXIST_STRING) {
-                    retVal = { ...retVal, results: NOT_EXIST_STRING };
-                    // indicate to client maybe they have a typo or soemthign
-                } else if (isInMovie === true) {
-                    retVal = { ...retVal, results: `Actor Found! Movie is valid! Resend ValidationQuery with ${officialTitle} as the title.` };
-                } else {
-                    const { otherOptions, continuationToken } = await handleNotFound(ogTitle);
                     retVal = {
                         ...retVal,
-                        results: RESULT_STRING.notFound,
-                        otherOptions,
-                        continuationToken
+                        results: NOT_EXIST_STRING
                     };
+                    // indicate to client maybe they have a typo or soemthign
+                } else if (isInMovie === true) {
+                    retVal = {
+                        ...retVal,
+                        results: RESULT_STRING.found(officialTitle)
+                    };
+                } else {
+                    const { otherOptions, continuationToken } = await handleNotFound(ogTitle);
+                    if (continuationToken.total_results === 0) {
+                        retVal = {
+                            ...retVal,
+                            results: NOT_EXIST_STRING
+                        };
+                    } else {
+                        retVal = {
+                            ...retVal,
+                            results: RESULT_STRING.notFound,
+                            otherOptions,
+                            continuationToken
+                        };
+                    }
                 }
                 break;
             case CHALLENGE_REASONS.unfound:
@@ -167,16 +182,26 @@ async function challengeMovieValidation(parent, args, context) {
                     console.log("isInMovie is true");
                     retVal = {
                         ...retVal,
-                        results: `Actor Found! Movie is valid! Resend ValidationQuery with ${officialTitle} as the title.`
+                        // results: `Actor Found! Movie is valid! Resend ValidationQuery with ${officialTitle} as the title.`
+                        results: RESULT_STRING.found(officialTitle)
                     };
-                } else {
+                }
+
+                else {
                     const { otherOptions, continuationToken } = await handleNotFound(ogTitle);
-                    retVal = {
-                        ...retVal,
-                        results: RESULT_STRING.notFound,
-                        otherOptions,
-                        continuationToken
-                    };
+                    if (continuationToken.total_results === 0) {
+                        retVal = {
+                            ...retVal,
+                            results: NOT_EXIST_STRING
+                        };
+                    } else {
+                        retVal = {
+                            ...retVal,
+                            results: RESULT_STRING.notFound,
+                            otherOptions,
+                            continuationToken
+                        };
+                    }
                 }
                 break;
             default:
