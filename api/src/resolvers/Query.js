@@ -126,9 +126,7 @@ async function challengeMovieValidation(parent, args, context) {
     try {
         const { challengeItem } = args;
         const { id, officialTitle: ogOfficialTitle, originalInput, reason } = challengeItem;
-
         const { title: ogTitle, actor } = JSON.parse(originalInput);
-        // console.log("ogTitle: ", ogTitle)
         const {
             found: isInMovie,
             character,
@@ -150,23 +148,14 @@ async function challengeMovieValidation(parent, args, context) {
             case CHALLENGE_REASONS.invalid:
                 // *  I think this is all we want in this case for now, but may need to reasses after lookin/g at ui
                 if (officialTitle === NOT_EXIST_STRING) {
-                    retVal = {
-                        ...retVal,
-                        results: NOT_EXIST_STRING
-                    };
+                    retVal = { ...retVal, results: NOT_EXIST_STRING };
                     // indicate to client maybe they have a typo or soemthign
                 } else if (isInMovie === true) {
-                    retVal = {
-                        ...retVal,
-                        results: RESULT_STRING.found(officialTitle)
-                    };
+                    retVal = { ...retVal, results: RESULT_STRING.found(officialTitle) };
                 } else {
                     const { otherOptions, continuationToken } = await handleNotFound(ogTitle);
                     if (continuationToken.total_results === 0) {
-                        retVal = {
-                            ...retVal,
-                            results: NOT_EXIST_STRING
-                        };
+                        retVal = { ...retVal, results: NOT_EXIST_STRING };
                     } else {
                         retVal = {
                             ...retVal,
@@ -180,20 +169,11 @@ async function challengeMovieValidation(parent, args, context) {
             case CHALLENGE_REASONS.unfound:
                 if (isInMovie === true) {
                     console.log("isInMovie is true");
-                    retVal = {
-                        ...retVal,
-                        // results: `Actor Found! Movie is valid! Resend ValidationQuery with ${officialTitle} as the title.`
-                        results: RESULT_STRING.found(officialTitle)
-                    };
-                }
-
-                else {
+                    retVal = { ...retVal, results: RESULT_STRING.found(officialTitle) };
+                } else {
                     const { otherOptions, continuationToken } = await handleNotFound(ogTitle);
                     if (continuationToken.total_results === 0) {
-                        retVal = {
-                            ...retVal,
-                            results: NOT_EXIST_STRING
-                        };
+                        retVal = { ...retVal, results: NOT_EXIST_STRING };
                     } else {
                         retVal = {
                             ...retVal,
