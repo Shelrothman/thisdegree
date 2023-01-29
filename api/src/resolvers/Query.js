@@ -136,12 +136,12 @@ async function challengeMovieValidation(parent, args, context) {
                     console.log("isInMovie is False");
                     // here we present the list of other movies
                     const alternativeResponse = await getAlternativeTitles(ogTitle) || [];
-                    // console.log("alternativeResponse: ", alternativeResponse)
+                    console.log("alternativeResponse: ", alternativeResponse)
                     retVal = {
                         ...retVal,
                         results: 'Valid movie but actor not found. Did you mean one of these returned titles?',
-                        otherOptions: alternativeResponse.altTitles
-                        // TODO: implememtn use of continuationTOken here and schema
+                        otherOptions: alternativeResponse.altTitles // this includes continuationToken as last item of array
+                    //    // TODO: implememtn use of continuationTOken here and schema
                     };
                 }
                 break;
@@ -163,6 +163,7 @@ async function challengeMovieValidation(parent, args, context) {
                         // TODO: implememtn use of continuationTOken here and schema
                     };
                 }
+                break;
             default:
                 break;
         }
