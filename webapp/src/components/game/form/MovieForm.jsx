@@ -97,10 +97,12 @@ function MovieForm() {
                     const buildResponse = await buildCastOptions(movieEvaluationObject.validateMovieInput.cast);
                     if (buildResponse === true) handleRefs();
                 } else {
-                    throw new Error('something went wrong attempting to add the movie to the global list');
+                    // throw new Error('something went wrong attempting to add the movie to the global list');
+                    handleWrongMovie('something went wrong attempting to add the movie to the global list');
                 }
             } else {
-                throw new Error(`something went wrong; evaluationResult was not the expected Boolean. Instead I recieved ${evaluationResult}`);
+                // throw new Error(`something went wrong; evaluationResult was not the expected Boolean. Instead I recieved ${evaluationResult}`);
+                handleWrongMovie(`something went wrong; evaluationResult was not the expected Boolean. Instead I recieved ${evaluationResult}`);
             }
         } catch (error) {
             throw new Error(error);

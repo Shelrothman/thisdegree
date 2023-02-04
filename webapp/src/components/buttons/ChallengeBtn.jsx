@@ -5,17 +5,23 @@
  * TODO addd to context that wrongFlag
  */
 import Button from 'react-bootstrap/Button';
-// import { useGameContext } from '../../contexts';
+import { useGameContext } from '../../contexts';
 
+// addto the allerettt
 
-function ChallengeBtn({
-    showChallenge,
-    setShowChallenge
-}) {
+function ChallengeBtn() {
+
+    const {
+        showChallenge,
+        setShowChallenge,
+    } = useGameContext();
+
 
     const handleClick = () => {
         setShowChallenge(false);
     }
+
+// TODO modulate out the literal button to its own component so this is more a holder/parwent with logic
 
     return (
         <>
