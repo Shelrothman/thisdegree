@@ -52,7 +52,7 @@ export function GameContextProvider({ children }) {
         text: 'default',
         callback: () => { console.log('default confirm callback') },
     });
-    //!!!! PU HERE! now just do it for the prompts.
+    // TODO PU HERE! now just need to do it for the prompts fpr the challenge
 
     const [showAlert, setShowAlert] = useState({
         show: false,

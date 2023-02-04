@@ -49,7 +49,7 @@ function MovieForm() {
 
     useEffect(() => {
         const userMovieGuess = formState.movieInput;
-        if (userMovieGuess) {
+        if (userMovieGuess !== '') {
             const uniqueMovie = handleUniqueCheck(userMovieGuess);
             if (uniqueMovie === false) {
                 handleWrongMovie('notUnique');
@@ -151,6 +151,7 @@ function MovieForm() {
                             variant="outline-secondary"
                             className="form-controls submit-btn"
                             onClick={refetch}
+                            disabled={formState.movieInput === ''}
                         >
                             Submit
                         </Button>

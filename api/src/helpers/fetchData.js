@@ -59,6 +59,8 @@ async function getMovieByTitle(movieTitle) {
         const resObject = await response.json();
         // console.log("resObject", resObject);
         if (
+            resObject === undefined ||
+            resObject.results === undefined ||
             resObject.results.length == 0 ||
             resObject.results == undefined ||
             resObject.total_pages == 0 ||

@@ -5,14 +5,13 @@
  * TODO addd to context that wrongFlag
  */
 import Button from 'react-bootstrap/Button';
-import { useGameContext } from '../../contexts';
+// import { useGameContext } from '../../contexts';
 
 
-function ChallengeBtn() {
-    const {
-        showChallenge,
-        setShowChallenge,
-    } = useGameContext();
+function ChallengeBtn({
+    showChallenge,
+    setShowChallenge
+}) {
 
     const handleClick = () => {
         setShowChallenge(false);

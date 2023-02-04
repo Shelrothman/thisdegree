@@ -29,21 +29,10 @@ function Launcher() {
         confirmModal,
         setConfirmModal,
         dataLoading,
+        showChallenge,
+        setShowChallenge,
     } = useGameContext();
 
-
-    // const [userId, setUserId] = useState("");
-    // const { data, isLoading, error, refetch } = useTestRQ(userId);
-
-    // const [formInput, setFormInput] = useState(null);
-
-    // useEffect(() => {
-    //     if (inputRef.current.value) {
-    //         setUserId(inputRef.current.value);
-    //     }
-    // }, []);
-
-    // should only need it here...
 
     useEffect(() => {
         if (actorA && actorB) {
@@ -71,6 +60,7 @@ function Launcher() {
 
     // we also want handleShow to clear out the selected actors
     const handleChangeClick = (internalText) => {
+       console.log('are we here');
         if (internalText === 'Change Actors') {
             // setShowConfirm(true);
             setConfirmModal({
@@ -80,7 +70,6 @@ function Launcher() {
                     handleConfirmClick();
                 }
             })
-
         } else {
             // just open the offcanvas, no need to change the game state bc its hasnt started yet
             setShow(true);
@@ -107,17 +96,24 @@ function Launcher() {
 
 
     // ! this could be refactored witht the conditionakls better    
+
+    // TODO come back and figure out bett erlogic with confirm 'when change actors is clicke Before playbuittpn
+    // * for now just going to hide it until play... aka: keep it as 'select actors' callback until play.. aka Hack.
+
     return (
         <>
             <div className='float-end'>
                 Rounds: add round stuff
                 <br />
                 <div className='float-end'>
-                    <ChallengeBtn />
+                    <ChallengeBtn
+                        showChallenge={showChallenge}
+                        setShowChallenge={setShowChallenge}
+                    />
                 </div>
             </div>
             <MovieBtn
-                text={actorA && actorB ? 'Change Actors' : 'Select Actors'}
+                text={actorA && actorB && gameStarted ? 'Change Actors' : 'Select Actors'}
                 handler={handleChangeClick}
             /> <br />
             <Offcanvas show={show}
