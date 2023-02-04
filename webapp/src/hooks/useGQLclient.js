@@ -60,7 +60,8 @@ export function useSignup(email, password, name) {
 export function useValidateMovieInput(movieInput, actorInput) {
     const variables = { movieInput, actorInput };
     // const enableQuery = movieInput.includes("$%$%") || false; // symbol to indicate that the query should be enabled
-
+    const shouldEnable = movieInput.includes("$%$%") === false; // symbol to indicate that the query should be enabled
+    console.log("shouldEnable: ", shouldEnable)
     const { data, isLoading, error, refetch, isFetching } = useQuery({
         queryKey: ['validateMovieInput', `${movieInput}-${actorInput}`],
         queryFn: () => {
@@ -72,6 +73,9 @@ export function useValidateMovieInput(movieInput, actorInput) {
             });
         },
         enabled: false
+        // but this takes away the whole point of react-query....
+        // TODO come back and reasses once u work with it more/ and see any effect on perfomrance
+        // enabled: shouldEnable
         // ! this is important, lets the query to be called manually
         // ? we could also say enalbed: !!movieInput and it wont execute until we have a movieInput
         // however, my form updates the movieInput as its inputted, so it will always be true 

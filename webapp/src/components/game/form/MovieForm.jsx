@@ -153,7 +153,8 @@ function MovieForm() {
                             variant="outline-secondary"
                             className="form-controls submit-btn"
                             onClick={refetch}
-                            disabled={formState.movieInput === ''}
+                            // && handleUniqueCheck(formState.movieInput) === false not that i wanan so this bc it will alert the user if they type in the same name, even before submitting unless i do that but i dwant it to be nique to ANYTHING inthe query queue... nothing thats already been tried should be tried again... ... i think
+                            disabled={formState.movieInput === '' }
                         >
                             Submit
                         </Button>

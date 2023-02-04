@@ -15,7 +15,7 @@ import {
 } from 'react';
 import { useActorContext } from './ActorContext.jsx';
 import uuid from 'react-uuid';
-
+import Movie from '../models/Movie';
 
 const GameContext = createContext();
 
@@ -127,21 +127,22 @@ export function GameContextProvider({ children }) {
             let localMovieList = movieList || [];
             // add the movie guess to the end of array 
             // TODO: maybe use like Object.assign or something ES6y here?
-            // * playing with ysing a class in models/Movie.js
-            localMovieList.push({
-                id: uuid(),
-                movieTitle: userMovieInput,
-                previousActor: {
-                    name: currentActorBridge,
-                    characterName: previousActorCharacterName
-                },
-                actorGuessed: false,
-                actorSelection: {
-                    id: '',
-                    name: '...', // this is nice for the user in the ui
-                    characterName: '',
-                },
-            });
+            // // * playing with ysing a class in models/Movie.js
+            // localMovieList.push({
+            //     id: uuid(),
+            //     movieTitle: userMovieInput,
+            //     previousActor: {
+            //         name: currentActorBridge,
+            //         characterName: previousActorCharacterName
+            //     },
+            //     actorGuessed: false,
+            //     actorSelection: {
+            //         id: '',
+            //         name: '...', 
+            //         characterName: '',
+            //     },
+            // });
+            localMovieList.push(new Movie(uuid(), userMovieInput, currentActorBridge, previousActorCharacterName));
             // set it to true after a movie is added (sets to false in the formContainer/ actorForm)
             setDecideMode(true);
             setMovieList(localMovieList);
