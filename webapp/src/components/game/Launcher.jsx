@@ -3,14 +3,14 @@ import Offcanvas from 'react-bootstrap/Offcanvas';
 
 import { useActorContext, useGameContext } from '../../contexts';
 import ActorListContainer from './ActorListContainer.jsx';
-import MovieBtn from '../buttons/MovieBtn.jsx';
+import ActorBtn from '../buttons/ActorBtn.jsx';
 import PlayBtn from '../buttons/PlayBtn.jsx';
 import ActorHeader from './ActorHeader.jsx';
 import FormContainer from './form/FormContainer.jsx';
 import TreeBuildContainer from './display/TreeBuildContainer.jsx';
 import GameConfirm from '../modals/GameConfirm';
 import Spinner from '../../utils/Spinner';
-import ChallengeBtn from '../buttons/ChallengeBtn';
+import ChallengeContainer from './ChallengeContainer';
 
 function Launcher() {
     const [show, setShow] = useState(false);
@@ -112,7 +112,7 @@ function Launcher() {
                     /> */}
                 </div>
             </div>
-            <MovieBtn
+            <ActorBtn
                 text={actorA && actorB && gameStarted ? 'Change Actors' : 'Select Actors'}
                 handler={handleChangeClick}
             /> <br />

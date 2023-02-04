@@ -1,7 +1,8 @@
-import { RiMovie2Fill } from 'react-icons/ri';
+// import { RiMovie2Fill } from 'react-icons/ri';
+import { BiCameraMovie } from 'react-icons/bi';
 import Button from 'react-bootstrap/Button';
 
-function MovieBtn({ text, handler, disabled }) {
+function ActorBtn({ text, handler, disabled }) {
     return (
         <div>
             <Button
@@ -9,12 +10,12 @@ function MovieBtn({ text, handler, disabled }) {
                 onClick={() => handler(text)}
                 disabled={disabled}
             >
-                <RiMovie2Fill size={25} />
-                {text}
+                <BiCameraMovie size={25} />
+                {' '}{text}
             </Button>
         </div>
     )
 }
 
 
-export default MovieBtn;
+export default ActorBtn;

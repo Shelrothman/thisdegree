@@ -60,8 +60,8 @@ export function useSignup(email, password, name) {
 export function useValidateMovieInput(movieInput, actorInput) {
     const variables = { movieInput, actorInput };
     // const enableQuery = movieInput.includes("$%$%") || false; // symbol to indicate that the query should be enabled
-    const shouldEnable = movieInput.includes("$%$%") === false; // symbol to indicate that the query should be enabled
-    console.log("shouldEnable: ", shouldEnable)
+    // const shouldEnable = movieInput.includes("$%$%") === false; // symbol to indicate that the query should be enabled
+    // console.log("shouldEnable: ", shouldEnable)
     const { data, isLoading, error, refetch, isFetching } = useQuery({
         queryKey: ['validateMovieInput', `${movieInput}-${actorInput}`],
         queryFn: () => {

@@ -60,6 +60,7 @@ export function GameContextProvider({ children }) {
         end: false,
         subtext: 'default',
         variant: 'primary',
+        // handeling icon logic in the component based on this.text
     });
 
     const [showChallenge, setShowChallenge] = useState(false);
@@ -142,6 +143,7 @@ export function GameContextProvider({ children }) {
             //         characterName: '',
             //     },
             // });
+            // let newMovie = new Movie(uuid(), userMovieInput, currentActorBridge, previousActorCharacterName);
             localMovieList.push(new Movie(uuid(), userMovieInput, currentActorBridge, previousActorCharacterName));
             // set it to true after a movie is added (sets to false in the formContainer/ actorForm)
             setDecideMode(true);
@@ -259,7 +261,7 @@ export function GameContextProvider({ children }) {
     function handleUniqueCheck(movieInput) {
         // check if the movie is already in the list
         // let currentMoviesInGame = movieList.map((movie) => movie.movieTitle);
-        if (movieList.length === 0) {
+        if (movieList === undefined || movieList.length === 0) {
             return true;
         }
         let unique = movieList.every((movie) => movie.movieTitle.toLowerCase() !== movieInput.toLowerCase());
@@ -269,8 +271,6 @@ export function GameContextProvider({ children }) {
     // TODO: i think wer can move this function back in to FormContainer if its thew only component that uses it
     async function handleUndoLastRound() {
         try {
-            // setShowConfirm(false);
-            // setConfirmText('default');
             setConfirmModal({
                 show: false,
                 text: 'default',

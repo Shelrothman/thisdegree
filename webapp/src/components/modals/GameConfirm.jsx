@@ -1,7 +1,8 @@
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
-
-
+import { VscDebugRestart } from 'react-icons/vsc';
+import { GiFinishLine } from 'react-icons/gi';
+import { BsBackspace } from 'react-icons/bs';
 function GameConfirm({
     text,
     // visible,
@@ -21,6 +22,19 @@ function GameConfirm({
 
     console.log('handler: ', handleConfirmClick);
 
+    function showConfirmIcon() {
+        switch (text) {
+            case 'undo':
+                return <BsBackspace size={25} />;
+            case 'startOver':
+                return <VscDebugRestart size={25} />;
+            case 'final':
+                return <GiFinishLine size={25} />;
+            default:
+                return '';
+        }
+    }
+
     return (
         <div>
             <Card
@@ -37,12 +51,12 @@ function GameConfirm({
                         {MESSAGE[text] || text}
                         {/* <Modal.Footer> */}
                     </Card.Title>
-
                     {/* <form onSubmit={handleSubmit}> */}
-                    <Button onClick={handleConfirmClick}>
-                        OK
+                    <Button onClick={handleConfirmClick} className="degreeBtn" >
+                        <strong>Yes</strong>{' '}{showConfirmIcon()}
                     </Button>
-                    <Button onClick={handleCancelClick}>
+                    {' '}
+                    <Button onClick={handleCancelClick} variant="secondary">
                         Cancel
                     </Button>
                     {/* </form> */}
