@@ -137,6 +137,7 @@ async function challengeMovieValidation(parent, args, context) {
         let retVal = {
             id: uuidv4(),
             originalValidation: { id, ogOfficialTitle, originalInput },
+            // TODO: add in characters and movieID?
             results: "",
             continuationToken: {
                 page: 0,
@@ -166,6 +167,10 @@ async function challengeMovieValidation(parent, args, context) {
                     }
                 }
                 break;
+                // ?? dude these both are doing the same thing, you dont need the switch, just one?
+                // we dont need reason in the src.. that really should be in the ui (and for my self to grok what im trying to do)
+                // * but maybe it will help to keep it this way for potential changes and enhancements...
+                // ? so lets leave it for now
             case CHALLENGE_REASONS.unfound:
                 if (isInMovie === true) {
                     console.log("isInMovie is true");

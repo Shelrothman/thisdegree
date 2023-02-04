@@ -9,8 +9,8 @@ export function useActorContext() {
 
 export function ActorContextProvider({ children }) {
     const [actorA, setActorA] = useState(null);
-    // const [actorB, setActorB] = useState(null);
-    const [actorB, setActorB] = useState('Sally Field');
+    const [actorB, setActorB] = useState(null);
+    // const [actorB, setActorB] = useState('Sally Field');
 
     const handleActorSelection = (actor) => {
         if (!actorA) {

@@ -25,9 +25,7 @@ type Query {
     challengeMovieValidation(challengeItem: ChallengeValidationInput!): ChallengedValidationResult
 
     #getChallengeOptions
-    # ! have uit return the other items in the results array other than the first one to hold to save to present to user as options if they challenge.... (workable for movieGame or science or anythignns)
 
-    # TODO need to have a new query for when the user wants the next set of options for the game, the next page...
 }
 
 type ChallengedValidationResult {
@@ -68,7 +66,7 @@ type ChallengeValidation {
     originalInput: String!
 }
 
-# !!!!! PU HERE CUTIREIRUIRI
+#  PU HERE CUTIREIRUIRI
 input ChallengeValidationInput {
     id: ID!
     officialTitle: String # yea the client will be able to send this back.

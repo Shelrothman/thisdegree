@@ -127,6 +127,7 @@ export function GameContextProvider({ children }) {
             let localMovieList = movieList || [];
             // add the movie guess to the end of array 
             // TODO: maybe use like Object.assign or something ES6y here?
+            // * playing with ysing a class in models/Movie.js
             localMovieList.push({
                 id: uuid(),
                 movieTitle: userMovieInput,

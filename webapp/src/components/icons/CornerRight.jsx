@@ -1,4 +1,4 @@
-import { TbCornerRightUpDouble } from 'react-icons/tb'
+import { TbCornerRightUpDouble } from 'react-icons/tb';
 
 function Castle({ level }) {
     return (
