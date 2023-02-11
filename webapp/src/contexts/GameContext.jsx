@@ -5,6 +5,7 @@
  * ? Optimizing with memo is only valuable when your component re-renders often with the same exact props, and its re-rendering logic is expensive. If there is no perceptible lag when your component re-renders, memo is unnecessary. Keep in mind that memo is completely useless if the props passed to your component are always different, such as if you pass an object or a plain function defined during rendering. This is why you will often need useMemo and useCallback together with memo.
  */
 
+// TODO: use the offificakl movie title in tree display
 
 import {
     useState,
@@ -46,7 +47,7 @@ export function GameContextProvider({ children }) {
     const [decideMode, setDecideMode] = useState(false);
     // this is for the loading spinner
     const [dataLoading, setDataLoading] = useState(false);
-    
+
     const [confirmModal, setConfirmModal] = useState({
         show: false,
         text: 'default',
@@ -116,7 +117,7 @@ export function GameContextProvider({ children }) {
         return;
     };
 
-    async function addMovieToGlobal(userMovieInput, previousActorCharacterName) {
+    async function addMovieToGlobal(userMovieInput, previousActorCharacterName, officialMovieTitle) {
         try {
             if (currentMovieTitle !== '') {
                 // set the previous movie to the current one before we change it
@@ -127,24 +128,9 @@ export function GameContextProvider({ children }) {
             if (!readyToBuild) setReadyToBuild(true);
             let localMovieList = movieList || [];
             // add the movie guess to the end of array 
-            // TODO: maybe use like Object.assign or something ES6y here?
-            // // * playing with ysing a class in models/Movie.js
-            // localMovieList.push({
-            //     id: uuid(),
-            //     movieTitle: userMovieInput,
-            //     previousActor: {
-            //         name: currentActorBridge,
-            //         characterName: previousActorCharacterName
-            //     },
-            //     actorGuessed: false,
-            //     actorSelection: {
-            //         id: '',
-            //         name: '...', 
-            //         characterName: '',
-            //     },
-            // });
-            // let newMovie = new Movie(uuid(), userMovieInput, currentActorBridge, previousActorCharacterName);
-            localMovieList.push(new Movie(uuid(), userMovieInput, currentActorBridge, previousActorCharacterName));
+            //
+            ////////////////////////
+            localMovieList.push(new Movie(uuid(), userMovieInput, currentActorBridge, previousActorCharacterName, officialMovieTitle));
             // set it to true after a movie is added (sets to false in the formContainer/ actorForm)
             setDecideMode(true);
             setMovieList(localMovieList);

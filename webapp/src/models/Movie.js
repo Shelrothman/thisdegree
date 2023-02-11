@@ -8,9 +8,10 @@
  */
 
 class Movie {
-    constructor(id, userMovieInput, currentActorBridge, previousActorCharacterName) {
+    constructor(id, userMovieInput, currentActorBridge, previousActorCharacterName, officialMovieTitle) {
         this.id = id;
         this.movieTitle = userMovieInput;
+        this.officialMovieTitle = officialMovieTitle;
         this.previousActor = {
             name: currentActorBridge,
             characterName: previousActorCharacterName

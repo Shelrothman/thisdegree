@@ -39,6 +39,7 @@ query validateMovieInput($movieInput: String!, $actorInput: String!)
         id
         isInMovie
         character
+        officialTitle
         cast {
             character
             id

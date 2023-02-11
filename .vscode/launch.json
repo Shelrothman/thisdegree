@@ -1,11 +1,18 @@
 {
     "configurations": [
         {
-            "name": "Launch Chrome",
-            "request": "launch",
             "type": "chrome",
+            "request": "launch",
+            "name": "Launch Web",
             "url": "http://localhost:5173",
-            "webRoot": "${workspaceFolder}"
+            "webRoot": "${workspaceFolder}\\webapp\\src\\main.jsx"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Launch API",
+            "skipFiles": ["<node_internals>/**"],
+            "program": "${workspaceFolder}\\api\\src\\index.js"
         }
     ]
 }

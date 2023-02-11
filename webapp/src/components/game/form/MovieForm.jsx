@@ -83,13 +83,17 @@ function MovieForm() {
             let movieEvaluationObject = data;
             // console.log('movieEvaluationObject: ', movieEvaluationObject); // debyg
             evaluationResult = movieEvaluationObject?.validateMovieInput?.isInMovie;
+            
+            // *** Start here if fromm API-changes ***
             let previousActorCharacterName = movieEvaluationObject?.validateMovieInput?.character || 'unknown';
+            let officialMovieTitle = movieEvaluationObject?.validateMovieInput?.officialTitle || 'unknown';
+
 
             if (evaluationResult === false) {
                 handleWrongMovie('notFound');
             } else if (evaluationResult === true) {
                 // add the movie to the global list
-                const addResponse = await addMovieToGlobal(formState.movieInput, previousActorCharacterName);
+                const addResponse = await addMovieToGlobal(formState.movieInput, previousActorCharacterName, officialMovieTitle);
                 // TODO: MODULATE THis function better
                 if (addResponse === true) {
                     // add the cast of the movie to the actorOptions of the currentMovie(in the global list):

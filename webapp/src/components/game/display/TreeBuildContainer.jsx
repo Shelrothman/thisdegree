@@ -31,8 +31,8 @@ function TreeBuildContainer() {
                         <MovieCard
                             key={uuid()}
                             lastActor={movie.previousActor.name}
-                            movie={movie.movieTitle}
                             actorName={movie.actorSelection.name}
+                            officialMovieTitle={movie.officialMovieTitle}
                         />
                     )
                 })}

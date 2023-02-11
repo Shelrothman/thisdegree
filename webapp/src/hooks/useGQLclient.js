@@ -76,8 +76,6 @@ export function useValidateMovieInput(movieInput, actorInput) {
         // but this takes away the whole point of react-query....
         // TODO come back and reasses once u work with it more/ and see any effect on perfomrance
         // enabled: shouldEnable
-        // ! this is important, lets the query to be called manually
-        // ? we could also say enalbed: !!movieInput and it wont execute until we have a movieInput
         // however, my form updates the movieInput as its inputted, so it will always be true 
         // to avoid this, we can use the enabled: false and call the query manually with refetch
     });

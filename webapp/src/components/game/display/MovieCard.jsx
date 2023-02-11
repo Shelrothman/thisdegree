@@ -1,6 +1,6 @@
 import Card from 'react-bootstrap/Card';
 
-function MovieCard({ movie, actorName, lastActor }) {
+function MovieCard({ actorName, lastActor, officialMovieTitle }) {
     return (
         <Card id="card-movie-container">
 
@@ -10,13 +10,13 @@ function MovieCard({ movie, actorName, lastActor }) {
                     {lastActor}
                 </span>:&nbsp;
                 <span className="movieTitle-card">
-                    {movie}
+                    {officialMovieTitle}
                 </span>
             </Card.Header>
             <Card.Body id="card-movie-body">
                 Actor in&nbsp;
                 <span className="movieTitle-card">
-                    {movie}
+                    {officialMovieTitle}
                 </span>:
                 &nbsp;
                 <span className='actorName-card'>
