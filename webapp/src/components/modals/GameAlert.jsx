@@ -26,6 +26,7 @@ function GameAlert({
     const handleClose = () => setVisible({ show: false });
 
     // console.log('end: ', end);
+    console.log('inside GameAlert!!');
 
     function showConfirmIcon() {
         switch (subtext) {

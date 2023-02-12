@@ -132,7 +132,7 @@ async function challengeMovieValidation(parent, args, context) {
             character,
             officialTitle,
             actorList: cast,
-            movieID
+            movieID // TODO actually use this or loose this
         } = await validateMovie(ogTitle, actor);
         let retVal = {
             id: uuidv4(),

@@ -21,9 +21,13 @@ function MovieForm() {
         handleUniqueCheck,
         setShowAlert,
         setDataLoading,
-        setShowChallenge
+        setShowChallenge,
+        wrongMovieInput,
+        setWrongMovieInput,
+        setGamePrompt: setChallengePrompt,
     } = useGameContext();
     const [actorName, setActorName] = useState(currentActorBridge);
+
 
     useEffect(() => {
         setActorName(currentActorBridge);
@@ -119,8 +123,17 @@ function MovieForm() {
     }
 
     function handleWrongMovie(errorMessage) {
+        // ! IN HERE we can grab their attemopted VALUEEEE
+        setWrongMovieInput(formState.movieInput);
         console.log('not valid bc: \n', errorMessage);
-        setShowChallenge(true);
+        // TODO rename this method to setShowCallengeButton
+        setShowChallenge(true); 
+        // setChallengePrompt({
+        //     show: true,
+        //     title: 'Challenge Time',
+        //     text: 'Not quite right',
+        //         // 
+        // })
         // setFormState({ movieInput: 'INVALID INPUT' });
         setShowAlert({
             show: true,

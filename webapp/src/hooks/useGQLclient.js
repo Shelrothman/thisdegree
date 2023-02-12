@@ -6,7 +6,8 @@ import {
     SIGNUP_MUTATION,
     LOGIN_MUTATION,
     VALIDATE_MOVIE_QUERY,
-    CREATE_TREE_MUTATION
+    CREATE_TREE_MUTATION,
+    CHALLENGE_VALIDATION_QUERY,
 } from '../utils/constants';
 
 
@@ -66,11 +67,12 @@ export function useValidateMovieInput(movieInput, actorInput) {
         queryKey: ['validateMovieInput', `${movieInput}-${actorInput}`],
         queryFn: () => {
             console.log("!!! Running query !!!");
-            return graphQLClient.request(VALIDATE_MOVIE_QUERY, variables).then((data) => {
-                console.log("$$ data $$");
-                console.log(data);
-                return data;
-            });
+            return graphQLClient.request(VALIDATE_MOVIE_QUERY, variables)
+                .then((data) => {
+                    console.log("$$ data $$");
+                    console.log(data);
+                    return data;
+                });
         },
         enabled: false
         // but this takes away the whole point of react-query....
@@ -81,6 +83,35 @@ export function useValidateMovieInput(movieInput, actorInput) {
     });
     return { data, isLoading, error, refetch, isFetching }
 }
+
+/**
+ * 
+ * @param {object} param - challengeItem is the item that is being challenged 
+ * looks like this {
+    id: ID!
+    officialTitle: String # yea the client will be able to send this back.
+    originalInput: String!
+    reason: String! # only to be either "invalidMovieInput" or "actorUnfound"
+}
+*/
+export function useChallengeValidation(challengeItem) {
+    // const variables = { movieInput, actorInput }; 
+    const { data, isLoading, error, refetch, isFetching } = useQuery({
+        queryKey: ['challengeValidation', `${challengeItem.id}`],
+        queryFn: () => {
+            console.log("!!! Running query !!!");
+            return graphQLClient.request(CHALLENGE_VALIDATION_QUERY, challengeItem)
+                .then((data) => {
+                    console.log("$$ data $$");
+                    console.log(data);
+                    return data;
+                });
+        },
+        enabled: false
+    });
+    return { data, isLoading, error, refetch, isFetching };
+}
+
 
 
 export function useCreateTree(treeDeclaration) {

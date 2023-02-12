@@ -48,6 +48,29 @@ query validateMovieInput($movieInput: String!, $actorInput: String!)
     }
 }`;
 
+export const CHALLENGE_VALIDATION_QUERY = gql`
+query challengeMovieValidation($item: ChallengeValidationInput!)
+{
+    challengeMovieValidation(challengeItem: $item) {
+        id
+        originalValidation {
+            id
+            officialTitle
+            originalInput
+        }
+        results
+        otherOptions {
+            title
+        }
+        continuationToken {
+            page
+            total_pages
+            total_results
+        }
+    }
+}`;
+
+
 export const SIGNUP_MUTATION = gql`
 mutation SignupMutation(
     $email: String!

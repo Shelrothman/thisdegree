@@ -58,13 +58,13 @@ function FormContainer() {
     return (
         <>
             <Container id="main-form-container">
-                <GameAlert
+                {/* <GameAlert
                     text={showAlert?.text}
                     visible={showAlert?.show}
                     setVisible={() => setShowAlert()}
                     end={showAlert?.end}
                     subtext={showAlert?.subtext}
-                />
+                /> */}
                 <MovieForm />
                 <ActorForm />
             </Container>

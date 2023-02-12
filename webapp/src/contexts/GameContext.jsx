@@ -40,7 +40,7 @@ export function GameContextProvider({ children }) {
     // only ready if there are movies in the list
     const [readyToBuild, setReadyToBuild] = useState(movieList.length > 0);
     // if false, then enable the actor form, if true, then enable the movie form
-    const [formTypeMovie, setFormTypeMovie] = useState(true);
+    const [formTypeMovie, setFormTypeMovie] = useState(true); // this should have been an object
     const [currentActorBridge, setCurrentActorBridge] = useState(actorA);
     const [previousActorBridge, setPreviousActorBridge] = useState('');
     const [previousMovieTitle, setPreviousMovieTitle] = useState('');
@@ -55,6 +55,17 @@ export function GameContextProvider({ children }) {
     });
     // TODO PU HERE! now just need to do it for the prompts fpr the challenge
 
+    // TODO this name should changle to challengePrompt yes
+    const [challengePrompt, setChallengePrompt] = useState({
+        show: false,
+        // dont need the text in here just statebased on stuff.
+        title: '',
+        text: '',
+        callback: () => { console.log('default prompt callback') },
+        // other things
+    });
+
+
     const [showAlert, setShowAlert] = useState({
         show: false,
         text: '',
@@ -63,10 +74,9 @@ export function GameContextProvider({ children }) {
         variant: 'primary',
         // handeling icon logic in the component based on this.text
     });
-
+    const [wrongMovieInput, setWrongMovieInput] = useState(null);
+    // TODO: this needs to change to setshowChallengeBTTon
     const [showChallenge, setShowChallenge] = useState(false);
-
-    // objv i aint the first to have iussues with confirm i wma= seeing now...
 
     useEffect(() => {
         if (actorA) {
@@ -96,12 +106,24 @@ export function GameContextProvider({ children }) {
         setFormTypeMovie(true);
         setPreviousActorBridge('');
         setPreviousMovieTitle('');
+        setWrongMovieInput(null);
         setShowAlert({
             show: false,
             text: '',
             end: false,
             subtext: '',
             variant: 'primary', // not needing this yet
+        });
+        setConfirmModal({
+            show: false,
+            text: 'default',
+            callback: () => { console.log('default confirm callback') },
+        });
+        setChallengePrompt({
+            show: false,
+            title: '',
+            text: '',
+            callback: () => { console.log('default prompt callback') },
         });
         setShowChallenge(false);
         // setConfirmMode(false);
@@ -309,6 +331,10 @@ export function GameContextProvider({ children }) {
             setDataLoading,
             showChallenge,
             setShowChallenge,
+            wrongMovieInput,
+            setWrongMovieInput,
+            gamePrompt: challengePrompt,
+            setGamePrompt: setChallengePrompt,
         }}>
             {children}
         </GameContext.Provider>
