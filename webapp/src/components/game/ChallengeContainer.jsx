@@ -53,7 +53,7 @@ function ChallengeContainer() {
 
     // const [showChallengeForm, setShowChallengeForm] = useState(true);
 
-    //* derp it has to be at least 1 in there or else tehre isnt antything to send....
+
     // bc of how i set it up.. and thats the ty yea hold up i still gotsss wauyy more things to set up and stuff im forgetting the logic form the api is like new and io need to implement...
     // lets just focus on the display for now
 
@@ -131,8 +131,6 @@ function ChallengeContainer() {
             // no movies found in Global Movie DB that match `${movieTitle}`
             // new input:
             // <GamePrompt>
-            // form input and ok or cancle
-            // and then send the challenge validation with THOSE inputs put in in the GamePRompt
         } else if (showAlert.subtext === 'notfound') {
             // and then display the list of other movies they could have chosen
 

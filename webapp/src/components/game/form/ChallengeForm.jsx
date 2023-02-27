@@ -8,15 +8,15 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { useGameContext } from '../../../contexts';
 import { useChallengeValidation, useValidateMovieInput } from '../../../hooks/useGQLclient';
-import MovieForm from './MovieForm';
+// import MovieForm from './MovieForm';
 
-
+// TODO come back adn modulate this way better and not be as repetitive witht movie form copoennent?? yea just lcean everything up before add ing any new featyreas??
 function ChallengeForm() {
 
 
     // const {} = useChallengeValidation({});
     // const {} = useValidateMovieInput({});
-    const { divRef } = useRef(null);
+    // const { divRef } = useRef(null);
 
     // USing a similar apporach like in MovieFOrm, call out to get the response from the api from here, .. and use CHallengeContainers notes ...
     //? so first it will call the one line in MovieForm....  .. why am i not just using the one in MovieForm?? and imporrt it here???..  nah I dont have it architexted that way sadly.. learning lesson
@@ -75,8 +75,7 @@ function ChallengeForm() {
             // console.log('movieEvaluationObject: ', movieEvaluationObject); // debyg
             evaluationResult = movieEvaluationObject?.validateMovieInput?.isInMovie;
 
-            // if 
-            alert(`handleSubmissionResult ${JSON.stringify(movieEvaluationObject)}`);
+            // alert(`handleSubmissionResult ${JSON.stringify(movieEvaluationObject)}`);
 
 
             // *** Start here if fromm API-changes ***
@@ -85,7 +84,28 @@ function ChallengeForm() {
 
             // so gonna use below logic but jhandleled differenetly llike becasue this is a challenge
 
-            // TODO come back adn modulate this way better and not be as repetitive witht movie form copoennent?? yea just lcean everything up before add ing any new featyreas??
+
+
+            //! and THEN::: yes this was my intentiona.. THEN after that, the response comes back and if that reason.. (which matches the alert subtext)
+
+
+            if (evaluationResult === false) {
+                // set prompt to no movies found in Global Movie DB that match `${formInput.movieInput}`
+                setChallengePrompt({
+                    ...challengePrompt,
+                    text: `No movies found in Global Movie DB that match ${formState.movieInput}`,
+                });
+                // then just exit bc they only get one shot in challenge.. but itt could always go backlloolo
+                // give them time to read the shiz
+                setTimeout(() => {
+                    setChallengePrompt({
+                        ...challengePrompt,
+                        show: false,
+                    });
+                }, 3000);
+            }
+
+
 
             // if (evaluationResult === false) {
             //     if (challengePrompt.show === true) {
@@ -140,11 +160,12 @@ function ChallengeForm() {
     return (
         <>
             {isQueryError && <p>error fetching validation query</p>}
-            <div ref={divRef}>
+            <>
                 <Form>
                     <Form.Group className="mb-3" controlId="formBasicEmail">
                         <Form.Label>
-                            <h5>{challengePrompt.text}:</h5>
+                            <h5>{challengePrompt.text}:</h5>sasaas
+                            mdkfdkj text in here that follows up
                         </Form.Label>
                         <InputGroup className="mb-3">
                             <FloatingLabel controlId="floatingInput" label={`Movie with ${currentActorBridge} in it`}>
@@ -179,7 +200,7 @@ function ChallengeForm() {
                         </Form.Text>
                     </Form.Group>
                 </Form>
-            </div>
+            </>
         </>
     );
 }
