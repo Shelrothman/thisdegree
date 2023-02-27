@@ -25,6 +25,7 @@ function MovieForm() {
         wrongMovieInput,
         setWrongMovieInput,
         setGamePrompt: setChallengePrompt,
+        gamePrompt: challengePrompt,
     } = useGameContext();
     const [actorName, setActorName] = useState(currentActorBridge);
 
@@ -41,7 +42,7 @@ function MovieForm() {
     });
 
     const { 
-        data,
+        data: responseData,
         isLoading,
         error: isQueryError,
         refetch,
@@ -58,16 +59,16 @@ function MovieForm() {
             if (uniqueMovie === false) {
                 handleWrongMovie('notUnique');
                 // kind of cool this will alert the user if they type in the same name, even before submitting
-                // also cool bc if a movie is in the cache already, it will update with response immediatly without clickign
+                // also cool bc if a movie is in the cache already, it will update with response immediatly without clickign (if userenters it=== to the one in the cache)
                 return;
             } else {
-                handleSubmit(data).catch((error) => {
+                handleSubmit(responseData).catch((error) => {
                     console.error(error);
                     handleWrongMovie('error');
                 });
             }
         }
-    }, [data]);
+    }, [responseData]);
     // data in this case is the result of the query that is triggered by the form submission, therefore this effect will only run when the query triggers
 
 
@@ -81,19 +82,34 @@ function MovieForm() {
     }, [isFetching]);
 
     //TODO purify this function, it is a mess...
+    // TODO rename this fucntion to like handleSibmissionResult or somethign
     async function handleSubmit(data) {
         try {
+
+
+
             let evaluationResult;
             let movieEvaluationObject = data;
             // console.log('movieEvaluationObject: ', movieEvaluationObject); // debyg
             evaluationResult = movieEvaluationObject?.validateMovieInput?.isInMovie;
-            
+
+            // if 
+
+
+
             // *** Start here if fromm API-changes ***
             let previousActorCharacterName = movieEvaluationObject?.validateMovieInput?.character || 'unknown';
             let officialMovieTitle = movieEvaluationObject?.validateMovieInput?.officialTitle || 'unknown';
 
 
             if (evaluationResult === false) {
+                if (challengePrompt.show === true) {
+                    setChallengePrompt({
+                        ...challengePrompt,
+                        text: 'Movie is valid but not with this actor'
+                    });
+                    // alert('you already tried this one, try again');
+                }
                 handleWrongMovie('notFound');
             } else if (evaluationResult === true) {
                 // add the movie to the global list

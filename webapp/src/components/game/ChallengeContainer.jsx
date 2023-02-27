@@ -16,8 +16,8 @@
 // import Button from 'react-bootstrap/Button';
 import { useState, useEffect } from 'react';
 import { useGameContext } from '../../contexts';
-import { useChallengeValidation } from '../../hooks/useGQLclient';
-import ChallengeForm from './form/ChallengeForm';
+// import { useChallengeValidation } from '../../hooks/useGQLclient';
+// import ChallengeForm from './form/ChallengeForm';
 import ChallengeBtn from '../buttons/ChallengeBtn';
 
 // addto the allerettt.. add tooltips to the buttons fo sho
@@ -115,27 +115,19 @@ function ChallengeContainer() {
         setChallengePrompt({
             show: true,
             title: 'Challenge Time',
-            text: `Enter the movie title again that you believe connects to ${currentActorBridge}`
+            text: `Re-enter the movie title that you believe connects to ${currentActorBridge}`
             // subtext: 'Enter the movie title and actor name',
         });
         setShowAlert({
             ...showAlert,
             show: false,
         });
-        //! so first we try the "challenge attempt" by entering the movieinput the original movieInput was at that time in to the query...
-
-        //  so... we can dispklay liek a form like we do with movie form..
-        // OR Use a prompt and display a prompt after the confirm modal closes (this will look liek a modal but it wil just be a card.)
+        //! so first we try the "challenge attempt" by giving user entering new input.. (gives user a chance to do a different spelling or something)
 
 
-        // so enter ChallengeMode!
-        // enter movie title again you think {currentAtctorBridge} was in
-        // then it runs
-
-
-        //! and THEN::: yes this was my intentiona
-        if (showAlert.subtext === 'Invalid Movie Input') {
-
+        //! and THEN::: yes this was my intentiona.. THEN after that, the response comes back and if that reason.. (which matches the alert subtext)
+        if (showAlert.subtext === 'Invalid Movie Input') { // or another way of signifying
+// ** derp go do all this inchalelnge form yes
             // no movies found in Global Movie DB that match `${movieTitle}`
             // new input:
             // <GamePrompt>

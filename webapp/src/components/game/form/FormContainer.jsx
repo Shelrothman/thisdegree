@@ -7,8 +7,6 @@ import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import ActorForm from "./ActorForm";
 import MovieForm from "./MovieForm";
 import { useGameContext } from "../../../contexts";
-import GameAlert from "../../modals/GameAlert";
-// import GameConfirm from "../../modals/GameConfirm";
 
 // TODO display the challenge button after user ssees the reason for invalid
 
@@ -58,13 +56,6 @@ function FormContainer() {
     return (
         <>
             <Container id="main-form-container">
-                {/* <GameAlert
-                    text={showAlert?.text}
-                    visible={showAlert?.show}
-                    setVisible={() => setShowAlert()}
-                    end={showAlert?.end}
-                    subtext={showAlert?.subtext}
-                /> */}
                 <MovieForm />
                 <ActorForm />
             </Container>

@@ -27,7 +27,6 @@ function ChallengePrompt({
                 <Card.Body>
                     <Card.Title>
                         {/* {MESSAGE[text] || text} */}
-                        A logical Title
                         {/* <Modal.Footer> */}
                     </Card.Title>
                     <ChallengeForm />
