@@ -84,38 +84,6 @@ export function useValidateMovieInput(movieInput, actorInput) {
     return { data, isLoading, error, refetch, isFetching }
 }
 
-/**
- * 
- * @param {object} param - challengeItem is the item that is being challenged 
- * looks like this {
-    id: ID!
-    officialTitle: String # yea the client will be able to send this back.
-    originalInput: String!
-    reason: String! # only to be either "invalidMovieInput" or "actorUnfound"
-}
-*/
-export function useChallengeValidation(id, officialTitle, originalInput, reason, actor) {
-    const variables = { id, officialTitle, originalInput, reason, actor }; 
-
-    const { data, isLoading, error, refetch, isFetching } = useQuery({
-        queryKey: ['challengeValidation', `${officialTitle}-${actor}`],
-        queryFn: () => {
-            console.log("!!! Running query !!!");
-            return graphQLClient.request(CHALLENGE_VALIDATION_QUERY, variables)
-                // why is it saying that challengeItem is not defined? 
-                // bc its not defined in the scope of the queryFn
-                .then((data) => {
-                    console.log("$$ data $$");
-                    console.log(data);
-                    return data;
-                });
-        },
-        enabled: false
-    });
-    return { data, isLoading, error, refetch, isFetching };
-}
-
-
 
 export function useCreateTree(treeDeclaration) {
     const variables = { treeDeclaration };

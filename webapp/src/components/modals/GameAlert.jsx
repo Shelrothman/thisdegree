@@ -1,6 +1,6 @@
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import ChallengeContainer from '../game/ChallengeContainer';
+// import ChallengeContainer from '../game/ChallengeContainer';
 import { CiBatteryEmpty } from 'react-icons/ci';
 import { MdOutlineWrongLocation } from 'react-icons/md';
 import { TbRepeatOff } from 'react-icons/tb';
