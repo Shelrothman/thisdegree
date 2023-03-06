@@ -60,7 +60,7 @@ function GameAlert({
                         {MESSAGE[subtext] || subtext}
                     </Modal.Body>}
                     <Modal.Footer>
-                        {subtext === NO_STRING && <ChallengeContainer />}
+                        {/* {subtext === NO_STRING && <ChallengeContainer />} */}
                         {end === false && <Button variant="primary" onClick={handleClose}>
                             ok{' '}{showConfirmIcon()}
                         </Button>}
