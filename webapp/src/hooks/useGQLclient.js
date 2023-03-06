@@ -94,13 +94,16 @@ export function useValidateMovieInput(movieInput, actorInput) {
     reason: String! # only to be either "invalidMovieInput" or "actorUnfound"
 }
 */
-export function useChallengeValidation(challengeItem) {
-    // const variables = { movieInput, actorInput }; 
+export function useChallengeValidation(id, officialTitle, originalInput, reason, actor) {
+    const variables = { id, officialTitle, originalInput, reason, actor }; 
+
     const { data, isLoading, error, refetch, isFetching } = useQuery({
-        queryKey: ['challengeValidation', `${challengeItem.id}`],
+        queryKey: ['challengeValidation', `${officialTitle}-${actor}`],
         queryFn: () => {
             console.log("!!! Running query !!!");
-            return graphQLClient.request(CHALLENGE_VALIDATION_QUERY, challengeItem)
+            return graphQLClient.request(CHALLENGE_VALIDATION_QUERY, variables)
+                // why is it saying that challengeItem is not defined? 
+                // bc its not defined in the scope of the queryFn
                 .then((data) => {
                     console.log("$$ data $$");
                     console.log(data);

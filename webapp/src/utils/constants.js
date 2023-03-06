@@ -49,9 +49,9 @@ query validateMovieInput($movieInput: String!, $actorInput: String!)
 }`;
 
 export const CHALLENGE_VALIDATION_QUERY = gql`
-query challengeMovieValidation($item: ChallengeValidationInput!)
+query challengeMovieValidation($id: ID!, $officialTitle: String, $originalInput: String!, $reason: String!)
 {
-    challengeMovieValidation(challengeItem: $item) {
+    challengeMovieValidation(id: $id, officialTitle: $officialTitle, originalInput: $originalInput, reason: $reason) {
         id
         originalValidation {
             id
@@ -70,6 +70,16 @@ query challengeMovieValidation($item: ChallengeValidationInput!)
     }
 }`;
 
+// if i wanted to implement this with a challengeItem object, using GQLclient it would look like this:
+//
+// export function useChallengeValidation(challengeItem) {
+//     const variables = { challengeItem };
+//     const { data, isLoading, error, refetch, isFetching } = useQuery({
+//         queryKey: ['challengeValidation', `${challengeItem.id}`],
+//         queryFn: () => {
+//             console.log("!!! Running query !!!");
+//             return graphQLClient.request(CHALLENGE_VALIDATION_QUERY, variables)
+//                 .then((data) => {
 
 export const SIGNUP_MUTATION = gql`
 mutation SignupMutation(

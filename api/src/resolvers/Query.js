@@ -124,16 +124,21 @@ const RESULT_STRING = {
 //  TODO: modulate this further
 async function challengeMovieValidation(parent, args, context) {
     try {
-        const { challengeItem } = args;
-        const { id, officialTitle: ogOfficialTitle, originalInput, reason } = challengeItem;
-        const { title: ogTitle, actor } = JSON.parse(originalInput);
+        // const { challengeItem } = args;
+        const { id, officialTitle: ogOfficialTitle, originalInput, reason } = args;
+        // const { title: ogTitle, actor } = JSON.parse(originalInput);
+        const ogTitle = ogOfficialTitle;
+        const actor = args.actor;
+        console.log("ogTitle: ", ogTitle);
+        console.log("actor: ", actor);
+        ///////////////////////
         const {
             found: isInMovie,
             character,
             officialTitle,
             actorList: cast,
             movieID // TODO actually use this or loose this
-        } = await validateMovie(ogTitle, actor);
+        } = await validateMovie(ogOfficialTitle, actor);
         let retVal = {
             id: uuidv4(),
             originalValidation: { id, ogOfficialTitle, originalInput },

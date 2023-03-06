@@ -9,29 +9,39 @@ import Form from 'react-bootstrap/Form';
 import { useGameContext } from '../../../contexts';
 import { useChallengeValidation, useValidateMovieInput } from '../../../hooks/useGQLclient';
 // import MovieForm from './MovieForm';
-
+import uuid from 'react-uuid';
 // TODO come back adn modulate this way better and not be as repetitive witht movie form copoennent?? yea just lcean everything up before add ing any new featyreas??
 function ChallengeForm() {
 
-
-    // const {} = useChallengeValidation({});
-    // const {} = useValidateMovieInput({});
-    // const { divRef } = useRef(null);
-
-    // USing a similar apporach like in MovieFOrm, call out to get the response from the api from here, .. and use CHallengeContainers notes ...
-    //? so first it will call the one line in MovieForm....  .. why am i not just using the one in MovieForm?? and imporrt it here???..  nah I dont have it architexted that way sadly.. learning lesson
+    const [attemptMade, setAttemptMade] = useState(false);
 
     const {
         gamePrompt: challengePrompt,
         setGamePrompt: setChallengePrompt,
         currentActorBridge,
         setDataLoading,
-        handleUniqueCheck
+        handleUniqueCheck,
+        wrongMovieInput,
     } = useGameContext();
 
     const [formState, setFormState] = useState({
         movieInput: '',
     });
+
+    const [challengeInput, setChallengeInput] = useState({
+        id: '',
+        officialTitle: '',
+        originalInput: '',
+        reason: '',
+    });
+
+    // const {
+    //     data: responseData,
+    //     isLoading,
+    //     error: isQueryError,
+    //     refetch,
+    //     isFetching
+    // } = useValidateMovieInput(formState.movieInput, currentActorBridge);
 
     const {
         data: responseData,
@@ -39,7 +49,21 @@ function ChallengeForm() {
         error: isQueryError,
         refetch,
         isFetching
-    } = useValidateMovieInput(formState.movieInput, currentActorBridge);
+    } = useChallengeValidation(
+        uuid(),
+        formState.movieInput,
+        'it shouldnt matter what this says',
+        'notfound',
+        currentActorBridge
+    );
+
+    // const {
+    //     data: challengeResponseData,
+    //     isLoading: challengeIsLoading,
+    //     error: challengeQueryError,
+    //     refetch: challengeRefetch,
+    //     isFetching: challengeIsFetching
+    // } = useChallengeValidation(challengeInput.id, challengeInput.officialTitle, challengeInput.originalInput, challengeInput.reason, currentActorBridge);
 
     useEffect(() => {
         if (isFetching) {
@@ -67,94 +91,74 @@ function ChallengeForm() {
     }, [responseData]);
     // data in this case is the result of the query that is triggered by the form submission, therefore this effect will only run when the query triggers
 
-
+    // !!! changing to just send thte challenge from the beginnign.. you overdid this/ overcomplicated it
+    // PU Here.. hoping u can figure out where i left off.. just switch this to use the challenge thing starting at the top future shelby love u
     async function handleSubmissionResult(responseData) {
         try {
-            let evaluationResult;
+            let isInMovie;
             let movieEvaluationObject = responseData;
             // console.log('movieEvaluationObject: ', movieEvaluationObject); // debyg
-            evaluationResult = movieEvaluationObject?.validateMovieInput?.isInMovie;
+            isInMovie = movieEvaluationObject?.challengeMovieValidation?.isInMovie;
 
             // alert(`handleSubmissionResult ${JSON.stringify(movieEvaluationObject)}`);
-
-
             // *** Start here if fromm API-changes ***
             let previousActorCharacterName = movieEvaluationObject?.validateMovieInput?.character || 'unknown';
             let officialMovieTitle = movieEvaluationObject?.validateMovieInput?.officialTitle || 'unknown';
 
-            // so gonna use below logic but jhandleled differenetly llike becasue this is a challenge
-
-
-
-            //! and THEN::: yes this was my intentiona.. THEN after that, the response comes back and if that reason.. (which matches the alert subtext)
-
-
-            if (evaluationResult === false) {
-                // set prompt to no movies found in Global Movie DB that match `${formInput.movieInput}`
-                setChallengePrompt({
-                    ...challengePrompt,
-                    text: `No movies found in Global Movie DB that match ${formState.movieInput}`,
-                });
-                // then just exit bc they only get one shot in challenge.. but itt could always go backlloolo
-                // give them time to read the shiz
-                setTimeout(() => {
+            // continue on... SOooooooo close
+            if (isInMovie === false) {
+                if (movieEvaluationObject.validateMovieInput.officialTitle === 'MOVIE_DOES_NOT_EXIST') {
+                    // set prompt to no movies found in Global Movie DB that match `${formInput.movieInput}`
                     setChallengePrompt({
                         ...challengePrompt,
-                        show: false,
+                        text: `No movies found in Global Movie DB that match ${formState.movieInput}`,
                     });
-                }, 3000);
+                    // then just exit bc they only get one shot in challenge.. 
+                    // but they could always go back again lol
+                    // give them time to read the shiz
+                    setTimeout(() => {
+                        setChallengePrompt({
+                            ...challengePrompt,
+                            show: false,
+                        });
+                    }, 3000);
+                } else { // else then it is a Real movie but not with the actor in it... so send the challengeValidation query so that we can get the alternative lists
+                    setChallengePrompt({
+                        ...challengePrompt,
+                        text: `The movie ${formState.movieInput} is valid, but it does not have ${currentActorBridge} in it`,
+                    });
+                    // trigger the challenge validation query:
+                    setChallengeInput({
+                        id: movieEvaluationObject.validateMovieInput.id,
+                        officialTitle: movieEvaluationObject.validateMovieInput.officialTitle,
+                        originalInput: JSON.stringify({
+                            title: formState.movieInput,
+                            actor: currentActorBridge,
+                        }),
+                        reason: 'actorUnfound',
+                    });
+                    // challengeRefetch();
+                    // display the 'sending challenge'
+                    // const challengeInput = {
+                    // send the challenge query
+                    // display the 'sending challenge'
+                    // depending on the response: either: invlaid movie or not in movie...
+                    // if invalid: display the otpions for that
+                    // else, display the list of other movies they cud have chosen
+                }
+
+
+            } else if (isInMovie === true) {
+
+                // if reason is 
+
+
+
             }
-
-
-
-            // if (evaluationResult === false) {
-            //     if (challengePrompt.show === true) {
-            //         setChallengePrompt({
-            //             ...challengePrompt,
-            //             text: 'Movie is valid but not with this actor'
-            //         });
-            //         // alert('you already tried this one, try again');
-            //     }
-            //     handleWrongMovie('notFound');
-            // } else if (evaluationResult === true) {
-            //     // add the movie to the global list
-            //     const addResponse = await addMovieToGlobal(formState.movieInput, previousActorCharacterName, officialMovieTitle);
-            //     // TODO: MODULATE THis function better
-            //     if (addResponse === true) {
-            //         // add the cast of the movie to the actorOptions of the currentMovie(in the global list):
-            //         // TODO: ** CHANGE THIS TO USE THE getCastList QUERY
-            //         const buildResponse = await buildCastOptions(movieEvaluationObject.validateMovieInput.cast);
-            //         if (buildResponse === true) handleRefs();
-            //     } else {
-            //         // throw new Error('something went wrong attempting to add the movie to the global list');
-            //         handleWrongMovie('something went wrong attempting to add the movie to the global list');
-            //     }
-            // } else {
-            //     // throw new Error(`something went wrong; evaluationResult was not the expected Boolean. Instead I recieved ${evaluationResult}`);
-            //     handleWrongMovie(`something went wrong; evaluationResult was not the expected Boolean. Instead I recieved ${evaluationResult}`);
-            // }
         } catch (error) {
             throw new Error(error);
         }
     };
-
-    // const [challengeInput, setChallengeInput] = useState({
-    //     id: '',
-    //     officialTitle: '',
-    //     originalInput: JSON.stringify({
-    //         title: wrongMovieInput,
-    //         actor: '',
-    //     }),
-    // });
-
-    // const [validationInput, setValidationInput] = useState({
-    //     id: '',
-    //     officialTitle: '',
-    //     originalInput: JSON.stringify({
-    //         title: wrongMovieInput,
-    //         actor: '',
-    //     }),
-    // });
 
 
     return (
@@ -164,9 +168,9 @@ function ChallengeForm() {
                 <Form>
                     <Form.Group className="mb-3" controlId="formBasicEmail">
                         <Form.Label>
-                            <h5>{challengePrompt.text}:</h5>sasaas
-                            mdkfdkj text in here that follows up
+                            <h5>{challengePrompt.text}:</h5>
                         </Form.Label>
+
                         <InputGroup className="mb-3">
                             <FloatingLabel controlId="floatingInput" label={`Movie with ${currentActorBridge} in it`}>
                                 <Form.Control
@@ -195,9 +199,11 @@ function ChallengeForm() {
                                 Submit
                             </Button>
                         </InputGroup>
+
                         <Form.Text className="text-muted">
                             <small>Hint: maybe adjust your spelling or punctuation.</small>
                         </Form.Text>
+                        {/* todo: bacl to game button */}
                     </Form.Group>
                 </Form>
             </>

@@ -22,7 +22,8 @@ type Query {
     # user challenges a rejection and we do more fetching for them to see if they are right (bc a rejection = no option for selection)
 
 
-    challengeMovieValidation(challengeItem: ChallengeValidationInput!): ChallengedValidationResult
+    # challengeMovieValidation(challengeItem: ChallengeValidationInput!): ChallengedValidationResult
+    challengeMovieValidation(id: ID!, officialTitle: String, originalInput: String!, reason: String!, actor: String): ChallengedValidationResult
 
     #getChallengeOptions
 
@@ -68,7 +69,7 @@ type ChallengeValidation {
 
 #  PU HERE CUTIREIRUIRI
 input ChallengeValidationInput {
-    id: ID!
+    id: String!
     officialTitle: String # yea the client will be able to send this back.
     originalInput: String!
     reason: String! # only to be either "invalidMovieInput" or "actorUnfound"

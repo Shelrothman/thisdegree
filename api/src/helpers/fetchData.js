@@ -25,6 +25,9 @@ const NOT_EXIST_STRING = "MOVIE_DOES_NOT_EXIST";
 //* used after user enters a movie  to validate currentActor is in it
 async function validateMovie(movie, actor) {
     try {
+
+///////////////////
+
         let actorList = [];
         const { movieID, officialTitle } = await getMovieByTitle(movie);
         if (officialTitle === NOT_EXIST_STRING) {
