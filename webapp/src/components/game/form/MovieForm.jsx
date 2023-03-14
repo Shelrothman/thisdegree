@@ -85,33 +85,31 @@ function MovieForm() {
     // TODO rename this fucntion to like handleSibmissionResult or somethign
     async function handleSubmit(data) {
         try {
-
-
-
-            let evaluationResult;
             let movieEvaluationObject = data;
             // console.log('movieEvaluationObject: ', movieEvaluationObject); // debyg
-            evaluationResult = movieEvaluationObject?.validateMovieInput?.isInMovie;
-
+            let isInMovie = movieEvaluationObject?.validateMovieInput?.isInMovie;
+            let movieIsValid = movieEvaluationObject?.validateMovieInput?.officialTitle !== 'MOVIE_DOES_NOT_EXIST';
             // if 
-
-
-
             // *** Start here if fromm API-changes ***
             let previousActorCharacterName = movieEvaluationObject?.validateMovieInput?.character || 'unknown';
             let officialMovieTitle = movieEvaluationObject?.validateMovieInput?.officialTitle || 'unknown';
 
 
-            if (evaluationResult === false) {
-                if (challengePrompt.show === true) {
-                    setChallengePrompt({
-                        ...challengePrompt,
-                        text: 'Movie is valid but not with this actor'
-                    });
-                    // alert('you already tried this one, try again');
+            if (isInMovie === false) {
+                // if (challengePrompt.show === true) {
+                //     setChallengePrompt({
+                //         ...challengePrompt,
+                //         text: 'Movie is valid but not with this actor'
+                //     });
+                //     // alert('you already tried this one, try again');
+                // }
+                if (movieIsValid === true) {
+                    
+                } else {
                 }
-                handleWrongMovie('notFound');
-            } else if (evaluationResult === true) {
+// !!!!!!!!!!!!!!!!!!!!! PU HERE
+                handleWrongMovie('notFound in'); // NOT found in the Official movie title
+             } else if (isInMovie === true) {
                 // add the movie to the global list
                 const addResponse = await addMovieToGlobal(formState.movieInput, previousActorCharacterName, officialMovieTitle);
                 // TODO: MODULATE THis function better
@@ -126,7 +124,7 @@ function MovieForm() {
                 }
             } else {
                 // throw new Error(`something went wrong; evaluationResult was not the expected Boolean. Instead I recieved ${evaluationResult}`);
-                handleWrongMovie(`something went wrong; evaluationResult was not the expected Boolean. Instead I recieved ${evaluationResult}`);
+                handleWrongMovie(`something went wrong; evaluationResult was not the expected Boolean. Instead I recieved ${isInMovie}`);
             }
         } catch (error) {
             throw new Error(error);
@@ -143,14 +141,7 @@ function MovieForm() {
         setWrongMovieInput(formState.movieInput);
         console.log('not valid bc: \n', errorMessage);
         // TODO rename this method to setShowCallengeButton
-        setShowChallenge(true); 
-        // setChallengePrompt({
-        //     show: true,
-        //     title: 'Challenge Time',
-        //     text: 'Not quite right',
-        //         // 
-        // })
-        // setFormState({ movieInput: 'INVALID INPUT' });
+        // setShowChallenge(true); 
         setShowAlert({
             show: true,
             text: 'Invalid Input',

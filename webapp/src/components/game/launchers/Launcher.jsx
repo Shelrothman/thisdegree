@@ -7,9 +7,6 @@ import PlayBtn from '../../buttons/PlayBtn.jsx';
 import ActorHeader from '../ActorHeader.jsx';
 import Spinner from '../../../utils/Spinner';
 import TreeBuildContainer from '../display/TreeBuildContainer';
-// import ChallengeContainer from './ChallengeContainer';
-// import ChallengeForm from '../form/ChallengeForm';
-import ChallengePrompt from '../../modals/ChallengePrompt';
 import FormContainer from '../form/FormContainer';
 // import GamePrompt from '../../modals/GamePrompt';
 import GameConfirm from '../../modals/GameConfirm';
@@ -94,31 +91,10 @@ function Launcher() {
 
 
 
-    // function handleCancelClick() {
-    //     setShowConfirm(false);
-    //     setConfirmText('default');
-    //     return;
-    // }
-    //"" == false
-    // true
-
-
-    // ! this could be refactored witht the conditionakls better    
-
-    // TODO come back and figure out bett erlogic with confirm 'when change actors is clicke Before playbuittpn
-    // * for now just going to hide it until play... aka: keep it as 'select actors' callback until play.. aka Hack.
-
     return (
         <>
             <div className='float-end'>
                 Rounds: add round stuff
-                <br />
-                <div className='float-end'>
-                    {/* <ChallengeBtn
-                        showChallenge={showChallenge}
-                        setShowChallenge={setShowChallenge}
-                    /> */}
-                </div>
             </div>
             <ActorBtn
                 text={actorA && actorB && gameStarted ? 'Change Actors' : 'Select Actors'}
@@ -150,7 +126,6 @@ function Launcher() {
                                 <h2 className="blink">Game In Process</h2>
                                 {formTypeMovie ? <h3>Movie Mode</h3> : decideMode ? <h3>Decide Mode</h3> : <h3>Actor Mode</h3>}
                             </div>
-
                             {showAlert?.show && (
                                 <GameAlert
                                     text={showAlert?.text}
@@ -159,15 +134,6 @@ function Launcher() {
                                     end={showAlert?.end}
                                     subtext={showAlert?.subtext}
                                 />
-                                // dang maybe it wud be better to have each component really read from context and is way more modular and easier to continue to add to?
-                            )}
-                            {challengePrompt?.show && (
-                                <ChallengePrompt
-                                    text={challengePrompt.text}
-                                    title={challengePrompt.title}
-                                    visible={challengePrompt.show}
-                                />
-                                // <></>
                             )}
                             {confirmModal.show && (
                                 <div className='mx-5'>
@@ -179,47 +145,10 @@ function Launcher() {
                                     />
                                 </div>
                             )}
-                            {(!challengePrompt.show && !confirmModal.show) && (
+                            {!confirmModal.show && (
                                 <FormContainer />
                                 // * GameAlert is inside FormContainer
                             )} 
-                            {/* dthis is djksljdsljdjjdjskdjksjdsjdsjdkjsdkljldjsjdskjdksjdksljdskjdksjdksal */}
-
-
-
-
-                            {/* {confirmModal?.show && (
-                                <div className='mx-5'>
-                                    <GameConfirm
-                                        text={confirmModal.text}
-                                        actorB={actorB}
-                                        handleCancelClick={handleCancelClick}
-                                        handleConfirmClick={confirmModal.callback}
-                                    />
-                                </div>
-                            )}
-                            {challengePrompt?.show && (
-                                // <ChallengePrompt
-                                //     text={challengePrompt.text}
-                                //     title={challengePrompt.title}
-                                //     visible={challengePrompt.show}
-                                // />
-                                <></>
-                            )}
-                            {showAlert?.show && (
-                                <GameAlert
-                                    text={showAlert?.text}
-                                    visible={showAlert?.show}
-                                    setVisible={() => setShowAlert()}
-                                    end={showAlert?.end}
-                                    subtext={showAlert?.subtext}
-                                />
-                                // dang maybe it wud be better to have each component really read from context and is way more modular and easier to continue to add to?
-                            )}
-                            {(!challengePrompt.show && !confirmModal.show) && (
-                                <FormContainer />
-                                // * GameAlert is inside FormContainer
-                            )} */}
                         </div>
                     </div>
                 </>
