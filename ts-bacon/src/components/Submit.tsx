@@ -18,13 +18,13 @@ function Submit() {
     } = useGameContext() as any;
 
     // ! yo remember we dont need to check actor bc it comes from a list
+    /** @function checkInputValidity just checks validity of input not validity of result of the input */
     const checkInputValidity = (movieInput: string): boolean => {
         if (movieInput === '') return false; 
         lockedCards.map((lockedCard: LockedCard) => {
             if (lockedCard.movie === movieInput) return false;
         });
         return true;
-
     };
 
 

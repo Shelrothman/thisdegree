@@ -59,8 +59,36 @@ h1 {
 
 /** inputs **/
 
-.movie-input-locked, .actor-input-locked {
+.movie-input-locked,
+.actor-input-locked {
     background-color: darkgreen;
+}
+
+/** shaking animation */
+.shaking {
+    animation-name: shaking;
+    /* play with duration for speed */
+    animation-duration: 0.2s; 
+    animation-timing-function: ease-out;
+    animation-iteration-count: infinite;
+}
+
+@keyframes shaking {
+    0% {
+        transform: translate(0, 0) rotate(0);
+    }
+    25% {
+        transform: translate(-5px, -5px) rotate(-5deg);
+    }
+    50% {
+        transform: translate(0, 0) rotate(0);
+    }
+    75% {
+        transform: translate(5px, 5px) rotate(5deg);
+    }
+    100% {
+        transform: translate(0, 0) rotate(0);
+    }
 }
 
 

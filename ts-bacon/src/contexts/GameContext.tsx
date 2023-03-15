@@ -21,20 +21,20 @@ export function GameContextProvider({ children }: { children: any }) {
 
     /** States */
     const [lockedCards, setLockedCards] = useState<LockedCard[]>([]);
-
     const [unlockedCards, setUnlockedCards] = useState<UnlockedCard[]>([]);
-
     const [globalFormState, setGlobalFormState] = useState({
         actor: '',
         movie: '',
     });
+    // const 
+
+
 
     /** Effects */
     useEffect(() => {
         console.log('current lockedCards: ');
         console.table(lockedCards);
     }, [lockedCards]);
-
     useEffect(() => {
         console.log('current unlockedCards: ');
         console.table(unlockedCards);
@@ -48,6 +48,13 @@ export function GameContextProvider({ children }: { children: any }) {
             movie: '',
         });
     }
+
+    /**
+     * @function handleWrongInput
+     * properties to set that effetively display the input was wrong
+     */
+    // const handleWrongInput() {};
+
 
 
     return (
