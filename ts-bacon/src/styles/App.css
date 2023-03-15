@@ -2,12 +2,26 @@
     /* max-width: 1280px; */
     max-width: 75vw;
     margin: 0 auto;
-    /* padding: 2rem; */
+    /* set max height to keep it tight and make them fhave to scroll*/
+    max-height: 50vh;
+    padding-left: 2em;
+    padding-right: 2em;
     text-align: center;
+    overflow-y: scroll;
 }
 
 .card {
-    padding: 2em;
+    padding-left: 1em;
+    padding-right: 1em;
+    padding-bottom: 1em;
+    padding-top: .2em;
+}
+
+.card-header {
+    /* font-size: 1.5em; */
+    /* font-weight: 500; */
+    /* margin-bottom: 1em; */
+    border-bottom: 1px solid grey;
 }
 
 :root {

@@ -14,7 +14,7 @@ function Submit() {
 
     const handleSubmit = (event: React.MouseEvent) => {
         event.preventDefault();
-        alert('submitting');
+        // alert('submitting');
         // stuff to check the answers...
         //
         // setLockedCards to be the current unlockedCards and one new one at the end

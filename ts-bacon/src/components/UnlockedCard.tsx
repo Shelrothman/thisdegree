@@ -11,6 +11,7 @@ function UnlockedCardDiv({ actor, movie }: any = {}) {
         <>
             <Card style={{
                 backgroundColor: 'darkblue',
+                border: '1px solid darkgreen',
             }}>
                 <Card.Header>Before Lock</Card.Header>
                 <Card.Body>
