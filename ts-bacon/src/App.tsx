@@ -2,6 +2,7 @@ import { useState } from 'react';
 import Game from './components/Game';
 import { GameContextProvider } from './contexts/GameContext';
 import './styles/App.css';
+import './styles/Scrollbar.css';
 import BaconHeader from './components/BaconHeader';
 
 
