@@ -1,5 +1,5 @@
 import Card from 'react-bootstrap/Card';
-import { BsArrowDown } from 'react-icons/bs';
+import { BsArrowDownCircle, BsThreeDotsVertical } from 'react-icons/bs';
 
 
 function LockedCardDiv({ actor, movie }: any) {
@@ -35,10 +35,16 @@ function LockedCardDiv({ actor, movie }: any) {
                             readOnly
                         />
                     </div>
+                        <BsArrowDownCircle size='1.2rem' style={{
+                            // height: '1.5rem',
+                            paddingTop: '0.3rem',
+                        }} />
                 </Card.Body>
             </Card>
-            <BsArrowDown
+            <BsThreeDotsVertical
+            // size='2rem'
                 style={{
+                    // height: '1.rem',
                     backgroundColor: 'darkgreen',
                     color: 'darkblue',
                     border: '1px solid darkblue',

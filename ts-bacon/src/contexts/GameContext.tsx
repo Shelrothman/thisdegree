@@ -26,8 +26,7 @@ export function GameContextProvider({ children }: { children: any }) {
         actor: '',
         movie: '',
     });
-    // const 
-
+    const [shakeInitiated, setShakeInitiated] = useState(false);
 
 
     /** Effects */
@@ -53,7 +52,13 @@ export function GameContextProvider({ children }: { children: any }) {
      * @function handleWrongInput
      * properties to set that effetively display the input was wrong
      */
-    // const handleWrongInput() {};
+    // function handleWrongInput() {
+    //     setShakeInitiated(true);
+    //     setTimeout(() => {
+    //         setShakeInitiated(false);
+    //     }, 1000);
+    //     return;
+    // };
 
 
 
@@ -65,7 +70,9 @@ export function GameContextProvider({ children }: { children: any }) {
             setUnlockedCards,
             globalFormState,
             setGlobalFormState,
-            resetFormState
+            resetFormState,
+            shakeInitiated,
+            setShakeInitiated,
         }}>
             {children}
         </GameContext.Provider>

@@ -71,6 +71,7 @@ h1 {
     animation-duration: 0.2s; 
     animation-timing-function: ease-out;
     animation-iteration-count: infinite;
+    background-color: red !important;
 }
 
 @keyframes shaking {
