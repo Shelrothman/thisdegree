@@ -1,13 +1,8 @@
-// import { useState } from 'react';
-// import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import { BsArrowDown } from 'react-icons/bs';
-// import { useGameContext } from '../contexts/GameContext';
-// import Submit from './Submit';
+
 
 function LockedCardDiv({ actor, movie }: any) {
-    // const [locked, setLocked] = useState(false);
-
 
     return (
         <div>

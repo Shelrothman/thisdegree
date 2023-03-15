@@ -14,12 +14,8 @@
 /* TODO maje it change to red when its wrong and shake a little.. then back to blue, clear form and try again */
 
 .card {
-    /* width: 50vw; */
     min-width: 45vw;
-    padding-left: 1em;
-    padding-right: 1em;
-    padding-bottom: 1em;
-    padding-top: .2em;
+    padding: .2em 1em 1em 1em;
     margin-top: 1.1em;
 }
 
@@ -37,7 +33,7 @@
 
     color-scheme: light dark;
     color: rgba(255, 255, 255, 0.87);
-    background-color: #242424;
+    background-color: #17171a;
 
     font-synthesis: none;
     text-rendering: optimizeLegibility;
@@ -58,19 +54,6 @@ h1 {
     font-size: 3.2em;
     line-height: 1.1;
 }
-
-
-
-/* a {
-    font-weight: 500;
-    color: #646cff;
-    text-decoration: inherit;
-}
-
-a:hover {
-    color: #535bf2;
-} */
-
 
 
 /* button {
