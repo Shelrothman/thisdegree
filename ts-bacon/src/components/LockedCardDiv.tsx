@@ -10,24 +10,26 @@ function LockedCardDiv({ actor, movie }: any) {
                 backgroundColor: 'darkgreen',
                 border: '1px solid darkblue',
             }}>
-                <Card.Header>After Lock</Card.Header>
+                <Card.Header>Info Saved</Card.Header>
                 <Card.Body>
-                    <Card.Title>Info Saved</Card.Title>
+                    {/* <Card.Title>Info Saved</Card.Title> */}
                     <div>
-                        <label htmlFor="actor">Actor:</label>
+                        <label htmlFor="actor">Actor:</label>{' '}
                         <input
                             type="text"
-                            id="actor"
+                            // id="actor"
+                            className="actor-input-locked"
                             name="actor"
                             value={actor}
                             readOnly
                         />
                     </div>
                     <div>
-                        <label htmlFor="movie">Movie:</label>
+                        <label htmlFor="movie">Movie:</label>{' '}
                         <input
                             type="text"
-                            id="movie"
+                            // id="movie"
+                            className="movie-input-locked"
                             name="movie"
                             value={movie}
                             readOnly

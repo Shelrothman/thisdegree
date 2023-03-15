@@ -13,6 +13,8 @@
 
 /* TODO maje it change to red when its wrong and shake a little.. then back to blue, clear form and try again */
 
+/*? TODO also to use coloring from ogDev */
+
 .card {
     min-width: 45vw;
     padding: .2em 1em 1em 1em;
@@ -53,6 +55,12 @@ body {
 h1 {
     font-size: 3.2em;
     line-height: 1.1;
+}
+
+/** inputs **/
+
+.movie-input-locked, .actor-input-locked {
+    background-color: darkgreen;
 }
 
 

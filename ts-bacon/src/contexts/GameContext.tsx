@@ -7,6 +7,9 @@ import {
 import { UnlockedCard } from '../models/UnlockedCard';
 import { LockedCard } from '../models/LockedCard';
 
+// ? cant i do my api request here and then pass the data down to the components that need it?
+// ? i think i can do that with the useEffect hook
+
 
 const GameContext = createContext({});
 
@@ -37,7 +40,7 @@ export function GameContextProvider({ children }: { children: any }) {
         console.table(unlockedCards);
     }, [unlockedCards]);
 
-    
+
     /** Handlers/Functions */
     function resetFormState() {
         setGlobalFormState({

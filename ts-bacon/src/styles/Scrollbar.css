@@ -5,8 +5,13 @@
 
 /* Track */
 ::-webkit-scrollbar-track {
-    box-shadow: inset 0 0 5px yellow;
+    box-shadow: inset 0 0 5px #8aa811; 
     border-radius: 10px;
+}
+
+/* Track on hover */
+::-webkit-scrollbar-track:hover {
+    box-shadow: inset 0 0 5px yellow;
 }
 
 /* Handle */
