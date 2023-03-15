@@ -1,6 +1,7 @@
 // import { useState } from 'react';
 // import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
+import { BsArrowDown } from 'react-icons/bs';
 // import { useGameContext } from '../contexts/GameContext';
 // import Submit from './Submit';
 
@@ -9,7 +10,7 @@ function LockedCardDiv({ actor, movie }: any) {
 
 
     return (
-        <>
+        <div>
             <Card style={{
                 backgroundColor: 'darkgreen',
                 border: '1px solid darkblue',
@@ -37,10 +38,18 @@ function LockedCardDiv({ actor, movie }: any) {
                             readOnly
                         />
                     </div>
-                    {/* <Submit /> */}
                 </Card.Body>
             </Card>
-        </>
+            <BsArrowDown
+                style={{
+                    backgroundColor: 'darkgreen',
+                    color: 'darkblue',
+                    border: '1px solid darkblue',
+                    position: 'absolute',
+                    zIndex: 9,
+                }}
+            />
+        </div>
     );
 }
 

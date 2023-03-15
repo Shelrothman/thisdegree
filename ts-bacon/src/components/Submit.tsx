@@ -25,8 +25,9 @@ function Submit() {
             return [...prevLockedCards, new LockedCard(globalFormState.movie, globalFormState.actor)];
         });
         resetFormState();
-        const scrollTo = document.getElementById('scroll-to-me');
-        scrollTo?.scrollIntoView({ behavior: 'smooth' });
+        // const scrollTo = document.getElementById('unlocked-cards-div');
+        //? its already doing the visual we want; appearing the locked 
+        // scrollTo?.scrollIntoView({ behavior: 'smooth' });
     }
 
 

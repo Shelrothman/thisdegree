@@ -25,7 +25,7 @@ function Game() {
 
 
     return (
-        <>
+        <div style={{ position: 'relative' }}>
             {lockedCards.map((lockedCard: LockedCard) => {
                 return (
                     <LockedCardDiv
@@ -36,8 +36,7 @@ function Game() {
                 )
             })}
             <UnlockedCardDiv />
-            <div id='scroll-to-me'></div>
-        </>
+        </div>
     );
 }
 

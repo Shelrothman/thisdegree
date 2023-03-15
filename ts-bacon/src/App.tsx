@@ -15,11 +15,6 @@ function App() {
                 {/* <h1>TS Degrees of Bacon</h1> */}
                 <BaconHeader />
                 <Game />
-                <div className="card">
-                    <p>
-                        Edit <code>src/App.tsx</code> and save to test HMR
-                    </p>
-                </div>
             </div>
         </GameContextProvider>
     )
