@@ -25,7 +25,8 @@ function Submit() {
             return [...prevLockedCards, new LockedCard(globalFormState.movie, globalFormState.actor)];
         });
         resetFormState();
-
+        const scrollTo = document.getElementById('scroll-to-me');
+        scrollTo?.scrollIntoView({ behavior: 'smooth' });
     }
 
 

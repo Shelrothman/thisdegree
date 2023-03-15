@@ -31,10 +31,12 @@ function Game() {
                     <LockedCardDiv
                         actor={lockedCard.actor}
                         movie={lockedCard.movie}
+                        key={lockedCard.id}
                     />
                 )
             })}
             <UnlockedCardDiv />
+            <div id='scroll-to-me'></div>
         </>
     );
 }
