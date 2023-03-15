@@ -16,19 +16,35 @@ export function useGameContext() {
 
 export function GameContextProvider({ children }: { children: any }) {
 
+    /** States */
     const [lockedCards, setLockedCards] = useState<LockedCard[]>([]);
 
     const [unlockedCards, setUnlockedCards] = useState<UnlockedCard[]>([]);
 
+    const [globalFormState, setGlobalFormState] = useState({
+        actor: '',
+        movie: '',
+    });
+
+    /** Effects */
     useEffect(() => {
-        console.log('current lockedCards: ', lockedCards);
+        console.log('current lockedCards: ');
+        console.table(lockedCards);
     }, [lockedCards]);
 
     useEffect(() => {
-        console.log('current unlockedCards: ', unlockedCards);
+        console.log('current unlockedCards: ');
+        console.table(unlockedCards);
     }, [unlockedCards]);
 
-
+    
+    /** Handlers/Functions */
+    function resetFormState() {
+        setGlobalFormState({
+            actor: '',
+            movie: '',
+        });
+    }
 
 
     return (
@@ -37,6 +53,9 @@ export function GameContextProvider({ children }: { children: any }) {
             setLockedCards,
             unlockedCards,
             setUnlockedCards,
+            globalFormState,
+            setGlobalFormState,
+            resetFormState
         }}>
             {children}
         </GameContext.Provider>

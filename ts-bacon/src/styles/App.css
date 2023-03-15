@@ -3,14 +3,17 @@
     max-width: 75vw;
     margin: 0 auto;
     /* set max height to keep it tight and make them fhave to scroll*/
-    max-height: 50vh;
+    max-height: 55vh;
     padding-left: 2em;
     padding-right: 2em;
     text-align: center;
     overflow-y: scroll;
+    overflow-x: hidden;
 }
 
 .card {
+    /* width: 50vw; */
+    min-width: 45vw;
     padding-left: 1em;
     padding-right: 1em;
     padding-bottom: 1em;

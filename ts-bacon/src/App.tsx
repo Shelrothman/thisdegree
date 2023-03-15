@@ -2,7 +2,7 @@ import { useState } from 'react';
 import Game from './components/Game';
 import { GameContextProvider } from './contexts/GameContext';
 import './styles/App.css';
-
+import BaconHeader from './components/BaconHeader';
 
 
 function App() {
@@ -11,7 +11,8 @@ function App() {
     return (
         <GameContextProvider>
             <div className="App">
-                <h1>TS Degrees of Bacon</h1>
+                {/* <h1>TS Degrees of Bacon</h1> */}
+                <BaconHeader />
                 <Game />
                 <div className="card">
                     <p>
