@@ -1,8 +1,9 @@
 import Card from 'react-bootstrap/Card';
 import { BsArrowDownCircle, BsThreeDotsVertical } from 'react-icons/bs';
+import { useGameContext } from '../contexts/GameContext';
 
-
-function LockedCardDiv({ actor, movie }: any) {
+function LockedCardDiv({ actor, movie, round }: any) {
+    const { globalFormState } = useGameContext() as any;
 
     return (
         <div>
@@ -10,7 +11,7 @@ function LockedCardDiv({ actor, movie }: any) {
                 backgroundColor: 'darkgreen',
                 border: '1px solid darkblue',
             }}>
-                <Card.Header>Info Saved</Card.Header>
+                <Card.Header>Round {round}:</Card.Header>
                 <Card.Body>
                     {/* <Card.Title>Info Saved</Card.Title> */}
                     <div>

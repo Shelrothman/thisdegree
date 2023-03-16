@@ -9,9 +9,10 @@ function Game() {
     const {
         lockedCards,
         setShakeInitiated,
-        shakeInitiated
+        shakeInitiated,
+        globalFormState
     } = useGameContext() as any;
-    
+
     const divRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
@@ -26,6 +27,7 @@ function Game() {
             {lockedCards.map((lockedCard: LockedCard) => {
                 return (
                     <LockedCardDiv
+                        round={lockedCards.indexOf(lockedCard) + 1}
                         actor={lockedCard.actor}
                         movie={lockedCard.movie}
                         key={lockedCard.id}
@@ -33,7 +35,7 @@ function Game() {
                 )
             })}
             <div ref={divRef} style={{ marginBottom: '0.5rem' }}>
-                <UnlockedCardDiv wrong={true} />
+                <UnlockedCardDiv round={lockedCards.length + 1} />
             </div>
         </div>
     );

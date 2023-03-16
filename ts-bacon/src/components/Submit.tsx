@@ -16,6 +16,7 @@ function Submit() {
         lockedCards,
         // setUnlockedCards,
         globalFormState,
+        setGlobalFormState,
         resetFormState,
         shakeInitiated,
         setShakeInitiated,
@@ -41,14 +42,20 @@ function Submit() {
         if (!checkInputValidity(globalFormState.movie)) {
             console.log('wrong input');
             setShakeInitiated(true);
-            return;  
+            return;
         }
         //TODO stuff to check the answers...
         //
+
+        // if correct then ::::
         setLockedCards((prevLockedCards: LockedCard[]) => {
             return [...prevLockedCards, new LockedCard(globalFormState.movie, globalFormState.actor)];
         });
+
         resetFormState();
+        
+
+
         // const scrollTo = document.getElementById('unlocked-cards-div');
         //? its already doing the visual we want; appearing the locked 
         // scrollTo?.scrollIntoView({ behavior: 'smooth' });
