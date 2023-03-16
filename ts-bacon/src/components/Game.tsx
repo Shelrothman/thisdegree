@@ -25,9 +25,10 @@ function Game() {
     return (
         <div style={{ position: 'relative' }}>
             {lockedCards.map((lockedCard: LockedCard) => {
+                const index: number = lockedCards.indexOf(lockedCard);
                 return (
                     <LockedCardDiv
-                        round={lockedCards.indexOf(lockedCard) + 1}
+                        round={index + 1}
                         actor={lockedCard.actor}
                         movie={lockedCard.movie}
                         key={lockedCard.id}

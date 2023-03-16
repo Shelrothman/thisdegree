@@ -6,7 +6,7 @@ import {
 } from 'react';
 import { UnlockedCard } from '../models/UnlockedCard';
 import { LockedCard } from '../models/LockedCard';
-import { Prev } from 'react-bootstrap/esm/PageItem';
+// import { Prev } from 'react-bootstrap/esm/PageItem';
 
 // ? cant i do my api request here and then pass the data down to the components that need it?
 // ? i think i can do that with the useEffect hook
@@ -76,6 +76,7 @@ export function GameContextProvider({ children }: { children: any }) {
             resetFormState,
             shakeInitiated,
             setShakeInitiated,
+            // handleCardClose,
             // gameState,
             // setGameState,
         }}>

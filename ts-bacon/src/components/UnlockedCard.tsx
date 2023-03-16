@@ -20,7 +20,7 @@ function UnlockedCardDiv({ actor, movie, round }: any = {}) {
     const selectOptions = testActors.map((actor: string) => {
         return <option value={actor} key={uuidv4()}>{actor}</option>
     });
-    
+
     const formControlProps = (x: string) => {
         return {
             disabled: shakeInitiated,
@@ -38,28 +38,26 @@ function UnlockedCardDiv({ actor, movie, round }: any = {}) {
 
 
     return (
-        <>
-            <Card style={{
-                backgroundColor: 'darkblue',
-                border: '1px solid darkgreen',
-            }}>
-                <Card.Header>Round {round}:</Card.Header>
-                <Card.Body>
-                    <div>
-                        <label htmlFor="actor">Actor:</label>{' '}
-                        <Form.Select {...formControlProps('actor')}>
-                            <option value="default">...</option>
-                            {selectOptions}
-                        </Form.Select>
-                    </div>
-                    <div>
-                        <label htmlFor="movie">Movie:</label>{' '}
-                        <Form.Control {...formControlProps('movie')} />
-                    </div>
-                    <Submit />
-                </Card.Body>
-            </Card>
-        </>
+        <Card style={{
+            backgroundColor: 'darkblue',
+            border: '1px solid darkgreen',
+        }}>
+            <Card.Header>Round {round}:</Card.Header>
+            <Card.Body>
+                <div>
+                    <label htmlFor="actor">Actor:</label>{' '}
+                    <Form.Select {...formControlProps('actor')}>
+                        <option value="default">...</option>
+                        {selectOptions}
+                    </Form.Select>
+                </div>
+                <div>
+                    <label htmlFor="movie">Movie:</label>{' '}
+                    <Form.Control {...formControlProps('movie')} />
+                </div>
+                <Submit />
+            </Card.Body>
+        </Card>
     );
 }
 
