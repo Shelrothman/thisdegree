@@ -30,6 +30,14 @@ body {
     margin-top: 1.1em;
 }
 
+.three-dots {
+    background-color: darkgreen;
+    color: darkblue;
+    border: 1px solid darkblue;
+    position: absolute;
+    z-index: 9;
+}
+
 .card-header {
     /* font-size: 1.5em; */
     /* font-weight: 500; */

@@ -1,15 +1,18 @@
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import { BsArrowDownCircle, BsThreeDotsVertical } from 'react-icons/bs';
-import { useGameContext } from '../contexts/GameContext';
+// import { useGameContext } from '../contexts/GameContext';
 
 function LockedCardDiv({ actor, movie, round }: any) {
-    const { globalFormState } = useGameContext() as any;
+    // const { globalFormState } = useGameContext() as any;
 
-    const inputProps = {
-        readOnly: true,
-        type: 'text',
-        // name: 'actor',
+    const inputProps = (x: string) => {
+        return {
+            readOnly: true,
+            type: 'text',
+            name: `${x}`,
+            className: `${x}-input-locked`,
+        }
     };
 
 
@@ -20,7 +23,7 @@ function LockedCardDiv({ actor, movie, round }: any) {
                 border: '1px solid darkblue',
             }}>
                 <Card.Header style={{ position: "relative" }}>
-                    Round {round}:
+                    <strong>Round {round}:</strong>
                     <Button className="close-btn" aria-label="Close">
                         &times;
                     </Button>
@@ -28,36 +31,16 @@ function LockedCardDiv({ actor, movie, round }: any) {
                 <Card.Body>
                     <div>
                         <label htmlFor="actor">Actor:</label>{' '}
-                        <input
-                            type="text"
-                            className="actor-input-locked"
-                            name="actor"
-                            value={actor}
-                            readOnly
-                        />
+                        <input {...inputProps('actor')} value={actor} />
                     </div>
                     <div>
                         <label htmlFor="movie">Movie:</label>{' '}
-                        <input
-                            type="text"
-                            className="movie-input-locked"
-                            name="movie"
-                            value={movie}
-                            readOnly
-                        />
+                        <input {...inputProps('movie')} value={movie} />
                     </div>
                     <BsArrowDownCircle size='1.2rem' style={{ paddingTop: '0.3rem' }} />
                 </Card.Body>
             </Card>
-            <BsThreeDotsVertical
-                style={{
-                    backgroundColor: 'darkgreen',
-                    color: 'darkblue',
-                    border: '1px solid darkblue',
-                    position: 'absolute',
-                    zIndex: 9,
-                }}
-            />
+            <BsThreeDotsVertical className='three-dots' />
         </div>
     );
 }
