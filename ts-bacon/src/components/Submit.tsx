@@ -7,6 +7,10 @@ import Button from 'react-bootstrap/Button';
 import { LockedCard } from '../models/LockedCard';
 // import { AiFillDownCircle } from 'react-icons/ai';
 
+// TODO unactivate submit button if no input
+// TODO unactivate all form elements while shaking
+
+
 function Submit() {
 
     const {
@@ -23,20 +27,16 @@ function Submit() {
     /** @function checkInputValidity just checks validity of input not validity of result of the input */
     const checkInputValidity = (movieInput: string): boolean => {
         if (movieInput === '') return false;
-        lockedCards.map((lockedCard: LockedCard) => {
-            if (lockedCard.movie === movieInput) return false;
-        });
+        for (const lockedCard of lockedCards) {
+            if (lockedCard.movie === movieInput) {
+                console.log('already locked')
+                return false;
+            }
+        }
+
         return true;
     };
 
-
-    // function handleWrongInput() {
-    // setShakeInitiated(true);
-    // setTimeout(() => {
-    //     setShakeInitiated(false);
-    // }, 2000);
-    // return;
-    // };
 
     const handleSubmit = (e: React.MouseEvent) => {
         e.preventDefault();
@@ -46,9 +46,12 @@ function Submit() {
             // handleWrongInput();
             setShakeInitiated(true);
 
-            return;
+            return; //why does my function keep running after this?
         }
+// * but when i do it with a blank input.. it works fine... but it should be the same... they both return false..
+// so why does it work with the blank input but not the other one?
 
+        console.log('you should not see me')
         //TODO stuff to check the answers...
         //
         setLockedCards((prevLockedCards: LockedCard[]) => {

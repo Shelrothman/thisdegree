@@ -3,7 +3,7 @@ import { useGameContext } from "../contexts/GameContext";
 import { LockedCard } from "../models/LockedCard";
 import UnlockedCardDiv from "./UnlockedCard";
 import LockedCardDiv from "./LockedCardDiv";
-
+import shake from "../utils/shake";
 
 function Game() {
     const {
@@ -11,25 +11,15 @@ function Game() {
         setShakeInitiated,
         shakeInitiated
     } = useGameContext() as any;
+    
     const divRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         if (shakeInitiated) {
-            shake();
+            shake(divRef, setShakeInitiated);
         }
     }, [shakeInitiated]);
 
-
-
-    function shake() {
-        divRef.current?.classList.add("shaking");
-        // Remove the shaking class after 2 seconds
-        setTimeout(() => {
-            divRef.current?.classList.remove("shaking");
-            // then we set the shakeInitiated to false
-            setShakeInitiated(false);
-        }, 2000);
-    }
 
     return (
         <div style={{ position: 'relative' }}>
