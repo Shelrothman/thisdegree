@@ -16,11 +16,7 @@ function App() {
     return (
         <GameContextProvider>
             <div className="App">
-                {/* <h1>TS Degrees of Bacon</h1> */}
                 <BaconHeader />
-                {/* <ShakeIt
-                    child={<h1>TS Degrees of Bacon</h1>}
-                /> */}
                 <Game />
             </div>
         </GameContextProvider>
