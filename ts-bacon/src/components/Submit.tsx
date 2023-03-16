@@ -3,9 +3,7 @@
  */
 import { useGameContext } from '../contexts/GameContext';
 import Button from 'react-bootstrap/Button';
-// import { UnlockedCard } from '../models/UnlockedCard'; will need this later
 import { LockedCard } from '../models/LockedCard';
-// import { AiFillDownCircle } from 'react-icons/ai';
 
 // TODO unactivate submit button if no input
 // TODO unactivate all form elements while shaking
@@ -33,7 +31,6 @@ function Submit() {
                 return false;
             }
         }
-
         return true;
     };
 
@@ -43,15 +40,9 @@ function Submit() {
         // if notvalid or not in blblbl... then handleWrongMovieInput.. red shake etc...
         if (!checkInputValidity(globalFormState.movie)) {
             console.log('wrong input');
-            // handleWrongInput();
             setShakeInitiated(true);
-
-            return; //why does my function keep running after this?
+            return;  
         }
-// * but when i do it with a blank input.. it works fine... but it should be the same... they both return false..
-// so why does it work with the blank input but not the other one?
-
-        console.log('you should not see me')
         //TODO stuff to check the answers...
         //
         setLockedCards((prevLockedCards: LockedCard[]) => {
@@ -65,7 +56,7 @@ function Submit() {
 
 
     return (
-        <Button variant="primary" onClick={handleSubmit}>
+        <Button variant="primary" onClick={handleSubmit} disabled={shakeInitiated}>
             Submit
         </Button>
     );

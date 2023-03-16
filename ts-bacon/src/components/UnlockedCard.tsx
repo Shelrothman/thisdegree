@@ -1,5 +1,6 @@
 // import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
 import Card from 'react-bootstrap/Card';
 import { useGameContext } from '../contexts/GameContext';
 import Submit from './Submit';
@@ -8,7 +9,8 @@ function UnlockedCardDiv({ actor, movie, wrong }: any = {}) {
     // start off empty since its unlocked
     const {
         // setLockedCards, 
-        // setUnlockedCards, 
+        // setUnlockedCards,
+        shakeInitiated, 
         globalFormState,
         setGlobalFormState,
     } = useGameContext() as any;
@@ -35,6 +37,7 @@ function UnlockedCardDiv({ actor, movie, wrong }: any = {}) {
                                     actor: e.target.value,
                                 })
                             }}
+                            disabled={shakeInitiated}
                         >
                         <option value="...">...</option>
                         <option value="Tom Cruise">Fake Cruise</option>
@@ -45,6 +48,7 @@ function UnlockedCardDiv({ actor, movie, wrong }: any = {}) {
                     <div>
                         <label htmlFor="movie">Movie:</label>{' '}
                         <input
+                            disabled={shakeInitiated}
                             type="text"
                             id="movie"
                             name="movie"

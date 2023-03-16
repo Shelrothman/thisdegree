@@ -5,14 +5,13 @@
     margin: 0 auto;
     /* set max height to keep it tight and make them fhave to scroll*/
     max-height: 55vh;
-    /* padding-left: 2em; */
-    /* padding-right: 2em; */
     text-align: center;
     overflow-y: scroll;
     overflow-x: hidden;
     padding: 1em 2em 1em 2em;
     /* padding: 2em; */
     border: 1px solid yellow;
+    border-radius: 10px;
 }
 body {
     margin: 0;
