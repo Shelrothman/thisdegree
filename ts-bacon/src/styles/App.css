@@ -11,9 +11,8 @@
     overflow-x: hidden;
 }
 
-/* TODO maje it change to red when its wrong and shake a little.. then back to blue, clear form and try again */
 
-/*? TODO also to use coloring from ogDev */
+/* TODO also to use coloring from ogDev */
 
 .card {
     min-width: 45vw;
@@ -67,10 +66,13 @@ h1 {
 /** shaking animation */
 .shaking {
     animation-name: shaking;
-    /* play with duration for speed */
+    /* play with animation-duration for speed of shake */
     animation-duration: 0.2s; 
     animation-timing-function: ease-out;
     animation-iteration-count: infinite;
+}
+
+.shaking .card {
     background-color: red !important;
 }
 

@@ -4,7 +4,7 @@ import Card from 'react-bootstrap/Card';
 import { useGameContext } from '../contexts/GameContext';
 import Submit from './Submit';
 
-function UnlockedCardDiv({ actor, movie }: any = {}) {
+function UnlockedCardDiv({ actor, movie, wrong }: any = {}) {
     // start off empty since its unlocked
     const {
         // setLockedCards, 

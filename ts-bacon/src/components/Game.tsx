@@ -1,32 +1,18 @@
-// import Button from 'react-bootstrap/Button';
-// import Card from 'react-bootstrap/Card';
-// import { useState } from "react";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useGameContext } from "../contexts/GameContext";
 import { LockedCard } from "../models/LockedCard";
 import UnlockedCardDiv from "./UnlockedCard";
 import LockedCardDiv from "./LockedCardDiv";
-// import ShakeIt from "../utils/ShakeIt";
 
-// !! PU HERE.. useEffect to get the shaking to be dynamic and work on the first wrong input
-// * may need to rethink how this is setup... be more reacty
 
 function Game() {
     const {
-        //     setLockedCards, 
-        //     setUnlockedCards 
         lockedCards,
-        // unlockedCards,
         setShakeInitiated,
         shakeInitiated
     } = useGameContext() as any;
     const divRef = useRef<HTMLDivElement>(null);
 
-    // const [shaking, setShaking] = useState<Boolean>(false);
-
-    // useEffect(() => {
-    //     if (shakeInitiated) {
-    //         setShaking(true);
     useEffect(() => {
         if (shakeInitiated) {
             shake();
@@ -56,15 +42,9 @@ function Game() {
                     />
                 )
             })}
-            <div ref={divRef} id='unlocked-cards-div'
-                style={{
-                    marginBottom: '0.5rem',
-                }}
-            // onClick={shake} ... so we know this works
-            >
-                <UnlockedCardDiv />
+            <div ref={divRef} style={{ marginBottom: '0.5rem' }}>
+                <UnlockedCardDiv wrong={true} />
             </div>
-            {/* {displayCurrentCard()} */}
         </div>
     );
 }
