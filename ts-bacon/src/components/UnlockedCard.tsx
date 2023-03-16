@@ -1,10 +1,14 @@
 // import { useState } from 'react';
-import Button from 'react-bootstrap/Button';
+// import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Card from 'react-bootstrap/Card';
 import { useGameContext } from '../contexts/GameContext';
 import Submit from './Submit';
+import { v4 as uuidv4 } from 'uuid';
 
+// TODO obviously this is just a placeholder for now
+const testActors = ["Fake Cruise", "Tom Fanks", "Julia Fakerts", "Angelina Fakie", "Leonardo DiCaprico", "Sandra Bullocky", "Brad Pitiful", "Meryl Streepish", "Johnny Depressed", "Nicole Fakeman"];
+// TODO  make a 'select from currentMovie' title thang */}
 function UnlockedCardDiv({ actor, movie, round }: any = {}) {
     // start off empty since its unlocked
     const {
@@ -12,6 +16,26 @@ function UnlockedCardDiv({ actor, movie, round }: any = {}) {
         globalFormState,
         setGlobalFormState,
     } = useGameContext() as any;
+
+    const selectOptions = testActors.map((actor: string) => {
+        return <option value={actor} key={uuidv4()}>{actor}</option>
+    });
+    
+    const formControlProps = (x: string) => {
+        return {
+            disabled: shakeInitiated,
+            id: x,
+            name: x,
+            value: globalFormState[x],
+            onChange: (e: any) => {
+                setGlobalFormState({
+                    ...globalFormState,
+                    [x]: e.target.value,
+                })
+            }
+        }
+    };
+
 
     return (
         <>
@@ -21,43 +45,16 @@ function UnlockedCardDiv({ actor, movie, round }: any = {}) {
             }}>
                 <Card.Header>Round {round}:</Card.Header>
                 <Card.Body>
-                    {/* <Card.Title>Enter info:</Card.Title> */}
                     <div>
                         <label htmlFor="actor">Actor:</label>{' '}
-                        <Form.Select
-                            // type="text"
-                            id="actor"
-                            name="actor"
-                            value={globalFormState.actor}
-                            onChange={(e) => {
-                                setGlobalFormState({
-                                    ...globalFormState,
-                                    actor: e.target.value,
-                                })
-                            }}
-                            disabled={shakeInitiated}
-                        >
-                            <option value="...">...</option>
-                            <option value="Tom Cruise">Fake Cruise</option>
-                            <option value="Tom Hanks">Tom Fanks</option>
-                            <option value="Tom Hardy">Julia Fakerts</option>
+                        <Form.Select {...formControlProps('actor')}>
+                            <option value="default">...</option>
+                            {selectOptions}
                         </Form.Select>
                     </div>
                     <div>
                         <label htmlFor="movie">Movie:</label>{' '}
-                        <Form.Control
-                            disabled={shakeInitiated}
-                            type="text"
-                            id="movie"
-                            name="movie"
-                            value={globalFormState.movie}
-                            onChange={(e) => {
-                                setGlobalFormState({
-                                    ...globalFormState,
-                                    movie: e.target.value,
-                                })
-                            }}
-                        />
+                        <Form.Control {...formControlProps('movie')} />
                     </div>
                     <Submit />
                 </Card.Body>

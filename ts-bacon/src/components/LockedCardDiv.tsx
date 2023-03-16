@@ -1,16 +1,14 @@
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import { BsArrowDownCircle, BsThreeDotsVertical } from 'react-icons/bs';
-// import { useGameContext } from '../contexts/GameContext';
 
 function LockedCardDiv({ actor, movie, round }: any) {
-    // const { globalFormState } = useGameContext() as any;
 
     const inputProps = (x: string) => {
         return {
             readOnly: true,
             type: 'text',
-            name: `${x}`,
+            name: x,
             className: `${x}-input-locked`,
         }
     };
