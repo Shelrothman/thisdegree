@@ -37,6 +37,18 @@ body {
     border-bottom: 1px solid grey;
 }
 
+.close-btn {
+    position: absolute;
+    font-size: 1.2rem;
+    top: 0;
+    right: 0;
+    padding: 0;
+    margin: 0;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+}
+
 :root {
     font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
     line-height: 1.5;
@@ -76,6 +88,7 @@ h1 {
     animation-iteration-count: infinite;
 }
 
+/* this ensures the card turns red */
 .shaking .card {
     background-color: red !important;
 }
