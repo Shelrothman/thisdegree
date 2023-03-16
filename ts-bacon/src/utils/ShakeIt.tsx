@@ -15,20 +15,21 @@ function ShakeIt({ child }: any) {
         divRef.current?.classList.add("shaking");
         // Remove the shaking class after 2 seconds
         setTimeout(() => {
-            // ? use the '!' to assert that divRef.current is not null
             divRef.current?.classList.remove("shaking");
             // then we set the shakeInitiated to false
             setShakeInitiated(false);
         }, 2000);
     }
 
-
+ 
 
     return (
-        <div ref={divRef} onClick={shake}>
+        <div ref={divRef}>
             {child}
         </div>
     )
 }
+
+
 
 export default ShakeIt;

@@ -14,10 +14,7 @@ function UnlockedCardDiv({ actor, movie }: any = {}) {
     } = useGameContext() as any;
 
     return (
-        <div id='unlocked-cards-div'
-        style={{
-            marginBottom: '0.5rem',
-        }}>
+        <>
             <Card style={{
                 backgroundColor: 'darkblue',
                 border: '1px solid darkgreen',
@@ -63,7 +60,7 @@ function UnlockedCardDiv({ actor, movie }: any = {}) {
                     <Submit />
                 </Card.Body>
             </Card>
-        </div>
+        </>
     );
 }
 
