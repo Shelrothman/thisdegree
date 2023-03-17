@@ -13,6 +13,10 @@ import BaconHeader from './components/BaconHeader';
 function App() {
     // const [count, setCount] = useState(0)
 
+
+
+    console.log('hi')
+
     return (
         <GameContextProvider>
             <div className="App">
