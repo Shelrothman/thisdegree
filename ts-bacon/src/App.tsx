@@ -21,6 +21,9 @@ function App() {
         <GameContextProvider>
             <div className="App">
                 <BaconHeader />
+{/*  HMR is not working now and it was yesterday i didnt do anything with the ifles on windows whatttt */}
+
+
                 <Game />
             </div>
         </GameContextProvider>
