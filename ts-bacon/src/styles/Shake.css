@@ -1,0 +1,36 @@
+/** shaking animation */
+.shaking {
+    animation-name: shaking;
+    /* play with animation-duration for speed of shake */
+    animation-duration: 0.2s; 
+    animation-timing-function: ease-out;
+    animation-iteration-count: infinite;
+}
+
+/* this ensures the card turns red */
+.shaking .card {
+    background-color: red !important;
+}
+/* this is double ensured*/
+.shaking .unlocked-card {
+    background-color: red !important;
+}
+
+
+@keyframes shaking {
+    0% {
+        transform: translate(0, 0) rotate(0);
+    }
+    25% {
+        transform: translate(-5px, -5px) rotate(-5deg);
+    }
+    50% {
+        transform: translate(0, 0) rotate(0);
+    }
+    75% {
+        transform: translate(5px, 5px) rotate(5deg);
+    }
+    100% {
+        transform: translate(0, 0) rotate(0);
+    }
+}

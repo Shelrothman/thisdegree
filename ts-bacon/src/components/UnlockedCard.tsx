@@ -38,10 +38,7 @@ function UnlockedCardDiv({ actor, movie, round }: any = {}) {
 
 
     return (
-        <Card style={{
-            backgroundColor: 'darkblue',
-            border: '1px solid darkgreen',
-        }}>
+        <Card className="unlocked-card">
             <Card.Header>Round {round}:</Card.Header>
             <Card.Body>
                 <div>

@@ -1,5 +1,5 @@
 import Card from 'react-bootstrap/Card';
-import Button from 'react-bootstrap/Button';
+// import Button from 'react-bootstrap/Button';
 import { BsArrowDownCircle, BsThreeDotsVertical } from 'react-icons/bs';
 // import ExitCard from './ExitCard';
 import Close from './Close';
@@ -18,10 +18,7 @@ function LockedCardDiv({ actor, movie, round }: any) {
 
     return (
         <div>
-            <Card style={{
-                backgroundColor: 'darkgreen',
-                border: '1px solid darkblue',
-            }}>
+            <Card className="locked-card">
                 <Card.Header style={{ position: "relative" }}>
                     <strong>Round {round}:</strong>
                     <Close />

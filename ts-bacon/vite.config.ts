@@ -7,6 +7,6 @@ export default defineConfig({
     server: {
         watch: {
             usePolling: true,
-        }
+        } // have to do this on linux
     }
 })

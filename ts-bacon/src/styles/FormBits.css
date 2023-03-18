@@ -1,0 +1,18 @@
+/** inputs **/
+
+.movie-input-locked,
+.actor-input-locked {
+    background-color: darkgreen;
+}
+
+.close-btn {
+    position: absolute;
+    font-size: 1.2rem;
+    top: 0;
+    right: 0;
+    padding: 0;
+    margin: 0;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+}

@@ -1,0 +1,27 @@
+/* TODO also to use coloring from ogDev */
+
+.card {
+    min-width: 45%;
+    padding: .2em 1em 1em 1em;
+    margin-top: 1.1em;
+    border-radius: 10px;
+}
+
+
+
+.card-header {
+    /* font-size: 1.5em; */
+    /* font-weight: 500; */
+    /* margin-bottom: 1em; */
+    border-bottom: 1px solid grey;
+}
+
+.unlocked-card {
+    background-color: darkblue;
+    border: 1px solid darkgreen,
+}
+
+.locked-card {
+    background-color: #3A6B35;
+    border: 1px solid darkblue,
+}
