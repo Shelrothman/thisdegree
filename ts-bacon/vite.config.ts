@@ -7,6 +7,7 @@ export default defineConfig({
     server: {
         watch: {
             usePolling: true,
-        } // have to do this on linux
+        }
+        // have to do this on linux if u want hmr
     }
 })

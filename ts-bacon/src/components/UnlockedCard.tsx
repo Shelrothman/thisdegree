@@ -6,6 +6,8 @@ import { useGameContext } from '../contexts/GameContext';
 import Submit from './Submit';
 import { v4 as uuidv4 } from 'uuid';
 
+// TODO: maek the movie input autofucus when it renders
+
 // TODO obviously this is just a placeholder for now
 const testActors = ["Fake Cruise", "Tom Fanks", "Julia Fakerts", "Angelina Fakie", "Leonardo DiCaprico", "Sandra Bullocky", "Brad Pitiful", "Meryl Streepish", "Johnny Depressed", "Nicole Fakeman"];
 // TODO  make a 'select from currentMovie' title thang */}

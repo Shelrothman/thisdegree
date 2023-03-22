@@ -4,7 +4,11 @@ import { BsArrowDownCircle, BsThreeDotsVertical } from 'react-icons/bs';
 // import ExitCard from './ExitCard';
 import Close from './Close';
 
-function LockedCardDiv({ actor, movie, round }: any) {
+function LockedCardDiv({ actor, movie, round }: {
+    actor: string,
+    movie: string,
+    round: number
+}) {
     const inputProps = (x: string) => {
         return {
             readOnly: true,
@@ -14,14 +18,14 @@ function LockedCardDiv({ actor, movie, round }: any) {
         }
     };
 
-    console.log(round);
+    // console.log(round);
 
     return (
         <div>
             <Card className="locked-card">
-                <Card.Header style={{ position: "relative" }}>
+                <Card.Header style={{ position: "relative" }} id={`locked-header-${round}`}>
                     <strong>Round {round}:</strong>
-                    <Close />
+                    <Close round={round} />
                 </Card.Header>
                 <Card.Body>
                     <div>
