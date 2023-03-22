@@ -1,5 +1,5 @@
 import Button from 'react-bootstrap/Button';
-import { useGameContext } from '../contexts/GameContext';
+import { useGameContext } from '../../contexts/GameContext';
 
 
 

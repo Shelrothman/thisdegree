@@ -2,7 +2,7 @@ import { useRef, useEffect } from 'react';
 import Form from 'react-bootstrap/Form';
 import Card from 'react-bootstrap/Card';
 import { useGameContext } from '../contexts/GameContext';
-import Submit from './Submit';
+import Submit from './buttons/Submit';
 import { v4 as uuidv4 } from 'uuid';
 
 // TODO obviously this is just a placeholder for now

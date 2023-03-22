@@ -2,7 +2,7 @@ import Card from 'react-bootstrap/Card';
 // import Button from 'react-bootstrap/Button';
 import { BsArrowDownCircle, BsThreeDotsVertical } from 'react-icons/bs';
 // import ExitCard from './ExitCard';
-import Close from './Close';
+import Close from './buttons/Close';
 
 function LockedCardDiv({ actor, movie, round }: {
     actor: string,

@@ -2,14 +2,8 @@
 ::-webkit-scrollbar {
     width: 20px;
     max-height: 55vh !important;
-    /* why cant i set the height */
-    /* height: 20px; */
 }
 
-/* Height */
-::-webkit-scrollbar {
-    height: 20px;
-}
 
 /* Track */
 ::-webkit-scrollbar-track {
