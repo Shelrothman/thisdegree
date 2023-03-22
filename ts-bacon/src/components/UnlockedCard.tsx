@@ -10,7 +10,7 @@ const testActors = ["Fake Cruise", "Tom Fanks", "Julia Fakerts", "Angelina Fakie
 // TODO  make a 'select from currentMovie' title thang */}
 function UnlockedCardDiv({ actor, movie, round }: any = {}) {
     // start off empty since its unlocked
-    const inputRef = useRef<HTMLInputElement>(null);
+    const movieInputRef = useRef<HTMLInputElement>(null);
     const {
         shakeInitiated,
         globalFormState,
@@ -18,8 +18,8 @@ function UnlockedCardDiv({ actor, movie, round }: any = {}) {
     } = useGameContext() as any;
 
     useEffect(() => {
-        if (inputRef.current) inputRef.current.focus();
-    });
+        if (movieInputRef.current) movieInputRef.current.focus();
+    }); // this happens on every render if i used an empty array, then it would only happen on the first render
 
     const selectOptions = testActors.map((actor: string) => {
         return <option value={actor} key={uuidv4()}>{actor}</option>
@@ -54,7 +54,7 @@ function UnlockedCardDiv({ actor, movie, round }: any = {}) {
                 </div>
                 <div>
                     <label htmlFor="movie">Movie:</label>{' '}
-                    <Form.Control {...formControlProps('movie')} ref={inputRef} />
+                    <Form.Control {...formControlProps('movie')} ref={movieInputRef} />
                 </div>
                 <Submit />
             </Card.Body>
