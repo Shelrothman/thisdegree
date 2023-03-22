@@ -6,8 +6,6 @@ import Button from 'react-bootstrap/Button';
 import { LockedCard } from '../../models/LockedCard';
 import React, { useRef, useEffect } from 'react';
 
-// TODO unactivate submit button if no input
-// TODO unactivate all form elements while shaking
 
 
 function Submit() {

@@ -22,8 +22,9 @@
 .navbar {
     background-color: #CBD18F;
     color: darkgreen;
-    height: 2.5rem !important; 
-    padding: 0 !important;
+    height: 2.5rem !important;
+    /* display: inline-block !important; */
+    /* padding: 0 !important; */
     /* make the width fill its parent */
     width: 100%;
     position: sticky !important;

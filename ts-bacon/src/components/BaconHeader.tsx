@@ -3,10 +3,17 @@ import { GiBacon } from 'react-icons/gi';
 
 function BaconHeader() {
     return (
-        <h1>
-            TS Degrees 
+        <h2>
             <GiBacon />
-        </h1>
+            <GiBacon />
+            <GiBacon />
+        other game stuff..
+            <GiBacon />
+            <GiBacon />
+            <GiBacon />
+            {/* TS Degrees  */}
+            {/* <GiBacon /> */}
+        </h2>
     );
 }
 

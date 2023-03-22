@@ -6,14 +6,18 @@ import { GameContextProvider } from './contexts/GameContext';
 import './styles/index.scss'
 import BaconHeader from './components/BaconHeader';
 import TopNav from './components/TopNav';
+import Start from './components/buttons/Start';
+// import { useGameContext } from './contexts/GameContext';
 
 function App() {
+    // const { globalGame } = useGameContext() as any;
 
     return (
         <GameContextProvider>
             <TopNav />
             <div id="App">
-                <BaconHeader />
+                <Start />
+                {/* <BaconHeader /> */}
                 <Game />
             </div>
         </GameContextProvider>

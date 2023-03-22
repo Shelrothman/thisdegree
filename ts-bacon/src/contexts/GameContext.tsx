@@ -21,6 +21,12 @@ export function useGameContext() {
 export function GameContextProvider({ children }: { children: any }) {
 
     /** States */
+    const [globalGame, setGlobalGame] = useState<object>({
+        actorA: 'tester farty',
+        actorZ: 'Zz Top',
+        gameStarted: false,
+        //....other things maybe
+    });
     const [lockedCards, setLockedCards] = useState<LockedCard[]>([]);
     const [unlockedCards, setUnlockedCards] = useState<UnlockedCard[]>([]);
     const [globalFormState, setGlobalFormState] = useState({
@@ -76,6 +82,8 @@ export function GameContextProvider({ children }: { children: any }) {
             resetFormState,
             shakeInitiated,
             setShakeInitiated,
+            globalGame,
+            setGlobalGame,
             // handleCardClose,
             // gameState,
             // setGameState,

@@ -32,6 +32,8 @@
     /* padding: calc(4rem + 1em) 2em 1em 2em; */
     border: 1px solid #fff;
     border-radius: 10px;
+    /* min-width: 320px; */
+    /* max-width: ; */
 }
 
 #App {
@@ -39,15 +41,17 @@
     padding: 1em 2em 1em 2em;
     border-radius: 10px;
     overflow-y: scroll !important;
+    overflow-x: hidden;
 }
 
 body {
-    margin: 0;
     display: flex;
+    margin: 0;
     place-items: center;
     /* itll start getting smaller at 320 */
     min-width: 320px;
     min-height: 100vh;
+    /* max-width: 30; */
 }
 
 
