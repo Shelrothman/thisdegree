@@ -22,10 +22,11 @@
 .navbar {
     background-color: #CBD18F;
     color: darkgreen;
+    height: 2.5rem !important; 
     padding: 0 !important;
     /* make the width fill its parent */
     width: 100%;
     position: sticky !important;
     top: 0 !important;
-    z-index: 100 !important;
+    z-index: 10 !important;
 }
