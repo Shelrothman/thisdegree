@@ -4,10 +4,10 @@ import react from '@vitejs/plugin-react'
 // https://vitejs.dev/config/
 export default defineConfig({
     plugins: [react()],
-    server: {
-        watch: {
-            usePolling: true,
-        }
-        // have to do this on linux if u want hmr
-    }
+    //! as long as you keep EVERYTHING in linux, you shuldnt have to do this for hmr
+    // server: {
+    // watch: {
+    // usePolling: true,
+    // }
+    // }
 })
