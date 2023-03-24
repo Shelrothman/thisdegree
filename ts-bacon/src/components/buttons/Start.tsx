@@ -14,9 +14,18 @@ function Start() {
     return (
         <>{
             !globalGame.gameStarted &&
-            <Button variant="primary" type="submit" onClick={handleStartClick}>
-                Start
-            </Button>
+            <>
+            <small>selects two actors and then: </small>
+                <Button
+                    variant="primary"
+                    type="submit"
+                    onClick={handleStartClick}
+                    disabled={!globalGame.selectedA && !globalGame.selectedZ}
+                >
+
+                    Start
+                </Button>
+            </>
         }</>
     );
 }

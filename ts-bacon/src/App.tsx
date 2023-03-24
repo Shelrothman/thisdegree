@@ -5,7 +5,7 @@ import { GameContextProvider } from './contexts/GameContext';
 // import './styles/Scrollbar.css';
 import './styles/index.scss'
 import BaconHeader from './components/BaconHeader';
-import TopNav from './components/TopNav';
+import TopNav from './components/TopNav/Index';
 import Start from './components/buttons/Start';
 // import { useGameContext } from './contexts/GameContext';
 

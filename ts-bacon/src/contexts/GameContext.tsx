@@ -22,6 +22,8 @@ export function GameContextProvider({ children }: { children: any }) {
 
     /** States */
     const [globalGame, setGlobalGame] = useState<object>({
+        slectedA: false,
+        selectedZ: false,
         actorA: 'tester farty',
         actorZ: 'Zz Top',
         gameStarted: false,

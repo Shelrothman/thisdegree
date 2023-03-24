@@ -5,6 +5,7 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
     plugins: [react()],
     //! as long as you keep EVERYTHING in linux, you shuldnt have to do this for hmr
+    //* like the whole repo clone should live in linux
     // server: {
     // watch: {
     // usePolling: true,
